@@ -15,10 +15,11 @@ public class Server {
 	}
 
 	public void start() throws IOException {
-		while(true){
 		System.out.println("Server: Initialising server...");
 		serverSocket = new ServerSocket(port);
 		System.out.println("Server: Server started.");
+		
+		while(true){
 		
 		System.out.println("Server: Awaiting client...");
 		Socket client = serverSocket.accept();
