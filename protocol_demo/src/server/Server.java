@@ -26,7 +26,7 @@ public class Server {
 			Socket client = serverSocket.accept();
 
 			System.out.println("Server: Client found, sending message...");
-			new Thread(new ClientHandler(client));
+			new Thread(new ClientHandler(client)).start();
 		}
 	}
 

@@ -1,4 +1,5 @@
 package server;
+
 import java.io.BufferedReader;
 import java.io.BufferedWriter;
 import java.io.IOException;
@@ -35,20 +36,22 @@ public class ClientHandler implements Runnable {
 		BufferedReader stdIn = new BufferedReader(new InputStreamReader(
 				client.getInputStream()));
 
+		//System.out.println(stdIn.readLine());
+
 		while ((userInput = stdIn.readLine()) != null) {
-			if (userInput.equalsIgnoreCase("TIME?")) {
-				System.out
-						.println("REQUEST TO SEND TIME RECEIVED. SENDING CURRENT TIME");
+			if (userInput.equalsIgnoreCase("time?")) {
+				System.out.println("REQUEST TO SEND TIME RECEIVED. SENDING CURRENT TIME");
 				respond();
 				break;
 			}
-			System.out.println(userInput);
 		}
-
+		
+		System.out.println(userInput);
 	}
 
 	private void respond() throws IOException, InterruptedException {
-		BufferedWriter writer = new BufferedWriter(new OutputStreamWriter(client.getOutputStream()));
+		BufferedWriter writer = new BufferedWriter(new OutputStreamWriter(
+				client.getOutputStream()));
 		writer.write(new Date().toString());
 		writer.flush();
 		writer.close();

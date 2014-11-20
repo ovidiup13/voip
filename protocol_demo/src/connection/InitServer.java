@@ -6,7 +6,7 @@ import server.Server;
 
 public class InitServer {
 	
-	private static final int port = 9990;
+	private static final int port = 9991;
 
 	public static void main(String[] args) {
 
