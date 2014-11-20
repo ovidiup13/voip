@@ -30,7 +30,7 @@ public class InitServer {
 		} catch (InterruptedException e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
-		}
+		} 
 
 	}
 

@@ -8,6 +8,7 @@ import server.Server;
 public class ThreadConnect {
 	
 	private static final int port = 9990;
+	
 
 	public static void main(String[] args) {
 		// TODO Auto-generated method stub
@@ -27,12 +28,14 @@ public class ThreadConnect {
 		});
 
 		serverThread.start();
-		try {
+		
+		/*try {
 			serverThread.join();
+			serverThread.wait();
 		} catch (InterruptedException e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
-		}
+		}*/
 
 		Thread clientThread = new Thread(new Runnable() {
 

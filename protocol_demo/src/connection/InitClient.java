@@ -30,7 +30,7 @@ public class InitClient {
 					System.err
 							.println("Cannot establish connection. Server may not be up."
 									+ e.getMessage());
-				}
+				} 
 
 			}
 
