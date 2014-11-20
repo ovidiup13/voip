@@ -7,6 +7,7 @@ import java.io.InputStreamReader;
 import java.io.OutputStreamWriter;
 import java.net.Socket;
 import java.net.UnknownHostException;
+import java.util.Scanner;
 
 public class Client {
 
@@ -40,9 +41,11 @@ public class Client {
 	public void askForTime() throws IOException {
 		BufferedWriter writer = new BufferedWriter(new OutputStreamWriter(
 				socketClient.getOutputStream()));
-		writer.write("TIME?");
+		Scanner scan = new Scanner(System.in);
+		writer.write(scan.nextLine());
 		writer.newLine();
 		writer.flush();
+		scan.close();
 	}
 
 }
