@@ -1,0 +1,50 @@
+//package config.protofiles;
+
+//specify the package in which the generated class will be
+//java_package = "protocol.config.buffer"
+
+//specify the name of the generated class
+//java_outer_classname = "Response"
+
+syntax = "proto2";
+option optimize_for = SPEED;
+
+//request structure
+message Response {
+
+	//define the types of responses 
+	enum ResType { ACT = 1; CALL = 2; ECALL = 3; }
+
+	//type of response
+	required ResType res_type = 1;
+
+	//specify timestamp
+	required string timestamp = 2;
+
+	//fields
+
+	//responses for actions of REG, LIN, LOUT, ECALL
+	optional ReqResult result = 3;
+	optional CallResponse call_response = 4;
+
+	//this is used when two users are in a call and one of them wants to end the call
+	//then a response will be sent to the other user saying that the call has ended
+	//forcing him to close the UDP connection
+	optional bool endCall = 5;
+
+	//request result
+	message ReqResult {
+		required bool ok = 1;
+		required string result = 2;
+	}
+
+	//status response
+	message CallResponse {
+		required bool ok = 1;
+		required string message = 2;
+
+		//if callee is online, we specify the ip address
+		optional string ip_address = 3;
+	}
+
+}
