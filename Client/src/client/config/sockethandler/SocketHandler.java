@@ -1,4 +1,4 @@
-package client.config;
+package client.config.sockethandler;
 
 import java.io.BufferedReader;
 import java.io.BufferedWriter;
@@ -8,13 +8,13 @@ import java.io.OutputStreamWriter;
 import java.net.Socket;
 import java.net.UnknownHostException;
 
-public class Client {
+public class SocketHandler {
 
 	private String hostname;
 	private int port;
 	Socket socketClient;
 
-	public Client(String hostname, int port) {
+	public SocketHandler(String hostname, int port) {
 		this.hostname = hostname;
 		this.port = port;
 	}

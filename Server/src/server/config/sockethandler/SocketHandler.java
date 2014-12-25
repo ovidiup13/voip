@@ -1,15 +1,17 @@
-package server;
+package server.config.sockethandler;
 
 import java.io.IOException;
 import java.net.ServerSocket;
 import java.net.Socket;
 
-public class Server {
+import server.config.clienthandler.ClientHandler;
+
+public class SocketHandler {
 
 	private ServerSocket serverSocket;
 	private int port;
 
-	public Server(int port) {
+	public SocketHandler(int port) {
 		this.port = port;
 	}
 

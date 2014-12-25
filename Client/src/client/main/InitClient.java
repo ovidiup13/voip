@@ -3,7 +3,7 @@ package client.main;
 import java.io.IOException;
 import java.net.UnknownHostException;
 
-import client.config.Client;
+import client.config.sockethandler.SocketHandler;
 
 public class InitClient {
 	
@@ -14,7 +14,7 @@ public class InitClient {
 			
 			@Override
 			public void run() {
-				Client client = new Client("localhost", port);
+				SocketHandler client = new SocketHandler("localhost", port);
 				try {
 					// trying to establish connection to the server
 					client.connect();
