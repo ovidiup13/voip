@@ -15,7 +15,7 @@ import protocol.config.buffers.ClientRequest.Request.ReqType;
  * */
 public final class RequestHandler {
 
-	/**
+	/*
 	 * cannot instantiate this class
 	 * */
 	private RequestHandler() {
@@ -205,7 +205,7 @@ public final class RequestHandler {
 		if(!request.getEndCall().hasUserEnded())
 			throw new UnknownFieldException("user ended field is missing for call end");
 	}
-	
-	
+
+
 	
 }
