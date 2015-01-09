@@ -26,18 +26,25 @@ public class ConnectToDb {
 		
 		
 		//2.Select statement 
-	//	statement  = connection.createStatement();
+		statement  = connection.createStatement();
 		
 		
-		//register("User4","password");
+		register("User5","password");
+		logIn("User4","password");
+		logIn("User3","password");
+		delete("User5");
 		//System.out.println(logIn("User4","password"));
 		//3.Execute SQL query
-		//ResultSet myRs = statement.executeQuery("select * from Users");
+		ResultSet myRs = statement.executeQuery("select * from Users");
 		
 		//4. Process the result set
-	//	while(myRs.next()){
-		//	System.out.println(myRs.getString("lastLogin"));
-	//	}
+		while(myRs.next()){
+			System.out.println(myRs.getString("lastLogin"));
+		}
+		
+		//java.text.SimpleDateFormat sdf = new java.text.SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
+	
+		//System.out.println("Get lastLogin for: "+ sdf.format(getLastLogin("User4")));
 		
 		
 	}catch(ClassNotFoundException error){
@@ -51,16 +58,23 @@ public class ConnectToDb {
 	}
 	
 	}
-	 
-	 public void register( String name,String password) throws SQLException {
+	 /**
+	  * Register method 
+	  * @param name, password
+	  * @param true if user does not exists, false if exists
+	  * **/
+	 public boolean register( String name,String password) throws SQLException {
 		 if(!isRegistered(name)){
 			 preparedStatement= connection.prepareStatement("INSERT INTO Users(username,password) VALUES (?,?)");
 			 preparedStatement.setString(1,name);
 			 preparedStatement.setString(2,password);
 			 preparedStatement.execute();
-		 }else{
-		 System.out.println("The user already Exists !");}
-	}
+			 return true;
+		 }	 
+		 System.out.println("The user already Exists !");
+		 return false;
+		 }
+	
 	 
 	 private boolean isRegistered( String username) throws SQLException{
 			//3.Execute SQL query
@@ -73,7 +87,11 @@ public class ConnectToDb {
 		 }
 		 return true;
 	 }
-	 
+	 /**
+	  * LogIn method
+	  * @param usurname, password
+	  *@return  true if successful false if not 
+	  * **/
 	 public boolean logIn(String username, String password) throws SQLException{
 		 preparedStatement = connection.prepareStatement("SELECT count(*) FROM Users WHERE username= ? AND password= ?");
 		 preparedStatement.setString(1, username);
@@ -91,6 +109,32 @@ public class ConnectToDb {
 		 }
 		 return false;
 	 }
+	 
+	 public void delete(String username) throws SQLException{
+		 preparedStatement = connection.prepareStatement("DELETE FROM Users WHERE username= ?");
+		 preparedStatement.setString(1, username);
+		 preparedStatement.execute();
+	 }
+	 /**
+	  * Method to get lastLogin date for a user
+	  * return Timestamp use:
+	  * java.text.SimpleDateFormat sdf = new java.text.SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
+	  * sdf.format(date)
+	  * to drop out the milisecond and use accordingly
+	  * 
+	  *@return the date or null if registered, but still haven't logged in 
+	  * **/
+	 public Timestamp getLastLogin(String username) throws SQLException{
+		 preparedStatement = connection.prepareStatement("SELECT lastLogin FROM Users WHERE username= ?");
+		 preparedStatement.setString(1, username);
+		 resultSet = preparedStatement.executeQuery();
+		 if(resultSet.next()) {
+			 Timestamp date;
+			return date = resultSet.getTimestamp("lastLogin");
+			 }
+		 return null;
+	 }
+	 
 	 
 	 
 	 // you need to close all three to make sure
