@@ -29,17 +29,20 @@ public class ConnectToDb {
 		statement  = connection.createStatement();
 		
 		
-		register("User5","password");
-		logIn("User4","password");
-		logIn("User3","password");
-		delete("User5");
-		//System.out.println(logIn("User4","password"));
+		register("User7","password");
+		//System.out.println(logIn("User10","pass"));
+	//	logIn("User3","password");
+		//delete("User5");
+		System.out.println(logIn("Marko","password"));
+		System.out.println("Call : "+ callCheckAvailable("User3"));
+		updateUserStatus("Viktor","3");
+		System.out.println(logIn("Viktor","password"));
 		//3.Execute SQL query
 		ResultSet myRs = statement.executeQuery("select * from Users");
 		
 		//4. Process the result set
 		while(myRs.next()){
-			System.out.println(myRs.getString("lastLogin"));
+			System.out.println(myRs.getString("status"));
 		}
 		
 		//java.text.SimpleDateFormat sdf = new java.text.SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
@@ -59,9 +62,9 @@ public class ConnectToDb {
 	
 	}
 	 /**
-	  * Register method 
+	  * Register method: register the user
 	  * @param name, password
-	  * @param true if user does not exists, false if exists
+	  * @return true if user does not exists, false if exists
 	  * **/
 	 public boolean register( String name,String password) throws SQLException {
 		 if(!isRegistered(name)){
@@ -90,18 +93,26 @@ public class ConnectToDb {
 	 /**
 	  * LogIn method
 	  * @param usurname, password
-	  *@return  true if successful false if not 
+	  *@return  true if user name and password match
+	  *    false if password does not match or user name does not exists
+	  *    
+	  * if successful update last login and set status to 1 (online)
+	  * Glosary: Status (enum;0 for offline 1 for online, 2 for away, 3 for  busy, 4 for in a call ) DEFAUL null
+	  * 
+	  * NOTE: status checking not implemented, should be restricted in GUI (sign in should be 
+	  * disabled if logged in )
 	  * **/
 	 public boolean logIn(String username, String password) throws SQLException{
 		 preparedStatement = connection.prepareStatement("SELECT count(*) FROM Users WHERE username= ? AND password= ?");
 		 preparedStatement.setString(1, username);
 		 preparedStatement.setString(2, password);
 		 resultSet = preparedStatement.executeQuery();
-		 if(resultSet.next()) {
+		 if(resultSet.next()) { // rs.next() is false if nothing is found
 			 int count = resultSet.getInt(1);
 			 if(count == 1){
-				 //login authorization successful, set the lastLogin field to the current time
-				 preparedStatement = connection.prepareStatement("UPDATE Users SET lastLogin = NOW() WHERE username= ?");
+				 //login authorization successful 
+				 //set the lastLogin field to the current time and status to 1 (online), in query add+1
+				 preparedStatement = connection.prepareStatement("UPDATE Users SET lastLogin = NOW(), status= 2 WHERE username= ?");
 				 preparedStatement.setString(1, username);
 				 preparedStatement.execute();
 				 return true;
@@ -109,6 +120,45 @@ public class ConnectToDb {
 		 }
 		 return false;
 	 }
+	 /**
+	  * looks up in DB if the user exist:
+ 		if user does not exists : return false
+		if user has status of “off/call” (is either offline-0 or in a call-4) return false;
+		if user has status of 1 for online, 2 for away, 3 for  busy,  return true;
+	  * 
+	  * **/
+	 public boolean callCheckAvailable (String username) throws SQLException{
+		 if(isRegistered(username)){
+			 String query_getUserStatus = "SELECT status FROM Users WHERE username= ?";
+			 preparedStatement = connection.prepareStatement(query_getUserStatus);
+			 preparedStatement.setString(1, username);
+			 resultSet =  preparedStatement.executeQuery();
+			
+			 //if user in call or offline return false
+			 if(resultSet.next()) { // rs.next() is false if nothing is found
+			     String status = resultSet.getString(1);
+				 if(status.equals("0") || status.equals("4")) return false;
+			 }
+			 return true;
+		 }
+		 System.out.println("User with such name does not exists!");
+		 return false; 
+	 }
+	 
+	 /**method to update the user status for a given username
+	  * @param username and status
+	  * @return void
+	  * Glosary: status: 1 for online, 2 for away, 3 for  busy, 4 for incall; 
+	  * 
+	  * **/
+	 public void updateUserStatus(String username,String status) throws SQLException{
+		 String query_updateUserStatus= "UPDATE Users SET status = ? WHERE username = ?";
+		 preparedStatement = connection.prepareStatement(query_updateUserStatus);
+		 preparedStatement.setString(2, username);
+		 preparedStatement.setString(1, status);
+		 preparedStatement.execute();
+	 }
+	 
 	 
 	 public void delete(String username) throws SQLException{
 		 preparedStatement = connection.prepareStatement("DELETE FROM Users WHERE username= ?");
