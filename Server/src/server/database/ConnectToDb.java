@@ -1,6 +1,7 @@
 package server.database;
 
 import java.sql.*;
+import java.util.ArrayList;
 import java.lang.ClassNotFoundException;
 
 public class ConnectToDb {
@@ -8,6 +9,8 @@ public class ConnectToDb {
 	 private Statement statement = null;
 	 private PreparedStatement preparedStatement = null;	
 	 private ResultSet resultSet = null;
+
+
 	
 	
 	 public void makeConnection(){
@@ -16,27 +19,32 @@ public class ConnectToDb {
 		try
 		{
 		//Utilize the driver
-		System.out.println("Connecting to db Driver");
-		Class.forName("com.mysql.jdbc.Driver");
+
+		
+		//Class.forName("com.mysql.jdbc.Driver");
+		 Class.forName("org.sqlite.JDBC");
+	   
 		System.out.println(" Connection to db driver Successful");
 		
 		
 		//1.Get a connection to the database	URL, Username, Password	
-		connection = DriverManager.getConnection("jdbc:mysql://localhost:3306/TP3Hdb","root","zzz");
+		//connection = DriverManager.getConnection("jdbc:mysql://localhost:3306/TP3Hdb","root","zzz");
+		connection =  DriverManager.getConnection("jdbc:sqlite:Server/src/server/database/TP3Hdb.db");
+	    System.out.println("Opened database successfully");
 		
+		
+		
+		
+		register("User10","password");
+		//System.out.println(logIn("User10","pass"));
+	//	logIn("User3","password");
+		System.out.println(logIn("User10","password"));
+		System.out.println("Call : "+ callCheckAvailable("User5"));
+		System.out.println("Update User status successfull? "+updateUserStatus("Viktor","1"));
+		System.out.println("Is Login Succesfull "+logIn("User7","password"));
 		
 		//2.Select statement 
 		statement  = connection.createStatement();
-		
-		
-		register("User7","password");
-		//System.out.println(logIn("User10","pass"));
-	//	logIn("User3","password");
-		//delete("User5");
-		System.out.println(logIn("Marko","password"));
-		System.out.println("Call : "+ callCheckAvailable("User3"));
-		updateUserStatus("Viktor","3");
-		System.out.println(logIn("Viktor","password"));
 		//3.Execute SQL query
 		ResultSet myRs = statement.executeQuery("select * from Users");
 		
@@ -112,8 +120,11 @@ public class ConnectToDb {
 			 if(count == 1){
 				 //login authorization successful 
 				 //set the lastLogin field to the current time and status to 1 (online), in query add+1
-				 preparedStatement = connection.prepareStatement("UPDATE Users SET lastLogin = NOW(), status= 2 WHERE username= ?");
-				 preparedStatement.setString(1, username);
+				 java.util.Date date= new java.util.Date();
+				 Timestamp time = new Timestamp(date.getTime());
+				 preparedStatement = connection.prepareStatement("UPDATE Users SET lastLogin = ?, status= 1 WHERE username= ?");
+				 preparedStatement.setString(1, time.toString());
+				 preparedStatement.setString(2, username);
 				 preparedStatement.execute();
 				 return true;
 				 }
@@ -136,7 +147,7 @@ public class ConnectToDb {
 			
 			 //if user in call or offline return false
 			 if(resultSet.next()) { // rs.next() is false if nothing is found
-			     String status = resultSet.getString(1);
+			     String status = resultSet.getString(1); 
 				 if(status.equals("0") || status.equals("4")) return false;
 			 }
 			 return true;
@@ -145,18 +156,25 @@ public class ConnectToDb {
 		 return false; 
 	 }
 	 
-	 /**method to update the user status for a given username
+	 /**method to update the user status for a given user name (use for log out functionality etc. when LogIN 
+	  * status is changed by the LogIn function)
 	  * @param username and status
-	  * @return void
+	  * @return true if  status in range and user name exists , false otherwise 
 	  * Glosary: status: 1 for online, 2 for away, 3 for  busy, 4 for incall; 
 	  * 
 	  * **/
-	 public void updateUserStatus(String username,String status) throws SQLException{
-		 String query_updateUserStatus= "UPDATE Users SET status = ? WHERE username = ?";
-		 preparedStatement = connection.prepareStatement(query_updateUserStatus);
-		 preparedStatement.setString(2, username);
-		 preparedStatement.setString(1, status);
-		 preparedStatement.execute();
+	 public boolean updateUserStatus(String username,String status) throws SQLException{
+		 if(status.matches("[0-4]") && isRegistered(username) ){
+			 String query_updateUserStatus= "UPDATE Users SET status = ? WHERE username = ?";
+			 preparedStatement = connection.prepareStatement(query_updateUserStatus);
+			 preparedStatement.setString(2, username);
+			 preparedStatement.setString(1, status);
+			 preparedStatement.execute();
+			 return true;
+		 }
+	
+		 System.out.println("InvalidStatus");
+		 return false;
 	 }
 	 
 	 
