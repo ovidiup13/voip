@@ -1,4 +1,4 @@
-package client;
+package tcp.sockethandler;
 
 import java.io.BufferedReader;
 import java.io.BufferedWriter;
@@ -7,15 +7,14 @@ import java.io.InputStreamReader;
 import java.io.OutputStreamWriter;
 import java.net.Socket;
 import java.net.UnknownHostException;
-import java.util.Scanner;
 
-public class Client {
+public class SocketHandler {
 
 	private String hostname;
 	private int port;
 	Socket socketClient;
 
-	public Client(String hostname, int port) {
+	public SocketHandler(String hostname, int port) {
 		this.hostname = hostname;
 		this.port = port;
 	}
@@ -31,7 +30,7 @@ public class Client {
 		BufferedReader stdIn = new BufferedReader(new InputStreamReader(
 				socketClient.getInputStream()));
 
-		System.out.println("WriteResponse from server: ");
+		System.out.println("Response from server: ");
 
 		while ((userInput = stdIn.readLine()) != null) {
 			System.out.println(userInput);
@@ -41,11 +40,9 @@ public class Client {
 	public void askForTime() throws IOException {
 		BufferedWriter writer = new BufferedWriter(new OutputStreamWriter(
 				socketClient.getOutputStream()));
-		Scanner scan = new Scanner(System.in);
-		writer.write(scan.nextLine());
+		writer.write("TIME?");
 		writer.newLine();
 		writer.flush();
-		scan.close();
 	}
 
 }
