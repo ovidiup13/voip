@@ -1,1 +1,6 @@
 /bin/
+/bin/
+/.settings/
+/.classpath
+/.project
+/Server.iml
