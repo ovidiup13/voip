@@ -1,8 +1,5 @@
 package main;
 
-import java.io.IOException;
-import java.net.UnknownHostException;
-
 import tcp.sockethandler.SocketHandler;
 
 public class Main {
@@ -12,28 +9,18 @@ public class Main {
 	public static void main(String[] args) {
 		Thread clientThread = new Thread(new Runnable() {
 			
-			@Override
-			public void run() {
-				SocketHandler client = new SocketHandler("localhost", port);
-				try {
-					// trying to establish connection to the server
-					client.connect();
-					// asking server for time
-					client.askForTime();
-					// waiting to read response from server
-					client.readResponse();
-
-				} catch (UnknownHostException e) {
-					System.err
-							.println("Host unknown. Cannot establish connection");
-				} catch (IOException e) {
-					System.err
-							.println("Cannot establish connection. Server may not be up."
-									+ e.getMessage());
-				}
-
-			}
-
+		@Override
+		public void run() {
+			SocketHandler client = new SocketHandler("localhost", port);
+			// trying to establish connection to the server
+			client.startConnection();
+			// asking server for time
+			client.sendRegisterRequest();
+			//get response from server
+			System.out.println(client.getResponse());
+			//close connection
+			client.closeConnection();
+		}
 		});
 		
 		clientThread.start();
