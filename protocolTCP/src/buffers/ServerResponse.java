@@ -9,11 +9,11 @@ public final class ServerResponse {
       com.google.protobuf.ExtensionRegistry registry) {
   }
   public interface ResponseOrBuilder extends
-      // @@protoc_insertion_point(interface_extends:WriteResponse)
+      // @@protoc_insertion_point(interface_extends:Response)
       com.google.protobuf.MessageOrBuilder {
 
     /**
-     * <code>required .WriteResponse.ResType res_type = 1;</code>
+     * <code>required .Response.ResType res_type = 1;</code>
      *
      * <pre>
      *type of response
@@ -21,7 +21,7 @@ public final class ServerResponse {
      */
     boolean hasResType();
     /**
-     * <code>required .WriteResponse.ResType res_type = 1;</code>
+     * <code>required .Response.ResType res_type = 1;</code>
      *
      * <pre>
      *type of response
@@ -30,7 +30,7 @@ public final class ServerResponse {
     buffers.ServerResponse.Response.ResType getResType();
 
     /**
-     * <code>optional .WriteResponse.ReqResult result = 3;</code>
+     * <code>optional .Response.ReqResult result = 3;</code>
      *
      * <pre>
      *responses for actions of REG, LIN, LOUT, ECALL
@@ -38,7 +38,7 @@ public final class ServerResponse {
      */
     boolean hasResult();
     /**
-     * <code>optional .WriteResponse.ReqResult result = 3;</code>
+     * <code>optional .Response.ReqResult result = 3;</code>
      *
      * <pre>
      *responses for actions of REG, LIN, LOUT, ECALL
@@ -46,7 +46,7 @@ public final class ServerResponse {
      */
     buffers.ServerResponse.Response.ReqResult getResult();
     /**
-     * <code>optional .WriteResponse.ReqResult result = 3;</code>
+     * <code>optional .Response.ReqResult result = 3;</code>
      *
      * <pre>
      *responses for actions of REG, LIN, LOUT, ECALL
@@ -55,15 +55,15 @@ public final class ServerResponse {
     buffers.ServerResponse.Response.ReqResultOrBuilder getResultOrBuilder();
 
     /**
-     * <code>optional .WriteResponse.CallResponse call_response = 4;</code>
+     * <code>optional .Response.CallResponse call_response = 4;</code>
      */
     boolean hasCallResponse();
     /**
-     * <code>optional .WriteResponse.CallResponse call_response = 4;</code>
+     * <code>optional .Response.CallResponse call_response = 4;</code>
      */
     buffers.ServerResponse.Response.CallResponse getCallResponse();
     /**
-     * <code>optional .WriteResponse.CallResponse call_response = 4;</code>
+     * <code>optional .Response.CallResponse call_response = 4;</code>
      */
     buffers.ServerResponse.Response.CallResponseOrBuilder getCallResponseOrBuilder();
 
@@ -89,7 +89,7 @@ public final class ServerResponse {
     boolean getEndCall();
   }
   /**
-   * Protobuf type {@code WriteResponse}
+   * Protobuf type {@code Response}
    *
    * <pre>
    *request structure
@@ -97,9 +97,9 @@ public final class ServerResponse {
    */
   public static final class Response extends
       com.google.protobuf.GeneratedMessage implements
-      // @@protoc_insertion_point(message_implements:WriteResponse)
+      // @@protoc_insertion_point(message_implements:Response)
       ResponseOrBuilder {
-    // Use WriteResponse.newBuilder() to construct.
+    // Use Response.newBuilder() to construct.
     private Response(com.google.protobuf.GeneratedMessage.Builder<?> builder) {
       super(builder);
       this.unknownFields = builder.getUnknownFields();
@@ -226,7 +226,7 @@ public final class ServerResponse {
     }
 
     /**
-     * Protobuf enum {@code WriteResponse.ResType}
+     * Protobuf enum {@code Response.ResType}
      *
      * <pre>
      *define the types of responses 
@@ -317,11 +317,11 @@ public final class ServerResponse {
         this.value = value;
       }
 
-      // @@protoc_insertion_point(enum_scope:WriteResponse.ResType)
+      // @@protoc_insertion_point(enum_scope:Response.ResType)
     }
 
     public interface ReqResultOrBuilder extends
-        // @@protoc_insertion_point(interface_extends:WriteResponse.ReqResult)
+        // @@protoc_insertion_point(interface_extends:Response.ReqResult)
         com.google.protobuf.MessageOrBuilder {
 
       /**
@@ -348,7 +348,7 @@ public final class ServerResponse {
           getCauseBytes();
     }
     /**
-     * Protobuf type {@code WriteResponse.ReqResult}
+     * Protobuf type {@code Response.ReqResult}
      *
      * <pre>
      *request result
@@ -356,7 +356,7 @@ public final class ServerResponse {
      */
     public static final class ReqResult extends
         com.google.protobuf.GeneratedMessage implements
-        // @@protoc_insertion_point(message_implements:WriteResponse.ReqResult)
+        // @@protoc_insertion_point(message_implements:Response.ReqResult)
         ReqResultOrBuilder {
       // Use ReqResult.newBuilder() to construct.
       private ReqResult(com.google.protobuf.GeneratedMessage.Builder<?> builder) {
@@ -630,7 +630,7 @@ public final class ServerResponse {
         return builder;
       }
       /**
-       * Protobuf type {@code WriteResponse.ReqResult}
+       * Protobuf type {@code Response.ReqResult}
        *
        * <pre>
        *request result
@@ -638,7 +638,7 @@ public final class ServerResponse {
        */
       public static final class Builder extends
           com.google.protobuf.GeneratedMessage.Builder<Builder> implements
-          // @@protoc_insertion_point(builder_implements:WriteResponse.ReqResult)
+          // @@protoc_insertion_point(builder_implements:Response.ReqResult)
           buffers.ServerResponse.Response.ReqResultOrBuilder {
         public static final com.google.protobuf.Descriptors.Descriptor
             getDescriptor() {
@@ -652,7 +652,7 @@ public final class ServerResponse {
                   buffers.ServerResponse.Response.ReqResult.class, buffers.ServerResponse.Response.ReqResult.Builder.class);
         }
 
-        // Construct using buffers.ServerResponse.WriteResponse.ReqResult.newBuilder()
+        // Construct using buffers.ServerResponse.Response.ReqResult.newBuilder()
         private Builder() {
           maybeForceBuilderInitialization();
         }
@@ -871,7 +871,7 @@ public final class ServerResponse {
           return this;
         }
 
-        // @@protoc_insertion_point(builder_scope:WriteResponse.ReqResult)
+        // @@protoc_insertion_point(builder_scope:Response.ReqResult)
       }
 
       static {
@@ -879,11 +879,11 @@ public final class ServerResponse {
         defaultInstance.initFields();
       }
 
-      // @@protoc_insertion_point(class_scope:WriteResponse.ReqResult)
+      // @@protoc_insertion_point(class_scope:Response.ReqResult)
     }
 
     public interface CallResponseOrBuilder extends
-        // @@protoc_insertion_point(interface_extends:WriteResponse.CallResponse)
+        // @@protoc_insertion_point(interface_extends:Response.CallResponse)
         com.google.protobuf.MessageOrBuilder {
 
       /**
@@ -936,7 +936,7 @@ public final class ServerResponse {
           getIpAddressBytes();
     }
     /**
-     * Protobuf type {@code WriteResponse.CallResponse}
+     * Protobuf type {@code Response.CallResponse}
      *
      * <pre>
      *status response
@@ -944,7 +944,7 @@ public final class ServerResponse {
      */
     public static final class CallResponse extends
         com.google.protobuf.GeneratedMessage implements
-        // @@protoc_insertion_point(message_implements:WriteResponse.CallResponse)
+        // @@protoc_insertion_point(message_implements:Response.CallResponse)
         CallResponseOrBuilder {
       // Use CallResponse.newBuilder() to construct.
       private CallResponse(com.google.protobuf.GeneratedMessage.Builder<?> builder) {
@@ -1286,7 +1286,7 @@ public final class ServerResponse {
         return builder;
       }
       /**
-       * Protobuf type {@code WriteResponse.CallResponse}
+       * Protobuf type {@code Response.CallResponse}
        *
        * <pre>
        *status response
@@ -1294,7 +1294,7 @@ public final class ServerResponse {
        */
       public static final class Builder extends
           com.google.protobuf.GeneratedMessage.Builder<Builder> implements
-          // @@protoc_insertion_point(builder_implements:WriteResponse.CallResponse)
+          // @@protoc_insertion_point(builder_implements:Response.CallResponse)
           buffers.ServerResponse.Response.CallResponseOrBuilder {
         public static final com.google.protobuf.Descriptors.Descriptor
             getDescriptor() {
@@ -1308,7 +1308,7 @@ public final class ServerResponse {
                   buffers.ServerResponse.Response.CallResponse.class, buffers.ServerResponse.Response.CallResponse.Builder.class);
         }
 
-        // Construct using buffers.ServerResponse.WriteResponse.CallResponse.newBuilder()
+        // Construct using buffers.ServerResponse.Response.CallResponse.newBuilder()
         private Builder() {
           maybeForceBuilderInitialization();
         }
@@ -1638,7 +1638,7 @@ public final class ServerResponse {
           return this;
         }
 
-        // @@protoc_insertion_point(builder_scope:WriteResponse.CallResponse)
+        // @@protoc_insertion_point(builder_scope:Response.CallResponse)
       }
 
       static {
@@ -1646,14 +1646,14 @@ public final class ServerResponse {
         defaultInstance.initFields();
       }
 
-      // @@protoc_insertion_point(class_scope:WriteResponse.CallResponse)
+      // @@protoc_insertion_point(class_scope:Response.CallResponse)
     }
 
     private int bitField0_;
     public static final int RES_TYPE_FIELD_NUMBER = 1;
     private buffers.ServerResponse.Response.ResType resType_;
     /**
-     * <code>required .WriteResponse.ResType res_type = 1;</code>
+     * <code>required .Response.ResType res_type = 1;</code>
      *
      * <pre>
      *type of response
@@ -1663,7 +1663,7 @@ public final class ServerResponse {
       return ((bitField0_ & 0x00000001) == 0x00000001);
     }
     /**
-     * <code>required .WriteResponse.ResType res_type = 1;</code>
+     * <code>required .Response.ResType res_type = 1;</code>
      *
      * <pre>
      *type of response
@@ -1676,7 +1676,7 @@ public final class ServerResponse {
     public static final int RESULT_FIELD_NUMBER = 3;
     private buffers.ServerResponse.Response.ReqResult result_;
     /**
-     * <code>optional .WriteResponse.ReqResult result = 3;</code>
+     * <code>optional .Response.ReqResult result = 3;</code>
      *
      * <pre>
      *responses for actions of REG, LIN, LOUT, ECALL
@@ -1686,7 +1686,7 @@ public final class ServerResponse {
       return ((bitField0_ & 0x00000002) == 0x00000002);
     }
     /**
-     * <code>optional .WriteResponse.ReqResult result = 3;</code>
+     * <code>optional .Response.ReqResult result = 3;</code>
      *
      * <pre>
      *responses for actions of REG, LIN, LOUT, ECALL
@@ -1696,7 +1696,7 @@ public final class ServerResponse {
       return result_;
     }
     /**
-     * <code>optional .WriteResponse.ReqResult result = 3;</code>
+     * <code>optional .Response.ReqResult result = 3;</code>
      *
      * <pre>
      *responses for actions of REG, LIN, LOUT, ECALL
@@ -1709,19 +1709,19 @@ public final class ServerResponse {
     public static final int CALL_RESPONSE_FIELD_NUMBER = 4;
     private buffers.ServerResponse.Response.CallResponse callResponse_;
     /**
-     * <code>optional .WriteResponse.CallResponse call_response = 4;</code>
+     * <code>optional .Response.CallResponse call_response = 4;</code>
      */
     public boolean hasCallResponse() {
       return ((bitField0_ & 0x00000004) == 0x00000004);
     }
     /**
-     * <code>optional .WriteResponse.CallResponse call_response = 4;</code>
+     * <code>optional .Response.CallResponse call_response = 4;</code>
      */
     public buffers.ServerResponse.Response.CallResponse getCallResponse() {
       return callResponse_;
     }
     /**
-     * <code>optional .WriteResponse.CallResponse call_response = 4;</code>
+     * <code>optional .Response.CallResponse call_response = 4;</code>
      */
     public buffers.ServerResponse.Response.CallResponseOrBuilder getCallResponseOrBuilder() {
       return callResponse_;
@@ -1893,7 +1893,7 @@ public final class ServerResponse {
       return builder;
     }
     /**
-     * Protobuf type {@code WriteResponse}
+     * Protobuf type {@code Response}
      *
      * <pre>
      *request structure
@@ -1901,7 +1901,7 @@ public final class ServerResponse {
      */
     public static final class Builder extends
         com.google.protobuf.GeneratedMessage.Builder<Builder> implements
-        // @@protoc_insertion_point(builder_implements:WriteResponse)
+        // @@protoc_insertion_point(builder_implements:Response)
         buffers.ServerResponse.ResponseOrBuilder {
       public static final com.google.protobuf.Descriptors.Descriptor
           getDescriptor() {
@@ -1915,7 +1915,7 @@ public final class ServerResponse {
                 buffers.ServerResponse.Response.class, buffers.ServerResponse.Response.Builder.class);
       }
 
-      // Construct using buffers.ServerResponse.WriteResponse.newBuilder()
+      // Construct using buffers.ServerResponse.Response.newBuilder()
       private Builder() {
         maybeForceBuilderInitialization();
       }
@@ -2066,7 +2066,7 @@ public final class ServerResponse {
 
       private buffers.ServerResponse.Response.ResType resType_ = buffers.ServerResponse.Response.ResType.ACT;
       /**
-       * <code>required .WriteResponse.ResType res_type = 1;</code>
+       * <code>required .Response.ResType res_type = 1;</code>
        *
        * <pre>
        *type of response
@@ -2076,7 +2076,7 @@ public final class ServerResponse {
         return ((bitField0_ & 0x00000001) == 0x00000001);
       }
       /**
-       * <code>required .WriteResponse.ResType res_type = 1;</code>
+       * <code>required .Response.ResType res_type = 1;</code>
        *
        * <pre>
        *type of response
@@ -2086,7 +2086,7 @@ public final class ServerResponse {
         return resType_;
       }
       /**
-       * <code>required .WriteResponse.ResType res_type = 1;</code>
+       * <code>required .Response.ResType res_type = 1;</code>
        *
        * <pre>
        *type of response
@@ -2102,7 +2102,7 @@ public final class ServerResponse {
         return this;
       }
       /**
-       * <code>required .WriteResponse.ResType res_type = 1;</code>
+       * <code>required .Response.ResType res_type = 1;</code>
        *
        * <pre>
        *type of response
@@ -2119,7 +2119,7 @@ public final class ServerResponse {
       private com.google.protobuf.SingleFieldBuilder<
           buffers.ServerResponse.Response.ReqResult, buffers.ServerResponse.Response.ReqResult.Builder, buffers.ServerResponse.Response.ReqResultOrBuilder> resultBuilder_;
       /**
-       * <code>optional .WriteResponse.ReqResult result = 3;</code>
+       * <code>optional .Response.ReqResult result = 3;</code>
        *
        * <pre>
        *responses for actions of REG, LIN, LOUT, ECALL
@@ -2129,7 +2129,7 @@ public final class ServerResponse {
         return ((bitField0_ & 0x00000002) == 0x00000002);
       }
       /**
-       * <code>optional .WriteResponse.ReqResult result = 3;</code>
+       * <code>optional .Response.ReqResult result = 3;</code>
        *
        * <pre>
        *responses for actions of REG, LIN, LOUT, ECALL
@@ -2143,7 +2143,7 @@ public final class ServerResponse {
         }
       }
       /**
-       * <code>optional .WriteResponse.ReqResult result = 3;</code>
+       * <code>optional .Response.ReqResult result = 3;</code>
        *
        * <pre>
        *responses for actions of REG, LIN, LOUT, ECALL
@@ -2163,7 +2163,7 @@ public final class ServerResponse {
         return this;
       }
       /**
-       * <code>optional .WriteResponse.ReqResult result = 3;</code>
+       * <code>optional .Response.ReqResult result = 3;</code>
        *
        * <pre>
        *responses for actions of REG, LIN, LOUT, ECALL
@@ -2181,7 +2181,7 @@ public final class ServerResponse {
         return this;
       }
       /**
-       * <code>optional .WriteResponse.ReqResult result = 3;</code>
+       * <code>optional .Response.ReqResult result = 3;</code>
        *
        * <pre>
        *responses for actions of REG, LIN, LOUT, ECALL
@@ -2204,7 +2204,7 @@ public final class ServerResponse {
         return this;
       }
       /**
-       * <code>optional .WriteResponse.ReqResult result = 3;</code>
+       * <code>optional .Response.ReqResult result = 3;</code>
        *
        * <pre>
        *responses for actions of REG, LIN, LOUT, ECALL
@@ -2221,7 +2221,7 @@ public final class ServerResponse {
         return this;
       }
       /**
-       * <code>optional .WriteResponse.ReqResult result = 3;</code>
+       * <code>optional .Response.ReqResult result = 3;</code>
        *
        * <pre>
        *responses for actions of REG, LIN, LOUT, ECALL
@@ -2233,7 +2233,7 @@ public final class ServerResponse {
         return getResultFieldBuilder().getBuilder();
       }
       /**
-       * <code>optional .WriteResponse.ReqResult result = 3;</code>
+       * <code>optional .Response.ReqResult result = 3;</code>
        *
        * <pre>
        *responses for actions of REG, LIN, LOUT, ECALL
@@ -2247,14 +2247,14 @@ public final class ServerResponse {
         }
       }
       /**
-       * <code>optional .WriteResponse.ReqResult result = 3;</code>
+       * <code>optional .Response.ReqResult result = 3;</code>
        *
        * <pre>
        *responses for actions of REG, LIN, LOUT, ECALL
        * </pre>
        */
       private com.google.protobuf.SingleFieldBuilder<
-          buffers.ServerResponse.Response.ReqResult, buffers.ServerResponse.Response.ReqResult.Builder, buffers.ServerResponse.Response.ReqResultOrBuilder>
+          buffers.ServerResponse.Response.ReqResult, buffers.ServerResponse.Response.ReqResult.Builder, buffers.ServerResponse.Response.ReqResultOrBuilder> 
           getResultFieldBuilder() {
         if (resultBuilder_ == null) {
           resultBuilder_ = new com.google.protobuf.SingleFieldBuilder<
@@ -2271,13 +2271,13 @@ public final class ServerResponse {
       private com.google.protobuf.SingleFieldBuilder<
           buffers.ServerResponse.Response.CallResponse, buffers.ServerResponse.Response.CallResponse.Builder, buffers.ServerResponse.Response.CallResponseOrBuilder> callResponseBuilder_;
       /**
-       * <code>optional .WriteResponse.CallResponse call_response = 4;</code>
+       * <code>optional .Response.CallResponse call_response = 4;</code>
        */
       public boolean hasCallResponse() {
         return ((bitField0_ & 0x00000004) == 0x00000004);
       }
       /**
-       * <code>optional .WriteResponse.CallResponse call_response = 4;</code>
+       * <code>optional .Response.CallResponse call_response = 4;</code>
        */
       public buffers.ServerResponse.Response.CallResponse getCallResponse() {
         if (callResponseBuilder_ == null) {
@@ -2287,7 +2287,7 @@ public final class ServerResponse {
         }
       }
       /**
-       * <code>optional .WriteResponse.CallResponse call_response = 4;</code>
+       * <code>optional .Response.CallResponse call_response = 4;</code>
        */
       public Builder setCallResponse(buffers.ServerResponse.Response.CallResponse value) {
         if (callResponseBuilder_ == null) {
@@ -2303,7 +2303,7 @@ public final class ServerResponse {
         return this;
       }
       /**
-       * <code>optional .WriteResponse.CallResponse call_response = 4;</code>
+       * <code>optional .Response.CallResponse call_response = 4;</code>
        */
       public Builder setCallResponse(
           buffers.ServerResponse.Response.CallResponse.Builder builderForValue) {
@@ -2317,7 +2317,7 @@ public final class ServerResponse {
         return this;
       }
       /**
-       * <code>optional .WriteResponse.CallResponse call_response = 4;</code>
+       * <code>optional .Response.CallResponse call_response = 4;</code>
        */
       public Builder mergeCallResponse(buffers.ServerResponse.Response.CallResponse value) {
         if (callResponseBuilder_ == null) {
@@ -2336,7 +2336,7 @@ public final class ServerResponse {
         return this;
       }
       /**
-       * <code>optional .WriteResponse.CallResponse call_response = 4;</code>
+       * <code>optional .Response.CallResponse call_response = 4;</code>
        */
       public Builder clearCallResponse() {
         if (callResponseBuilder_ == null) {
@@ -2349,7 +2349,7 @@ public final class ServerResponse {
         return this;
       }
       /**
-       * <code>optional .WriteResponse.CallResponse call_response = 4;</code>
+       * <code>optional .Response.CallResponse call_response = 4;</code>
        */
       public buffers.ServerResponse.Response.CallResponse.Builder getCallResponseBuilder() {
         bitField0_ |= 0x00000004;
@@ -2357,7 +2357,7 @@ public final class ServerResponse {
         return getCallResponseFieldBuilder().getBuilder();
       }
       /**
-       * <code>optional .WriteResponse.CallResponse call_response = 4;</code>
+       * <code>optional .Response.CallResponse call_response = 4;</code>
        */
       public buffers.ServerResponse.Response.CallResponseOrBuilder getCallResponseOrBuilder() {
         if (callResponseBuilder_ != null) {
@@ -2367,10 +2367,10 @@ public final class ServerResponse {
         }
       }
       /**
-       * <code>optional .WriteResponse.CallResponse call_response = 4;</code>
+       * <code>optional .Response.CallResponse call_response = 4;</code>
        */
       private com.google.protobuf.SingleFieldBuilder<
-          buffers.ServerResponse.Response.CallResponse, buffers.ServerResponse.Response.CallResponse.Builder, buffers.ServerResponse.Response.CallResponseOrBuilder>
+          buffers.ServerResponse.Response.CallResponse, buffers.ServerResponse.Response.CallResponse.Builder, buffers.ServerResponse.Response.CallResponseOrBuilder> 
           getCallResponseFieldBuilder() {
         if (callResponseBuilder_ == null) {
           callResponseBuilder_ = new com.google.protobuf.SingleFieldBuilder<
@@ -2439,7 +2439,7 @@ public final class ServerResponse {
         return this;
       }
 
-      // @@protoc_insertion_point(builder_scope:WriteResponse)
+      // @@protoc_insertion_point(builder_scope:Response)
     }
 
     static {
@@ -2447,7 +2447,7 @@ public final class ServerResponse {
       defaultInstance.initFields();
     }
 
-    // @@protoc_insertion_point(class_scope:WriteResponse)
+    // @@protoc_insertion_point(class_scope:Response)
   }
 
   private static final com.google.protobuf.Descriptors.Descriptor
@@ -2475,14 +2475,14 @@ public final class ServerResponse {
   static {
     java.lang.String[] descriptorData = {
       "\n\025server_response.proto\"\244\002\n\010Response\022#\n\010" +
-      "res_type\030\001 \002(\0162\021.WriteResponse.ResType\022#\n\006res" +
-      "ult\030\003 \001(\0132\023.WriteResponse.ReqResult\022-\n\rcall_r" +
-      "esponse\030\004 \001(\0132\026.WriteResponse.CallResponse\022\017\n" +
+      "res_type\030\001 \002(\0162\021.Response.ResType\022#\n\006res" +
+      "ult\030\003 \001(\0132\023.Response.ReqResult\022-\n\rcall_r" +
+      "esponse\030\004 \001(\0132\026.Response.CallResponse\022\017\n" +
       "\007endCall\030\005 \001(\010\032&\n\tReqResult\022\n\n\002ok\030\001 \001(\010\022" +
       "\r\n\005cause\030\002 \001(\t\032=\n\014CallResponse\022\n\n\002ok\030\001 \001" +
       "(\010\022\r\n\005cause\030\002 \001(\t\022\022\n\nip_address\030\003 \001(\t\"\'\n" +
-      "\007ResType\022\007\n\003ACT\020\001\022\010\n\004CALL\020\002\022\t\n\005ECALL\020\003B\033" +
-      "\n\027protocol.config.buffersH\001"
+      "\007ResType\022\007\n\003ACT\020\001\022\010\n\004CALL\020\002\022\t\n\005ECALL\020\003B\013" +
+      "\n\007buffersH\001"
     };
     com.google.protobuf.Descriptors.FileDescriptor.InternalDescriptorAssigner assigner =
         new com.google.protobuf.Descriptors.FileDescriptor.    InternalDescriptorAssigner() {

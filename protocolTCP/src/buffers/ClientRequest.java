@@ -395,7 +395,7 @@ public final class ClientRequest {
         com.google.protobuf.MessageOrBuilder {
 
       /**
-       * <code>required string username = 1;</code>
+       * <code>optional string username = 1;</code>
        *
        * <pre>
        *fields for registration
@@ -403,7 +403,7 @@ public final class ClientRequest {
        */
       boolean hasUsername();
       /**
-       * <code>required string username = 1;</code>
+       * <code>optional string username = 1;</code>
        *
        * <pre>
        *fields for registration
@@ -411,7 +411,7 @@ public final class ClientRequest {
        */
       java.lang.String getUsername();
       /**
-       * <code>required string username = 1;</code>
+       * <code>optional string username = 1;</code>
        *
        * <pre>
        *fields for registration
@@ -421,15 +421,15 @@ public final class ClientRequest {
           getUsernameBytes();
 
       /**
-       * <code>required string password = 2;</code>
+       * <code>optional string password = 2;</code>
        */
       boolean hasPassword();
       /**
-       * <code>required string password = 2;</code>
+       * <code>optional string password = 2;</code>
        */
       java.lang.String getPassword();
       /**
-       * <code>required string password = 2;</code>
+       * <code>optional string password = 2;</code>
        */
       com.google.protobuf.ByteString
           getPasswordBytes();
@@ -565,7 +565,7 @@ public final class ClientRequest {
       public static final int USERNAME_FIELD_NUMBER = 1;
       private java.lang.Object username_;
       /**
-       * <code>required string username = 1;</code>
+       * <code>optional string username = 1;</code>
        *
        * <pre>
        *fields for registration
@@ -575,7 +575,7 @@ public final class ClientRequest {
         return ((bitField0_ & 0x00000001) == 0x00000001);
       }
       /**
-       * <code>required string username = 1;</code>
+       * <code>optional string username = 1;</code>
        *
        * <pre>
        *fields for registration
@@ -596,7 +596,7 @@ public final class ClientRequest {
         }
       }
       /**
-       * <code>required string username = 1;</code>
+       * <code>optional string username = 1;</code>
        *
        * <pre>
        *fields for registration
@@ -619,13 +619,13 @@ public final class ClientRequest {
       public static final int PASSWORD_FIELD_NUMBER = 2;
       private java.lang.Object password_;
       /**
-       * <code>required string password = 2;</code>
+       * <code>optional string password = 2;</code>
        */
       public boolean hasPassword() {
         return ((bitField0_ & 0x00000002) == 0x00000002);
       }
       /**
-       * <code>required string password = 2;</code>
+       * <code>optional string password = 2;</code>
        */
       public java.lang.String getPassword() {
         java.lang.Object ref = password_;
@@ -642,7 +642,7 @@ public final class ClientRequest {
         }
       }
       /**
-       * <code>required string password = 2;</code>
+       * <code>optional string password = 2;</code>
        */
       public com.google.protobuf.ByteString
           getPasswordBytes() {
@@ -711,14 +711,6 @@ public final class ClientRequest {
         if (isInitialized == 1) return true;
         if (isInitialized == 0) return false;
 
-        if (!hasUsername()) {
-          memoizedIsInitialized = 0;
-          return false;
-        }
-        if (!hasPassword()) {
-          memoizedIsInitialized = 0;
-          return false;
-        }
         memoizedIsInitialized = 1;
         return true;
       }
@@ -959,14 +951,6 @@ public final class ClientRequest {
         }
 
         public final boolean isInitialized() {
-          if (!hasUsername()) {
-            
-            return false;
-          }
-          if (!hasPassword()) {
-            
-            return false;
-          }
           return true;
         }
 
@@ -991,7 +975,7 @@ public final class ClientRequest {
 
         private java.lang.Object username_ = "";
         /**
-         * <code>required string username = 1;</code>
+         * <code>optional string username = 1;</code>
          *
          * <pre>
          *fields for registration
@@ -1001,7 +985,7 @@ public final class ClientRequest {
           return ((bitField0_ & 0x00000001) == 0x00000001);
         }
         /**
-         * <code>required string username = 1;</code>
+         * <code>optional string username = 1;</code>
          *
          * <pre>
          *fields for registration
@@ -1022,7 +1006,7 @@ public final class ClientRequest {
           }
         }
         /**
-         * <code>required string username = 1;</code>
+         * <code>optional string username = 1;</code>
          *
          * <pre>
          *fields for registration
@@ -1042,7 +1026,7 @@ public final class ClientRequest {
           }
         }
         /**
-         * <code>required string username = 1;</code>
+         * <code>optional string username = 1;</code>
          *
          * <pre>
          *fields for registration
@@ -1059,7 +1043,7 @@ public final class ClientRequest {
           return this;
         }
         /**
-         * <code>required string username = 1;</code>
+         * <code>optional string username = 1;</code>
          *
          * <pre>
          *fields for registration
@@ -1072,7 +1056,7 @@ public final class ClientRequest {
           return this;
         }
         /**
-         * <code>required string username = 1;</code>
+         * <code>optional string username = 1;</code>
          *
          * <pre>
          *fields for registration
@@ -1091,13 +1075,13 @@ public final class ClientRequest {
 
         private java.lang.Object password_ = "";
         /**
-         * <code>required string password = 2;</code>
+         * <code>optional string password = 2;</code>
          */
         public boolean hasPassword() {
           return ((bitField0_ & 0x00000002) == 0x00000002);
         }
         /**
-         * <code>required string password = 2;</code>
+         * <code>optional string password = 2;</code>
          */
         public java.lang.String getPassword() {
           java.lang.Object ref = password_;
@@ -1114,7 +1098,7 @@ public final class ClientRequest {
           }
         }
         /**
-         * <code>required string password = 2;</code>
+         * <code>optional string password = 2;</code>
          */
         public com.google.protobuf.ByteString
             getPasswordBytes() {
@@ -1130,7 +1114,7 @@ public final class ClientRequest {
           }
         }
         /**
-         * <code>required string password = 2;</code>
+         * <code>optional string password = 2;</code>
          */
         public Builder setPassword(
             java.lang.String value) {
@@ -1143,7 +1127,7 @@ public final class ClientRequest {
           return this;
         }
         /**
-         * <code>required string password = 2;</code>
+         * <code>optional string password = 2;</code>
          */
         public Builder clearPassword() {
           bitField0_ = (bitField0_ & ~0x00000002);
@@ -1152,7 +1136,7 @@ public final class ClientRequest {
           return this;
         }
         /**
-         * <code>required string password = 2;</code>
+         * <code>optional string password = 2;</code>
          */
         public Builder setPasswordBytes(
             com.google.protobuf.ByteString value) {
@@ -1257,7 +1241,7 @@ public final class ClientRequest {
         com.google.protobuf.MessageOrBuilder {
 
       /**
-       * <code>required string username = 1;</code>
+       * <code>optional string username = 1;</code>
        *
        * <pre>
        *fields for log in
@@ -1265,7 +1249,7 @@ public final class ClientRequest {
        */
       boolean hasUsername();
       /**
-       * <code>required string username = 1;</code>
+       * <code>optional string username = 1;</code>
        *
        * <pre>
        *fields for log in
@@ -1273,7 +1257,7 @@ public final class ClientRequest {
        */
       java.lang.String getUsername();
       /**
-       * <code>required string username = 1;</code>
+       * <code>optional string username = 1;</code>
        *
        * <pre>
        *fields for log in
@@ -1283,21 +1267,21 @@ public final class ClientRequest {
           getUsernameBytes();
 
       /**
-       * <code>required string password = 2;</code>
+       * <code>optional string password = 2;</code>
        */
       boolean hasPassword();
       /**
-       * <code>required string password = 2;</code>
+       * <code>optional string password = 2;</code>
        */
       java.lang.String getPassword();
       /**
-       * <code>required string password = 2;</code>
+       * <code>optional string password = 2;</code>
        */
       com.google.protobuf.ByteString
           getPasswordBytes();
 
       /**
-       * <code>required string ip_address = 3;</code>
+       * <code>optional string ip_address = 3;</code>
        *
        * <pre>
        *the ip address will remain in the cache of online users
@@ -1305,7 +1289,7 @@ public final class ClientRequest {
        */
       boolean hasIpAddress();
       /**
-       * <code>required string ip_address = 3;</code>
+       * <code>optional string ip_address = 3;</code>
        *
        * <pre>
        *the ip address will remain in the cache of online users
@@ -1313,7 +1297,7 @@ public final class ClientRequest {
        */
       java.lang.String getIpAddress();
       /**
-       * <code>required string ip_address = 3;</code>
+       * <code>optional string ip_address = 3;</code>
        *
        * <pre>
        *the ip address will remain in the cache of online users
@@ -1439,7 +1423,7 @@ public final class ClientRequest {
       public static final int USERNAME_FIELD_NUMBER = 1;
       private java.lang.Object username_;
       /**
-       * <code>required string username = 1;</code>
+       * <code>optional string username = 1;</code>
        *
        * <pre>
        *fields for log in
@@ -1449,7 +1433,7 @@ public final class ClientRequest {
         return ((bitField0_ & 0x00000001) == 0x00000001);
       }
       /**
-       * <code>required string username = 1;</code>
+       * <code>optional string username = 1;</code>
        *
        * <pre>
        *fields for log in
@@ -1470,7 +1454,7 @@ public final class ClientRequest {
         }
       }
       /**
-       * <code>required string username = 1;</code>
+       * <code>optional string username = 1;</code>
        *
        * <pre>
        *fields for log in
@@ -1493,13 +1477,13 @@ public final class ClientRequest {
       public static final int PASSWORD_FIELD_NUMBER = 2;
       private java.lang.Object password_;
       /**
-       * <code>required string password = 2;</code>
+       * <code>optional string password = 2;</code>
        */
       public boolean hasPassword() {
         return ((bitField0_ & 0x00000002) == 0x00000002);
       }
       /**
-       * <code>required string password = 2;</code>
+       * <code>optional string password = 2;</code>
        */
       public java.lang.String getPassword() {
         java.lang.Object ref = password_;
@@ -1516,7 +1500,7 @@ public final class ClientRequest {
         }
       }
       /**
-       * <code>required string password = 2;</code>
+       * <code>optional string password = 2;</code>
        */
       public com.google.protobuf.ByteString
           getPasswordBytes() {
@@ -1535,7 +1519,7 @@ public final class ClientRequest {
       public static final int IP_ADDRESS_FIELD_NUMBER = 3;
       private java.lang.Object ipAddress_;
       /**
-       * <code>required string ip_address = 3;</code>
+       * <code>optional string ip_address = 3;</code>
        *
        * <pre>
        *the ip address will remain in the cache of online users
@@ -1545,7 +1529,7 @@ public final class ClientRequest {
         return ((bitField0_ & 0x00000004) == 0x00000004);
       }
       /**
-       * <code>required string ip_address = 3;</code>
+       * <code>optional string ip_address = 3;</code>
        *
        * <pre>
        *the ip address will remain in the cache of online users
@@ -1566,7 +1550,7 @@ public final class ClientRequest {
         }
       }
       /**
-       * <code>required string ip_address = 3;</code>
+       * <code>optional string ip_address = 3;</code>
        *
        * <pre>
        *the ip address will remain in the cache of online users
@@ -1597,18 +1581,6 @@ public final class ClientRequest {
         if (isInitialized == 1) return true;
         if (isInitialized == 0) return false;
 
-        if (!hasUsername()) {
-          memoizedIsInitialized = 0;
-          return false;
-        }
-        if (!hasPassword()) {
-          memoizedIsInitialized = 0;
-          return false;
-        }
-        if (!hasIpAddress()) {
-          memoizedIsInitialized = 0;
-          return false;
-        }
         memoizedIsInitialized = 1;
         return true;
       }
@@ -1849,18 +1821,6 @@ public final class ClientRequest {
         }
 
         public final boolean isInitialized() {
-          if (!hasUsername()) {
-            
-            return false;
-          }
-          if (!hasPassword()) {
-            
-            return false;
-          }
-          if (!hasIpAddress()) {
-            
-            return false;
-          }
           return true;
         }
 
@@ -1885,7 +1845,7 @@ public final class ClientRequest {
 
         private java.lang.Object username_ = "";
         /**
-         * <code>required string username = 1;</code>
+         * <code>optional string username = 1;</code>
          *
          * <pre>
          *fields for log in
@@ -1895,7 +1855,7 @@ public final class ClientRequest {
           return ((bitField0_ & 0x00000001) == 0x00000001);
         }
         /**
-         * <code>required string username = 1;</code>
+         * <code>optional string username = 1;</code>
          *
          * <pre>
          *fields for log in
@@ -1916,7 +1876,7 @@ public final class ClientRequest {
           }
         }
         /**
-         * <code>required string username = 1;</code>
+         * <code>optional string username = 1;</code>
          *
          * <pre>
          *fields for log in
@@ -1936,7 +1896,7 @@ public final class ClientRequest {
           }
         }
         /**
-         * <code>required string username = 1;</code>
+         * <code>optional string username = 1;</code>
          *
          * <pre>
          *fields for log in
@@ -1953,7 +1913,7 @@ public final class ClientRequest {
           return this;
         }
         /**
-         * <code>required string username = 1;</code>
+         * <code>optional string username = 1;</code>
          *
          * <pre>
          *fields for log in
@@ -1966,7 +1926,7 @@ public final class ClientRequest {
           return this;
         }
         /**
-         * <code>required string username = 1;</code>
+         * <code>optional string username = 1;</code>
          *
          * <pre>
          *fields for log in
@@ -1985,13 +1945,13 @@ public final class ClientRequest {
 
         private java.lang.Object password_ = "";
         /**
-         * <code>required string password = 2;</code>
+         * <code>optional string password = 2;</code>
          */
         public boolean hasPassword() {
           return ((bitField0_ & 0x00000002) == 0x00000002);
         }
         /**
-         * <code>required string password = 2;</code>
+         * <code>optional string password = 2;</code>
          */
         public java.lang.String getPassword() {
           java.lang.Object ref = password_;
@@ -2008,7 +1968,7 @@ public final class ClientRequest {
           }
         }
         /**
-         * <code>required string password = 2;</code>
+         * <code>optional string password = 2;</code>
          */
         public com.google.protobuf.ByteString
             getPasswordBytes() {
@@ -2024,7 +1984,7 @@ public final class ClientRequest {
           }
         }
         /**
-         * <code>required string password = 2;</code>
+         * <code>optional string password = 2;</code>
          */
         public Builder setPassword(
             java.lang.String value) {
@@ -2037,7 +1997,7 @@ public final class ClientRequest {
           return this;
         }
         /**
-         * <code>required string password = 2;</code>
+         * <code>optional string password = 2;</code>
          */
         public Builder clearPassword() {
           bitField0_ = (bitField0_ & ~0x00000002);
@@ -2046,7 +2006,7 @@ public final class ClientRequest {
           return this;
         }
         /**
-         * <code>required string password = 2;</code>
+         * <code>optional string password = 2;</code>
          */
         public Builder setPasswordBytes(
             com.google.protobuf.ByteString value) {
@@ -2061,7 +2021,7 @@ public final class ClientRequest {
 
         private java.lang.Object ipAddress_ = "";
         /**
-         * <code>required string ip_address = 3;</code>
+         * <code>optional string ip_address = 3;</code>
          *
          * <pre>
          *the ip address will remain in the cache of online users
@@ -2071,7 +2031,7 @@ public final class ClientRequest {
           return ((bitField0_ & 0x00000004) == 0x00000004);
         }
         /**
-         * <code>required string ip_address = 3;</code>
+         * <code>optional string ip_address = 3;</code>
          *
          * <pre>
          *the ip address will remain in the cache of online users
@@ -2092,7 +2052,7 @@ public final class ClientRequest {
           }
         }
         /**
-         * <code>required string ip_address = 3;</code>
+         * <code>optional string ip_address = 3;</code>
          *
          * <pre>
          *the ip address will remain in the cache of online users
@@ -2112,7 +2072,7 @@ public final class ClientRequest {
           }
         }
         /**
-         * <code>required string ip_address = 3;</code>
+         * <code>optional string ip_address = 3;</code>
          *
          * <pre>
          *the ip address will remain in the cache of online users
@@ -2129,7 +2089,7 @@ public final class ClientRequest {
           return this;
         }
         /**
-         * <code>required string ip_address = 3;</code>
+         * <code>optional string ip_address = 3;</code>
          *
          * <pre>
          *the ip address will remain in the cache of online users
@@ -2142,7 +2102,7 @@ public final class ClientRequest {
           return this;
         }
         /**
-         * <code>required string ip_address = 3;</code>
+         * <code>optional string ip_address = 3;</code>
          *
          * <pre>
          *the ip address will remain in the cache of online users
@@ -2175,7 +2135,7 @@ public final class ClientRequest {
         com.google.protobuf.MessageOrBuilder {
 
       /**
-       * <code>required string username = 1;</code>
+       * <code>optional string username = 1;</code>
        *
        * <pre>
        *fields for log out
@@ -2183,7 +2143,7 @@ public final class ClientRequest {
        */
       boolean hasUsername();
       /**
-       * <code>required string username = 1;</code>
+       * <code>optional string username = 1;</code>
        *
        * <pre>
        *fields for log out
@@ -2191,7 +2151,7 @@ public final class ClientRequest {
        */
       java.lang.String getUsername();
       /**
-       * <code>required string username = 1;</code>
+       * <code>optional string username = 1;</code>
        *
        * <pre>
        *fields for log out
@@ -2305,7 +2265,7 @@ public final class ClientRequest {
       public static final int USERNAME_FIELD_NUMBER = 1;
       private java.lang.Object username_;
       /**
-       * <code>required string username = 1;</code>
+       * <code>optional string username = 1;</code>
        *
        * <pre>
        *fields for log out
@@ -2315,7 +2275,7 @@ public final class ClientRequest {
         return ((bitField0_ & 0x00000001) == 0x00000001);
       }
       /**
-       * <code>required string username = 1;</code>
+       * <code>optional string username = 1;</code>
        *
        * <pre>
        *fields for log out
@@ -2336,7 +2296,7 @@ public final class ClientRequest {
         }
       }
       /**
-       * <code>required string username = 1;</code>
+       * <code>optional string username = 1;</code>
        *
        * <pre>
        *fields for log out
@@ -2365,10 +2325,6 @@ public final class ClientRequest {
         if (isInitialized == 1) return true;
         if (isInitialized == 0) return false;
 
-        if (!hasUsername()) {
-          memoizedIsInitialized = 0;
-          return false;
-        }
         memoizedIsInitialized = 1;
         return true;
       }
@@ -2573,10 +2529,6 @@ public final class ClientRequest {
         }
 
         public final boolean isInitialized() {
-          if (!hasUsername()) {
-            
-            return false;
-          }
           return true;
         }
 
@@ -2601,7 +2553,7 @@ public final class ClientRequest {
 
         private java.lang.Object username_ = "";
         /**
-         * <code>required string username = 1;</code>
+         * <code>optional string username = 1;</code>
          *
          * <pre>
          *fields for log out
@@ -2611,7 +2563,7 @@ public final class ClientRequest {
           return ((bitField0_ & 0x00000001) == 0x00000001);
         }
         /**
-         * <code>required string username = 1;</code>
+         * <code>optional string username = 1;</code>
          *
          * <pre>
          *fields for log out
@@ -2632,7 +2584,7 @@ public final class ClientRequest {
           }
         }
         /**
-         * <code>required string username = 1;</code>
+         * <code>optional string username = 1;</code>
          *
          * <pre>
          *fields for log out
@@ -2652,7 +2604,7 @@ public final class ClientRequest {
           }
         }
         /**
-         * <code>required string username = 1;</code>
+         * <code>optional string username = 1;</code>
          *
          * <pre>
          *fields for log out
@@ -2669,7 +2621,7 @@ public final class ClientRequest {
           return this;
         }
         /**
-         * <code>required string username = 1;</code>
+         * <code>optional string username = 1;</code>
          *
          * <pre>
          *fields for log out
@@ -2682,7 +2634,7 @@ public final class ClientRequest {
           return this;
         }
         /**
-         * <code>required string username = 1;</code>
+         * <code>optional string username = 1;</code>
          *
          * <pre>
          *fields for log out
@@ -2715,7 +2667,7 @@ public final class ClientRequest {
         com.google.protobuf.MessageOrBuilder {
 
       /**
-       * <code>required string user_called = 1;</code>
+       * <code>optional string user_called = 1;</code>
        *
        * <pre>
        *fields for call
@@ -2723,7 +2675,7 @@ public final class ClientRequest {
        */
       boolean hasUserCalled();
       /**
-       * <code>required string user_called = 1;</code>
+       * <code>optional string user_called = 1;</code>
        *
        * <pre>
        *fields for call
@@ -2731,7 +2683,7 @@ public final class ClientRequest {
        */
       java.lang.String getUserCalled();
       /**
-       * <code>required string user_called = 1;</code>
+       * <code>optional string user_called = 1;</code>
        *
        * <pre>
        *fields for call
@@ -2845,7 +2797,7 @@ public final class ClientRequest {
       public static final int USER_CALLED_FIELD_NUMBER = 1;
       private java.lang.Object userCalled_;
       /**
-       * <code>required string user_called = 1;</code>
+       * <code>optional string user_called = 1;</code>
        *
        * <pre>
        *fields for call
@@ -2855,7 +2807,7 @@ public final class ClientRequest {
         return ((bitField0_ & 0x00000001) == 0x00000001);
       }
       /**
-       * <code>required string user_called = 1;</code>
+       * <code>optional string user_called = 1;</code>
        *
        * <pre>
        *fields for call
@@ -2876,7 +2828,7 @@ public final class ClientRequest {
         }
       }
       /**
-       * <code>required string user_called = 1;</code>
+       * <code>optional string user_called = 1;</code>
        *
        * <pre>
        *fields for call
@@ -2905,10 +2857,6 @@ public final class ClientRequest {
         if (isInitialized == 1) return true;
         if (isInitialized == 0) return false;
 
-        if (!hasUserCalled()) {
-          memoizedIsInitialized = 0;
-          return false;
-        }
         memoizedIsInitialized = 1;
         return true;
       }
@@ -3113,10 +3061,6 @@ public final class ClientRequest {
         }
 
         public final boolean isInitialized() {
-          if (!hasUserCalled()) {
-            
-            return false;
-          }
           return true;
         }
 
@@ -3141,7 +3085,7 @@ public final class ClientRequest {
 
         private java.lang.Object userCalled_ = "";
         /**
-         * <code>required string user_called = 1;</code>
+         * <code>optional string user_called = 1;</code>
          *
          * <pre>
          *fields for call
@@ -3151,7 +3095,7 @@ public final class ClientRequest {
           return ((bitField0_ & 0x00000001) == 0x00000001);
         }
         /**
-         * <code>required string user_called = 1;</code>
+         * <code>optional string user_called = 1;</code>
          *
          * <pre>
          *fields for call
@@ -3172,7 +3116,7 @@ public final class ClientRequest {
           }
         }
         /**
-         * <code>required string user_called = 1;</code>
+         * <code>optional string user_called = 1;</code>
          *
          * <pre>
          *fields for call
@@ -3192,7 +3136,7 @@ public final class ClientRequest {
           }
         }
         /**
-         * <code>required string user_called = 1;</code>
+         * <code>optional string user_called = 1;</code>
          *
          * <pre>
          *fields for call
@@ -3209,7 +3153,7 @@ public final class ClientRequest {
           return this;
         }
         /**
-         * <code>required string user_called = 1;</code>
+         * <code>optional string user_called = 1;</code>
          *
          * <pre>
          *fields for call
@@ -3222,7 +3166,7 @@ public final class ClientRequest {
           return this;
         }
         /**
-         * <code>required string user_called = 1;</code>
+         * <code>optional string user_called = 1;</code>
          *
          * <pre>
          *fields for call
@@ -3255,7 +3199,7 @@ public final class ClientRequest {
         com.google.protobuf.MessageOrBuilder {
 
       /**
-       * <code>required string user_ended = 1;</code>
+       * <code>optional string user_ended = 1;</code>
        *
        * <pre>
        *fields for end call
@@ -3263,7 +3207,7 @@ public final class ClientRequest {
        */
       boolean hasUserEnded();
       /**
-       * <code>required string user_ended = 1;</code>
+       * <code>optional string user_ended = 1;</code>
        *
        * <pre>
        *fields for end call
@@ -3271,7 +3215,7 @@ public final class ClientRequest {
        */
       java.lang.String getUserEnded();
       /**
-       * <code>required string user_ended = 1;</code>
+       * <code>optional string user_ended = 1;</code>
        *
        * <pre>
        *fields for end call
@@ -3385,7 +3329,7 @@ public final class ClientRequest {
       public static final int USER_ENDED_FIELD_NUMBER = 1;
       private java.lang.Object userEnded_;
       /**
-       * <code>required string user_ended = 1;</code>
+       * <code>optional string user_ended = 1;</code>
        *
        * <pre>
        *fields for end call
@@ -3395,7 +3339,7 @@ public final class ClientRequest {
         return ((bitField0_ & 0x00000001) == 0x00000001);
       }
       /**
-       * <code>required string user_ended = 1;</code>
+       * <code>optional string user_ended = 1;</code>
        *
        * <pre>
        *fields for end call
@@ -3416,7 +3360,7 @@ public final class ClientRequest {
         }
       }
       /**
-       * <code>required string user_ended = 1;</code>
+       * <code>optional string user_ended = 1;</code>
        *
        * <pre>
        *fields for end call
@@ -3445,10 +3389,6 @@ public final class ClientRequest {
         if (isInitialized == 1) return true;
         if (isInitialized == 0) return false;
 
-        if (!hasUserEnded()) {
-          memoizedIsInitialized = 0;
-          return false;
-        }
         memoizedIsInitialized = 1;
         return true;
       }
@@ -3653,10 +3593,6 @@ public final class ClientRequest {
         }
 
         public final boolean isInitialized() {
-          if (!hasUserEnded()) {
-            
-            return false;
-          }
           return true;
         }
 
@@ -3681,7 +3617,7 @@ public final class ClientRequest {
 
         private java.lang.Object userEnded_ = "";
         /**
-         * <code>required string user_ended = 1;</code>
+         * <code>optional string user_ended = 1;</code>
          *
          * <pre>
          *fields for end call
@@ -3691,7 +3627,7 @@ public final class ClientRequest {
           return ((bitField0_ & 0x00000001) == 0x00000001);
         }
         /**
-         * <code>required string user_ended = 1;</code>
+         * <code>optional string user_ended = 1;</code>
          *
          * <pre>
          *fields for end call
@@ -3712,7 +3648,7 @@ public final class ClientRequest {
           }
         }
         /**
-         * <code>required string user_ended = 1;</code>
+         * <code>optional string user_ended = 1;</code>
          *
          * <pre>
          *fields for end call
@@ -3732,7 +3668,7 @@ public final class ClientRequest {
           }
         }
         /**
-         * <code>required string user_ended = 1;</code>
+         * <code>optional string user_ended = 1;</code>
          *
          * <pre>
          *fields for end call
@@ -3749,7 +3685,7 @@ public final class ClientRequest {
           return this;
         }
         /**
-         * <code>required string user_ended = 1;</code>
+         * <code>optional string user_ended = 1;</code>
          *
          * <pre>
          *fields for end call
@@ -3762,7 +3698,7 @@ public final class ClientRequest {
           return this;
         }
         /**
-         * <code>required string user_ended = 1;</code>
+         * <code>optional string user_ended = 1;</code>
          *
          * <pre>
          *fields for end call
@@ -3948,36 +3884,6 @@ public final class ClientRequest {
       if (!hasRqType()) {
         memoizedIsInitialized = 0;
         return false;
-      }
-      if (hasReg()) {
-        if (!getReg().isInitialized()) {
-          memoizedIsInitialized = 0;
-          return false;
-        }
-      }
-      if (hasLin()) {
-        if (!getLin().isInitialized()) {
-          memoizedIsInitialized = 0;
-          return false;
-        }
-      }
-      if (hasLout()) {
-        if (!getLout().isInitialized()) {
-          memoizedIsInitialized = 0;
-          return false;
-        }
-      }
-      if (hasCallTo()) {
-        if (!getCallTo().isInitialized()) {
-          memoizedIsInitialized = 0;
-          return false;
-        }
-      }
-      if (hasEndCall()) {
-        if (!getEndCall().isInitialized()) {
-          memoizedIsInitialized = 0;
-          return false;
-        }
       }
       memoizedIsInitialized = 1;
       return true;
@@ -4310,36 +4216,6 @@ public final class ClientRequest {
           
           return false;
         }
-        if (hasReg()) {
-          if (!getReg().isInitialized()) {
-            
-            return false;
-          }
-        }
-        if (hasLin()) {
-          if (!getLin().isInitialized()) {
-            
-            return false;
-          }
-        }
-        if (hasLout()) {
-          if (!getLout().isInitialized()) {
-            
-            return false;
-          }
-        }
-        if (hasCallTo()) {
-          if (!getCallTo().isInitialized()) {
-            
-            return false;
-          }
-        }
-        if (hasEndCall()) {
-          if (!getEndCall().isInitialized()) {
-            
-            return false;
-          }
-        }
         return true;
       }
 
@@ -4552,7 +4428,7 @@ public final class ClientRequest {
        * </pre>
        */
       private com.google.protobuf.SingleFieldBuilder<
-          buffers.ClientRequest.Request.Registration, buffers.ClientRequest.Request.Registration.Builder, buffers.ClientRequest.Request.RegistrationOrBuilder>
+          buffers.ClientRequest.Request.Registration, buffers.ClientRequest.Request.Registration.Builder, buffers.ClientRequest.Request.RegistrationOrBuilder> 
           getRegFieldBuilder() {
         if (regBuilder_ == null) {
           regBuilder_ = new com.google.protobuf.SingleFieldBuilder<
@@ -4668,7 +4544,7 @@ public final class ClientRequest {
        * <code>optional .Request.LogIn lin = 4;</code>
        */
       private com.google.protobuf.SingleFieldBuilder<
-          buffers.ClientRequest.Request.LogIn, buffers.ClientRequest.Request.LogIn.Builder, buffers.ClientRequest.Request.LogInOrBuilder>
+          buffers.ClientRequest.Request.LogIn, buffers.ClientRequest.Request.LogIn.Builder, buffers.ClientRequest.Request.LogInOrBuilder> 
           getLinFieldBuilder() {
         if (linBuilder_ == null) {
           linBuilder_ = new com.google.protobuf.SingleFieldBuilder<
@@ -4784,7 +4660,7 @@ public final class ClientRequest {
        * <code>optional .Request.LogOut lout = 5;</code>
        */
       private com.google.protobuf.SingleFieldBuilder<
-          buffers.ClientRequest.Request.LogOut, buffers.ClientRequest.Request.LogOut.Builder, buffers.ClientRequest.Request.LogOutOrBuilder>
+          buffers.ClientRequest.Request.LogOut, buffers.ClientRequest.Request.LogOut.Builder, buffers.ClientRequest.Request.LogOutOrBuilder> 
           getLoutFieldBuilder() {
         if (loutBuilder_ == null) {
           loutBuilder_ = new com.google.protobuf.SingleFieldBuilder<
@@ -4900,7 +4776,7 @@ public final class ClientRequest {
        * <code>optional .Request.CallTo call_to = 6;</code>
        */
       private com.google.protobuf.SingleFieldBuilder<
-          buffers.ClientRequest.Request.CallTo, buffers.ClientRequest.Request.CallTo.Builder, buffers.ClientRequest.Request.CallToOrBuilder>
+          buffers.ClientRequest.Request.CallTo, buffers.ClientRequest.Request.CallTo.Builder, buffers.ClientRequest.Request.CallToOrBuilder> 
           getCallToFieldBuilder() {
         if (callToBuilder_ == null) {
           callToBuilder_ = new com.google.protobuf.SingleFieldBuilder<
@@ -5016,7 +4892,7 @@ public final class ClientRequest {
        * <code>optional .Request.EndCall end_call = 7;</code>
        */
       private com.google.protobuf.SingleFieldBuilder<
-          buffers.ClientRequest.Request.EndCall, buffers.ClientRequest.Request.EndCall.Builder, buffers.ClientRequest.Request.EndCallOrBuilder>
+          buffers.ClientRequest.Request.EndCall, buffers.ClientRequest.Request.EndCall.Builder, buffers.ClientRequest.Request.EndCallOrBuilder> 
           getEndCallFieldBuilder() {
         if (endCallBuilder_ == null) {
           endCallBuilder_ = new com.google.protobuf.SingleFieldBuilder<
@@ -5085,14 +4961,14 @@ public final class ClientRequest {
       ".Request.LogIn\022\035\n\004lout\030\005 \001(\0132\017.Request.L" +
       "ogOut\022 \n\007call_to\030\006 \001(\0132\017.Request.CallTo\022" +
       "\"\n\010end_call\030\007 \001(\0132\020.Request.EndCall\032@\n\014R" +
-      "egistration\022\020\n\010username\030\001 \002(\t\022\020\n\010passwor" +
-      "d\030\002 \002(\t\022\014\n\004hint\030\003 \001(\t\032?\n\005LogIn\022\020\n\010userna" +
-      "me\030\001 \002(\t\022\020\n\010password\030\002 \002(\t\022\022\n\nip_address" +
-      "\030\003 \002(\t\032\032\n\006LogOut\022\020\n\010username\030\001 \002(\t\032\035\n\006Ca",
-      "llTo\022\023\n\013user_called\030\001 \002(\t\032\035\n\007EndCall\022\022\n\n" +
-      "user_ended\030\001 \002(\t\":\n\007ReqType\022\007\n\003REG\020\001\022\007\n\003" +
-      "LIN\020\002\022\010\n\004LOUT\020\003\022\010\n\004CALL\020\004\022\t\n\005ECALL\020\005B\033\n\027" +
-      "protocol.config.buffersH\001"
+      "egistration\022\020\n\010username\030\001 \001(\t\022\020\n\010passwor" +
+      "d\030\002 \001(\t\022\014\n\004hint\030\003 \001(\t\032?\n\005LogIn\022\020\n\010userna" +
+      "me\030\001 \001(\t\022\020\n\010password\030\002 \001(\t\022\022\n\nip_address" +
+      "\030\003 \001(\t\032\032\n\006LogOut\022\020\n\010username\030\001 \001(\t\032\035\n\006Ca",
+      "llTo\022\023\n\013user_called\030\001 \001(\t\032\035\n\007EndCall\022\022\n\n" +
+      "user_ended\030\001 \001(\t\":\n\007ReqType\022\007\n\003REG\020\001\022\007\n\003" +
+      "LIN\020\002\022\010\n\004LOUT\020\003\022\010\n\004CALL\020\004\022\t\n\005ECALL\020\005B\013\n\007" +
+      "buffersH\001"
     };
     com.google.protobuf.Descriptors.FileDescriptor.InternalDescriptorAssigner assigner =
         new com.google.protobuf.Descriptors.FileDescriptor.    InternalDescriptorAssigner() {
