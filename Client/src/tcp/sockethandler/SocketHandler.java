@@ -40,7 +40,7 @@ public class SocketHandler {
 		}
 	}
 	
-	public void sendLogInRequest() {
+	/*public void sendLogInRequest() {
 		Request request = requestWriter.createLogInReq("username", "default");
 		try {
 			request.writeDelimitedTo(socketClient.getOutputStream());
@@ -56,7 +56,7 @@ public class SocketHandler {
 		} catch (IOException e) {
 			System.err.println("SocketHandler: failed to send logout request");
 		}
-	}
+	}*/
 
 	public boolean getResponse() {
 		Response response = null;
@@ -70,6 +70,7 @@ public class SocketHandler {
 			System.err.println("SocketHandler: failed to open input stream");
 		}
 		//}
+		assert response != null;
 		return response.getResult().getOk();
 	}
 
