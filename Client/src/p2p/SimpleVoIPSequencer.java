@@ -24,7 +24,7 @@ public class SimpleVoIPSequencer extends Thread {
 	}
 	
 	public void run() {
-        //listens for packets and plays through the system speakers
+        //retrieves sequenced audio and plays through the system speakers
 		
         SourceDataLine line2;
         DataLine.Info info2 = new DataLine.Info(SourceDataLine.class, format);
@@ -53,14 +53,19 @@ public class SimpleVoIPSequencer extends Thread {
         	if (data != null) {
         		last = data;
         	} else {
-        		if ((repeat >= 5) && last != empty) {
-        			//only repeat the last sequence entry for a specified number of times. The repetition is to fill gaps,
-        			//but if the repeat happens for a whole second or two the user's ears will bleed, guaranteed.
-        			
-        			last = empty;
-        		} else repeat++;
+        		if (repeat >= 5) {
+        			if (last != empty) {
+	        			//only repeat the last sequence entry for a specified number of times. The repetition is to fill gaps,
+	        			//but if the repeat happens for a whole second or two the user's ears will bleed, guaranteed.
+	        			
+	        			last = empty;
+	        			System.out.println("nothing for 5 frames, no longer repeating last frame.");
+        			}
+        		} else {
+            		System.out.println("got nothing :'(");
+        			repeat++;
+        		}
         		data = last;
-        		System.out.println("got nothing :'(");
         	}
             line2.write(data, 0, data.length); //write back out to audio
         }

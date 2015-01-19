@@ -33,7 +33,7 @@ class SimpleVoIPListener extends Thread {
 	}
 	
 	public void run() {
-        //listens for packets and plays through the system speakers
+        //listens for packets and sends them to the audio sequencer.
 		
         //all packets are prefaced with:
         //4 bytes: "VoIP"
