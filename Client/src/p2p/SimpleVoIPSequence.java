@@ -16,6 +16,10 @@ public class SimpleVoIPSequence {
 	//note: if a negative sequence number is recieved, DO NOT use that as the base to calculate the sequence difference to the
 	//next packet
 	public synchronized void add(byte[] data, byte seqDiff) {
+		if (blocks.size() == 0) {
+			seqDiff = 2; //if we have no data, position any new data 2 frames away.
+		}
+		
 		if (seqDiff == 0) return; //duplicate
 		else if (seqDiff > 0) {
 			//after last sequence element, add block at end

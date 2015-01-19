@@ -52,6 +52,7 @@ public class SimpleVoIPSequencer extends Thread {
         	data = call.seq.get();
         	if (data != null) {
         		last = data;
+        		repeat = 0;
         	} else {
         		if (repeat >= 5) {
         			if (last != empty) {
