@@ -2,7 +2,7 @@ package main;
 
 import tcp.sockethandler.SocketHandler;
 
-public class Main {
+public class MainClient {
 	
 	private static final int port = 9990;
 
