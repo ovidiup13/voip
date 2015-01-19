@@ -13,8 +13,10 @@ public class MainServer {
 		boolean listening = true;
 
 		try {
+			System.out.println("Starting server...");
 			ServerSocket serverSocket = new ServerSocket(port);
 			while(listening){
+				System.out.println("Listening for connections...");
 				new ClientHandler(serverSocket.accept()).run();
 			}
 		} catch (IOException e) {
