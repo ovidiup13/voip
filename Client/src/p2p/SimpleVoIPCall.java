@@ -13,6 +13,8 @@ public class SimpleVoIPCall implements VoIPCall {
 	private DatagramSocket socket;
 	private SimpleVoIPBroadcaster broadcaster;
 	private SimpleVoIPListener listener;
+	private SimpleVoIPSequencer sequencer;
+	SimpleVoIPSequence seq;
 	int callID = -1;
 	
 	public SimpleVoIPCall() {
@@ -38,9 +40,12 @@ public class SimpleVoIPCall implements VoIPCall {
 		this.callID = callID;
 		broadcaster = new SimpleVoIPBroadcaster(socket, format, this);
 		listener = new SimpleVoIPListener(socket, format, this);
+		sequencer = new SimpleVoIPSequencer(format, this);
+		seq = new SimpleVoIPSequence(4);
 		
 		broadcaster.start();
 		listener.start();
+		sequencer.start();
 		
 		started = true;
 		return true;
@@ -53,6 +58,8 @@ public class SimpleVoIPCall implements VoIPCall {
 			broadcaster.join();
 			listener.terminate();
 			listener.join();
+			sequencer.terminate();
+			sequencer.join();
 			started = false;
 		} catch (InterruptedException e) {
 			// what should we do here? this should never happen unless we deliberately interrupt the threads.

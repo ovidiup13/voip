@@ -5,7 +5,7 @@ import tcp.clienthandler.ClientHandler;
 import java.io.IOException;
 import java.net.ServerSocket;
 
-public class Main {
+public class MainServer {
 	
 	private static final int port = 9991;
 

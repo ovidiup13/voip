@@ -3,6 +3,7 @@ package p2p;
 import java.io.IOException;
 import java.net.DatagramPacket;
 import java.net.DatagramSocket;
+import java.util.Arrays;
 
 import javax.sound.sampled.AudioFormat;
 import javax.sound.sampled.AudioSystem;
@@ -34,30 +35,12 @@ class SimpleVoIPListener extends Thread {
 	public void run() {
         //listens for packets and plays through the system speakers
 		
-        SourceDataLine line2;
-        DataLine.Info info2 = new DataLine.Info(SourceDataLine.class, format);
-        if (!AudioSystem.isLineSupported(info2)) {
-        	//no output line??
-        	call.fireCallFailed();
-        	return;
-        }
-        try {
-			line2 = (SourceDataLine) AudioSystem.getLine(info2);
-			line2.open(format, (44100*2)/25);
-		} catch (LineUnavailableException e) {
-			//could not open output line
-			call.fireCallFailed();
-			return;
-		}
-        
-        line2.start();
-        
         //all packets are prefaced with:
         //4 bytes: "VoIP"
         //4 bytes: Call ID (big endian)
         //1 byte: Sequence Number
         
-        byte[] data = new byte[line2.getBufferSize()+9];
+        byte[] data = new byte[(44100*2)/25+9];
         DatagramPacket packet = new DatagramPacket(data, data.length);
         
         while (running) {
@@ -85,7 +68,7 @@ class SimpleVoIPListener extends Thread {
 				if (sequenceDiff != 1) System.out.println("packet sequence change was "+sequenceDiff+" instead of 1. data skip/out of order!");
 				sequence = recSeq;
 				
-	        	line2.write(pDat, 9, pDat.length-9); //write back out to audio
+				call.seq.add(Arrays.copyOfRange(pDat, 9, pDat.length), sequenceDiff);
 			} catch (IOException e) {
 				e.printStackTrace();
 				return;
