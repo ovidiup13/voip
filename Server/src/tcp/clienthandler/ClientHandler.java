@@ -35,6 +35,8 @@ public class ClientHandler implements Runnable {
 		
 		if(type.equals(Request.ReqType.REG)){
 			//add client to database
+			System.out.println("username is: " + request.getReg().getUsername());
+			System.out.println("password is: " + request.getReg().getPassword());
 			//if ok, send confirmation response
 			sendResponse(true, "registration successful");
 		}

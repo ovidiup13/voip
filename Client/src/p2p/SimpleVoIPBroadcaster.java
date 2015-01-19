@@ -3,6 +3,7 @@ package p2p;
 import java.io.IOException;
 import java.net.DatagramPacket;
 import java.net.DatagramSocket;
+import java.net.SocketException;
 
 import javax.sound.sampled.AudioFormat;
 import javax.sound.sampled.AudioSystem;
@@ -64,10 +65,14 @@ class SimpleVoIPBroadcaster extends Thread {
         data[0] = (byte)'V'; data[1] = (byte)'o'; data[2] = (byte)'I'; data[3] = (byte)'P';
         insertInt32(data, 4, call.callID);
         
-        DatagramPacket packet;
-        packet = new DatagramPacket(data, data.length, socket.getRemoteSocketAddress());
-        
-        while (running) {
+        DatagramPacket packet = null;
+		try {
+			packet = new DatagramPacket(data, data.length, socket.getRemoteSocketAddress());
+		} catch (SocketException e) {
+			e.printStackTrace();
+		}
+
+		while (running) {
             try {
             	line.read(data, 9, data.length-9);
             	data[8] = sequence++;
