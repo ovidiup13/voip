@@ -23,21 +23,27 @@ public class SocketHandler {
 		requestWriter  = new RequestWriter();
 	}
 
-	public void startConnection() {
+	public boolean startConnection() {
 		try {
 			socketClient = new Socket(hostname, port);
+			return true;
 		} catch (IOException e) {
 			System.err.println("SocketHandler: failed to open socket");
 		}
+		return false;
 	}
 	
-	public void sendRegisterRequest() {
+	public boolean sendRegisterRequest() {
+		System.out.println("Client: Creating and sending register request...");
 		Request request = requestWriter.createRegisterReq("username", "default");
 		try {
 			request.writeDelimitedTo(socketClient.getOutputStream());
+			System.out.println("Client: Sent register request...");
+			return true;
 		} catch (IOException e) {
 			System.err.println("SocketHandler: failed to send register request");
 		}
+		return false;
 	}
 	
 	/*public void sendLogInRequest() {
@@ -58,7 +64,7 @@ public class SocketHandler {
 		}
 	}*/
 
-	public boolean getResponse() {
+	public void getResponse() {
 		Response response = null;
 		/*BufferedReader stdIn = new BufferedReader(new InputStreamReader(
 				socketClient.getInputStream()));*/
@@ -71,14 +77,17 @@ public class SocketHandler {
 		}
 		//}
 		assert response != null;
-		return response.getResult().getOk();
+		System.out.println("Result: " + response.getResult().getOk());
+		System.out.println("Message: " + response.getResult().getCause());
 	}
 
-	public void closeConnection() {
+	public boolean closeConnection() {
 		try {
 			socketClient.close();
+			return true;
 		} catch (IOException e) {
 			System.err.println("SocketHandler: failed to close socket");
 		}
+		return false;
 	}
 }
