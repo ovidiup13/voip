@@ -3,7 +3,7 @@ package tcp.clienthandler;
 import buffers.ClientRequest.Request;
 import buffers.ServerResponse.Response;
 import database.ConnectToDb;
-import tcp.messagehandler.ResponseWriter;
+import writers.ResponseWriter;
 
 import java.io.IOException;
 import java.net.Socket;

@@ -12,24 +12,22 @@ message Response {
 	//type of response
 	required ResType res_type = 1;
 
-	//fields
-
-	//responses for actions of REG, LIN, LOUT, ECALL
+	//request result filed for type ACT
 	optional ReqResult req_result = 3;
+	
+	//call response field for type CALL
 	optional CallResponse call_response = 4;
-
-	//this is used when two users are in a call and one of them wants to end the call
-	//then a response will be sent to the other user saying that the call has ended
-	//forcing him to close the UDP connection
+	
+	//endcall field for type ECALL
 	optional bool endCall = 5;
 
-	//request result - can be used for REG, LIN, LOUT, STS, CALL
+	//request result message structure
 	message ReqResult {
 		required bool ok = 1;
 		required string cause = 2;
 	}
 
-	//status response
+	//call response message structure
 	message CallResponse {
 		required bool ok = 1;
 		required string cause = 2;

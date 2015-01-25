@@ -33,7 +33,7 @@ public final class ClientRequest {
      * <code>optional .Request.Registration reg = 3;</code>
      *
      * <pre>
-     *one of the following will be filled in
+     *registration message will be filled in for type REG
      * </pre>
      */
     boolean hasReg();
@@ -41,7 +41,7 @@ public final class ClientRequest {
      * <code>optional .Request.Registration reg = 3;</code>
      *
      * <pre>
-     *one of the following will be filled in
+     *registration message will be filled in for type REG
      * </pre>
      */
     buffers.ClientRequest.Request.Registration getReg();
@@ -49,71 +49,78 @@ public final class ClientRequest {
      * <code>optional .Request.Registration reg = 3;</code>
      *
      * <pre>
-     *one of the following will be filled in
+     *registration message will be filled in for type REG
      * </pre>
      */
     buffers.ClientRequest.Request.RegistrationOrBuilder getRegOrBuilder();
 
     /**
      * <code>optional .Request.LogIn lin = 4;</code>
+     *
+     * <pre>
+     *login message will be filled in for type LIN
+     * </pre>
      */
     boolean hasLin();
     /**
      * <code>optional .Request.LogIn lin = 4;</code>
+     *
+     * <pre>
+     *login message will be filled in for type LIN
+     * </pre>
      */
     buffers.ClientRequest.Request.LogIn getLin();
     /**
      * <code>optional .Request.LogIn lin = 4;</code>
+     *
+     * <pre>
+     *login message will be filled in for type LIN
+     * </pre>
      */
     buffers.ClientRequest.Request.LogInOrBuilder getLinOrBuilder();
 
     /**
-     * <code>optional .Request.LogOut lout = 5;</code>
+     * <code>optional string username = 5;</code>
+     *
+     * <pre>
+     *username field will be filled in for types CALL and STS
+     * </pre>
      */
-    boolean hasLout();
+    boolean hasUsername();
     /**
-     * <code>optional .Request.LogOut lout = 5;</code>
+     * <code>optional string username = 5;</code>
+     *
+     * <pre>
+     *username field will be filled in for types CALL and STS
+     * </pre>
      */
-    buffers.ClientRequest.Request.LogOut getLout();
+    java.lang.String getUsername();
     /**
-     * <code>optional .Request.LogOut lout = 5;</code>
+     * <code>optional string username = 5;</code>
+     *
+     * <pre>
+     *username field will be filled in for types CALL and STS
+     * </pre>
      */
-    buffers.ClientRequest.Request.LogOutOrBuilder getLoutOrBuilder();
+    com.google.protobuf.ByteString
+        getUsernameBytes();
 
     /**
-     * <code>optional .Request.CallTo call_to = 6;</code>
+     * <code>optional bool confirmation = 6;</code>
+     *
+     * <pre>
+     *confirmation field will be filled in for types LOUT and ECALL
+     * </pre>
      */
-    boolean hasCallTo();
+    boolean hasConfirmation();
     /**
-     * <code>optional .Request.CallTo call_to = 6;</code>
+     * <code>optional bool confirmation = 6;</code>
+     *
+     * <pre>
+     *confirmation field will be filled in for types LOUT and ECALL
+     * </pre>
      */
-    buffers.ClientRequest.Request.CallTo getCallTo();
-    /**
-     * <code>optional .Request.CallTo call_to = 6;</code>
-     */
-    buffers.ClientRequest.Request.CallToOrBuilder getCallToOrBuilder();
-
-    /**
-     * <code>optional .Request.Status status = 7;</code>
-     */
-    boolean hasStatus();
-    /**
-     * <code>optional .Request.Status status = 7;</code>
-     */
-    buffers.ClientRequest.Request.Status getStatus();
-    /**
-     * <code>optional .Request.Status status = 7;</code>
-     */
-    buffers.ClientRequest.Request.StatusOrBuilder getStatusOrBuilder();
-
-    /**
-     * <code>optional bool end_call = 8;</code>
-     */
-    boolean hasEndCall();
-    /**
-     * <code>optional bool end_call = 8;</code>
-     */
-    boolean getEndCall();
+    boolean getConfirmation();
   }
   /**
    * Protobuf type {@code Request}
@@ -209,47 +216,14 @@ public final class ClientRequest {
               break;
             }
             case 42: {
-              buffers.ClientRequest.Request.LogOut.Builder subBuilder = null;
-              if (((bitField0_ & 0x00000008) == 0x00000008)) {
-                subBuilder = lout_.toBuilder();
-              }
-              lout_ = input.readMessage(buffers.ClientRequest.Request.LogOut.PARSER, extensionRegistry);
-              if (subBuilder != null) {
-                subBuilder.mergeFrom(lout_);
-                lout_ = subBuilder.buildPartial();
-              }
+              com.google.protobuf.ByteString bs = input.readBytes();
               bitField0_ |= 0x00000008;
+              username_ = bs;
               break;
             }
-            case 50: {
-              buffers.ClientRequest.Request.CallTo.Builder subBuilder = null;
-              if (((bitField0_ & 0x00000010) == 0x00000010)) {
-                subBuilder = callTo_.toBuilder();
-              }
-              callTo_ = input.readMessage(buffers.ClientRequest.Request.CallTo.PARSER, extensionRegistry);
-              if (subBuilder != null) {
-                subBuilder.mergeFrom(callTo_);
-                callTo_ = subBuilder.buildPartial();
-              }
+            case 48: {
               bitField0_ |= 0x00000010;
-              break;
-            }
-            case 58: {
-              buffers.ClientRequest.Request.Status.Builder subBuilder = null;
-              if (((bitField0_ & 0x00000020) == 0x00000020)) {
-                subBuilder = status_.toBuilder();
-              }
-              status_ = input.readMessage(buffers.ClientRequest.Request.Status.PARSER, extensionRegistry);
-              if (subBuilder != null) {
-                subBuilder.mergeFrom(status_);
-                status_ = subBuilder.buildPartial();
-              }
-              bitField0_ |= 0x00000020;
-              break;
-            }
-            case 64: {
-              bitField0_ |= 0x00000040;
-              endCall_ = input.readBool();
+              confirmation_ = input.readBool();
               break;
             }
           }
@@ -418,7 +392,7 @@ public final class ClientRequest {
         com.google.protobuf.MessageOrBuilder {
 
       /**
-       * <code>optional string username = 1;</code>
+       * <code>required string username = 1;</code>
        *
        * <pre>
        *fields for registration
@@ -426,7 +400,7 @@ public final class ClientRequest {
        */
       boolean hasUsername();
       /**
-       * <code>optional string username = 1;</code>
+       * <code>required string username = 1;</code>
        *
        * <pre>
        *fields for registration
@@ -434,7 +408,7 @@ public final class ClientRequest {
        */
       java.lang.String getUsername();
       /**
-       * <code>optional string username = 1;</code>
+       * <code>required string username = 1;</code>
        *
        * <pre>
        *fields for registration
@@ -444,15 +418,15 @@ public final class ClientRequest {
           getUsernameBytes();
 
       /**
-       * <code>optional string password = 2;</code>
+       * <code>required string password = 2;</code>
        */
       boolean hasPassword();
       /**
-       * <code>optional string password = 2;</code>
+       * <code>required string password = 2;</code>
        */
       java.lang.String getPassword();
       /**
-       * <code>optional string password = 2;</code>
+       * <code>required string password = 2;</code>
        */
       com.google.protobuf.ByteString
           getPasswordBytes();
@@ -588,7 +562,7 @@ public final class ClientRequest {
       public static final int USERNAME_FIELD_NUMBER = 1;
       private java.lang.Object username_;
       /**
-       * <code>optional string username = 1;</code>
+       * <code>required string username = 1;</code>
        *
        * <pre>
        *fields for registration
@@ -598,7 +572,7 @@ public final class ClientRequest {
         return ((bitField0_ & 0x00000001) == 0x00000001);
       }
       /**
-       * <code>optional string username = 1;</code>
+       * <code>required string username = 1;</code>
        *
        * <pre>
        *fields for registration
@@ -619,7 +593,7 @@ public final class ClientRequest {
         }
       }
       /**
-       * <code>optional string username = 1;</code>
+       * <code>required string username = 1;</code>
        *
        * <pre>
        *fields for registration
@@ -642,13 +616,13 @@ public final class ClientRequest {
       public static final int PASSWORD_FIELD_NUMBER = 2;
       private java.lang.Object password_;
       /**
-       * <code>optional string password = 2;</code>
+       * <code>required string password = 2;</code>
        */
       public boolean hasPassword() {
         return ((bitField0_ & 0x00000002) == 0x00000002);
       }
       /**
-       * <code>optional string password = 2;</code>
+       * <code>required string password = 2;</code>
        */
       public java.lang.String getPassword() {
         java.lang.Object ref = password_;
@@ -665,7 +639,7 @@ public final class ClientRequest {
         }
       }
       /**
-       * <code>optional string password = 2;</code>
+       * <code>required string password = 2;</code>
        */
       public com.google.protobuf.ByteString
           getPasswordBytes() {
@@ -734,6 +708,14 @@ public final class ClientRequest {
         if (isInitialized == 1) return true;
         if (isInitialized == 0) return false;
 
+        if (!hasUsername()) {
+          memoizedIsInitialized = 0;
+          return false;
+        }
+        if (!hasPassword()) {
+          memoizedIsInitialized = 0;
+          return false;
+        }
         memoizedIsInitialized = 1;
         return true;
       }
@@ -974,6 +956,14 @@ public final class ClientRequest {
         }
 
         public final boolean isInitialized() {
+          if (!hasUsername()) {
+            
+            return false;
+          }
+          if (!hasPassword()) {
+            
+            return false;
+          }
           return true;
         }
 
@@ -998,7 +988,7 @@ public final class ClientRequest {
 
         private java.lang.Object username_ = "";
         /**
-         * <code>optional string username = 1;</code>
+         * <code>required string username = 1;</code>
          *
          * <pre>
          *fields for registration
@@ -1008,7 +998,7 @@ public final class ClientRequest {
           return ((bitField0_ & 0x00000001) == 0x00000001);
         }
         /**
-         * <code>optional string username = 1;</code>
+         * <code>required string username = 1;</code>
          *
          * <pre>
          *fields for registration
@@ -1029,7 +1019,7 @@ public final class ClientRequest {
           }
         }
         /**
-         * <code>optional string username = 1;</code>
+         * <code>required string username = 1;</code>
          *
          * <pre>
          *fields for registration
@@ -1049,7 +1039,7 @@ public final class ClientRequest {
           }
         }
         /**
-         * <code>optional string username = 1;</code>
+         * <code>required string username = 1;</code>
          *
          * <pre>
          *fields for registration
@@ -1066,7 +1056,7 @@ public final class ClientRequest {
           return this;
         }
         /**
-         * <code>optional string username = 1;</code>
+         * <code>required string username = 1;</code>
          *
          * <pre>
          *fields for registration
@@ -1079,7 +1069,7 @@ public final class ClientRequest {
           return this;
         }
         /**
-         * <code>optional string username = 1;</code>
+         * <code>required string username = 1;</code>
          *
          * <pre>
          *fields for registration
@@ -1098,13 +1088,13 @@ public final class ClientRequest {
 
         private java.lang.Object password_ = "";
         /**
-         * <code>optional string password = 2;</code>
+         * <code>required string password = 2;</code>
          */
         public boolean hasPassword() {
           return ((bitField0_ & 0x00000002) == 0x00000002);
         }
         /**
-         * <code>optional string password = 2;</code>
+         * <code>required string password = 2;</code>
          */
         public java.lang.String getPassword() {
           java.lang.Object ref = password_;
@@ -1121,7 +1111,7 @@ public final class ClientRequest {
           }
         }
         /**
-         * <code>optional string password = 2;</code>
+         * <code>required string password = 2;</code>
          */
         public com.google.protobuf.ByteString
             getPasswordBytes() {
@@ -1137,7 +1127,7 @@ public final class ClientRequest {
           }
         }
         /**
-         * <code>optional string password = 2;</code>
+         * <code>required string password = 2;</code>
          */
         public Builder setPassword(
             java.lang.String value) {
@@ -1150,7 +1140,7 @@ public final class ClientRequest {
           return this;
         }
         /**
-         * <code>optional string password = 2;</code>
+         * <code>required string password = 2;</code>
          */
         public Builder clearPassword() {
           bitField0_ = (bitField0_ & ~0x00000002);
@@ -1159,7 +1149,7 @@ public final class ClientRequest {
           return this;
         }
         /**
-         * <code>optional string password = 2;</code>
+         * <code>required string password = 2;</code>
          */
         public Builder setPasswordBytes(
             com.google.protobuf.ByteString value) {
@@ -1264,7 +1254,7 @@ public final class ClientRequest {
         com.google.protobuf.MessageOrBuilder {
 
       /**
-       * <code>optional string username = 1;</code>
+       * <code>required string username = 1;</code>
        *
        * <pre>
        *fields for log in
@@ -1272,7 +1262,7 @@ public final class ClientRequest {
        */
       boolean hasUsername();
       /**
-       * <code>optional string username = 1;</code>
+       * <code>required string username = 1;</code>
        *
        * <pre>
        *fields for log in
@@ -1280,7 +1270,7 @@ public final class ClientRequest {
        */
       java.lang.String getUsername();
       /**
-       * <code>optional string username = 1;</code>
+       * <code>required string username = 1;</code>
        *
        * <pre>
        *fields for log in
@@ -1290,21 +1280,21 @@ public final class ClientRequest {
           getUsernameBytes();
 
       /**
-       * <code>optional string password = 2;</code>
+       * <code>required string password = 2;</code>
        */
       boolean hasPassword();
       /**
-       * <code>optional string password = 2;</code>
+       * <code>required string password = 2;</code>
        */
       java.lang.String getPassword();
       /**
-       * <code>optional string password = 2;</code>
+       * <code>required string password = 2;</code>
        */
       com.google.protobuf.ByteString
           getPasswordBytes();
 
       /**
-       * <code>optional string ip_address = 3;</code>
+       * <code>required string ip_address = 3;</code>
        *
        * <pre>
        *the ip address will remain in the cache of online users
@@ -1312,7 +1302,7 @@ public final class ClientRequest {
        */
       boolean hasIpAddress();
       /**
-       * <code>optional string ip_address = 3;</code>
+       * <code>required string ip_address = 3;</code>
        *
        * <pre>
        *the ip address will remain in the cache of online users
@@ -1320,7 +1310,7 @@ public final class ClientRequest {
        */
       java.lang.String getIpAddress();
       /**
-       * <code>optional string ip_address = 3;</code>
+       * <code>required string ip_address = 3;</code>
        *
        * <pre>
        *the ip address will remain in the cache of online users
@@ -1446,7 +1436,7 @@ public final class ClientRequest {
       public static final int USERNAME_FIELD_NUMBER = 1;
       private java.lang.Object username_;
       /**
-       * <code>optional string username = 1;</code>
+       * <code>required string username = 1;</code>
        *
        * <pre>
        *fields for log in
@@ -1456,7 +1446,7 @@ public final class ClientRequest {
         return ((bitField0_ & 0x00000001) == 0x00000001);
       }
       /**
-       * <code>optional string username = 1;</code>
+       * <code>required string username = 1;</code>
        *
        * <pre>
        *fields for log in
@@ -1477,7 +1467,7 @@ public final class ClientRequest {
         }
       }
       /**
-       * <code>optional string username = 1;</code>
+       * <code>required string username = 1;</code>
        *
        * <pre>
        *fields for log in
@@ -1500,13 +1490,13 @@ public final class ClientRequest {
       public static final int PASSWORD_FIELD_NUMBER = 2;
       private java.lang.Object password_;
       /**
-       * <code>optional string password = 2;</code>
+       * <code>required string password = 2;</code>
        */
       public boolean hasPassword() {
         return ((bitField0_ & 0x00000002) == 0x00000002);
       }
       /**
-       * <code>optional string password = 2;</code>
+       * <code>required string password = 2;</code>
        */
       public java.lang.String getPassword() {
         java.lang.Object ref = password_;
@@ -1523,7 +1513,7 @@ public final class ClientRequest {
         }
       }
       /**
-       * <code>optional string password = 2;</code>
+       * <code>required string password = 2;</code>
        */
       public com.google.protobuf.ByteString
           getPasswordBytes() {
@@ -1542,7 +1532,7 @@ public final class ClientRequest {
       public static final int IP_ADDRESS_FIELD_NUMBER = 3;
       private java.lang.Object ipAddress_;
       /**
-       * <code>optional string ip_address = 3;</code>
+       * <code>required string ip_address = 3;</code>
        *
        * <pre>
        *the ip address will remain in the cache of online users
@@ -1552,7 +1542,7 @@ public final class ClientRequest {
         return ((bitField0_ & 0x00000004) == 0x00000004);
       }
       /**
-       * <code>optional string ip_address = 3;</code>
+       * <code>required string ip_address = 3;</code>
        *
        * <pre>
        *the ip address will remain in the cache of online users
@@ -1573,7 +1563,7 @@ public final class ClientRequest {
         }
       }
       /**
-       * <code>optional string ip_address = 3;</code>
+       * <code>required string ip_address = 3;</code>
        *
        * <pre>
        *the ip address will remain in the cache of online users
@@ -1604,6 +1594,18 @@ public final class ClientRequest {
         if (isInitialized == 1) return true;
         if (isInitialized == 0) return false;
 
+        if (!hasUsername()) {
+          memoizedIsInitialized = 0;
+          return false;
+        }
+        if (!hasPassword()) {
+          memoizedIsInitialized = 0;
+          return false;
+        }
+        if (!hasIpAddress()) {
+          memoizedIsInitialized = 0;
+          return false;
+        }
         memoizedIsInitialized = 1;
         return true;
       }
@@ -1844,6 +1846,18 @@ public final class ClientRequest {
         }
 
         public final boolean isInitialized() {
+          if (!hasUsername()) {
+            
+            return false;
+          }
+          if (!hasPassword()) {
+            
+            return false;
+          }
+          if (!hasIpAddress()) {
+            
+            return false;
+          }
           return true;
         }
 
@@ -1868,7 +1882,7 @@ public final class ClientRequest {
 
         private java.lang.Object username_ = "";
         /**
-         * <code>optional string username = 1;</code>
+         * <code>required string username = 1;</code>
          *
          * <pre>
          *fields for log in
@@ -1878,7 +1892,7 @@ public final class ClientRequest {
           return ((bitField0_ & 0x00000001) == 0x00000001);
         }
         /**
-         * <code>optional string username = 1;</code>
+         * <code>required string username = 1;</code>
          *
          * <pre>
          *fields for log in
@@ -1899,7 +1913,7 @@ public final class ClientRequest {
           }
         }
         /**
-         * <code>optional string username = 1;</code>
+         * <code>required string username = 1;</code>
          *
          * <pre>
          *fields for log in
@@ -1919,7 +1933,7 @@ public final class ClientRequest {
           }
         }
         /**
-         * <code>optional string username = 1;</code>
+         * <code>required string username = 1;</code>
          *
          * <pre>
          *fields for log in
@@ -1936,7 +1950,7 @@ public final class ClientRequest {
           return this;
         }
         /**
-         * <code>optional string username = 1;</code>
+         * <code>required string username = 1;</code>
          *
          * <pre>
          *fields for log in
@@ -1949,7 +1963,7 @@ public final class ClientRequest {
           return this;
         }
         /**
-         * <code>optional string username = 1;</code>
+         * <code>required string username = 1;</code>
          *
          * <pre>
          *fields for log in
@@ -1968,13 +1982,13 @@ public final class ClientRequest {
 
         private java.lang.Object password_ = "";
         /**
-         * <code>optional string password = 2;</code>
+         * <code>required string password = 2;</code>
          */
         public boolean hasPassword() {
           return ((bitField0_ & 0x00000002) == 0x00000002);
         }
         /**
-         * <code>optional string password = 2;</code>
+         * <code>required string password = 2;</code>
          */
         public java.lang.String getPassword() {
           java.lang.Object ref = password_;
@@ -1991,7 +2005,7 @@ public final class ClientRequest {
           }
         }
         /**
-         * <code>optional string password = 2;</code>
+         * <code>required string password = 2;</code>
          */
         public com.google.protobuf.ByteString
             getPasswordBytes() {
@@ -2007,7 +2021,7 @@ public final class ClientRequest {
           }
         }
         /**
-         * <code>optional string password = 2;</code>
+         * <code>required string password = 2;</code>
          */
         public Builder setPassword(
             java.lang.String value) {
@@ -2020,7 +2034,7 @@ public final class ClientRequest {
           return this;
         }
         /**
-         * <code>optional string password = 2;</code>
+         * <code>required string password = 2;</code>
          */
         public Builder clearPassword() {
           bitField0_ = (bitField0_ & ~0x00000002);
@@ -2029,7 +2043,7 @@ public final class ClientRequest {
           return this;
         }
         /**
-         * <code>optional string password = 2;</code>
+         * <code>required string password = 2;</code>
          */
         public Builder setPasswordBytes(
             com.google.protobuf.ByteString value) {
@@ -2044,7 +2058,7 @@ public final class ClientRequest {
 
         private java.lang.Object ipAddress_ = "";
         /**
-         * <code>optional string ip_address = 3;</code>
+         * <code>required string ip_address = 3;</code>
          *
          * <pre>
          *the ip address will remain in the cache of online users
@@ -2054,7 +2068,7 @@ public final class ClientRequest {
           return ((bitField0_ & 0x00000004) == 0x00000004);
         }
         /**
-         * <code>optional string ip_address = 3;</code>
+         * <code>required string ip_address = 3;</code>
          *
          * <pre>
          *the ip address will remain in the cache of online users
@@ -2075,7 +2089,7 @@ public final class ClientRequest {
           }
         }
         /**
-         * <code>optional string ip_address = 3;</code>
+         * <code>required string ip_address = 3;</code>
          *
          * <pre>
          *the ip address will remain in the cache of online users
@@ -2095,7 +2109,7 @@ public final class ClientRequest {
           }
         }
         /**
-         * <code>optional string ip_address = 3;</code>
+         * <code>required string ip_address = 3;</code>
          *
          * <pre>
          *the ip address will remain in the cache of online users
@@ -2112,7 +2126,7 @@ public final class ClientRequest {
           return this;
         }
         /**
-         * <code>optional string ip_address = 3;</code>
+         * <code>required string ip_address = 3;</code>
          *
          * <pre>
          *the ip address will remain in the cache of online users
@@ -2125,7 +2139,7 @@ public final class ClientRequest {
           return this;
         }
         /**
-         * <code>optional string ip_address = 3;</code>
+         * <code>required string ip_address = 3;</code>
          *
          * <pre>
          *the ip address will remain in the cache of online users
@@ -2151,1594 +2165,6 @@ public final class ClientRequest {
       }
 
       // @@protoc_insertion_point(class_scope:Request.LogIn)
-    }
-
-    public interface LogOutOrBuilder extends
-        // @@protoc_insertion_point(interface_extends:Request.LogOut)
-        com.google.protobuf.MessageOrBuilder {
-
-      /**
-       * <code>optional string username = 1;</code>
-       *
-       * <pre>
-       *fields for log out
-       * </pre>
-       */
-      boolean hasUsername();
-      /**
-       * <code>optional string username = 1;</code>
-       *
-       * <pre>
-       *fields for log out
-       * </pre>
-       */
-      java.lang.String getUsername();
-      /**
-       * <code>optional string username = 1;</code>
-       *
-       * <pre>
-       *fields for log out
-       * </pre>
-       */
-      com.google.protobuf.ByteString
-          getUsernameBytes();
-    }
-    /**
-     * Protobuf type {@code Request.LogOut}
-     *
-     * <pre>
-     *log out request structure
-     * </pre>
-     */
-    public static final class LogOut extends
-        com.google.protobuf.GeneratedMessage implements
-        // @@protoc_insertion_point(message_implements:Request.LogOut)
-        LogOutOrBuilder {
-      // Use LogOut.newBuilder() to construct.
-      private LogOut(com.google.protobuf.GeneratedMessage.Builder<?> builder) {
-        super(builder);
-        this.unknownFields = builder.getUnknownFields();
-      }
-      private LogOut(boolean noInit) { this.unknownFields = com.google.protobuf.UnknownFieldSet.getDefaultInstance(); }
-
-      private static final LogOut defaultInstance;
-      public static LogOut getDefaultInstance() {
-        return defaultInstance;
-      }
-
-      public LogOut getDefaultInstanceForType() {
-        return defaultInstance;
-      }
-
-      private final com.google.protobuf.UnknownFieldSet unknownFields;
-      @java.lang.Override
-      public final com.google.protobuf.UnknownFieldSet
-          getUnknownFields() {
-        return this.unknownFields;
-      }
-      private LogOut(
-          com.google.protobuf.CodedInputStream input,
-          com.google.protobuf.ExtensionRegistryLite extensionRegistry)
-          throws com.google.protobuf.InvalidProtocolBufferException {
-        initFields();
-        int mutable_bitField0_ = 0;
-        com.google.protobuf.UnknownFieldSet.Builder unknownFields =
-            com.google.protobuf.UnknownFieldSet.newBuilder();
-        try {
-          boolean done = false;
-          while (!done) {
-            int tag = input.readTag();
-            switch (tag) {
-              case 0:
-                done = true;
-                break;
-              default: {
-                if (!parseUnknownField(input, unknownFields,
-                                       extensionRegistry, tag)) {
-                  done = true;
-                }
-                break;
-              }
-              case 10: {
-                com.google.protobuf.ByteString bs = input.readBytes();
-                bitField0_ |= 0x00000001;
-                username_ = bs;
-                break;
-              }
-            }
-          }
-        } catch (com.google.protobuf.InvalidProtocolBufferException e) {
-          throw e.setUnfinishedMessage(this);
-        } catch (java.io.IOException e) {
-          throw new com.google.protobuf.InvalidProtocolBufferException(
-              e.getMessage()).setUnfinishedMessage(this);
-        } finally {
-          this.unknownFields = unknownFields.build();
-          makeExtensionsImmutable();
-        }
-      }
-      public static final com.google.protobuf.Descriptors.Descriptor
-          getDescriptor() {
-        return buffers.ClientRequest.internal_static_Request_LogOut_descriptor;
-      }
-
-      protected com.google.protobuf.GeneratedMessage.FieldAccessorTable
-          internalGetFieldAccessorTable() {
-        return buffers.ClientRequest.internal_static_Request_LogOut_fieldAccessorTable
-            .ensureFieldAccessorsInitialized(
-                buffers.ClientRequest.Request.LogOut.class, buffers.ClientRequest.Request.LogOut.Builder.class);
-      }
-
-      public static com.google.protobuf.Parser<LogOut> PARSER =
-          new com.google.protobuf.AbstractParser<LogOut>() {
-        public LogOut parsePartialFrom(
-            com.google.protobuf.CodedInputStream input,
-            com.google.protobuf.ExtensionRegistryLite extensionRegistry)
-            throws com.google.protobuf.InvalidProtocolBufferException {
-          return new LogOut(input, extensionRegistry);
-        }
-      };
-
-      @java.lang.Override
-      public com.google.protobuf.Parser<LogOut> getParserForType() {
-        return PARSER;
-      }
-
-      private int bitField0_;
-      public static final int USERNAME_FIELD_NUMBER = 1;
-      private java.lang.Object username_;
-      /**
-       * <code>optional string username = 1;</code>
-       *
-       * <pre>
-       *fields for log out
-       * </pre>
-       */
-      public boolean hasUsername() {
-        return ((bitField0_ & 0x00000001) == 0x00000001);
-      }
-      /**
-       * <code>optional string username = 1;</code>
-       *
-       * <pre>
-       *fields for log out
-       * </pre>
-       */
-      public java.lang.String getUsername() {
-        java.lang.Object ref = username_;
-        if (ref instanceof java.lang.String) {
-          return (java.lang.String) ref;
-        } else {
-          com.google.protobuf.ByteString bs = 
-              (com.google.protobuf.ByteString) ref;
-          java.lang.String s = bs.toStringUtf8();
-          if (bs.isValidUtf8()) {
-            username_ = s;
-          }
-          return s;
-        }
-      }
-      /**
-       * <code>optional string username = 1;</code>
-       *
-       * <pre>
-       *fields for log out
-       * </pre>
-       */
-      public com.google.protobuf.ByteString
-          getUsernameBytes() {
-        java.lang.Object ref = username_;
-        if (ref instanceof java.lang.String) {
-          com.google.protobuf.ByteString b = 
-              com.google.protobuf.ByteString.copyFromUtf8(
-                  (java.lang.String) ref);
-          username_ = b;
-          return b;
-        } else {
-          return (com.google.protobuf.ByteString) ref;
-        }
-      }
-
-      private void initFields() {
-        username_ = "";
-      }
-      private byte memoizedIsInitialized = -1;
-      public final boolean isInitialized() {
-        byte isInitialized = memoizedIsInitialized;
-        if (isInitialized == 1) return true;
-        if (isInitialized == 0) return false;
-
-        memoizedIsInitialized = 1;
-        return true;
-      }
-
-      public void writeTo(com.google.protobuf.CodedOutputStream output)
-                          throws java.io.IOException {
-        getSerializedSize();
-        if (((bitField0_ & 0x00000001) == 0x00000001)) {
-          output.writeBytes(1, getUsernameBytes());
-        }
-        getUnknownFields().writeTo(output);
-      }
-
-      private int memoizedSerializedSize = -1;
-      public int getSerializedSize() {
-        int size = memoizedSerializedSize;
-        if (size != -1) return size;
-
-        size = 0;
-        if (((bitField0_ & 0x00000001) == 0x00000001)) {
-          size += com.google.protobuf.CodedOutputStream
-            .computeBytesSize(1, getUsernameBytes());
-        }
-        size += getUnknownFields().getSerializedSize();
-        memoizedSerializedSize = size;
-        return size;
-      }
-
-      private static final long serialVersionUID = 0L;
-      @java.lang.Override
-      protected java.lang.Object writeReplace()
-          throws java.io.ObjectStreamException {
-        return super.writeReplace();
-      }
-
-      public static buffers.ClientRequest.Request.LogOut parseFrom(
-          com.google.protobuf.ByteString data)
-          throws com.google.protobuf.InvalidProtocolBufferException {
-        return PARSER.parseFrom(data);
-      }
-      public static buffers.ClientRequest.Request.LogOut parseFrom(
-          com.google.protobuf.ByteString data,
-          com.google.protobuf.ExtensionRegistryLite extensionRegistry)
-          throws com.google.protobuf.InvalidProtocolBufferException {
-        return PARSER.parseFrom(data, extensionRegistry);
-      }
-      public static buffers.ClientRequest.Request.LogOut parseFrom(byte[] data)
-          throws com.google.protobuf.InvalidProtocolBufferException {
-        return PARSER.parseFrom(data);
-      }
-      public static buffers.ClientRequest.Request.LogOut parseFrom(
-          byte[] data,
-          com.google.protobuf.ExtensionRegistryLite extensionRegistry)
-          throws com.google.protobuf.InvalidProtocolBufferException {
-        return PARSER.parseFrom(data, extensionRegistry);
-      }
-      public static buffers.ClientRequest.Request.LogOut parseFrom(java.io.InputStream input)
-          throws java.io.IOException {
-        return PARSER.parseFrom(input);
-      }
-      public static buffers.ClientRequest.Request.LogOut parseFrom(
-          java.io.InputStream input,
-          com.google.protobuf.ExtensionRegistryLite extensionRegistry)
-          throws java.io.IOException {
-        return PARSER.parseFrom(input, extensionRegistry);
-      }
-      public static buffers.ClientRequest.Request.LogOut parseDelimitedFrom(java.io.InputStream input)
-          throws java.io.IOException {
-        return PARSER.parseDelimitedFrom(input);
-      }
-      public static buffers.ClientRequest.Request.LogOut parseDelimitedFrom(
-          java.io.InputStream input,
-          com.google.protobuf.ExtensionRegistryLite extensionRegistry)
-          throws java.io.IOException {
-        return PARSER.parseDelimitedFrom(input, extensionRegistry);
-      }
-      public static buffers.ClientRequest.Request.LogOut parseFrom(
-          com.google.protobuf.CodedInputStream input)
-          throws java.io.IOException {
-        return PARSER.parseFrom(input);
-      }
-      public static buffers.ClientRequest.Request.LogOut parseFrom(
-          com.google.protobuf.CodedInputStream input,
-          com.google.protobuf.ExtensionRegistryLite extensionRegistry)
-          throws java.io.IOException {
-        return PARSER.parseFrom(input, extensionRegistry);
-      }
-
-      public static Builder newBuilder() { return Builder.create(); }
-      public Builder newBuilderForType() { return newBuilder(); }
-      public static Builder newBuilder(buffers.ClientRequest.Request.LogOut prototype) {
-        return newBuilder().mergeFrom(prototype);
-      }
-      public Builder toBuilder() { return newBuilder(this); }
-
-      @java.lang.Override
-      protected Builder newBuilderForType(
-          com.google.protobuf.GeneratedMessage.BuilderParent parent) {
-        Builder builder = new Builder(parent);
-        return builder;
-      }
-      /**
-       * Protobuf type {@code Request.LogOut}
-       *
-       * <pre>
-       *log out request structure
-       * </pre>
-       */
-      public static final class Builder extends
-          com.google.protobuf.GeneratedMessage.Builder<Builder> implements
-          // @@protoc_insertion_point(builder_implements:Request.LogOut)
-          buffers.ClientRequest.Request.LogOutOrBuilder {
-        public static final com.google.protobuf.Descriptors.Descriptor
-            getDescriptor() {
-          return buffers.ClientRequest.internal_static_Request_LogOut_descriptor;
-        }
-
-        protected com.google.protobuf.GeneratedMessage.FieldAccessorTable
-            internalGetFieldAccessorTable() {
-          return buffers.ClientRequest.internal_static_Request_LogOut_fieldAccessorTable
-              .ensureFieldAccessorsInitialized(
-                  buffers.ClientRequest.Request.LogOut.class, buffers.ClientRequest.Request.LogOut.Builder.class);
-        }
-
-        // Construct using buffers.ClientRequest.Request.LogOut.newBuilder()
-        private Builder() {
-          maybeForceBuilderInitialization();
-        }
-
-        private Builder(
-            com.google.protobuf.GeneratedMessage.BuilderParent parent) {
-          super(parent);
-          maybeForceBuilderInitialization();
-        }
-        private void maybeForceBuilderInitialization() {
-          if (com.google.protobuf.GeneratedMessage.alwaysUseFieldBuilders) {
-          }
-        }
-        private static Builder create() {
-          return new Builder();
-        }
-
-        public Builder clear() {
-          super.clear();
-          username_ = "";
-          bitField0_ = (bitField0_ & ~0x00000001);
-          return this;
-        }
-
-        public Builder clone() {
-          return create().mergeFrom(buildPartial());
-        }
-
-        public com.google.protobuf.Descriptors.Descriptor
-            getDescriptorForType() {
-          return buffers.ClientRequest.internal_static_Request_LogOut_descriptor;
-        }
-
-        public buffers.ClientRequest.Request.LogOut getDefaultInstanceForType() {
-          return buffers.ClientRequest.Request.LogOut.getDefaultInstance();
-        }
-
-        public buffers.ClientRequest.Request.LogOut build() {
-          buffers.ClientRequest.Request.LogOut result = buildPartial();
-          if (!result.isInitialized()) {
-            throw newUninitializedMessageException(result);
-          }
-          return result;
-        }
-
-        public buffers.ClientRequest.Request.LogOut buildPartial() {
-          buffers.ClientRequest.Request.LogOut result = new buffers.ClientRequest.Request.LogOut(this);
-          int from_bitField0_ = bitField0_;
-          int to_bitField0_ = 0;
-          if (((from_bitField0_ & 0x00000001) == 0x00000001)) {
-            to_bitField0_ |= 0x00000001;
-          }
-          result.username_ = username_;
-          result.bitField0_ = to_bitField0_;
-          onBuilt();
-          return result;
-        }
-
-        public Builder mergeFrom(com.google.protobuf.Message other) {
-          if (other instanceof buffers.ClientRequest.Request.LogOut) {
-            return mergeFrom((buffers.ClientRequest.Request.LogOut)other);
-          } else {
-            super.mergeFrom(other);
-            return this;
-          }
-        }
-
-        public Builder mergeFrom(buffers.ClientRequest.Request.LogOut other) {
-          if (other == buffers.ClientRequest.Request.LogOut.getDefaultInstance()) return this;
-          if (other.hasUsername()) {
-            bitField0_ |= 0x00000001;
-            username_ = other.username_;
-            onChanged();
-          }
-          this.mergeUnknownFields(other.getUnknownFields());
-          return this;
-        }
-
-        public final boolean isInitialized() {
-          return true;
-        }
-
-        public Builder mergeFrom(
-            com.google.protobuf.CodedInputStream input,
-            com.google.protobuf.ExtensionRegistryLite extensionRegistry)
-            throws java.io.IOException {
-          buffers.ClientRequest.Request.LogOut parsedMessage = null;
-          try {
-            parsedMessage = PARSER.parsePartialFrom(input, extensionRegistry);
-          } catch (com.google.protobuf.InvalidProtocolBufferException e) {
-            parsedMessage = (buffers.ClientRequest.Request.LogOut) e.getUnfinishedMessage();
-            throw e;
-          } finally {
-            if (parsedMessage != null) {
-              mergeFrom(parsedMessage);
-            }
-          }
-          return this;
-        }
-        private int bitField0_;
-
-        private java.lang.Object username_ = "";
-        /**
-         * <code>optional string username = 1;</code>
-         *
-         * <pre>
-         *fields for log out
-         * </pre>
-         */
-        public boolean hasUsername() {
-          return ((bitField0_ & 0x00000001) == 0x00000001);
-        }
-        /**
-         * <code>optional string username = 1;</code>
-         *
-         * <pre>
-         *fields for log out
-         * </pre>
-         */
-        public java.lang.String getUsername() {
-          java.lang.Object ref = username_;
-          if (!(ref instanceof java.lang.String)) {
-            com.google.protobuf.ByteString bs =
-                (com.google.protobuf.ByteString) ref;
-            java.lang.String s = bs.toStringUtf8();
-            if (bs.isValidUtf8()) {
-              username_ = s;
-            }
-            return s;
-          } else {
-            return (java.lang.String) ref;
-          }
-        }
-        /**
-         * <code>optional string username = 1;</code>
-         *
-         * <pre>
-         *fields for log out
-         * </pre>
-         */
-        public com.google.protobuf.ByteString
-            getUsernameBytes() {
-          java.lang.Object ref = username_;
-          if (ref instanceof String) {
-            com.google.protobuf.ByteString b = 
-                com.google.protobuf.ByteString.copyFromUtf8(
-                    (java.lang.String) ref);
-            username_ = b;
-            return b;
-          } else {
-            return (com.google.protobuf.ByteString) ref;
-          }
-        }
-        /**
-         * <code>optional string username = 1;</code>
-         *
-         * <pre>
-         *fields for log out
-         * </pre>
-         */
-        public Builder setUsername(
-            java.lang.String value) {
-          if (value == null) {
-    throw new NullPointerException();
-  }
-  bitField0_ |= 0x00000001;
-          username_ = value;
-          onChanged();
-          return this;
-        }
-        /**
-         * <code>optional string username = 1;</code>
-         *
-         * <pre>
-         *fields for log out
-         * </pre>
-         */
-        public Builder clearUsername() {
-          bitField0_ = (bitField0_ & ~0x00000001);
-          username_ = getDefaultInstance().getUsername();
-          onChanged();
-          return this;
-        }
-        /**
-         * <code>optional string username = 1;</code>
-         *
-         * <pre>
-         *fields for log out
-         * </pre>
-         */
-        public Builder setUsernameBytes(
-            com.google.protobuf.ByteString value) {
-          if (value == null) {
-    throw new NullPointerException();
-  }
-  bitField0_ |= 0x00000001;
-          username_ = value;
-          onChanged();
-          return this;
-        }
-
-        // @@protoc_insertion_point(builder_scope:Request.LogOut)
-      }
-
-      static {
-        defaultInstance = new LogOut(true);
-        defaultInstance.initFields();
-      }
-
-      // @@protoc_insertion_point(class_scope:Request.LogOut)
-    }
-
-    public interface CallToOrBuilder extends
-        // @@protoc_insertion_point(interface_extends:Request.CallTo)
-        com.google.protobuf.MessageOrBuilder {
-
-      /**
-       * <code>optional string user_called = 1;</code>
-       *
-       * <pre>
-       *fields for call
-       * </pre>
-       */
-      boolean hasUserCalled();
-      /**
-       * <code>optional string user_called = 1;</code>
-       *
-       * <pre>
-       *fields for call
-       * </pre>
-       */
-      java.lang.String getUserCalled();
-      /**
-       * <code>optional string user_called = 1;</code>
-       *
-       * <pre>
-       *fields for call
-       * </pre>
-       */
-      com.google.protobuf.ByteString
-          getUserCalledBytes();
-    }
-    /**
-     * Protobuf type {@code Request.CallTo}
-     *
-     * <pre>
-     *call request structure
-     * </pre>
-     */
-    public static final class CallTo extends
-        com.google.protobuf.GeneratedMessage implements
-        // @@protoc_insertion_point(message_implements:Request.CallTo)
-        CallToOrBuilder {
-      // Use CallTo.newBuilder() to construct.
-      private CallTo(com.google.protobuf.GeneratedMessage.Builder<?> builder) {
-        super(builder);
-        this.unknownFields = builder.getUnknownFields();
-      }
-      private CallTo(boolean noInit) { this.unknownFields = com.google.protobuf.UnknownFieldSet.getDefaultInstance(); }
-
-      private static final CallTo defaultInstance;
-      public static CallTo getDefaultInstance() {
-        return defaultInstance;
-      }
-
-      public CallTo getDefaultInstanceForType() {
-        return defaultInstance;
-      }
-
-      private final com.google.protobuf.UnknownFieldSet unknownFields;
-      @java.lang.Override
-      public final com.google.protobuf.UnknownFieldSet
-          getUnknownFields() {
-        return this.unknownFields;
-      }
-      private CallTo(
-          com.google.protobuf.CodedInputStream input,
-          com.google.protobuf.ExtensionRegistryLite extensionRegistry)
-          throws com.google.protobuf.InvalidProtocolBufferException {
-        initFields();
-        int mutable_bitField0_ = 0;
-        com.google.protobuf.UnknownFieldSet.Builder unknownFields =
-            com.google.protobuf.UnknownFieldSet.newBuilder();
-        try {
-          boolean done = false;
-          while (!done) {
-            int tag = input.readTag();
-            switch (tag) {
-              case 0:
-                done = true;
-                break;
-              default: {
-                if (!parseUnknownField(input, unknownFields,
-                                       extensionRegistry, tag)) {
-                  done = true;
-                }
-                break;
-              }
-              case 10: {
-                com.google.protobuf.ByteString bs = input.readBytes();
-                bitField0_ |= 0x00000001;
-                userCalled_ = bs;
-                break;
-              }
-            }
-          }
-        } catch (com.google.protobuf.InvalidProtocolBufferException e) {
-          throw e.setUnfinishedMessage(this);
-        } catch (java.io.IOException e) {
-          throw new com.google.protobuf.InvalidProtocolBufferException(
-              e.getMessage()).setUnfinishedMessage(this);
-        } finally {
-          this.unknownFields = unknownFields.build();
-          makeExtensionsImmutable();
-        }
-      }
-      public static final com.google.protobuf.Descriptors.Descriptor
-          getDescriptor() {
-        return buffers.ClientRequest.internal_static_Request_CallTo_descriptor;
-      }
-
-      protected com.google.protobuf.GeneratedMessage.FieldAccessorTable
-          internalGetFieldAccessorTable() {
-        return buffers.ClientRequest.internal_static_Request_CallTo_fieldAccessorTable
-            .ensureFieldAccessorsInitialized(
-                buffers.ClientRequest.Request.CallTo.class, buffers.ClientRequest.Request.CallTo.Builder.class);
-      }
-
-      public static com.google.protobuf.Parser<CallTo> PARSER =
-          new com.google.protobuf.AbstractParser<CallTo>() {
-        public CallTo parsePartialFrom(
-            com.google.protobuf.CodedInputStream input,
-            com.google.protobuf.ExtensionRegistryLite extensionRegistry)
-            throws com.google.protobuf.InvalidProtocolBufferException {
-          return new CallTo(input, extensionRegistry);
-        }
-      };
-
-      @java.lang.Override
-      public com.google.protobuf.Parser<CallTo> getParserForType() {
-        return PARSER;
-      }
-
-      private int bitField0_;
-      public static final int USER_CALLED_FIELD_NUMBER = 1;
-      private java.lang.Object userCalled_;
-      /**
-       * <code>optional string user_called = 1;</code>
-       *
-       * <pre>
-       *fields for call
-       * </pre>
-       */
-      public boolean hasUserCalled() {
-        return ((bitField0_ & 0x00000001) == 0x00000001);
-      }
-      /**
-       * <code>optional string user_called = 1;</code>
-       *
-       * <pre>
-       *fields for call
-       * </pre>
-       */
-      public java.lang.String getUserCalled() {
-        java.lang.Object ref = userCalled_;
-        if (ref instanceof java.lang.String) {
-          return (java.lang.String) ref;
-        } else {
-          com.google.protobuf.ByteString bs = 
-              (com.google.protobuf.ByteString) ref;
-          java.lang.String s = bs.toStringUtf8();
-          if (bs.isValidUtf8()) {
-            userCalled_ = s;
-          }
-          return s;
-        }
-      }
-      /**
-       * <code>optional string user_called = 1;</code>
-       *
-       * <pre>
-       *fields for call
-       * </pre>
-       */
-      public com.google.protobuf.ByteString
-          getUserCalledBytes() {
-        java.lang.Object ref = userCalled_;
-        if (ref instanceof java.lang.String) {
-          com.google.protobuf.ByteString b = 
-              com.google.protobuf.ByteString.copyFromUtf8(
-                  (java.lang.String) ref);
-          userCalled_ = b;
-          return b;
-        } else {
-          return (com.google.protobuf.ByteString) ref;
-        }
-      }
-
-      private void initFields() {
-        userCalled_ = "";
-      }
-      private byte memoizedIsInitialized = -1;
-      public final boolean isInitialized() {
-        byte isInitialized = memoizedIsInitialized;
-        if (isInitialized == 1) return true;
-        if (isInitialized == 0) return false;
-
-        memoizedIsInitialized = 1;
-        return true;
-      }
-
-      public void writeTo(com.google.protobuf.CodedOutputStream output)
-                          throws java.io.IOException {
-        getSerializedSize();
-        if (((bitField0_ & 0x00000001) == 0x00000001)) {
-          output.writeBytes(1, getUserCalledBytes());
-        }
-        getUnknownFields().writeTo(output);
-      }
-
-      private int memoizedSerializedSize = -1;
-      public int getSerializedSize() {
-        int size = memoizedSerializedSize;
-        if (size != -1) return size;
-
-        size = 0;
-        if (((bitField0_ & 0x00000001) == 0x00000001)) {
-          size += com.google.protobuf.CodedOutputStream
-            .computeBytesSize(1, getUserCalledBytes());
-        }
-        size += getUnknownFields().getSerializedSize();
-        memoizedSerializedSize = size;
-        return size;
-      }
-
-      private static final long serialVersionUID = 0L;
-      @java.lang.Override
-      protected java.lang.Object writeReplace()
-          throws java.io.ObjectStreamException {
-        return super.writeReplace();
-      }
-
-      public static buffers.ClientRequest.Request.CallTo parseFrom(
-          com.google.protobuf.ByteString data)
-          throws com.google.protobuf.InvalidProtocolBufferException {
-        return PARSER.parseFrom(data);
-      }
-      public static buffers.ClientRequest.Request.CallTo parseFrom(
-          com.google.protobuf.ByteString data,
-          com.google.protobuf.ExtensionRegistryLite extensionRegistry)
-          throws com.google.protobuf.InvalidProtocolBufferException {
-        return PARSER.parseFrom(data, extensionRegistry);
-      }
-      public static buffers.ClientRequest.Request.CallTo parseFrom(byte[] data)
-          throws com.google.protobuf.InvalidProtocolBufferException {
-        return PARSER.parseFrom(data);
-      }
-      public static buffers.ClientRequest.Request.CallTo parseFrom(
-          byte[] data,
-          com.google.protobuf.ExtensionRegistryLite extensionRegistry)
-          throws com.google.protobuf.InvalidProtocolBufferException {
-        return PARSER.parseFrom(data, extensionRegistry);
-      }
-      public static buffers.ClientRequest.Request.CallTo parseFrom(java.io.InputStream input)
-          throws java.io.IOException {
-        return PARSER.parseFrom(input);
-      }
-      public static buffers.ClientRequest.Request.CallTo parseFrom(
-          java.io.InputStream input,
-          com.google.protobuf.ExtensionRegistryLite extensionRegistry)
-          throws java.io.IOException {
-        return PARSER.parseFrom(input, extensionRegistry);
-      }
-      public static buffers.ClientRequest.Request.CallTo parseDelimitedFrom(java.io.InputStream input)
-          throws java.io.IOException {
-        return PARSER.parseDelimitedFrom(input);
-      }
-      public static buffers.ClientRequest.Request.CallTo parseDelimitedFrom(
-          java.io.InputStream input,
-          com.google.protobuf.ExtensionRegistryLite extensionRegistry)
-          throws java.io.IOException {
-        return PARSER.parseDelimitedFrom(input, extensionRegistry);
-      }
-      public static buffers.ClientRequest.Request.CallTo parseFrom(
-          com.google.protobuf.CodedInputStream input)
-          throws java.io.IOException {
-        return PARSER.parseFrom(input);
-      }
-      public static buffers.ClientRequest.Request.CallTo parseFrom(
-          com.google.protobuf.CodedInputStream input,
-          com.google.protobuf.ExtensionRegistryLite extensionRegistry)
-          throws java.io.IOException {
-        return PARSER.parseFrom(input, extensionRegistry);
-      }
-
-      public static Builder newBuilder() { return Builder.create(); }
-      public Builder newBuilderForType() { return newBuilder(); }
-      public static Builder newBuilder(buffers.ClientRequest.Request.CallTo prototype) {
-        return newBuilder().mergeFrom(prototype);
-      }
-      public Builder toBuilder() { return newBuilder(this); }
-
-      @java.lang.Override
-      protected Builder newBuilderForType(
-          com.google.protobuf.GeneratedMessage.BuilderParent parent) {
-        Builder builder = new Builder(parent);
-        return builder;
-      }
-      /**
-       * Protobuf type {@code Request.CallTo}
-       *
-       * <pre>
-       *call request structure
-       * </pre>
-       */
-      public static final class Builder extends
-          com.google.protobuf.GeneratedMessage.Builder<Builder> implements
-          // @@protoc_insertion_point(builder_implements:Request.CallTo)
-          buffers.ClientRequest.Request.CallToOrBuilder {
-        public static final com.google.protobuf.Descriptors.Descriptor
-            getDescriptor() {
-          return buffers.ClientRequest.internal_static_Request_CallTo_descriptor;
-        }
-
-        protected com.google.protobuf.GeneratedMessage.FieldAccessorTable
-            internalGetFieldAccessorTable() {
-          return buffers.ClientRequest.internal_static_Request_CallTo_fieldAccessorTable
-              .ensureFieldAccessorsInitialized(
-                  buffers.ClientRequest.Request.CallTo.class, buffers.ClientRequest.Request.CallTo.Builder.class);
-        }
-
-        // Construct using buffers.ClientRequest.Request.CallTo.newBuilder()
-        private Builder() {
-          maybeForceBuilderInitialization();
-        }
-
-        private Builder(
-            com.google.protobuf.GeneratedMessage.BuilderParent parent) {
-          super(parent);
-          maybeForceBuilderInitialization();
-        }
-        private void maybeForceBuilderInitialization() {
-          if (com.google.protobuf.GeneratedMessage.alwaysUseFieldBuilders) {
-          }
-        }
-        private static Builder create() {
-          return new Builder();
-        }
-
-        public Builder clear() {
-          super.clear();
-          userCalled_ = "";
-          bitField0_ = (bitField0_ & ~0x00000001);
-          return this;
-        }
-
-        public Builder clone() {
-          return create().mergeFrom(buildPartial());
-        }
-
-        public com.google.protobuf.Descriptors.Descriptor
-            getDescriptorForType() {
-          return buffers.ClientRequest.internal_static_Request_CallTo_descriptor;
-        }
-
-        public buffers.ClientRequest.Request.CallTo getDefaultInstanceForType() {
-          return buffers.ClientRequest.Request.CallTo.getDefaultInstance();
-        }
-
-        public buffers.ClientRequest.Request.CallTo build() {
-          buffers.ClientRequest.Request.CallTo result = buildPartial();
-          if (!result.isInitialized()) {
-            throw newUninitializedMessageException(result);
-          }
-          return result;
-        }
-
-        public buffers.ClientRequest.Request.CallTo buildPartial() {
-          buffers.ClientRequest.Request.CallTo result = new buffers.ClientRequest.Request.CallTo(this);
-          int from_bitField0_ = bitField0_;
-          int to_bitField0_ = 0;
-          if (((from_bitField0_ & 0x00000001) == 0x00000001)) {
-            to_bitField0_ |= 0x00000001;
-          }
-          result.userCalled_ = userCalled_;
-          result.bitField0_ = to_bitField0_;
-          onBuilt();
-          return result;
-        }
-
-        public Builder mergeFrom(com.google.protobuf.Message other) {
-          if (other instanceof buffers.ClientRequest.Request.CallTo) {
-            return mergeFrom((buffers.ClientRequest.Request.CallTo)other);
-          } else {
-            super.mergeFrom(other);
-            return this;
-          }
-        }
-
-        public Builder mergeFrom(buffers.ClientRequest.Request.CallTo other) {
-          if (other == buffers.ClientRequest.Request.CallTo.getDefaultInstance()) return this;
-          if (other.hasUserCalled()) {
-            bitField0_ |= 0x00000001;
-            userCalled_ = other.userCalled_;
-            onChanged();
-          }
-          this.mergeUnknownFields(other.getUnknownFields());
-          return this;
-        }
-
-        public final boolean isInitialized() {
-          return true;
-        }
-
-        public Builder mergeFrom(
-            com.google.protobuf.CodedInputStream input,
-            com.google.protobuf.ExtensionRegistryLite extensionRegistry)
-            throws java.io.IOException {
-          buffers.ClientRequest.Request.CallTo parsedMessage = null;
-          try {
-            parsedMessage = PARSER.parsePartialFrom(input, extensionRegistry);
-          } catch (com.google.protobuf.InvalidProtocolBufferException e) {
-            parsedMessage = (buffers.ClientRequest.Request.CallTo) e.getUnfinishedMessage();
-            throw e;
-          } finally {
-            if (parsedMessage != null) {
-              mergeFrom(parsedMessage);
-            }
-          }
-          return this;
-        }
-        private int bitField0_;
-
-        private java.lang.Object userCalled_ = "";
-        /**
-         * <code>optional string user_called = 1;</code>
-         *
-         * <pre>
-         *fields for call
-         * </pre>
-         */
-        public boolean hasUserCalled() {
-          return ((bitField0_ & 0x00000001) == 0x00000001);
-        }
-        /**
-         * <code>optional string user_called = 1;</code>
-         *
-         * <pre>
-         *fields for call
-         * </pre>
-         */
-        public java.lang.String getUserCalled() {
-          java.lang.Object ref = userCalled_;
-          if (!(ref instanceof java.lang.String)) {
-            com.google.protobuf.ByteString bs =
-                (com.google.protobuf.ByteString) ref;
-            java.lang.String s = bs.toStringUtf8();
-            if (bs.isValidUtf8()) {
-              userCalled_ = s;
-            }
-            return s;
-          } else {
-            return (java.lang.String) ref;
-          }
-        }
-        /**
-         * <code>optional string user_called = 1;</code>
-         *
-         * <pre>
-         *fields for call
-         * </pre>
-         */
-        public com.google.protobuf.ByteString
-            getUserCalledBytes() {
-          java.lang.Object ref = userCalled_;
-          if (ref instanceof String) {
-            com.google.protobuf.ByteString b = 
-                com.google.protobuf.ByteString.copyFromUtf8(
-                    (java.lang.String) ref);
-            userCalled_ = b;
-            return b;
-          } else {
-            return (com.google.protobuf.ByteString) ref;
-          }
-        }
-        /**
-         * <code>optional string user_called = 1;</code>
-         *
-         * <pre>
-         *fields for call
-         * </pre>
-         */
-        public Builder setUserCalled(
-            java.lang.String value) {
-          if (value == null) {
-    throw new NullPointerException();
-  }
-  bitField0_ |= 0x00000001;
-          userCalled_ = value;
-          onChanged();
-          return this;
-        }
-        /**
-         * <code>optional string user_called = 1;</code>
-         *
-         * <pre>
-         *fields for call
-         * </pre>
-         */
-        public Builder clearUserCalled() {
-          bitField0_ = (bitField0_ & ~0x00000001);
-          userCalled_ = getDefaultInstance().getUserCalled();
-          onChanged();
-          return this;
-        }
-        /**
-         * <code>optional string user_called = 1;</code>
-         *
-         * <pre>
-         *fields for call
-         * </pre>
-         */
-        public Builder setUserCalledBytes(
-            com.google.protobuf.ByteString value) {
-          if (value == null) {
-    throw new NullPointerException();
-  }
-  bitField0_ |= 0x00000001;
-          userCalled_ = value;
-          onChanged();
-          return this;
-        }
-
-        // @@protoc_insertion_point(builder_scope:Request.CallTo)
-      }
-
-      static {
-        defaultInstance = new CallTo(true);
-        defaultInstance.initFields();
-      }
-
-      // @@protoc_insertion_point(class_scope:Request.CallTo)
-    }
-
-    public interface StatusOrBuilder extends
-        // @@protoc_insertion_point(interface_extends:Request.Status)
-        com.google.protobuf.MessageOrBuilder {
-
-      /**
-       * <code>optional string user_sts = 1;</code>
-       *
-       * <pre>
-       *user to be requested status
-       * </pre>
-       */
-      boolean hasUserSts();
-      /**
-       * <code>optional string user_sts = 1;</code>
-       *
-       * <pre>
-       *user to be requested status
-       * </pre>
-       */
-      java.lang.String getUserSts();
-      /**
-       * <code>optional string user_sts = 1;</code>
-       *
-       * <pre>
-       *user to be requested status
-       * </pre>
-       */
-      com.google.protobuf.ByteString
-          getUserStsBytes();
-    }
-    /**
-     * Protobuf type {@code Request.Status}
-     */
-    public static final class Status extends
-        com.google.protobuf.GeneratedMessage implements
-        // @@protoc_insertion_point(message_implements:Request.Status)
-        StatusOrBuilder {
-      // Use Status.newBuilder() to construct.
-      private Status(com.google.protobuf.GeneratedMessage.Builder<?> builder) {
-        super(builder);
-        this.unknownFields = builder.getUnknownFields();
-      }
-      private Status(boolean noInit) { this.unknownFields = com.google.protobuf.UnknownFieldSet.getDefaultInstance(); }
-
-      private static final Status defaultInstance;
-      public static Status getDefaultInstance() {
-        return defaultInstance;
-      }
-
-      public Status getDefaultInstanceForType() {
-        return defaultInstance;
-      }
-
-      private final com.google.protobuf.UnknownFieldSet unknownFields;
-      @java.lang.Override
-      public final com.google.protobuf.UnknownFieldSet
-          getUnknownFields() {
-        return this.unknownFields;
-      }
-      private Status(
-          com.google.protobuf.CodedInputStream input,
-          com.google.protobuf.ExtensionRegistryLite extensionRegistry)
-          throws com.google.protobuf.InvalidProtocolBufferException {
-        initFields();
-        int mutable_bitField0_ = 0;
-        com.google.protobuf.UnknownFieldSet.Builder unknownFields =
-            com.google.protobuf.UnknownFieldSet.newBuilder();
-        try {
-          boolean done = false;
-          while (!done) {
-            int tag = input.readTag();
-            switch (tag) {
-              case 0:
-                done = true;
-                break;
-              default: {
-                if (!parseUnknownField(input, unknownFields,
-                                       extensionRegistry, tag)) {
-                  done = true;
-                }
-                break;
-              }
-              case 10: {
-                com.google.protobuf.ByteString bs = input.readBytes();
-                bitField0_ |= 0x00000001;
-                userSts_ = bs;
-                break;
-              }
-            }
-          }
-        } catch (com.google.protobuf.InvalidProtocolBufferException e) {
-          throw e.setUnfinishedMessage(this);
-        } catch (java.io.IOException e) {
-          throw new com.google.protobuf.InvalidProtocolBufferException(
-              e.getMessage()).setUnfinishedMessage(this);
-        } finally {
-          this.unknownFields = unknownFields.build();
-          makeExtensionsImmutable();
-        }
-      }
-      public static final com.google.protobuf.Descriptors.Descriptor
-          getDescriptor() {
-        return buffers.ClientRequest.internal_static_Request_Status_descriptor;
-      }
-
-      protected com.google.protobuf.GeneratedMessage.FieldAccessorTable
-          internalGetFieldAccessorTable() {
-        return buffers.ClientRequest.internal_static_Request_Status_fieldAccessorTable
-            .ensureFieldAccessorsInitialized(
-                buffers.ClientRequest.Request.Status.class, buffers.ClientRequest.Request.Status.Builder.class);
-      }
-
-      public static com.google.protobuf.Parser<Status> PARSER =
-          new com.google.protobuf.AbstractParser<Status>() {
-        public Status parsePartialFrom(
-            com.google.protobuf.CodedInputStream input,
-            com.google.protobuf.ExtensionRegistryLite extensionRegistry)
-            throws com.google.protobuf.InvalidProtocolBufferException {
-          return new Status(input, extensionRegistry);
-        }
-      };
-
-      @java.lang.Override
-      public com.google.protobuf.Parser<Status> getParserForType() {
-        return PARSER;
-      }
-
-      private int bitField0_;
-      public static final int USER_STS_FIELD_NUMBER = 1;
-      private java.lang.Object userSts_;
-      /**
-       * <code>optional string user_sts = 1;</code>
-       *
-       * <pre>
-       *user to be requested status
-       * </pre>
-       */
-      public boolean hasUserSts() {
-        return ((bitField0_ & 0x00000001) == 0x00000001);
-      }
-      /**
-       * <code>optional string user_sts = 1;</code>
-       *
-       * <pre>
-       *user to be requested status
-       * </pre>
-       */
-      public java.lang.String getUserSts() {
-        java.lang.Object ref = userSts_;
-        if (ref instanceof java.lang.String) {
-          return (java.lang.String) ref;
-        } else {
-          com.google.protobuf.ByteString bs = 
-              (com.google.protobuf.ByteString) ref;
-          java.lang.String s = bs.toStringUtf8();
-          if (bs.isValidUtf8()) {
-            userSts_ = s;
-          }
-          return s;
-        }
-      }
-      /**
-       * <code>optional string user_sts = 1;</code>
-       *
-       * <pre>
-       *user to be requested status
-       * </pre>
-       */
-      public com.google.protobuf.ByteString
-          getUserStsBytes() {
-        java.lang.Object ref = userSts_;
-        if (ref instanceof java.lang.String) {
-          com.google.protobuf.ByteString b = 
-              com.google.protobuf.ByteString.copyFromUtf8(
-                  (java.lang.String) ref);
-          userSts_ = b;
-          return b;
-        } else {
-          return (com.google.protobuf.ByteString) ref;
-        }
-      }
-
-      private void initFields() {
-        userSts_ = "";
-      }
-      private byte memoizedIsInitialized = -1;
-      public final boolean isInitialized() {
-        byte isInitialized = memoizedIsInitialized;
-        if (isInitialized == 1) return true;
-        if (isInitialized == 0) return false;
-
-        memoizedIsInitialized = 1;
-        return true;
-      }
-
-      public void writeTo(com.google.protobuf.CodedOutputStream output)
-                          throws java.io.IOException {
-        getSerializedSize();
-        if (((bitField0_ & 0x00000001) == 0x00000001)) {
-          output.writeBytes(1, getUserStsBytes());
-        }
-        getUnknownFields().writeTo(output);
-      }
-
-      private int memoizedSerializedSize = -1;
-      public int getSerializedSize() {
-        int size = memoizedSerializedSize;
-        if (size != -1) return size;
-
-        size = 0;
-        if (((bitField0_ & 0x00000001) == 0x00000001)) {
-          size += com.google.protobuf.CodedOutputStream
-            .computeBytesSize(1, getUserStsBytes());
-        }
-        size += getUnknownFields().getSerializedSize();
-        memoizedSerializedSize = size;
-        return size;
-      }
-
-      private static final long serialVersionUID = 0L;
-      @java.lang.Override
-      protected java.lang.Object writeReplace()
-          throws java.io.ObjectStreamException {
-        return super.writeReplace();
-      }
-
-      public static buffers.ClientRequest.Request.Status parseFrom(
-          com.google.protobuf.ByteString data)
-          throws com.google.protobuf.InvalidProtocolBufferException {
-        return PARSER.parseFrom(data);
-      }
-      public static buffers.ClientRequest.Request.Status parseFrom(
-          com.google.protobuf.ByteString data,
-          com.google.protobuf.ExtensionRegistryLite extensionRegistry)
-          throws com.google.protobuf.InvalidProtocolBufferException {
-        return PARSER.parseFrom(data, extensionRegistry);
-      }
-      public static buffers.ClientRequest.Request.Status parseFrom(byte[] data)
-          throws com.google.protobuf.InvalidProtocolBufferException {
-        return PARSER.parseFrom(data);
-      }
-      public static buffers.ClientRequest.Request.Status parseFrom(
-          byte[] data,
-          com.google.protobuf.ExtensionRegistryLite extensionRegistry)
-          throws com.google.protobuf.InvalidProtocolBufferException {
-        return PARSER.parseFrom(data, extensionRegistry);
-      }
-      public static buffers.ClientRequest.Request.Status parseFrom(java.io.InputStream input)
-          throws java.io.IOException {
-        return PARSER.parseFrom(input);
-      }
-      public static buffers.ClientRequest.Request.Status parseFrom(
-          java.io.InputStream input,
-          com.google.protobuf.ExtensionRegistryLite extensionRegistry)
-          throws java.io.IOException {
-        return PARSER.parseFrom(input, extensionRegistry);
-      }
-      public static buffers.ClientRequest.Request.Status parseDelimitedFrom(java.io.InputStream input)
-          throws java.io.IOException {
-        return PARSER.parseDelimitedFrom(input);
-      }
-      public static buffers.ClientRequest.Request.Status parseDelimitedFrom(
-          java.io.InputStream input,
-          com.google.protobuf.ExtensionRegistryLite extensionRegistry)
-          throws java.io.IOException {
-        return PARSER.parseDelimitedFrom(input, extensionRegistry);
-      }
-      public static buffers.ClientRequest.Request.Status parseFrom(
-          com.google.protobuf.CodedInputStream input)
-          throws java.io.IOException {
-        return PARSER.parseFrom(input);
-      }
-      public static buffers.ClientRequest.Request.Status parseFrom(
-          com.google.protobuf.CodedInputStream input,
-          com.google.protobuf.ExtensionRegistryLite extensionRegistry)
-          throws java.io.IOException {
-        return PARSER.parseFrom(input, extensionRegistry);
-      }
-
-      public static Builder newBuilder() { return Builder.create(); }
-      public Builder newBuilderForType() { return newBuilder(); }
-      public static Builder newBuilder(buffers.ClientRequest.Request.Status prototype) {
-        return newBuilder().mergeFrom(prototype);
-      }
-      public Builder toBuilder() { return newBuilder(this); }
-
-      @java.lang.Override
-      protected Builder newBuilderForType(
-          com.google.protobuf.GeneratedMessage.BuilderParent parent) {
-        Builder builder = new Builder(parent);
-        return builder;
-      }
-      /**
-       * Protobuf type {@code Request.Status}
-       */
-      public static final class Builder extends
-          com.google.protobuf.GeneratedMessage.Builder<Builder> implements
-          // @@protoc_insertion_point(builder_implements:Request.Status)
-          buffers.ClientRequest.Request.StatusOrBuilder {
-        public static final com.google.protobuf.Descriptors.Descriptor
-            getDescriptor() {
-          return buffers.ClientRequest.internal_static_Request_Status_descriptor;
-        }
-
-        protected com.google.protobuf.GeneratedMessage.FieldAccessorTable
-            internalGetFieldAccessorTable() {
-          return buffers.ClientRequest.internal_static_Request_Status_fieldAccessorTable
-              .ensureFieldAccessorsInitialized(
-                  buffers.ClientRequest.Request.Status.class, buffers.ClientRequest.Request.Status.Builder.class);
-        }
-
-        // Construct using buffers.ClientRequest.Request.Status.newBuilder()
-        private Builder() {
-          maybeForceBuilderInitialization();
-        }
-
-        private Builder(
-            com.google.protobuf.GeneratedMessage.BuilderParent parent) {
-          super(parent);
-          maybeForceBuilderInitialization();
-        }
-        private void maybeForceBuilderInitialization() {
-          if (com.google.protobuf.GeneratedMessage.alwaysUseFieldBuilders) {
-          }
-        }
-        private static Builder create() {
-          return new Builder();
-        }
-
-        public Builder clear() {
-          super.clear();
-          userSts_ = "";
-          bitField0_ = (bitField0_ & ~0x00000001);
-          return this;
-        }
-
-        public Builder clone() {
-          return create().mergeFrom(buildPartial());
-        }
-
-        public com.google.protobuf.Descriptors.Descriptor
-            getDescriptorForType() {
-          return buffers.ClientRequest.internal_static_Request_Status_descriptor;
-        }
-
-        public buffers.ClientRequest.Request.Status getDefaultInstanceForType() {
-          return buffers.ClientRequest.Request.Status.getDefaultInstance();
-        }
-
-        public buffers.ClientRequest.Request.Status build() {
-          buffers.ClientRequest.Request.Status result = buildPartial();
-          if (!result.isInitialized()) {
-            throw newUninitializedMessageException(result);
-          }
-          return result;
-        }
-
-        public buffers.ClientRequest.Request.Status buildPartial() {
-          buffers.ClientRequest.Request.Status result = new buffers.ClientRequest.Request.Status(this);
-          int from_bitField0_ = bitField0_;
-          int to_bitField0_ = 0;
-          if (((from_bitField0_ & 0x00000001) == 0x00000001)) {
-            to_bitField0_ |= 0x00000001;
-          }
-          result.userSts_ = userSts_;
-          result.bitField0_ = to_bitField0_;
-          onBuilt();
-          return result;
-        }
-
-        public Builder mergeFrom(com.google.protobuf.Message other) {
-          if (other instanceof buffers.ClientRequest.Request.Status) {
-            return mergeFrom((buffers.ClientRequest.Request.Status)other);
-          } else {
-            super.mergeFrom(other);
-            return this;
-          }
-        }
-
-        public Builder mergeFrom(buffers.ClientRequest.Request.Status other) {
-          if (other == buffers.ClientRequest.Request.Status.getDefaultInstance()) return this;
-          if (other.hasUserSts()) {
-            bitField0_ |= 0x00000001;
-            userSts_ = other.userSts_;
-            onChanged();
-          }
-          this.mergeUnknownFields(other.getUnknownFields());
-          return this;
-        }
-
-        public final boolean isInitialized() {
-          return true;
-        }
-
-        public Builder mergeFrom(
-            com.google.protobuf.CodedInputStream input,
-            com.google.protobuf.ExtensionRegistryLite extensionRegistry)
-            throws java.io.IOException {
-          buffers.ClientRequest.Request.Status parsedMessage = null;
-          try {
-            parsedMessage = PARSER.parsePartialFrom(input, extensionRegistry);
-          } catch (com.google.protobuf.InvalidProtocolBufferException e) {
-            parsedMessage = (buffers.ClientRequest.Request.Status) e.getUnfinishedMessage();
-            throw e;
-          } finally {
-            if (parsedMessage != null) {
-              mergeFrom(parsedMessage);
-            }
-          }
-          return this;
-        }
-        private int bitField0_;
-
-        private java.lang.Object userSts_ = "";
-        /**
-         * <code>optional string user_sts = 1;</code>
-         *
-         * <pre>
-         *user to be requested status
-         * </pre>
-         */
-        public boolean hasUserSts() {
-          return ((bitField0_ & 0x00000001) == 0x00000001);
-        }
-        /**
-         * <code>optional string user_sts = 1;</code>
-         *
-         * <pre>
-         *user to be requested status
-         * </pre>
-         */
-        public java.lang.String getUserSts() {
-          java.lang.Object ref = userSts_;
-          if (!(ref instanceof java.lang.String)) {
-            com.google.protobuf.ByteString bs =
-                (com.google.protobuf.ByteString) ref;
-            java.lang.String s = bs.toStringUtf8();
-            if (bs.isValidUtf8()) {
-              userSts_ = s;
-            }
-            return s;
-          } else {
-            return (java.lang.String) ref;
-          }
-        }
-        /**
-         * <code>optional string user_sts = 1;</code>
-         *
-         * <pre>
-         *user to be requested status
-         * </pre>
-         */
-        public com.google.protobuf.ByteString
-            getUserStsBytes() {
-          java.lang.Object ref = userSts_;
-          if (ref instanceof String) {
-            com.google.protobuf.ByteString b = 
-                com.google.protobuf.ByteString.copyFromUtf8(
-                    (java.lang.String) ref);
-            userSts_ = b;
-            return b;
-          } else {
-            return (com.google.protobuf.ByteString) ref;
-          }
-        }
-        /**
-         * <code>optional string user_sts = 1;</code>
-         *
-         * <pre>
-         *user to be requested status
-         * </pre>
-         */
-        public Builder setUserSts(
-            java.lang.String value) {
-          if (value == null) {
-    throw new NullPointerException();
-  }
-  bitField0_ |= 0x00000001;
-          userSts_ = value;
-          onChanged();
-          return this;
-        }
-        /**
-         * <code>optional string user_sts = 1;</code>
-         *
-         * <pre>
-         *user to be requested status
-         * </pre>
-         */
-        public Builder clearUserSts() {
-          bitField0_ = (bitField0_ & ~0x00000001);
-          userSts_ = getDefaultInstance().getUserSts();
-          onChanged();
-          return this;
-        }
-        /**
-         * <code>optional string user_sts = 1;</code>
-         *
-         * <pre>
-         *user to be requested status
-         * </pre>
-         */
-        public Builder setUserStsBytes(
-            com.google.protobuf.ByteString value) {
-          if (value == null) {
-    throw new NullPointerException();
-  }
-  bitField0_ |= 0x00000001;
-          userSts_ = value;
-          onChanged();
-          return this;
-        }
-
-        // @@protoc_insertion_point(builder_scope:Request.Status)
-      }
-
-      static {
-        defaultInstance = new Status(true);
-        defaultInstance.initFields();
-      }
-
-      // @@protoc_insertion_point(class_scope:Request.Status)
     }
 
     private int bitField0_;
@@ -3771,7 +2197,7 @@ public final class ClientRequest {
      * <code>optional .Request.Registration reg = 3;</code>
      *
      * <pre>
-     *one of the following will be filled in
+     *registration message will be filled in for type REG
      * </pre>
      */
     public boolean hasReg() {
@@ -3781,7 +2207,7 @@ public final class ClientRequest {
      * <code>optional .Request.Registration reg = 3;</code>
      *
      * <pre>
-     *one of the following will be filled in
+     *registration message will be filled in for type REG
      * </pre>
      */
     public buffers.ClientRequest.Request.Registration getReg() {
@@ -3791,7 +2217,7 @@ public final class ClientRequest {
      * <code>optional .Request.Registration reg = 3;</code>
      *
      * <pre>
-     *one of the following will be filled in
+     *registration message will be filled in for type REG
      * </pre>
      */
     public buffers.ClientRequest.Request.RegistrationOrBuilder getRegOrBuilder() {
@@ -3802,109 +2228,118 @@ public final class ClientRequest {
     private buffers.ClientRequest.Request.LogIn lin_;
     /**
      * <code>optional .Request.LogIn lin = 4;</code>
+     *
+     * <pre>
+     *login message will be filled in for type LIN
+     * </pre>
      */
     public boolean hasLin() {
       return ((bitField0_ & 0x00000004) == 0x00000004);
     }
     /**
      * <code>optional .Request.LogIn lin = 4;</code>
+     *
+     * <pre>
+     *login message will be filled in for type LIN
+     * </pre>
      */
     public buffers.ClientRequest.Request.LogIn getLin() {
       return lin_;
     }
     /**
      * <code>optional .Request.LogIn lin = 4;</code>
+     *
+     * <pre>
+     *login message will be filled in for type LIN
+     * </pre>
      */
     public buffers.ClientRequest.Request.LogInOrBuilder getLinOrBuilder() {
       return lin_;
     }
 
-    public static final int LOUT_FIELD_NUMBER = 5;
-    private buffers.ClientRequest.Request.LogOut lout_;
+    public static final int USERNAME_FIELD_NUMBER = 5;
+    private java.lang.Object username_;
     /**
-     * <code>optional .Request.LogOut lout = 5;</code>
+     * <code>optional string username = 5;</code>
+     *
+     * <pre>
+     *username field will be filled in for types CALL and STS
+     * </pre>
      */
-    public boolean hasLout() {
+    public boolean hasUsername() {
       return ((bitField0_ & 0x00000008) == 0x00000008);
     }
     /**
-     * <code>optional .Request.LogOut lout = 5;</code>
+     * <code>optional string username = 5;</code>
+     *
+     * <pre>
+     *username field will be filled in for types CALL and STS
+     * </pre>
      */
-    public buffers.ClientRequest.Request.LogOut getLout() {
-      return lout_;
+    public java.lang.String getUsername() {
+      java.lang.Object ref = username_;
+      if (ref instanceof java.lang.String) {
+        return (java.lang.String) ref;
+      } else {
+        com.google.protobuf.ByteString bs = 
+            (com.google.protobuf.ByteString) ref;
+        java.lang.String s = bs.toStringUtf8();
+        if (bs.isValidUtf8()) {
+          username_ = s;
+        }
+        return s;
+      }
     }
     /**
-     * <code>optional .Request.LogOut lout = 5;</code>
+     * <code>optional string username = 5;</code>
+     *
+     * <pre>
+     *username field will be filled in for types CALL and STS
+     * </pre>
      */
-    public buffers.ClientRequest.Request.LogOutOrBuilder getLoutOrBuilder() {
-      return lout_;
+    public com.google.protobuf.ByteString
+        getUsernameBytes() {
+      java.lang.Object ref = username_;
+      if (ref instanceof java.lang.String) {
+        com.google.protobuf.ByteString b = 
+            com.google.protobuf.ByteString.copyFromUtf8(
+                (java.lang.String) ref);
+        username_ = b;
+        return b;
+      } else {
+        return (com.google.protobuf.ByteString) ref;
+      }
     }
 
-    public static final int CALL_TO_FIELD_NUMBER = 6;
-    private buffers.ClientRequest.Request.CallTo callTo_;
+    public static final int CONFIRMATION_FIELD_NUMBER = 6;
+    private boolean confirmation_;
     /**
-     * <code>optional .Request.CallTo call_to = 6;</code>
+     * <code>optional bool confirmation = 6;</code>
+     *
+     * <pre>
+     *confirmation field will be filled in for types LOUT and ECALL
+     * </pre>
      */
-    public boolean hasCallTo() {
+    public boolean hasConfirmation() {
       return ((bitField0_ & 0x00000010) == 0x00000010);
     }
     /**
-     * <code>optional .Request.CallTo call_to = 6;</code>
+     * <code>optional bool confirmation = 6;</code>
+     *
+     * <pre>
+     *confirmation field will be filled in for types LOUT and ECALL
+     * </pre>
      */
-    public buffers.ClientRequest.Request.CallTo getCallTo() {
-      return callTo_;
-    }
-    /**
-     * <code>optional .Request.CallTo call_to = 6;</code>
-     */
-    public buffers.ClientRequest.Request.CallToOrBuilder getCallToOrBuilder() {
-      return callTo_;
-    }
-
-    public static final int STATUS_FIELD_NUMBER = 7;
-    private buffers.ClientRequest.Request.Status status_;
-    /**
-     * <code>optional .Request.Status status = 7;</code>
-     */
-    public boolean hasStatus() {
-      return ((bitField0_ & 0x00000020) == 0x00000020);
-    }
-    /**
-     * <code>optional .Request.Status status = 7;</code>
-     */
-    public buffers.ClientRequest.Request.Status getStatus() {
-      return status_;
-    }
-    /**
-     * <code>optional .Request.Status status = 7;</code>
-     */
-    public buffers.ClientRequest.Request.StatusOrBuilder getStatusOrBuilder() {
-      return status_;
-    }
-
-    public static final int END_CALL_FIELD_NUMBER = 8;
-    private boolean endCall_;
-    /**
-     * <code>optional bool end_call = 8;</code>
-     */
-    public boolean hasEndCall() {
-      return ((bitField0_ & 0x00000040) == 0x00000040);
-    }
-    /**
-     * <code>optional bool end_call = 8;</code>
-     */
-    public boolean getEndCall() {
-      return endCall_;
+    public boolean getConfirmation() {
+      return confirmation_;
     }
 
     private void initFields() {
       rqType_ = buffers.ClientRequest.Request.ReqType.REG;
       reg_ = buffers.ClientRequest.Request.Registration.getDefaultInstance();
       lin_ = buffers.ClientRequest.Request.LogIn.getDefaultInstance();
-      lout_ = buffers.ClientRequest.Request.LogOut.getDefaultInstance();
-      callTo_ = buffers.ClientRequest.Request.CallTo.getDefaultInstance();
-      status_ = buffers.ClientRequest.Request.Status.getDefaultInstance();
-      endCall_ = false;
+      username_ = "";
+      confirmation_ = false;
     }
     private byte memoizedIsInitialized = -1;
     public final boolean isInitialized() {
@@ -3915,6 +2350,18 @@ public final class ClientRequest {
       if (!hasRqType()) {
         memoizedIsInitialized = 0;
         return false;
+      }
+      if (hasReg()) {
+        if (!getReg().isInitialized()) {
+          memoizedIsInitialized = 0;
+          return false;
+        }
+      }
+      if (hasLin()) {
+        if (!getLin().isInitialized()) {
+          memoizedIsInitialized = 0;
+          return false;
+        }
       }
       memoizedIsInitialized = 1;
       return true;
@@ -3933,16 +2380,10 @@ public final class ClientRequest {
         output.writeMessage(4, lin_);
       }
       if (((bitField0_ & 0x00000008) == 0x00000008)) {
-        output.writeMessage(5, lout_);
+        output.writeBytes(5, getUsernameBytes());
       }
       if (((bitField0_ & 0x00000010) == 0x00000010)) {
-        output.writeMessage(6, callTo_);
-      }
-      if (((bitField0_ & 0x00000020) == 0x00000020)) {
-        output.writeMessage(7, status_);
-      }
-      if (((bitField0_ & 0x00000040) == 0x00000040)) {
-        output.writeBool(8, endCall_);
+        output.writeBool(6, confirmation_);
       }
       getUnknownFields().writeTo(output);
     }
@@ -3967,19 +2408,11 @@ public final class ClientRequest {
       }
       if (((bitField0_ & 0x00000008) == 0x00000008)) {
         size += com.google.protobuf.CodedOutputStream
-          .computeMessageSize(5, lout_);
+          .computeBytesSize(5, getUsernameBytes());
       }
       if (((bitField0_ & 0x00000010) == 0x00000010)) {
         size += com.google.protobuf.CodedOutputStream
-          .computeMessageSize(6, callTo_);
-      }
-      if (((bitField0_ & 0x00000020) == 0x00000020)) {
-        size += com.google.protobuf.CodedOutputStream
-          .computeMessageSize(7, status_);
-      }
-      if (((bitField0_ & 0x00000040) == 0x00000040)) {
-        size += com.google.protobuf.CodedOutputStream
-          .computeBoolSize(8, endCall_);
+          .computeBoolSize(6, confirmation_);
       }
       size += getUnknownFields().getSerializedSize();
       memoizedSerializedSize = size;
@@ -4096,9 +2529,6 @@ public final class ClientRequest {
         if (com.google.protobuf.GeneratedMessage.alwaysUseFieldBuilders) {
           getRegFieldBuilder();
           getLinFieldBuilder();
-          getLoutFieldBuilder();
-          getCallToFieldBuilder();
-          getStatusFieldBuilder();
         }
       }
       private static Builder create() {
@@ -4121,26 +2551,10 @@ public final class ClientRequest {
           linBuilder_.clear();
         }
         bitField0_ = (bitField0_ & ~0x00000004);
-        if (loutBuilder_ == null) {
-          lout_ = buffers.ClientRequest.Request.LogOut.getDefaultInstance();
-        } else {
-          loutBuilder_.clear();
-        }
+        username_ = "";
         bitField0_ = (bitField0_ & ~0x00000008);
-        if (callToBuilder_ == null) {
-          callTo_ = buffers.ClientRequest.Request.CallTo.getDefaultInstance();
-        } else {
-          callToBuilder_.clear();
-        }
+        confirmation_ = false;
         bitField0_ = (bitField0_ & ~0x00000010);
-        if (statusBuilder_ == null) {
-          status_ = buffers.ClientRequest.Request.Status.getDefaultInstance();
-        } else {
-          statusBuilder_.clear();
-        }
-        bitField0_ = (bitField0_ & ~0x00000020);
-        endCall_ = false;
-        bitField0_ = (bitField0_ & ~0x00000040);
         return this;
       }
 
@@ -4192,31 +2606,11 @@ public final class ClientRequest {
         if (((from_bitField0_ & 0x00000008) == 0x00000008)) {
           to_bitField0_ |= 0x00000008;
         }
-        if (loutBuilder_ == null) {
-          result.lout_ = lout_;
-        } else {
-          result.lout_ = loutBuilder_.build();
-        }
+        result.username_ = username_;
         if (((from_bitField0_ & 0x00000010) == 0x00000010)) {
           to_bitField0_ |= 0x00000010;
         }
-        if (callToBuilder_ == null) {
-          result.callTo_ = callTo_;
-        } else {
-          result.callTo_ = callToBuilder_.build();
-        }
-        if (((from_bitField0_ & 0x00000020) == 0x00000020)) {
-          to_bitField0_ |= 0x00000020;
-        }
-        if (statusBuilder_ == null) {
-          result.status_ = status_;
-        } else {
-          result.status_ = statusBuilder_.build();
-        }
-        if (((from_bitField0_ & 0x00000040) == 0x00000040)) {
-          to_bitField0_ |= 0x00000040;
-        }
-        result.endCall_ = endCall_;
+        result.confirmation_ = confirmation_;
         result.bitField0_ = to_bitField0_;
         onBuilt();
         return result;
@@ -4242,17 +2636,13 @@ public final class ClientRequest {
         if (other.hasLin()) {
           mergeLin(other.getLin());
         }
-        if (other.hasLout()) {
-          mergeLout(other.getLout());
+        if (other.hasUsername()) {
+          bitField0_ |= 0x00000008;
+          username_ = other.username_;
+          onChanged();
         }
-        if (other.hasCallTo()) {
-          mergeCallTo(other.getCallTo());
-        }
-        if (other.hasStatus()) {
-          mergeStatus(other.getStatus());
-        }
-        if (other.hasEndCall()) {
-          setEndCall(other.getEndCall());
+        if (other.hasConfirmation()) {
+          setConfirmation(other.getConfirmation());
         }
         this.mergeUnknownFields(other.getUnknownFields());
         return this;
@@ -4262,6 +2652,18 @@ public final class ClientRequest {
         if (!hasRqType()) {
           
           return false;
+        }
+        if (hasReg()) {
+          if (!getReg().isInitialized()) {
+            
+            return false;
+          }
+        }
+        if (hasLin()) {
+          if (!getLin().isInitialized()) {
+            
+            return false;
+          }
         }
         return true;
       }
@@ -4343,7 +2745,7 @@ public final class ClientRequest {
        * <code>optional .Request.Registration reg = 3;</code>
        *
        * <pre>
-       *one of the following will be filled in
+       *registration message will be filled in for type REG
        * </pre>
        */
       public boolean hasReg() {
@@ -4353,7 +2755,7 @@ public final class ClientRequest {
        * <code>optional .Request.Registration reg = 3;</code>
        *
        * <pre>
-       *one of the following will be filled in
+       *registration message will be filled in for type REG
        * </pre>
        */
       public buffers.ClientRequest.Request.Registration getReg() {
@@ -4367,7 +2769,7 @@ public final class ClientRequest {
        * <code>optional .Request.Registration reg = 3;</code>
        *
        * <pre>
-       *one of the following will be filled in
+       *registration message will be filled in for type REG
        * </pre>
        */
       public Builder setReg(buffers.ClientRequest.Request.Registration value) {
@@ -4387,7 +2789,7 @@ public final class ClientRequest {
        * <code>optional .Request.Registration reg = 3;</code>
        *
        * <pre>
-       *one of the following will be filled in
+       *registration message will be filled in for type REG
        * </pre>
        */
       public Builder setReg(
@@ -4405,7 +2807,7 @@ public final class ClientRequest {
        * <code>optional .Request.Registration reg = 3;</code>
        *
        * <pre>
-       *one of the following will be filled in
+       *registration message will be filled in for type REG
        * </pre>
        */
       public Builder mergeReg(buffers.ClientRequest.Request.Registration value) {
@@ -4428,7 +2830,7 @@ public final class ClientRequest {
        * <code>optional .Request.Registration reg = 3;</code>
        *
        * <pre>
-       *one of the following will be filled in
+       *registration message will be filled in for type REG
        * </pre>
        */
       public Builder clearReg() {
@@ -4445,7 +2847,7 @@ public final class ClientRequest {
        * <code>optional .Request.Registration reg = 3;</code>
        *
        * <pre>
-       *one of the following will be filled in
+       *registration message will be filled in for type REG
        * </pre>
        */
       public buffers.ClientRequest.Request.Registration.Builder getRegBuilder() {
@@ -4457,7 +2859,7 @@ public final class ClientRequest {
        * <code>optional .Request.Registration reg = 3;</code>
        *
        * <pre>
-       *one of the following will be filled in
+       *registration message will be filled in for type REG
        * </pre>
        */
       public buffers.ClientRequest.Request.RegistrationOrBuilder getRegOrBuilder() {
@@ -4471,7 +2873,7 @@ public final class ClientRequest {
        * <code>optional .Request.Registration reg = 3;</code>
        *
        * <pre>
-       *one of the following will be filled in
+       *registration message will be filled in for type REG
        * </pre>
        */
       private com.google.protobuf.SingleFieldBuilder<
@@ -4493,12 +2895,20 @@ public final class ClientRequest {
           buffers.ClientRequest.Request.LogIn, buffers.ClientRequest.Request.LogIn.Builder, buffers.ClientRequest.Request.LogInOrBuilder> linBuilder_;
       /**
        * <code>optional .Request.LogIn lin = 4;</code>
+       *
+       * <pre>
+       *login message will be filled in for type LIN
+       * </pre>
        */
       public boolean hasLin() {
         return ((bitField0_ & 0x00000004) == 0x00000004);
       }
       /**
        * <code>optional .Request.LogIn lin = 4;</code>
+       *
+       * <pre>
+       *login message will be filled in for type LIN
+       * </pre>
        */
       public buffers.ClientRequest.Request.LogIn getLin() {
         if (linBuilder_ == null) {
@@ -4509,6 +2919,10 @@ public final class ClientRequest {
       }
       /**
        * <code>optional .Request.LogIn lin = 4;</code>
+       *
+       * <pre>
+       *login message will be filled in for type LIN
+       * </pre>
        */
       public Builder setLin(buffers.ClientRequest.Request.LogIn value) {
         if (linBuilder_ == null) {
@@ -4525,6 +2939,10 @@ public final class ClientRequest {
       }
       /**
        * <code>optional .Request.LogIn lin = 4;</code>
+       *
+       * <pre>
+       *login message will be filled in for type LIN
+       * </pre>
        */
       public Builder setLin(
           buffers.ClientRequest.Request.LogIn.Builder builderForValue) {
@@ -4539,6 +2957,10 @@ public final class ClientRequest {
       }
       /**
        * <code>optional .Request.LogIn lin = 4;</code>
+       *
+       * <pre>
+       *login message will be filled in for type LIN
+       * </pre>
        */
       public Builder mergeLin(buffers.ClientRequest.Request.LogIn value) {
         if (linBuilder_ == null) {
@@ -4558,6 +2980,10 @@ public final class ClientRequest {
       }
       /**
        * <code>optional .Request.LogIn lin = 4;</code>
+       *
+       * <pre>
+       *login message will be filled in for type LIN
+       * </pre>
        */
       public Builder clearLin() {
         if (linBuilder_ == null) {
@@ -4571,6 +2997,10 @@ public final class ClientRequest {
       }
       /**
        * <code>optional .Request.LogIn lin = 4;</code>
+       *
+       * <pre>
+       *login message will be filled in for type LIN
+       * </pre>
        */
       public buffers.ClientRequest.Request.LogIn.Builder getLinBuilder() {
         bitField0_ |= 0x00000004;
@@ -4579,6 +3009,10 @@ public final class ClientRequest {
       }
       /**
        * <code>optional .Request.LogIn lin = 4;</code>
+       *
+       * <pre>
+       *login message will be filled in for type LIN
+       * </pre>
        */
       public buffers.ClientRequest.Request.LogInOrBuilder getLinOrBuilder() {
         if (linBuilder_ != null) {
@@ -4589,6 +3023,10 @@ public final class ClientRequest {
       }
       /**
        * <code>optional .Request.LogIn lin = 4;</code>
+       *
+       * <pre>
+       *login message will be filled in for type LIN
+       * </pre>
        */
       private com.google.protobuf.SingleFieldBuilder<
           buffers.ClientRequest.Request.LogIn, buffers.ClientRequest.Request.LogIn.Builder, buffers.ClientRequest.Request.LogInOrBuilder> 
@@ -4604,382 +3042,150 @@ public final class ClientRequest {
         return linBuilder_;
       }
 
-      private buffers.ClientRequest.Request.LogOut lout_ = buffers.ClientRequest.Request.LogOut.getDefaultInstance();
-      private com.google.protobuf.SingleFieldBuilder<
-          buffers.ClientRequest.Request.LogOut, buffers.ClientRequest.Request.LogOut.Builder, buffers.ClientRequest.Request.LogOutOrBuilder> loutBuilder_;
+      private java.lang.Object username_ = "";
       /**
-       * <code>optional .Request.LogOut lout = 5;</code>
+       * <code>optional string username = 5;</code>
+       *
+       * <pre>
+       *username field will be filled in for types CALL and STS
+       * </pre>
        */
-      public boolean hasLout() {
+      public boolean hasUsername() {
         return ((bitField0_ & 0x00000008) == 0x00000008);
       }
       /**
-       * <code>optional .Request.LogOut lout = 5;</code>
+       * <code>optional string username = 5;</code>
+       *
+       * <pre>
+       *username field will be filled in for types CALL and STS
+       * </pre>
        */
-      public buffers.ClientRequest.Request.LogOut getLout() {
-        if (loutBuilder_ == null) {
-          return lout_;
-        } else {
-          return loutBuilder_.getMessage();
-        }
-      }
-      /**
-       * <code>optional .Request.LogOut lout = 5;</code>
-       */
-      public Builder setLout(buffers.ClientRequest.Request.LogOut value) {
-        if (loutBuilder_ == null) {
-          if (value == null) {
-            throw new NullPointerException();
+      public java.lang.String getUsername() {
+        java.lang.Object ref = username_;
+        if (!(ref instanceof java.lang.String)) {
+          com.google.protobuf.ByteString bs =
+              (com.google.protobuf.ByteString) ref;
+          java.lang.String s = bs.toStringUtf8();
+          if (bs.isValidUtf8()) {
+            username_ = s;
           }
-          lout_ = value;
-          onChanged();
+          return s;
         } else {
-          loutBuilder_.setMessage(value);
+          return (java.lang.String) ref;
         }
-        bitField0_ |= 0x00000008;
-        return this;
       }
       /**
-       * <code>optional .Request.LogOut lout = 5;</code>
+       * <code>optional string username = 5;</code>
+       *
+       * <pre>
+       *username field will be filled in for types CALL and STS
+       * </pre>
        */
-      public Builder setLout(
-          buffers.ClientRequest.Request.LogOut.Builder builderForValue) {
-        if (loutBuilder_ == null) {
-          lout_ = builderForValue.build();
-          onChanged();
+      public com.google.protobuf.ByteString
+          getUsernameBytes() {
+        java.lang.Object ref = username_;
+        if (ref instanceof String) {
+          com.google.protobuf.ByteString b = 
+              com.google.protobuf.ByteString.copyFromUtf8(
+                  (java.lang.String) ref);
+          username_ = b;
+          return b;
         } else {
-          loutBuilder_.setMessage(builderForValue.build());
+          return (com.google.protobuf.ByteString) ref;
         }
-        bitField0_ |= 0x00000008;
-        return this;
       }
       /**
-       * <code>optional .Request.LogOut lout = 5;</code>
+       * <code>optional string username = 5;</code>
+       *
+       * <pre>
+       *username field will be filled in for types CALL and STS
+       * </pre>
        */
-      public Builder mergeLout(buffers.ClientRequest.Request.LogOut value) {
-        if (loutBuilder_ == null) {
-          if (((bitField0_ & 0x00000008) == 0x00000008) &&
-              lout_ != buffers.ClientRequest.Request.LogOut.getDefaultInstance()) {
-            lout_ =
-              buffers.ClientRequest.Request.LogOut.newBuilder(lout_).mergeFrom(value).buildPartial();
-          } else {
-            lout_ = value;
-          }
-          onChanged();
-        } else {
-          loutBuilder_.mergeFrom(value);
-        }
-        bitField0_ |= 0x00000008;
-        return this;
-      }
-      /**
-       * <code>optional .Request.LogOut lout = 5;</code>
-       */
-      public Builder clearLout() {
-        if (loutBuilder_ == null) {
-          lout_ = buffers.ClientRequest.Request.LogOut.getDefaultInstance();
-          onChanged();
-        } else {
-          loutBuilder_.clear();
-        }
-        bitField0_ = (bitField0_ & ~0x00000008);
-        return this;
-      }
-      /**
-       * <code>optional .Request.LogOut lout = 5;</code>
-       */
-      public buffers.ClientRequest.Request.LogOut.Builder getLoutBuilder() {
-        bitField0_ |= 0x00000008;
+      public Builder setUsername(
+          java.lang.String value) {
+        if (value == null) {
+    throw new NullPointerException();
+  }
+  bitField0_ |= 0x00000008;
+        username_ = value;
         onChanged();
-        return getLoutFieldBuilder().getBuilder();
+        return this;
       }
       /**
-       * <code>optional .Request.LogOut lout = 5;</code>
+       * <code>optional string username = 5;</code>
+       *
+       * <pre>
+       *username field will be filled in for types CALL and STS
+       * </pre>
        */
-      public buffers.ClientRequest.Request.LogOutOrBuilder getLoutOrBuilder() {
-        if (loutBuilder_ != null) {
-          return loutBuilder_.getMessageOrBuilder();
-        } else {
-          return lout_;
-        }
+      public Builder clearUsername() {
+        bitField0_ = (bitField0_ & ~0x00000008);
+        username_ = getDefaultInstance().getUsername();
+        onChanged();
+        return this;
       }
       /**
-       * <code>optional .Request.LogOut lout = 5;</code>
+       * <code>optional string username = 5;</code>
+       *
+       * <pre>
+       *username field will be filled in for types CALL and STS
+       * </pre>
        */
-      private com.google.protobuf.SingleFieldBuilder<
-          buffers.ClientRequest.Request.LogOut, buffers.ClientRequest.Request.LogOut.Builder, buffers.ClientRequest.Request.LogOutOrBuilder> 
-          getLoutFieldBuilder() {
-        if (loutBuilder_ == null) {
-          loutBuilder_ = new com.google.protobuf.SingleFieldBuilder<
-              buffers.ClientRequest.Request.LogOut, buffers.ClientRequest.Request.LogOut.Builder, buffers.ClientRequest.Request.LogOutOrBuilder>(
-                  getLout(),
-                  getParentForChildren(),
-                  isClean());
-          lout_ = null;
-        }
-        return loutBuilder_;
+      public Builder setUsernameBytes(
+          com.google.protobuf.ByteString value) {
+        if (value == null) {
+    throw new NullPointerException();
+  }
+  bitField0_ |= 0x00000008;
+        username_ = value;
+        onChanged();
+        return this;
       }
 
-      private buffers.ClientRequest.Request.CallTo callTo_ = buffers.ClientRequest.Request.CallTo.getDefaultInstance();
-      private com.google.protobuf.SingleFieldBuilder<
-          buffers.ClientRequest.Request.CallTo, buffers.ClientRequest.Request.CallTo.Builder, buffers.ClientRequest.Request.CallToOrBuilder> callToBuilder_;
+      private boolean confirmation_ ;
       /**
-       * <code>optional .Request.CallTo call_to = 6;</code>
+       * <code>optional bool confirmation = 6;</code>
+       *
+       * <pre>
+       *confirmation field will be filled in for types LOUT and ECALL
+       * </pre>
        */
-      public boolean hasCallTo() {
+      public boolean hasConfirmation() {
         return ((bitField0_ & 0x00000010) == 0x00000010);
       }
       /**
-       * <code>optional .Request.CallTo call_to = 6;</code>
+       * <code>optional bool confirmation = 6;</code>
+       *
+       * <pre>
+       *confirmation field will be filled in for types LOUT and ECALL
+       * </pre>
        */
-      public buffers.ClientRequest.Request.CallTo getCallTo() {
-        if (callToBuilder_ == null) {
-          return callTo_;
-        } else {
-          return callToBuilder_.getMessage();
-        }
+      public boolean getConfirmation() {
+        return confirmation_;
       }
       /**
-       * <code>optional .Request.CallTo call_to = 6;</code>
+       * <code>optional bool confirmation = 6;</code>
+       *
+       * <pre>
+       *confirmation field will be filled in for types LOUT and ECALL
+       * </pre>
        */
-      public Builder setCallTo(buffers.ClientRequest.Request.CallTo value) {
-        if (callToBuilder_ == null) {
-          if (value == null) {
-            throw new NullPointerException();
-          }
-          callTo_ = value;
-          onChanged();
-        } else {
-          callToBuilder_.setMessage(value);
-        }
+      public Builder setConfirmation(boolean value) {
         bitField0_ |= 0x00000010;
+        confirmation_ = value;
+        onChanged();
         return this;
       }
       /**
-       * <code>optional .Request.CallTo call_to = 6;</code>
+       * <code>optional bool confirmation = 6;</code>
+       *
+       * <pre>
+       *confirmation field will be filled in for types LOUT and ECALL
+       * </pre>
        */
-      public Builder setCallTo(
-          buffers.ClientRequest.Request.CallTo.Builder builderForValue) {
-        if (callToBuilder_ == null) {
-          callTo_ = builderForValue.build();
-          onChanged();
-        } else {
-          callToBuilder_.setMessage(builderForValue.build());
-        }
-        bitField0_ |= 0x00000010;
-        return this;
-      }
-      /**
-       * <code>optional .Request.CallTo call_to = 6;</code>
-       */
-      public Builder mergeCallTo(buffers.ClientRequest.Request.CallTo value) {
-        if (callToBuilder_ == null) {
-          if (((bitField0_ & 0x00000010) == 0x00000010) &&
-              callTo_ != buffers.ClientRequest.Request.CallTo.getDefaultInstance()) {
-            callTo_ =
-              buffers.ClientRequest.Request.CallTo.newBuilder(callTo_).mergeFrom(value).buildPartial();
-          } else {
-            callTo_ = value;
-          }
-          onChanged();
-        } else {
-          callToBuilder_.mergeFrom(value);
-        }
-        bitField0_ |= 0x00000010;
-        return this;
-      }
-      /**
-       * <code>optional .Request.CallTo call_to = 6;</code>
-       */
-      public Builder clearCallTo() {
-        if (callToBuilder_ == null) {
-          callTo_ = buffers.ClientRequest.Request.CallTo.getDefaultInstance();
-          onChanged();
-        } else {
-          callToBuilder_.clear();
-        }
+      public Builder clearConfirmation() {
         bitField0_ = (bitField0_ & ~0x00000010);
-        return this;
-      }
-      /**
-       * <code>optional .Request.CallTo call_to = 6;</code>
-       */
-      public buffers.ClientRequest.Request.CallTo.Builder getCallToBuilder() {
-        bitField0_ |= 0x00000010;
-        onChanged();
-        return getCallToFieldBuilder().getBuilder();
-      }
-      /**
-       * <code>optional .Request.CallTo call_to = 6;</code>
-       */
-      public buffers.ClientRequest.Request.CallToOrBuilder getCallToOrBuilder() {
-        if (callToBuilder_ != null) {
-          return callToBuilder_.getMessageOrBuilder();
-        } else {
-          return callTo_;
-        }
-      }
-      /**
-       * <code>optional .Request.CallTo call_to = 6;</code>
-       */
-      private com.google.protobuf.SingleFieldBuilder<
-          buffers.ClientRequest.Request.CallTo, buffers.ClientRequest.Request.CallTo.Builder, buffers.ClientRequest.Request.CallToOrBuilder> 
-          getCallToFieldBuilder() {
-        if (callToBuilder_ == null) {
-          callToBuilder_ = new com.google.protobuf.SingleFieldBuilder<
-              buffers.ClientRequest.Request.CallTo, buffers.ClientRequest.Request.CallTo.Builder, buffers.ClientRequest.Request.CallToOrBuilder>(
-                  getCallTo(),
-                  getParentForChildren(),
-                  isClean());
-          callTo_ = null;
-        }
-        return callToBuilder_;
-      }
-
-      private buffers.ClientRequest.Request.Status status_ = buffers.ClientRequest.Request.Status.getDefaultInstance();
-      private com.google.protobuf.SingleFieldBuilder<
-          buffers.ClientRequest.Request.Status, buffers.ClientRequest.Request.Status.Builder, buffers.ClientRequest.Request.StatusOrBuilder> statusBuilder_;
-      /**
-       * <code>optional .Request.Status status = 7;</code>
-       */
-      public boolean hasStatus() {
-        return ((bitField0_ & 0x00000020) == 0x00000020);
-      }
-      /**
-       * <code>optional .Request.Status status = 7;</code>
-       */
-      public buffers.ClientRequest.Request.Status getStatus() {
-        if (statusBuilder_ == null) {
-          return status_;
-        } else {
-          return statusBuilder_.getMessage();
-        }
-      }
-      /**
-       * <code>optional .Request.Status status = 7;</code>
-       */
-      public Builder setStatus(buffers.ClientRequest.Request.Status value) {
-        if (statusBuilder_ == null) {
-          if (value == null) {
-            throw new NullPointerException();
-          }
-          status_ = value;
-          onChanged();
-        } else {
-          statusBuilder_.setMessage(value);
-        }
-        bitField0_ |= 0x00000020;
-        return this;
-      }
-      /**
-       * <code>optional .Request.Status status = 7;</code>
-       */
-      public Builder setStatus(
-          buffers.ClientRequest.Request.Status.Builder builderForValue) {
-        if (statusBuilder_ == null) {
-          status_ = builderForValue.build();
-          onChanged();
-        } else {
-          statusBuilder_.setMessage(builderForValue.build());
-        }
-        bitField0_ |= 0x00000020;
-        return this;
-      }
-      /**
-       * <code>optional .Request.Status status = 7;</code>
-       */
-      public Builder mergeStatus(buffers.ClientRequest.Request.Status value) {
-        if (statusBuilder_ == null) {
-          if (((bitField0_ & 0x00000020) == 0x00000020) &&
-              status_ != buffers.ClientRequest.Request.Status.getDefaultInstance()) {
-            status_ =
-              buffers.ClientRequest.Request.Status.newBuilder(status_).mergeFrom(value).buildPartial();
-          } else {
-            status_ = value;
-          }
-          onChanged();
-        } else {
-          statusBuilder_.mergeFrom(value);
-        }
-        bitField0_ |= 0x00000020;
-        return this;
-      }
-      /**
-       * <code>optional .Request.Status status = 7;</code>
-       */
-      public Builder clearStatus() {
-        if (statusBuilder_ == null) {
-          status_ = buffers.ClientRequest.Request.Status.getDefaultInstance();
-          onChanged();
-        } else {
-          statusBuilder_.clear();
-        }
-        bitField0_ = (bitField0_ & ~0x00000020);
-        return this;
-      }
-      /**
-       * <code>optional .Request.Status status = 7;</code>
-       */
-      public buffers.ClientRequest.Request.Status.Builder getStatusBuilder() {
-        bitField0_ |= 0x00000020;
-        onChanged();
-        return getStatusFieldBuilder().getBuilder();
-      }
-      /**
-       * <code>optional .Request.Status status = 7;</code>
-       */
-      public buffers.ClientRequest.Request.StatusOrBuilder getStatusOrBuilder() {
-        if (statusBuilder_ != null) {
-          return statusBuilder_.getMessageOrBuilder();
-        } else {
-          return status_;
-        }
-      }
-      /**
-       * <code>optional .Request.Status status = 7;</code>
-       */
-      private com.google.protobuf.SingleFieldBuilder<
-          buffers.ClientRequest.Request.Status, buffers.ClientRequest.Request.Status.Builder, buffers.ClientRequest.Request.StatusOrBuilder> 
-          getStatusFieldBuilder() {
-        if (statusBuilder_ == null) {
-          statusBuilder_ = new com.google.protobuf.SingleFieldBuilder<
-              buffers.ClientRequest.Request.Status, buffers.ClientRequest.Request.Status.Builder, buffers.ClientRequest.Request.StatusOrBuilder>(
-                  getStatus(),
-                  getParentForChildren(),
-                  isClean());
-          status_ = null;
-        }
-        return statusBuilder_;
-      }
-
-      private boolean endCall_ ;
-      /**
-       * <code>optional bool end_call = 8;</code>
-       */
-      public boolean hasEndCall() {
-        return ((bitField0_ & 0x00000040) == 0x00000040);
-      }
-      /**
-       * <code>optional bool end_call = 8;</code>
-       */
-      public boolean getEndCall() {
-        return endCall_;
-      }
-      /**
-       * <code>optional bool end_call = 8;</code>
-       */
-      public Builder setEndCall(boolean value) {
-        bitField0_ |= 0x00000040;
-        endCall_ = value;
-        onChanged();
-        return this;
-      }
-      /**
-       * <code>optional bool end_call = 8;</code>
-       */
-      public Builder clearEndCall() {
-        bitField0_ = (bitField0_ & ~0x00000040);
-        endCall_ = false;
+        confirmation_ = false;
         onChanged();
         return this;
       }
@@ -5010,21 +3216,6 @@ public final class ClientRequest {
   private static
     com.google.protobuf.GeneratedMessage.FieldAccessorTable
       internal_static_Request_LogIn_fieldAccessorTable;
-  private static final com.google.protobuf.Descriptors.Descriptor
-    internal_static_Request_LogOut_descriptor;
-  private static
-    com.google.protobuf.GeneratedMessage.FieldAccessorTable
-      internal_static_Request_LogOut_fieldAccessorTable;
-  private static final com.google.protobuf.Descriptors.Descriptor
-    internal_static_Request_CallTo_descriptor;
-  private static
-    com.google.protobuf.GeneratedMessage.FieldAccessorTable
-      internal_static_Request_CallTo_fieldAccessorTable;
-  private static final com.google.protobuf.Descriptors.Descriptor
-    internal_static_Request_Status_descriptor;
-  private static
-    com.google.protobuf.GeneratedMessage.FieldAccessorTable
-      internal_static_Request_Status_fieldAccessorTable;
 
   public static com.google.protobuf.Descriptors.FileDescriptor
       getDescriptor() {
@@ -5034,20 +3225,16 @@ public final class ClientRequest {
       descriptor;
   static {
     java.lang.String[] descriptorData = {
-      "\n\024client_request.proto\"\200\004\n\007Request\022!\n\007rq" +
+      "\n\024client_request.proto\"\335\002\n\007Request\022!\n\007rq" +
       "_type\030\001 \002(\0162\020.Request.ReqType\022\"\n\003reg\030\003 \001" +
       "(\0132\025.Request.Registration\022\033\n\003lin\030\004 \001(\0132\016" +
-      ".Request.LogIn\022\035\n\004lout\030\005 \001(\0132\017.Request.L" +
-      "ogOut\022 \n\007call_to\030\006 \001(\0132\017.Request.CallTo\022" +
-      "\037\n\006status\030\007 \001(\0132\017.Request.Status\022\020\n\010end_" +
-      "call\030\010 \001(\010\032@\n\014Registration\022\020\n\010username\030\001" +
-      " \001(\t\022\020\n\010password\030\002 \001(\t\022\014\n\004hint\030\003 \001(\t\032?\n\005" +
-      "LogIn\022\020\n\010username\030\001 \001(\t\022\020\n\010password\030\002 \001(" +
-      "\t\022\022\n\nip_address\030\003 \001(\t\032\032\n\006LogOut\022\020\n\010usern",
-      "ame\030\001 \001(\t\032\035\n\006CallTo\022\023\n\013user_called\030\001 \001(\t" +
-      "\032\032\n\006Status\022\020\n\010user_sts\030\001 \001(\t\"C\n\007ReqType\022" +
-      "\007\n\003REG\020\001\022\007\n\003LIN\020\002\022\010\n\004LOUT\020\003\022\010\n\004CALL\020\004\022\007\n" +
-      "\003STS\020\005\022\t\n\005ECALL\020\006B\013\n\007buffersH\001"
+      ".Request.LogIn\022\020\n\010username\030\005 \001(\t\022\024\n\014conf" +
+      "irmation\030\006 \001(\010\032@\n\014Registration\022\020\n\010userna" +
+      "me\030\001 \002(\t\022\020\n\010password\030\002 \002(\t\022\014\n\004hint\030\003 \001(\t" +
+      "\032?\n\005LogIn\022\020\n\010username\030\001 \002(\t\022\020\n\010password\030" +
+      "\002 \002(\t\022\022\n\nip_address\030\003 \002(\t\"C\n\007ReqType\022\007\n\003" +
+      "REG\020\001\022\007\n\003LIN\020\002\022\010\n\004LOUT\020\003\022\010\n\004CALL\020\004\022\007\n\003ST" +
+      "S\020\005\022\t\n\005ECALL\020\006B\013\n\007buffersH\001"
     };
     com.google.protobuf.Descriptors.FileDescriptor.InternalDescriptorAssigner assigner =
         new com.google.protobuf.Descriptors.FileDescriptor.    InternalDescriptorAssigner() {
@@ -5066,7 +3253,7 @@ public final class ClientRequest {
     internal_static_Request_fieldAccessorTable = new
       com.google.protobuf.GeneratedMessage.FieldAccessorTable(
         internal_static_Request_descriptor,
-        new java.lang.String[] { "RqType", "Reg", "Lin", "Lout", "CallTo", "Status", "EndCall", });
+        new java.lang.String[] { "RqType", "Reg", "Lin", "Username", "Confirmation", });
     internal_static_Request_Registration_descriptor =
       internal_static_Request_descriptor.getNestedTypes().get(0);
     internal_static_Request_Registration_fieldAccessorTable = new
@@ -5079,24 +3266,6 @@ public final class ClientRequest {
       com.google.protobuf.GeneratedMessage.FieldAccessorTable(
         internal_static_Request_LogIn_descriptor,
         new java.lang.String[] { "Username", "Password", "IpAddress", });
-    internal_static_Request_LogOut_descriptor =
-      internal_static_Request_descriptor.getNestedTypes().get(2);
-    internal_static_Request_LogOut_fieldAccessorTable = new
-      com.google.protobuf.GeneratedMessage.FieldAccessorTable(
-        internal_static_Request_LogOut_descriptor,
-        new java.lang.String[] { "Username", });
-    internal_static_Request_CallTo_descriptor =
-      internal_static_Request_descriptor.getNestedTypes().get(3);
-    internal_static_Request_CallTo_fieldAccessorTable = new
-      com.google.protobuf.GeneratedMessage.FieldAccessorTable(
-        internal_static_Request_CallTo_descriptor,
-        new java.lang.String[] { "UserCalled", });
-    internal_static_Request_Status_descriptor =
-      internal_static_Request_descriptor.getNestedTypes().get(4);
-    internal_static_Request_Status_fieldAccessorTable = new
-      com.google.protobuf.GeneratedMessage.FieldAccessorTable(
-        internal_static_Request_Status_descriptor,
-        new java.lang.String[] { "UserSts", });
   }
 
   // @@protoc_insertion_point(outer_class_scope)

@@ -2,7 +2,7 @@ package tcp.sockethandler;
 
 import buffers.ClientRequest.Request;
 import buffers.ServerResponse.Response;
-import tcp.messagehandler.RequestWriter;
+import writers.RequestWriter;
 
 import java.io.IOException;
 import java.net.Socket;
@@ -34,10 +34,9 @@ public class SocketHandler {
 		return false;
 	}
 	
-	public boolean sendRegisterRequest() {
+	public boolean sendRegisterRequest(String username, String password) {
 		System.out.println("Client: Creating and sending register request...");
-		Request request = requestWriter.createRegisterReq("username", "default");
-		Request req2 = requestWriter.createLogInReq("username", "password");
+		Request request = requestWriter.createRegisterReq(username, password);
 		try {
 			request.writeDelimitedTo(socketClient.getOutputStream());
 			System.out.println("Client: Sent register request...");
@@ -48,8 +47,8 @@ public class SocketHandler {
 		return false;
 	}
 	
-	/*public void sendLogInRequest() {
-		Request request = requestWriter.createLogInReq("username", "default");
+	public void sendLogInRequest(String username, String password) {
+		Request request = requestWriter.createLogInReq(username, password);
 		try {
 			request.writeDelimitedTo(socketClient.getOutputStream());
 		} catch (IOException e) {
@@ -57,21 +56,18 @@ public class SocketHandler {
 		}
 	}
 	
-	public void sendLogOutRequest() {
-		Request request = requestWriter.createLogOutReq("username");
+	public void sendLogOutRequest(boolean confirm) {
+		Request request = requestWriter.createLogOutReq(confirm);
 		try {
 			request.writeDelimitedTo(socketClient.getOutputStream());
 		} catch (IOException e) {
 			System.err.println("SocketHandler: failed to send logout request");
 		}
-	}*/
+	}
 
 	public void getResponse() {
 		Response response = null;
-		/*BufferedReader stdIn = new BufferedReader(new InputStreamReader(
-				socketClient.getInputStream()));*/
-		
-		//while((userInput = stdIn.readLine()) != null){
+
 		try {
 			response = Response.parseDelimitedFrom(socketClient.getInputStream());
 		} catch (IOException e) {

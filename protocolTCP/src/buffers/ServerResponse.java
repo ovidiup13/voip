@@ -33,7 +33,7 @@ public final class ServerResponse {
      * <code>optional .Response.ReqResult req_result = 3;</code>
      *
      * <pre>
-     *responses for actions of REG, LIN, LOUT, ECALL
+     *request result filed for type ACT
      * </pre>
      */
     boolean hasReqResult();
@@ -41,7 +41,7 @@ public final class ServerResponse {
      * <code>optional .Response.ReqResult req_result = 3;</code>
      *
      * <pre>
-     *responses for actions of REG, LIN, LOUT, ECALL
+     *request result filed for type ACT
      * </pre>
      */
     buffers.ServerResponse.Response.ReqResult getReqResult();
@@ -49,21 +49,33 @@ public final class ServerResponse {
      * <code>optional .Response.ReqResult req_result = 3;</code>
      *
      * <pre>
-     *responses for actions of REG, LIN, LOUT, ECALL
+     *request result filed for type ACT
      * </pre>
      */
     buffers.ServerResponse.Response.ReqResultOrBuilder getReqResultOrBuilder();
 
     /**
      * <code>optional .Response.CallResponse call_response = 4;</code>
+     *
+     * <pre>
+     *call response field for type CALL
+     * </pre>
      */
     boolean hasCallResponse();
     /**
      * <code>optional .Response.CallResponse call_response = 4;</code>
+     *
+     * <pre>
+     *call response field for type CALL
+     * </pre>
      */
     buffers.ServerResponse.Response.CallResponse getCallResponse();
     /**
      * <code>optional .Response.CallResponse call_response = 4;</code>
+     *
+     * <pre>
+     *call response field for type CALL
+     * </pre>
      */
     buffers.ServerResponse.Response.CallResponseOrBuilder getCallResponseOrBuilder();
 
@@ -71,9 +83,7 @@ public final class ServerResponse {
      * <code>optional bool endCall = 5;</code>
      *
      * <pre>
-     *this is used when two users are in a call and one of them wants to end the call
-     *then a response will be sent to the other user saying that the call has ended
-     *forcing him to close the UDP connection
+     *endcall field for type ECALL
      * </pre>
      */
     boolean hasEndCall();
@@ -81,9 +91,7 @@ public final class ServerResponse {
      * <code>optional bool endCall = 5;</code>
      *
      * <pre>
-     *this is used when two users are in a call and one of them wants to end the call
-     *then a response will be sent to the other user saying that the call has ended
-     *forcing him to close the UDP connection
+     *endcall field for type ECALL
      * </pre>
      */
     boolean getEndCall();
@@ -351,7 +359,7 @@ public final class ServerResponse {
      * Protobuf type {@code Response.ReqResult}
      *
      * <pre>
-     *request result - can be used for REG, LIN, LOUT, STS, CALL
+     *request result message structure
      * </pre>
      */
     public static final class ReqResult extends
@@ -641,7 +649,7 @@ public final class ServerResponse {
        * Protobuf type {@code Response.ReqResult}
        *
        * <pre>
-       *request result - can be used for REG, LIN, LOUT, STS, CALL
+       *request result message structure
        * </pre>
        */
       public static final class Builder extends
@@ -972,7 +980,7 @@ public final class ServerResponse {
      * Protobuf type {@code Response.CallResponse}
      *
      * <pre>
-     *status response
+     *call response message structure
      * </pre>
      */
     public static final class CallResponse extends
@@ -1366,7 +1374,7 @@ public final class ServerResponse {
        * Protobuf type {@code Response.CallResponse}
        *
        * <pre>
-       *status response
+       *call response message structure
        * </pre>
        */
       public static final class Builder extends
@@ -1821,7 +1829,7 @@ public final class ServerResponse {
      * <code>optional .Response.ReqResult req_result = 3;</code>
      *
      * <pre>
-     *responses for actions of REG, LIN, LOUT, ECALL
+     *request result filed for type ACT
      * </pre>
      */
     public boolean hasReqResult() {
@@ -1831,7 +1839,7 @@ public final class ServerResponse {
      * <code>optional .Response.ReqResult req_result = 3;</code>
      *
      * <pre>
-     *responses for actions of REG, LIN, LOUT, ECALL
+     *request result filed for type ACT
      * </pre>
      */
     public buffers.ServerResponse.Response.ReqResult getReqResult() {
@@ -1841,7 +1849,7 @@ public final class ServerResponse {
      * <code>optional .Response.ReqResult req_result = 3;</code>
      *
      * <pre>
-     *responses for actions of REG, LIN, LOUT, ECALL
+     *request result filed for type ACT
      * </pre>
      */
     public buffers.ServerResponse.Response.ReqResultOrBuilder getReqResultOrBuilder() {
@@ -1852,18 +1860,30 @@ public final class ServerResponse {
     private buffers.ServerResponse.Response.CallResponse callResponse_;
     /**
      * <code>optional .Response.CallResponse call_response = 4;</code>
+     *
+     * <pre>
+     *call response field for type CALL
+     * </pre>
      */
     public boolean hasCallResponse() {
       return ((bitField0_ & 0x00000004) == 0x00000004);
     }
     /**
      * <code>optional .Response.CallResponse call_response = 4;</code>
+     *
+     * <pre>
+     *call response field for type CALL
+     * </pre>
      */
     public buffers.ServerResponse.Response.CallResponse getCallResponse() {
       return callResponse_;
     }
     /**
      * <code>optional .Response.CallResponse call_response = 4;</code>
+     *
+     * <pre>
+     *call response field for type CALL
+     * </pre>
      */
     public buffers.ServerResponse.Response.CallResponseOrBuilder getCallResponseOrBuilder() {
       return callResponse_;
@@ -1875,9 +1895,7 @@ public final class ServerResponse {
      * <code>optional bool endCall = 5;</code>
      *
      * <pre>
-     *this is used when two users are in a call and one of them wants to end the call
-     *then a response will be sent to the other user saying that the call has ended
-     *forcing him to close the UDP connection
+     *endcall field for type ECALL
      * </pre>
      */
     public boolean hasEndCall() {
@@ -1887,9 +1905,7 @@ public final class ServerResponse {
      * <code>optional bool endCall = 5;</code>
      *
      * <pre>
-     *this is used when two users are in a call and one of them wants to end the call
-     *then a response will be sent to the other user saying that the call has ended
-     *forcing him to close the UDP connection
+     *endcall field for type ECALL
      * </pre>
      */
     public boolean getEndCall() {
@@ -2288,7 +2304,7 @@ public final class ServerResponse {
        * <code>optional .Response.ReqResult req_result = 3;</code>
        *
        * <pre>
-       *responses for actions of REG, LIN, LOUT, ECALL
+       *request result filed for type ACT
        * </pre>
        */
       public boolean hasReqResult() {
@@ -2298,7 +2314,7 @@ public final class ServerResponse {
        * <code>optional .Response.ReqResult req_result = 3;</code>
        *
        * <pre>
-       *responses for actions of REG, LIN, LOUT, ECALL
+       *request result filed for type ACT
        * </pre>
        */
       public buffers.ServerResponse.Response.ReqResult getReqResult() {
@@ -2312,7 +2328,7 @@ public final class ServerResponse {
        * <code>optional .Response.ReqResult req_result = 3;</code>
        *
        * <pre>
-       *responses for actions of REG, LIN, LOUT, ECALL
+       *request result filed for type ACT
        * </pre>
        */
       public Builder setReqResult(buffers.ServerResponse.Response.ReqResult value) {
@@ -2332,7 +2348,7 @@ public final class ServerResponse {
        * <code>optional .Response.ReqResult req_result = 3;</code>
        *
        * <pre>
-       *responses for actions of REG, LIN, LOUT, ECALL
+       *request result filed for type ACT
        * </pre>
        */
       public Builder setReqResult(
@@ -2350,7 +2366,7 @@ public final class ServerResponse {
        * <code>optional .Response.ReqResult req_result = 3;</code>
        *
        * <pre>
-       *responses for actions of REG, LIN, LOUT, ECALL
+       *request result filed for type ACT
        * </pre>
        */
       public Builder mergeReqResult(buffers.ServerResponse.Response.ReqResult value) {
@@ -2373,7 +2389,7 @@ public final class ServerResponse {
        * <code>optional .Response.ReqResult req_result = 3;</code>
        *
        * <pre>
-       *responses for actions of REG, LIN, LOUT, ECALL
+       *request result filed for type ACT
        * </pre>
        */
       public Builder clearReqResult() {
@@ -2390,7 +2406,7 @@ public final class ServerResponse {
        * <code>optional .Response.ReqResult req_result = 3;</code>
        *
        * <pre>
-       *responses for actions of REG, LIN, LOUT, ECALL
+       *request result filed for type ACT
        * </pre>
        */
       public buffers.ServerResponse.Response.ReqResult.Builder getReqResultBuilder() {
@@ -2402,7 +2418,7 @@ public final class ServerResponse {
        * <code>optional .Response.ReqResult req_result = 3;</code>
        *
        * <pre>
-       *responses for actions of REG, LIN, LOUT, ECALL
+       *request result filed for type ACT
        * </pre>
        */
       public buffers.ServerResponse.Response.ReqResultOrBuilder getReqResultOrBuilder() {
@@ -2416,7 +2432,7 @@ public final class ServerResponse {
        * <code>optional .Response.ReqResult req_result = 3;</code>
        *
        * <pre>
-       *responses for actions of REG, LIN, LOUT, ECALL
+       *request result filed for type ACT
        * </pre>
        */
       private com.google.protobuf.SingleFieldBuilder<
@@ -2438,12 +2454,20 @@ public final class ServerResponse {
           buffers.ServerResponse.Response.CallResponse, buffers.ServerResponse.Response.CallResponse.Builder, buffers.ServerResponse.Response.CallResponseOrBuilder> callResponseBuilder_;
       /**
        * <code>optional .Response.CallResponse call_response = 4;</code>
+       *
+       * <pre>
+       *call response field for type CALL
+       * </pre>
        */
       public boolean hasCallResponse() {
         return ((bitField0_ & 0x00000004) == 0x00000004);
       }
       /**
        * <code>optional .Response.CallResponse call_response = 4;</code>
+       *
+       * <pre>
+       *call response field for type CALL
+       * </pre>
        */
       public buffers.ServerResponse.Response.CallResponse getCallResponse() {
         if (callResponseBuilder_ == null) {
@@ -2454,6 +2478,10 @@ public final class ServerResponse {
       }
       /**
        * <code>optional .Response.CallResponse call_response = 4;</code>
+       *
+       * <pre>
+       *call response field for type CALL
+       * </pre>
        */
       public Builder setCallResponse(buffers.ServerResponse.Response.CallResponse value) {
         if (callResponseBuilder_ == null) {
@@ -2470,6 +2498,10 @@ public final class ServerResponse {
       }
       /**
        * <code>optional .Response.CallResponse call_response = 4;</code>
+       *
+       * <pre>
+       *call response field for type CALL
+       * </pre>
        */
       public Builder setCallResponse(
           buffers.ServerResponse.Response.CallResponse.Builder builderForValue) {
@@ -2484,6 +2516,10 @@ public final class ServerResponse {
       }
       /**
        * <code>optional .Response.CallResponse call_response = 4;</code>
+       *
+       * <pre>
+       *call response field for type CALL
+       * </pre>
        */
       public Builder mergeCallResponse(buffers.ServerResponse.Response.CallResponse value) {
         if (callResponseBuilder_ == null) {
@@ -2503,6 +2539,10 @@ public final class ServerResponse {
       }
       /**
        * <code>optional .Response.CallResponse call_response = 4;</code>
+       *
+       * <pre>
+       *call response field for type CALL
+       * </pre>
        */
       public Builder clearCallResponse() {
         if (callResponseBuilder_ == null) {
@@ -2516,6 +2556,10 @@ public final class ServerResponse {
       }
       /**
        * <code>optional .Response.CallResponse call_response = 4;</code>
+       *
+       * <pre>
+       *call response field for type CALL
+       * </pre>
        */
       public buffers.ServerResponse.Response.CallResponse.Builder getCallResponseBuilder() {
         bitField0_ |= 0x00000004;
@@ -2524,6 +2568,10 @@ public final class ServerResponse {
       }
       /**
        * <code>optional .Response.CallResponse call_response = 4;</code>
+       *
+       * <pre>
+       *call response field for type CALL
+       * </pre>
        */
       public buffers.ServerResponse.Response.CallResponseOrBuilder getCallResponseOrBuilder() {
         if (callResponseBuilder_ != null) {
@@ -2534,6 +2582,10 @@ public final class ServerResponse {
       }
       /**
        * <code>optional .Response.CallResponse call_response = 4;</code>
+       *
+       * <pre>
+       *call response field for type CALL
+       * </pre>
        */
       private com.google.protobuf.SingleFieldBuilder<
           buffers.ServerResponse.Response.CallResponse, buffers.ServerResponse.Response.CallResponse.Builder, buffers.ServerResponse.Response.CallResponseOrBuilder> 
@@ -2554,9 +2606,7 @@ public final class ServerResponse {
        * <code>optional bool endCall = 5;</code>
        *
        * <pre>
-       *this is used when two users are in a call and one of them wants to end the call
-       *then a response will be sent to the other user saying that the call has ended
-       *forcing him to close the UDP connection
+       *endcall field for type ECALL
        * </pre>
        */
       public boolean hasEndCall() {
@@ -2566,9 +2616,7 @@ public final class ServerResponse {
        * <code>optional bool endCall = 5;</code>
        *
        * <pre>
-       *this is used when two users are in a call and one of them wants to end the call
-       *then a response will be sent to the other user saying that the call has ended
-       *forcing him to close the UDP connection
+       *endcall field for type ECALL
        * </pre>
        */
       public boolean getEndCall() {
@@ -2578,9 +2626,7 @@ public final class ServerResponse {
        * <code>optional bool endCall = 5;</code>
        *
        * <pre>
-       *this is used when two users are in a call and one of them wants to end the call
-       *then a response will be sent to the other user saying that the call has ended
-       *forcing him to close the UDP connection
+       *endcall field for type ECALL
        * </pre>
        */
       public Builder setEndCall(boolean value) {
@@ -2593,9 +2639,7 @@ public final class ServerResponse {
        * <code>optional bool endCall = 5;</code>
        *
        * <pre>
-       *this is used when two users are in a call and one of them wants to end the call
-       *then a response will be sent to the other user saying that the call has ended
-       *forcing him to close the UDP connection
+       *endcall field for type ECALL
        * </pre>
        */
       public Builder clearEndCall() {

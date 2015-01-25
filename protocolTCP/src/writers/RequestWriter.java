@@ -1,18 +1,15 @@
-package tcp.messagehandler;
+package writers;
 
 import buffers.ClientRequest.Request;
-import buffers.ClientRequest.Request.CallTo;
 import buffers.ClientRequest.Request.LogIn;
-import buffers.ClientRequest.Request.LogOut;
 import buffers.ClientRequest.Request.Registration;
-import handler.write.WriteRequest;
 
 /**
  * Class that contains an API for creating and reading types of Request
  * 
  * @author Ovidiu Popoviciu
  * */
-public final class RequestWriter implements WriteRequest {
+public final class RequestWriter {
 
 	/**
 	 * method that creates a register request
@@ -63,18 +60,16 @@ public final class RequestWriter implements WriteRequest {
 	/**
 	 * method that creates a logout request
 	 * 
-	 * @param username
+	 * @param confirm
 	 *            The username of client to be logged out
 	 * @return request of type log-out
 	 */
-	public Request createLogOutReq(String username) { return logOutReq(username); }
+	public Request createLogOutReq(boolean confirm) { return logOutReq(confirm); }
 
-	private static Request logOutReq(String username) {
-		// build logout message
-		LogOut lout = LogOut.newBuilder().setUsername(username).build();
+	private static Request logOutReq(boolean confirm) {
 		// build request message
 		Request req = Request.newBuilder().setRqType(Request.ReqType.LOUT)
-				.setLout(lout).build();
+				.setConfirmation(confirm).build();
 		return req;
 	}
 
@@ -90,28 +85,43 @@ public final class RequestWriter implements WriteRequest {
 	}
 
 	private static Request callReq(String username) {
-		// build call message
-		CallTo call = CallTo.newBuilder().setUserCalled(username).build();
 		// build request message
 		Request req = Request.newBuilder().setRqType(Request.ReqType.CALL)
-				.setCallTo(call).build();
+				.setUsername(username).build();
 		return req;
 	}
 
 	/**
 	 * method that returns endcall request
-	 * 
-	 * @param endCall
+	 *
+	 * @param username
 	 *            The username of the client to end the connection with
 	 * @return request of type end call
 	 * */
-	public Request createEndCallReq(boolean endCall) {
-		return endCallReq(endCall);
+	public Request createStatusReq(String username) { return statusReq(username); }
+	
+	private static Request statusReq(String username){
+		//build request
+		Request req = Request.newBuilder().setRqType(Request.ReqType.STS)
+				.setUsername(username).build();
+		return req;
+	}
+	
+	/**
+	 * method that returns endcall request
+	 * 
+	 * @param confirm
+	 *            The username of the client to end the connection with
+	 * @return request of type end call
+	 * */
+	public Request createEndCallReq(boolean confirm) {
+		return endCallReq(confirm);
 	}
 
-	private static Request endCallReq(boolean endCall) {
+	private static Request endCallReq(boolean confirm) {
 		// build request message
-		Request req = Request.newBuilder().setRqType(Request.ReqType.ECALL).setEndCall(endCall).build();
+		Request req = Request.newBuilder().setRqType(Request.ReqType.ECALL)
+				.setConfirmation(confirm).build();
 		return req;
 	}
 

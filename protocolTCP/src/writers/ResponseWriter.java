@@ -1,4 +1,4 @@
-package tcp.messagehandler;
+package writers;
 
 import buffers.ServerResponse.Response;
 import buffers.ServerResponse.Response.CallResponse;
@@ -39,13 +39,13 @@ public class ResponseWriter {
 	 * 			The IP Address of the user to be called
 	 * @returns response to the call request
 	 * */
-	public Response createCallResponse(boolean ok, String cause, String ipAddress){
-		return callResponse(ok, cause, ipAddress);
+	public Response createCallResponse(boolean ok, String cause, String ipAddress, int callID){
+		return callResponse(ok, cause, ipAddress, callID);
 	}
 
-	private static Response callResponse(boolean ok, String cause, String ipAddress){
+	private static Response callResponse(boolean ok, String cause, String ipAddress, int callID){
 		CallResponse callResponse = CallResponse.newBuilder().
-				setOk(ok).setCause(cause).setIpAddress(ipAddress).build();
+				setOk(ok).setCause(cause).setIpAddress(ipAddress).setCallID(callID).build();
 		Response response = Response.newBuilder().setResType(Response.ResType.CALL).
 				setCallResponse(callResponse).build();
 		return response;
