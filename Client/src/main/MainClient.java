@@ -4,7 +4,7 @@ import tcp.sockethandler.SocketHandler;
 
 public class MainClient {
 	
-	private static final int port = 9991;
+	private static final int port = 9992;
 
 	public static void main(String[] args) {
 		SocketHandler client = new SocketHandler("localhost", port);

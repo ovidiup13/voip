@@ -2,7 +2,6 @@ package tcp.messagehandler;
 
 import buffers.ClientRequest.Request;
 import buffers.ClientRequest.Request.CallTo;
-import buffers.ClientRequest.Request.EndCall;
 import buffers.ClientRequest.Request.LogIn;
 import buffers.ClientRequest.Request.LogOut;
 import buffers.ClientRequest.Request.Registration;
@@ -102,20 +101,17 @@ public final class RequestWriter implements WriteRequest {
 	/**
 	 * method that returns endcall request
 	 * 
-	 * @param username
+	 * @param endCall
 	 *            The username of the client to end the connection with
 	 * @return request of type end call
 	 * */
-	public Request createEndCallReq(String username) {
-		return endCallReq(username);
+	public Request createEndCallReq(boolean endCall) {
+		return endCallReq(endCall);
 	}
 
-	private static Request endCallReq(String username) {
-		// build end call message
-		EndCall ecall = EndCall.newBuilder().setUserEnded(username).build();
+	private static Request endCallReq(boolean endCall) {
 		// build request message
-		Request req = Request.newBuilder().setRqType(Request.ReqType.ECALL)
-				.setEndCall(ecall).build();
+		Request req = Request.newBuilder().setRqType(Request.ReqType.ECALL).setEndCall(endCall).build();
 		return req;
 	}
 

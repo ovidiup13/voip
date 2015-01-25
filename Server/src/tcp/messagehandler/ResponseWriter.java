@@ -1,8 +1,8 @@
 package tcp.messagehandler;
 
 import buffers.ServerResponse.Response;
-import buffers.ServerResponse.Response.ReqResult;
 import buffers.ServerResponse.Response.CallResponse;
+import buffers.ServerResponse.Response.ReqResult;
 
 /**
  * Class that contains an API for creating and reading types of Responses
@@ -25,7 +25,7 @@ public class ResponseWriter {
 	private static Response actionResponse(boolean ok, String cause){
 		ReqResult reqResult = ReqResult.newBuilder().setOk(ok).setCause(cause).build();
 		Response response = Response.newBuilder().
-				setResType(Response.ResType.ACT).setResult(reqResult).build();
+				setResType(Response.ResType.ACT).setReqResult(reqResult).build();
 		return response;
 	}
 

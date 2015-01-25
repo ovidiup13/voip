@@ -1,7 +1,6 @@
 package database;
 
 import java.sql.*;
-import java.lang.ClassNotFoundException;
 
 public class ConnectToDb {
 	private Connection connection = null;
@@ -28,7 +27,7 @@ public class ConnectToDb {
 
 			//1.Get a connection to the database	URL, Username, Password	
 			//connection = DriverManager.getConnection("jdbc:mysql://localhost:3306/TP3Hdb","root","zzz");
-			connection =  DriverManager.getConnection("jdbc:sqlite:Server/src/server/database/TP3Hdb.db");
+			connection =  DriverManager.getConnection("jdbc:sqlite:Server/src/database/TP3Hdb.db");
 			System.out.println("Opened database successfully");
 
 
@@ -105,7 +104,7 @@ public class ConnectToDb {
 	}
 	/**
 	 * LogIn method
-	 * @param usurname, password
+	 * @param username, password
 	 *@return  true if user name and password match
 	 *    false if password does not match or user name does not exists
 	 *    

@@ -1,12 +1,12 @@
 package tcp.clienthandler;
 
-import java.io.IOException;
-import java.net.Socket;
-
 import buffers.ClientRequest.Request;
 import buffers.ServerResponse.Response;
 import database.ConnectToDb;
 import tcp.messagehandler.ResponseWriter;
+
+import java.io.IOException;
+import java.net.Socket;
 
 public class ClientHandler implements Runnable {
 
@@ -15,6 +15,7 @@ public class ClientHandler implements Runnable {
 	private ConnectToDb db;
 
 	public ClientHandler(Socket client) {
+		System.out.println("Server: Client found...");
 		this.client = client;
 		responseWriter = new ResponseWriter();
 		db =  new ConnectToDb();
@@ -23,12 +24,18 @@ public class ClientHandler implements Runnable {
 
 	@Override
 	public void run() {
+		
 		readRequest();
+		try {
+			client.close();
+		} catch (IOException e) {
+			e.printStackTrace();
+		}
 	}
 
 	public void readRequest() {
 		Request request = null;
-
+		System.out.println("Server: Reading client request...");
 		try {
 			request = Request.parseDelimitedFrom(client.getInputStream());
 		} catch (IOException e) {
@@ -37,22 +44,33 @@ public class ClientHandler implements Runnable {
 		}
 
 		Request.ReqType type = request.getRqType();
+		
+		//System.out.println(request.getCallTo().getUserCalled());
 
 		if(type.equals(Request.ReqType.REG)){
+			System.out.println("Server: Request is of type REG, processing...");
+			
 			//add client to database
-			System.out.println("username is: " + request.getReg().getUsername());
-			System.out.println("password is: " + request.getReg().getPassword());
-			if(db.register(request.getReg().getUsername(), request.getReg().getPassword()))
+			//System.out.println("username is: " + request.getReg().getUsername());
+			//System.out.println("password is: " + request.getReg().getPassword());
+			
+			System.out.println("Server: Adding user to database...");
+			if(db.register(request.getReg().getUsername(), request.getReg().getPassword())) {
 				//if ok, send confirmation response
-				sendResponse(true, "registration successful");
+				sendResponse(true, "registration successful - you can log in now");
+				System.out.println("Server: Sent successful response.");
+			}
 			else{
-				sendResponse(false, "reqistration unsuccessful");
+				sendResponse(false, "registration unsuccessful - the user already exists");
+				System.out.println("Server: Sent unsuccessful response.");
 			}
 		}
 		else if(type.equals(Request.ReqType.LIN)){
 			System.out.println("username is: " + request.getReg().getUsername());
 			System.out.println("password is: " + request.getReg().getPassword());
 			if(db.logIn(request.getReg().getUsername(), request.getReg().getPassword()))
+				//add user to cache with status idle
+				
 				//if ok, send confirmation response
 				sendResponse(true, "Login successful");
 			else{

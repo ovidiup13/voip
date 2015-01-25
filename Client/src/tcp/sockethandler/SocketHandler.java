@@ -3,7 +3,8 @@ package tcp.sockethandler;
 import buffers.ClientRequest.Request;
 import buffers.ServerResponse.Response;
 import tcp.messagehandler.RequestWriter;
-import java.io.*;
+
+import java.io.IOException;
 import java.net.Socket;
 
 /**
@@ -36,6 +37,7 @@ public class SocketHandler {
 	public boolean sendRegisterRequest() {
 		System.out.println("Client: Creating and sending register request...");
 		Request request = requestWriter.createRegisterReq("username", "default");
+		Request req2 = requestWriter.createLogInReq("username", "password");
 		try {
 			request.writeDelimitedTo(socketClient.getOutputStream());
 			System.out.println("Client: Sent register request...");
@@ -77,8 +79,8 @@ public class SocketHandler {
 		}
 		//}
 		assert response != null;
-		System.out.println("Result: " + response.getResult().getOk());
-		System.out.println("Message: " + response.getResult().getCause());
+		System.out.println("Result: " + response.getReqResult().getOk());
+		System.out.println("Message: " + response.getReqResult().getCause());
 	}
 
 	public boolean closeConnection() {
