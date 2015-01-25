@@ -7,7 +7,7 @@ option optimize_for = SPEED;
 message Request {
 	
 	//specify the type of request
-	enum ReqType { REG = 1; LIN = 2; LOUT = 3; CALL = 4; ECALL = 5; }
+	enum ReqType { REG = 1; LIN = 2; LOUT = 3; CALL = 4; STS = 5; ECALL = 6;}
 
 	//request type is required
 	required ReqType rq_type = 1;
@@ -20,8 +20,9 @@ message Request {
 	optional LogIn lin = 4;
 	optional LogOut lout = 5;
 	optional CallTo call_to = 6;
-	optional EndCall end_call = 7;
-		
+	optional Status status = 7;
+	optional bool end_call = 8;
+	
 	//registration request structure
 	message Registration {
 		//fields for registration
@@ -51,11 +52,10 @@ message Request {
 		//fields for call
 		optional string user_called = 1;
 	}
-
-	//end call structure
-	message EndCall {
-		//fields for end call
-		optional string user_ended = 1;
+	
+	message Status {
+		//user to be requested status
+		optional string user_sts = 1;
 	}
 	
 }

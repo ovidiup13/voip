@@ -30,29 +30,29 @@ public final class ServerResponse {
     buffers.ServerResponse.Response.ResType getResType();
 
     /**
-     * <code>optional .Response.ReqResult result = 3;</code>
+     * <code>optional .Response.ReqResult req_result = 3;</code>
      *
      * <pre>
      *responses for actions of REG, LIN, LOUT, ECALL
      * </pre>
      */
-    boolean hasResult();
+    boolean hasReqResult();
     /**
-     * <code>optional .Response.ReqResult result = 3;</code>
+     * <code>optional .Response.ReqResult req_result = 3;</code>
      *
      * <pre>
      *responses for actions of REG, LIN, LOUT, ECALL
      * </pre>
      */
-    buffers.ServerResponse.Response.ReqResult getResult();
+    buffers.ServerResponse.Response.ReqResult getReqResult();
     /**
-     * <code>optional .Response.ReqResult result = 3;</code>
+     * <code>optional .Response.ReqResult req_result = 3;</code>
      *
      * <pre>
      *responses for actions of REG, LIN, LOUT, ECALL
      * </pre>
      */
-    buffers.ServerResponse.Response.ReqResultOrBuilder getResultOrBuilder();
+    buffers.ServerResponse.Response.ReqResultOrBuilder getReqResultOrBuilder();
 
     /**
      * <code>optional .Response.CallResponse call_response = 4;</code>
@@ -158,12 +158,12 @@ public final class ServerResponse {
             case 26: {
               buffers.ServerResponse.Response.ReqResult.Builder subBuilder = null;
               if (((bitField0_ & 0x00000002) == 0x00000002)) {
-                subBuilder = result_.toBuilder();
+                subBuilder = reqResult_.toBuilder();
               }
-              result_ = input.readMessage(buffers.ServerResponse.Response.ReqResult.PARSER, extensionRegistry);
+              reqResult_ = input.readMessage(buffers.ServerResponse.Response.ReqResult.PARSER, extensionRegistry);
               if (subBuilder != null) {
-                subBuilder.mergeFrom(result_);
-                result_ = subBuilder.buildPartial();
+                subBuilder.mergeFrom(reqResult_);
+                reqResult_ = subBuilder.buildPartial();
               }
               bitField0_ |= 0x00000002;
               break;
@@ -325,24 +325,24 @@ public final class ServerResponse {
         com.google.protobuf.MessageOrBuilder {
 
       /**
-       * <code>optional bool ok = 1;</code>
+       * <code>required bool ok = 1;</code>
        */
       boolean hasOk();
       /**
-       * <code>optional bool ok = 1;</code>
+       * <code>required bool ok = 1;</code>
        */
       boolean getOk();
 
       /**
-       * <code>optional string cause = 2;</code>
+       * <code>required string cause = 2;</code>
        */
       boolean hasCause();
       /**
-       * <code>optional string cause = 2;</code>
+       * <code>required string cause = 2;</code>
        */
       java.lang.String getCause();
       /**
-       * <code>optional string cause = 2;</code>
+       * <code>required string cause = 2;</code>
        */
       com.google.protobuf.ByteString
           getCauseBytes();
@@ -351,7 +351,7 @@ public final class ServerResponse {
      * Protobuf type {@code Response.ReqResult}
      *
      * <pre>
-     *request result
+     *request result - can be used for REG, LIN, LOUT, STS, CALL
      * </pre>
      */
     public static final class ReqResult extends
@@ -457,13 +457,13 @@ public final class ServerResponse {
       public static final int OK_FIELD_NUMBER = 1;
       private boolean ok_;
       /**
-       * <code>optional bool ok = 1;</code>
+       * <code>required bool ok = 1;</code>
        */
       public boolean hasOk() {
         return ((bitField0_ & 0x00000001) == 0x00000001);
       }
       /**
-       * <code>optional bool ok = 1;</code>
+       * <code>required bool ok = 1;</code>
        */
       public boolean getOk() {
         return ok_;
@@ -472,13 +472,13 @@ public final class ServerResponse {
       public static final int CAUSE_FIELD_NUMBER = 2;
       private java.lang.Object cause_;
       /**
-       * <code>optional string cause = 2;</code>
+       * <code>required string cause = 2;</code>
        */
       public boolean hasCause() {
         return ((bitField0_ & 0x00000002) == 0x00000002);
       }
       /**
-       * <code>optional string cause = 2;</code>
+       * <code>required string cause = 2;</code>
        */
       public java.lang.String getCause() {
         java.lang.Object ref = cause_;
@@ -495,7 +495,7 @@ public final class ServerResponse {
         }
       }
       /**
-       * <code>optional string cause = 2;</code>
+       * <code>required string cause = 2;</code>
        */
       public com.google.protobuf.ByteString
           getCauseBytes() {
@@ -521,6 +521,14 @@ public final class ServerResponse {
         if (isInitialized == 1) return true;
         if (isInitialized == 0) return false;
 
+        if (!hasOk()) {
+          memoizedIsInitialized = 0;
+          return false;
+        }
+        if (!hasCause()) {
+          memoizedIsInitialized = 0;
+          return false;
+        }
         memoizedIsInitialized = 1;
         return true;
       }
@@ -633,7 +641,7 @@ public final class ServerResponse {
        * Protobuf type {@code Response.ReqResult}
        *
        * <pre>
-       *request result
+       *request result - can be used for REG, LIN, LOUT, STS, CALL
        * </pre>
        */
       public static final class Builder extends
@@ -741,6 +749,14 @@ public final class ServerResponse {
         }
 
         public final boolean isInitialized() {
+          if (!hasOk()) {
+            
+            return false;
+          }
+          if (!hasCause()) {
+            
+            return false;
+          }
           return true;
         }
 
@@ -765,19 +781,19 @@ public final class ServerResponse {
 
         private boolean ok_ ;
         /**
-         * <code>optional bool ok = 1;</code>
+         * <code>required bool ok = 1;</code>
          */
         public boolean hasOk() {
           return ((bitField0_ & 0x00000001) == 0x00000001);
         }
         /**
-         * <code>optional bool ok = 1;</code>
+         * <code>required bool ok = 1;</code>
          */
         public boolean getOk() {
           return ok_;
         }
         /**
-         * <code>optional bool ok = 1;</code>
+         * <code>required bool ok = 1;</code>
          */
         public Builder setOk(boolean value) {
           bitField0_ |= 0x00000001;
@@ -786,7 +802,7 @@ public final class ServerResponse {
           return this;
         }
         /**
-         * <code>optional bool ok = 1;</code>
+         * <code>required bool ok = 1;</code>
          */
         public Builder clearOk() {
           bitField0_ = (bitField0_ & ~0x00000001);
@@ -797,13 +813,13 @@ public final class ServerResponse {
 
         private java.lang.Object cause_ = "";
         /**
-         * <code>optional string cause = 2;</code>
+         * <code>required string cause = 2;</code>
          */
         public boolean hasCause() {
           return ((bitField0_ & 0x00000002) == 0x00000002);
         }
         /**
-         * <code>optional string cause = 2;</code>
+         * <code>required string cause = 2;</code>
          */
         public java.lang.String getCause() {
           java.lang.Object ref = cause_;
@@ -820,7 +836,7 @@ public final class ServerResponse {
           }
         }
         /**
-         * <code>optional string cause = 2;</code>
+         * <code>required string cause = 2;</code>
          */
         public com.google.protobuf.ByteString
             getCauseBytes() {
@@ -836,7 +852,7 @@ public final class ServerResponse {
           }
         }
         /**
-         * <code>optional string cause = 2;</code>
+         * <code>required string cause = 2;</code>
          */
         public Builder setCause(
             java.lang.String value) {
@@ -849,7 +865,7 @@ public final class ServerResponse {
           return this;
         }
         /**
-         * <code>optional string cause = 2;</code>
+         * <code>required string cause = 2;</code>
          */
         public Builder clearCause() {
           bitField0_ = (bitField0_ & ~0x00000002);
@@ -858,7 +874,7 @@ public final class ServerResponse {
           return this;
         }
         /**
-         * <code>optional string cause = 2;</code>
+         * <code>required string cause = 2;</code>
          */
         public Builder setCauseBytes(
             com.google.protobuf.ByteString value) {
@@ -887,24 +903,24 @@ public final class ServerResponse {
         com.google.protobuf.MessageOrBuilder {
 
       /**
-       * <code>optional bool ok = 1;</code>
+       * <code>required bool ok = 1;</code>
        */
       boolean hasOk();
       /**
-       * <code>optional bool ok = 1;</code>
+       * <code>required bool ok = 1;</code>
        */
       boolean getOk();
 
       /**
-       * <code>optional string cause = 2;</code>
+       * <code>required string cause = 2;</code>
        */
       boolean hasCause();
       /**
-       * <code>optional string cause = 2;</code>
+       * <code>required string cause = 2;</code>
        */
       java.lang.String getCause();
       /**
-       * <code>optional string cause = 2;</code>
+       * <code>required string cause = 2;</code>
        */
       com.google.protobuf.ByteString
           getCauseBytes();
@@ -934,6 +950,23 @@ public final class ServerResponse {
        */
       com.google.protobuf.ByteString
           getIpAddressBytes();
+
+      /**
+       * <code>optional int32 callID = 4;</code>
+       *
+       * <pre>
+       *specify a call ID (int) generated by the server
+       * </pre>
+       */
+      boolean hasCallID();
+      /**
+       * <code>optional int32 callID = 4;</code>
+       *
+       * <pre>
+       *specify a call ID (int) generated by the server
+       * </pre>
+       */
+      int getCallID();
     }
     /**
      * Protobuf type {@code Response.CallResponse}
@@ -1008,6 +1041,11 @@ public final class ServerResponse {
                 ipAddress_ = bs;
                 break;
               }
+              case 32: {
+                bitField0_ |= 0x00000008;
+                callID_ = input.readInt32();
+                break;
+              }
             }
           }
         } catch (com.google.protobuf.InvalidProtocolBufferException e) {
@@ -1051,13 +1089,13 @@ public final class ServerResponse {
       public static final int OK_FIELD_NUMBER = 1;
       private boolean ok_;
       /**
-       * <code>optional bool ok = 1;</code>
+       * <code>required bool ok = 1;</code>
        */
       public boolean hasOk() {
         return ((bitField0_ & 0x00000001) == 0x00000001);
       }
       /**
-       * <code>optional bool ok = 1;</code>
+       * <code>required bool ok = 1;</code>
        */
       public boolean getOk() {
         return ok_;
@@ -1066,13 +1104,13 @@ public final class ServerResponse {
       public static final int CAUSE_FIELD_NUMBER = 2;
       private java.lang.Object cause_;
       /**
-       * <code>optional string cause = 2;</code>
+       * <code>required string cause = 2;</code>
        */
       public boolean hasCause() {
         return ((bitField0_ & 0x00000002) == 0x00000002);
       }
       /**
-       * <code>optional string cause = 2;</code>
+       * <code>required string cause = 2;</code>
        */
       public java.lang.String getCause() {
         java.lang.Object ref = cause_;
@@ -1089,7 +1127,7 @@ public final class ServerResponse {
         }
       }
       /**
-       * <code>optional string cause = 2;</code>
+       * <code>required string cause = 2;</code>
        */
       public com.google.protobuf.ByteString
           getCauseBytes() {
@@ -1159,10 +1197,34 @@ public final class ServerResponse {
         }
       }
 
+      public static final int CALLID_FIELD_NUMBER = 4;
+      private int callID_;
+      /**
+       * <code>optional int32 callID = 4;</code>
+       *
+       * <pre>
+       *specify a call ID (int) generated by the server
+       * </pre>
+       */
+      public boolean hasCallID() {
+        return ((bitField0_ & 0x00000008) == 0x00000008);
+      }
+      /**
+       * <code>optional int32 callID = 4;</code>
+       *
+       * <pre>
+       *specify a call ID (int) generated by the server
+       * </pre>
+       */
+      public int getCallID() {
+        return callID_;
+      }
+
       private void initFields() {
         ok_ = false;
         cause_ = "";
         ipAddress_ = "";
+        callID_ = 0;
       }
       private byte memoizedIsInitialized = -1;
       public final boolean isInitialized() {
@@ -1170,6 +1232,14 @@ public final class ServerResponse {
         if (isInitialized == 1) return true;
         if (isInitialized == 0) return false;
 
+        if (!hasOk()) {
+          memoizedIsInitialized = 0;
+          return false;
+        }
+        if (!hasCause()) {
+          memoizedIsInitialized = 0;
+          return false;
+        }
         memoizedIsInitialized = 1;
         return true;
       }
@@ -1185,6 +1255,9 @@ public final class ServerResponse {
         }
         if (((bitField0_ & 0x00000004) == 0x00000004)) {
           output.writeBytes(3, getIpAddressBytes());
+        }
+        if (((bitField0_ & 0x00000008) == 0x00000008)) {
+          output.writeInt32(4, callID_);
         }
         getUnknownFields().writeTo(output);
       }
@@ -1206,6 +1279,10 @@ public final class ServerResponse {
         if (((bitField0_ & 0x00000004) == 0x00000004)) {
           size += com.google.protobuf.CodedOutputStream
             .computeBytesSize(3, getIpAddressBytes());
+        }
+        if (((bitField0_ & 0x00000008) == 0x00000008)) {
+          size += com.google.protobuf.CodedOutputStream
+            .computeInt32Size(4, callID_);
         }
         size += getUnknownFields().getSerializedSize();
         memoizedSerializedSize = size;
@@ -1334,6 +1411,8 @@ public final class ServerResponse {
           bitField0_ = (bitField0_ & ~0x00000002);
           ipAddress_ = "";
           bitField0_ = (bitField0_ & ~0x00000004);
+          callID_ = 0;
+          bitField0_ = (bitField0_ & ~0x00000008);
           return this;
         }
 
@@ -1374,6 +1453,10 @@ public final class ServerResponse {
             to_bitField0_ |= 0x00000004;
           }
           result.ipAddress_ = ipAddress_;
+          if (((from_bitField0_ & 0x00000008) == 0x00000008)) {
+            to_bitField0_ |= 0x00000008;
+          }
+          result.callID_ = callID_;
           result.bitField0_ = to_bitField0_;
           onBuilt();
           return result;
@@ -1403,11 +1486,22 @@ public final class ServerResponse {
             ipAddress_ = other.ipAddress_;
             onChanged();
           }
+          if (other.hasCallID()) {
+            setCallID(other.getCallID());
+          }
           this.mergeUnknownFields(other.getUnknownFields());
           return this;
         }
 
         public final boolean isInitialized() {
+          if (!hasOk()) {
+            
+            return false;
+          }
+          if (!hasCause()) {
+            
+            return false;
+          }
           return true;
         }
 
@@ -1432,19 +1526,19 @@ public final class ServerResponse {
 
         private boolean ok_ ;
         /**
-         * <code>optional bool ok = 1;</code>
+         * <code>required bool ok = 1;</code>
          */
         public boolean hasOk() {
           return ((bitField0_ & 0x00000001) == 0x00000001);
         }
         /**
-         * <code>optional bool ok = 1;</code>
+         * <code>required bool ok = 1;</code>
          */
         public boolean getOk() {
           return ok_;
         }
         /**
-         * <code>optional bool ok = 1;</code>
+         * <code>required bool ok = 1;</code>
          */
         public Builder setOk(boolean value) {
           bitField0_ |= 0x00000001;
@@ -1453,7 +1547,7 @@ public final class ServerResponse {
           return this;
         }
         /**
-         * <code>optional bool ok = 1;</code>
+         * <code>required bool ok = 1;</code>
          */
         public Builder clearOk() {
           bitField0_ = (bitField0_ & ~0x00000001);
@@ -1464,13 +1558,13 @@ public final class ServerResponse {
 
         private java.lang.Object cause_ = "";
         /**
-         * <code>optional string cause = 2;</code>
+         * <code>required string cause = 2;</code>
          */
         public boolean hasCause() {
           return ((bitField0_ & 0x00000002) == 0x00000002);
         }
         /**
-         * <code>optional string cause = 2;</code>
+         * <code>required string cause = 2;</code>
          */
         public java.lang.String getCause() {
           java.lang.Object ref = cause_;
@@ -1487,7 +1581,7 @@ public final class ServerResponse {
           }
         }
         /**
-         * <code>optional string cause = 2;</code>
+         * <code>required string cause = 2;</code>
          */
         public com.google.protobuf.ByteString
             getCauseBytes() {
@@ -1503,7 +1597,7 @@ public final class ServerResponse {
           }
         }
         /**
-         * <code>optional string cause = 2;</code>
+         * <code>required string cause = 2;</code>
          */
         public Builder setCause(
             java.lang.String value) {
@@ -1516,7 +1610,7 @@ public final class ServerResponse {
           return this;
         }
         /**
-         * <code>optional string cause = 2;</code>
+         * <code>required string cause = 2;</code>
          */
         public Builder clearCause() {
           bitField0_ = (bitField0_ & ~0x00000002);
@@ -1525,7 +1619,7 @@ public final class ServerResponse {
           return this;
         }
         /**
-         * <code>optional string cause = 2;</code>
+         * <code>required string cause = 2;</code>
          */
         public Builder setCauseBytes(
             com.google.protobuf.ByteString value) {
@@ -1638,6 +1732,54 @@ public final class ServerResponse {
           return this;
         }
 
+        private int callID_ ;
+        /**
+         * <code>optional int32 callID = 4;</code>
+         *
+         * <pre>
+         *specify a call ID (int) generated by the server
+         * </pre>
+         */
+        public boolean hasCallID() {
+          return ((bitField0_ & 0x00000008) == 0x00000008);
+        }
+        /**
+         * <code>optional int32 callID = 4;</code>
+         *
+         * <pre>
+         *specify a call ID (int) generated by the server
+         * </pre>
+         */
+        public int getCallID() {
+          return callID_;
+        }
+        /**
+         * <code>optional int32 callID = 4;</code>
+         *
+         * <pre>
+         *specify a call ID (int) generated by the server
+         * </pre>
+         */
+        public Builder setCallID(int value) {
+          bitField0_ |= 0x00000008;
+          callID_ = value;
+          onChanged();
+          return this;
+        }
+        /**
+         * <code>optional int32 callID = 4;</code>
+         *
+         * <pre>
+         *specify a call ID (int) generated by the server
+         * </pre>
+         */
+        public Builder clearCallID() {
+          bitField0_ = (bitField0_ & ~0x00000008);
+          callID_ = 0;
+          onChanged();
+          return this;
+        }
+
         // @@protoc_insertion_point(builder_scope:Response.CallResponse)
       }
 
@@ -1673,37 +1815,37 @@ public final class ServerResponse {
       return resType_;
     }
 
-    public static final int RESULT_FIELD_NUMBER = 3;
-    private buffers.ServerResponse.Response.ReqResult result_;
+    public static final int REQ_RESULT_FIELD_NUMBER = 3;
+    private buffers.ServerResponse.Response.ReqResult reqResult_;
     /**
-     * <code>optional .Response.ReqResult result = 3;</code>
+     * <code>optional .Response.ReqResult req_result = 3;</code>
      *
      * <pre>
      *responses for actions of REG, LIN, LOUT, ECALL
      * </pre>
      */
-    public boolean hasResult() {
+    public boolean hasReqResult() {
       return ((bitField0_ & 0x00000002) == 0x00000002);
     }
     /**
-     * <code>optional .Response.ReqResult result = 3;</code>
+     * <code>optional .Response.ReqResult req_result = 3;</code>
      *
      * <pre>
      *responses for actions of REG, LIN, LOUT, ECALL
      * </pre>
      */
-    public buffers.ServerResponse.Response.ReqResult getResult() {
-      return result_;
+    public buffers.ServerResponse.Response.ReqResult getReqResult() {
+      return reqResult_;
     }
     /**
-     * <code>optional .Response.ReqResult result = 3;</code>
+     * <code>optional .Response.ReqResult req_result = 3;</code>
      *
      * <pre>
      *responses for actions of REG, LIN, LOUT, ECALL
      * </pre>
      */
-    public buffers.ServerResponse.Response.ReqResultOrBuilder getResultOrBuilder() {
-      return result_;
+    public buffers.ServerResponse.Response.ReqResultOrBuilder getReqResultOrBuilder() {
+      return reqResult_;
     }
 
     public static final int CALL_RESPONSE_FIELD_NUMBER = 4;
@@ -1756,7 +1898,7 @@ public final class ServerResponse {
 
     private void initFields() {
       resType_ = buffers.ServerResponse.Response.ResType.ACT;
-      result_ = buffers.ServerResponse.Response.ReqResult.getDefaultInstance();
+      reqResult_ = buffers.ServerResponse.Response.ReqResult.getDefaultInstance();
       callResponse_ = buffers.ServerResponse.Response.CallResponse.getDefaultInstance();
       endCall_ = false;
     }
@@ -1770,6 +1912,18 @@ public final class ServerResponse {
         memoizedIsInitialized = 0;
         return false;
       }
+      if (hasReqResult()) {
+        if (!getReqResult().isInitialized()) {
+          memoizedIsInitialized = 0;
+          return false;
+        }
+      }
+      if (hasCallResponse()) {
+        if (!getCallResponse().isInitialized()) {
+          memoizedIsInitialized = 0;
+          return false;
+        }
+      }
       memoizedIsInitialized = 1;
       return true;
     }
@@ -1781,7 +1935,7 @@ public final class ServerResponse {
         output.writeEnum(1, resType_.getNumber());
       }
       if (((bitField0_ & 0x00000002) == 0x00000002)) {
-        output.writeMessage(3, result_);
+        output.writeMessage(3, reqResult_);
       }
       if (((bitField0_ & 0x00000004) == 0x00000004)) {
         output.writeMessage(4, callResponse_);
@@ -1804,7 +1958,7 @@ public final class ServerResponse {
       }
       if (((bitField0_ & 0x00000002) == 0x00000002)) {
         size += com.google.protobuf.CodedOutputStream
-          .computeMessageSize(3, result_);
+          .computeMessageSize(3, reqResult_);
       }
       if (((bitField0_ & 0x00000004) == 0x00000004)) {
         size += com.google.protobuf.CodedOutputStream
@@ -1927,7 +2081,7 @@ public final class ServerResponse {
       }
       private void maybeForceBuilderInitialization() {
         if (com.google.protobuf.GeneratedMessage.alwaysUseFieldBuilders) {
-          getResultFieldBuilder();
+          getReqResultFieldBuilder();
           getCallResponseFieldBuilder();
         }
       }
@@ -1939,10 +2093,10 @@ public final class ServerResponse {
         super.clear();
         resType_ = buffers.ServerResponse.Response.ResType.ACT;
         bitField0_ = (bitField0_ & ~0x00000001);
-        if (resultBuilder_ == null) {
-          result_ = buffers.ServerResponse.Response.ReqResult.getDefaultInstance();
+        if (reqResultBuilder_ == null) {
+          reqResult_ = buffers.ServerResponse.Response.ReqResult.getDefaultInstance();
         } else {
-          resultBuilder_.clear();
+          reqResultBuilder_.clear();
         }
         bitField0_ = (bitField0_ & ~0x00000002);
         if (callResponseBuilder_ == null) {
@@ -1988,10 +2142,10 @@ public final class ServerResponse {
         if (((from_bitField0_ & 0x00000002) == 0x00000002)) {
           to_bitField0_ |= 0x00000002;
         }
-        if (resultBuilder_ == null) {
-          result.result_ = result_;
+        if (reqResultBuilder_ == null) {
+          result.reqResult_ = reqResult_;
         } else {
-          result.result_ = resultBuilder_.build();
+          result.reqResult_ = reqResultBuilder_.build();
         }
         if (((from_bitField0_ & 0x00000004) == 0x00000004)) {
           to_bitField0_ |= 0x00000004;
@@ -2024,8 +2178,8 @@ public final class ServerResponse {
         if (other.hasResType()) {
           setResType(other.getResType());
         }
-        if (other.hasResult()) {
-          mergeResult(other.getResult());
+        if (other.hasReqResult()) {
+          mergeReqResult(other.getReqResult());
         }
         if (other.hasCallResponse()) {
           mergeCallResponse(other.getCallResponse());
@@ -2041,6 +2195,18 @@ public final class ServerResponse {
         if (!hasResType()) {
           
           return false;
+        }
+        if (hasReqResult()) {
+          if (!getReqResult().isInitialized()) {
+            
+            return false;
+          }
+        }
+        if (hasCallResponse()) {
+          if (!getCallResponse().isInitialized()) {
+            
+            return false;
+          }
         }
         return true;
       }
@@ -2115,139 +2281,139 @@ public final class ServerResponse {
         return this;
       }
 
-      private buffers.ServerResponse.Response.ReqResult result_ = buffers.ServerResponse.Response.ReqResult.getDefaultInstance();
+      private buffers.ServerResponse.Response.ReqResult reqResult_ = buffers.ServerResponse.Response.ReqResult.getDefaultInstance();
       private com.google.protobuf.SingleFieldBuilder<
-          buffers.ServerResponse.Response.ReqResult, buffers.ServerResponse.Response.ReqResult.Builder, buffers.ServerResponse.Response.ReqResultOrBuilder> resultBuilder_;
+          buffers.ServerResponse.Response.ReqResult, buffers.ServerResponse.Response.ReqResult.Builder, buffers.ServerResponse.Response.ReqResultOrBuilder> reqResultBuilder_;
       /**
-       * <code>optional .Response.ReqResult result = 3;</code>
+       * <code>optional .Response.ReqResult req_result = 3;</code>
        *
        * <pre>
        *responses for actions of REG, LIN, LOUT, ECALL
        * </pre>
        */
-      public boolean hasResult() {
+      public boolean hasReqResult() {
         return ((bitField0_ & 0x00000002) == 0x00000002);
       }
       /**
-       * <code>optional .Response.ReqResult result = 3;</code>
+       * <code>optional .Response.ReqResult req_result = 3;</code>
        *
        * <pre>
        *responses for actions of REG, LIN, LOUT, ECALL
        * </pre>
        */
-      public buffers.ServerResponse.Response.ReqResult getResult() {
-        if (resultBuilder_ == null) {
-          return result_;
+      public buffers.ServerResponse.Response.ReqResult getReqResult() {
+        if (reqResultBuilder_ == null) {
+          return reqResult_;
         } else {
-          return resultBuilder_.getMessage();
+          return reqResultBuilder_.getMessage();
         }
       }
       /**
-       * <code>optional .Response.ReqResult result = 3;</code>
+       * <code>optional .Response.ReqResult req_result = 3;</code>
        *
        * <pre>
        *responses for actions of REG, LIN, LOUT, ECALL
        * </pre>
        */
-      public Builder setResult(buffers.ServerResponse.Response.ReqResult value) {
-        if (resultBuilder_ == null) {
+      public Builder setReqResult(buffers.ServerResponse.Response.ReqResult value) {
+        if (reqResultBuilder_ == null) {
           if (value == null) {
             throw new NullPointerException();
           }
-          result_ = value;
+          reqResult_ = value;
           onChanged();
         } else {
-          resultBuilder_.setMessage(value);
+          reqResultBuilder_.setMessage(value);
         }
         bitField0_ |= 0x00000002;
         return this;
       }
       /**
-       * <code>optional .Response.ReqResult result = 3;</code>
+       * <code>optional .Response.ReqResult req_result = 3;</code>
        *
        * <pre>
        *responses for actions of REG, LIN, LOUT, ECALL
        * </pre>
        */
-      public Builder setResult(
+      public Builder setReqResult(
           buffers.ServerResponse.Response.ReqResult.Builder builderForValue) {
-        if (resultBuilder_ == null) {
-          result_ = builderForValue.build();
+        if (reqResultBuilder_ == null) {
+          reqResult_ = builderForValue.build();
           onChanged();
         } else {
-          resultBuilder_.setMessage(builderForValue.build());
+          reqResultBuilder_.setMessage(builderForValue.build());
         }
         bitField0_ |= 0x00000002;
         return this;
       }
       /**
-       * <code>optional .Response.ReqResult result = 3;</code>
+       * <code>optional .Response.ReqResult req_result = 3;</code>
        *
        * <pre>
        *responses for actions of REG, LIN, LOUT, ECALL
        * </pre>
        */
-      public Builder mergeResult(buffers.ServerResponse.Response.ReqResult value) {
-        if (resultBuilder_ == null) {
+      public Builder mergeReqResult(buffers.ServerResponse.Response.ReqResult value) {
+        if (reqResultBuilder_ == null) {
           if (((bitField0_ & 0x00000002) == 0x00000002) &&
-              result_ != buffers.ServerResponse.Response.ReqResult.getDefaultInstance()) {
-            result_ =
-              buffers.ServerResponse.Response.ReqResult.newBuilder(result_).mergeFrom(value).buildPartial();
+              reqResult_ != buffers.ServerResponse.Response.ReqResult.getDefaultInstance()) {
+            reqResult_ =
+              buffers.ServerResponse.Response.ReqResult.newBuilder(reqResult_).mergeFrom(value).buildPartial();
           } else {
-            result_ = value;
+            reqResult_ = value;
           }
           onChanged();
         } else {
-          resultBuilder_.mergeFrom(value);
+          reqResultBuilder_.mergeFrom(value);
         }
         bitField0_ |= 0x00000002;
         return this;
       }
       /**
-       * <code>optional .Response.ReqResult result = 3;</code>
+       * <code>optional .Response.ReqResult req_result = 3;</code>
        *
        * <pre>
        *responses for actions of REG, LIN, LOUT, ECALL
        * </pre>
        */
-      public Builder clearResult() {
-        if (resultBuilder_ == null) {
-          result_ = buffers.ServerResponse.Response.ReqResult.getDefaultInstance();
+      public Builder clearReqResult() {
+        if (reqResultBuilder_ == null) {
+          reqResult_ = buffers.ServerResponse.Response.ReqResult.getDefaultInstance();
           onChanged();
         } else {
-          resultBuilder_.clear();
+          reqResultBuilder_.clear();
         }
         bitField0_ = (bitField0_ & ~0x00000002);
         return this;
       }
       /**
-       * <code>optional .Response.ReqResult result = 3;</code>
+       * <code>optional .Response.ReqResult req_result = 3;</code>
        *
        * <pre>
        *responses for actions of REG, LIN, LOUT, ECALL
        * </pre>
        */
-      public buffers.ServerResponse.Response.ReqResult.Builder getResultBuilder() {
+      public buffers.ServerResponse.Response.ReqResult.Builder getReqResultBuilder() {
         bitField0_ |= 0x00000002;
         onChanged();
-        return getResultFieldBuilder().getBuilder();
+        return getReqResultFieldBuilder().getBuilder();
       }
       /**
-       * <code>optional .Response.ReqResult result = 3;</code>
+       * <code>optional .Response.ReqResult req_result = 3;</code>
        *
        * <pre>
        *responses for actions of REG, LIN, LOUT, ECALL
        * </pre>
        */
-      public buffers.ServerResponse.Response.ReqResultOrBuilder getResultOrBuilder() {
-        if (resultBuilder_ != null) {
-          return resultBuilder_.getMessageOrBuilder();
+      public buffers.ServerResponse.Response.ReqResultOrBuilder getReqResultOrBuilder() {
+        if (reqResultBuilder_ != null) {
+          return reqResultBuilder_.getMessageOrBuilder();
         } else {
-          return result_;
+          return reqResult_;
         }
       }
       /**
-       * <code>optional .Response.ReqResult result = 3;</code>
+       * <code>optional .Response.ReqResult req_result = 3;</code>
        *
        * <pre>
        *responses for actions of REG, LIN, LOUT, ECALL
@@ -2255,16 +2421,16 @@ public final class ServerResponse {
        */
       private com.google.protobuf.SingleFieldBuilder<
           buffers.ServerResponse.Response.ReqResult, buffers.ServerResponse.Response.ReqResult.Builder, buffers.ServerResponse.Response.ReqResultOrBuilder> 
-          getResultFieldBuilder() {
-        if (resultBuilder_ == null) {
-          resultBuilder_ = new com.google.protobuf.SingleFieldBuilder<
+          getReqResultFieldBuilder() {
+        if (reqResultBuilder_ == null) {
+          reqResultBuilder_ = new com.google.protobuf.SingleFieldBuilder<
               buffers.ServerResponse.Response.ReqResult, buffers.ServerResponse.Response.ReqResult.Builder, buffers.ServerResponse.Response.ReqResultOrBuilder>(
-                  getResult(),
+                  getReqResult(),
                   getParentForChildren(),
                   isClean());
-          result_ = null;
+          reqResult_ = null;
         }
-        return resultBuilder_;
+        return reqResultBuilder_;
       }
 
       private buffers.ServerResponse.Response.CallResponse callResponse_ = buffers.ServerResponse.Response.CallResponse.getDefaultInstance();
@@ -2474,15 +2640,15 @@ public final class ServerResponse {
       descriptor;
   static {
     java.lang.String[] descriptorData = {
-      "\n\025server_response.proto\"\244\002\n\010Response\022#\n\010" +
-      "res_type\030\001 \002(\0162\021.Response.ResType\022#\n\006res" +
-      "ult\030\003 \001(\0132\023.Response.ReqResult\022-\n\rcall_r" +
-      "esponse\030\004 \001(\0132\026.Response.CallResponse\022\017\n" +
-      "\007endCall\030\005 \001(\010\032&\n\tReqResult\022\n\n\002ok\030\001 \001(\010\022" +
-      "\r\n\005cause\030\002 \001(\t\032=\n\014CallResponse\022\n\n\002ok\030\001 \001" +
-      "(\010\022\r\n\005cause\030\002 \001(\t\022\022\n\nip_address\030\003 \001(\t\"\'\n" +
-      "\007ResType\022\007\n\003ACT\020\001\022\010\n\004CALL\020\002\022\t\n\005ECALL\020\003B\013" +
-      "\n\007buffersH\001"
+      "\n\025server_response.proto\"\270\002\n\010Response\022#\n\010" +
+      "res_type\030\001 \002(\0162\021.Response.ResType\022\'\n\nreq" +
+      "_result\030\003 \001(\0132\023.Response.ReqResult\022-\n\rca" +
+      "ll_response\030\004 \001(\0132\026.Response.CallRespons" +
+      "e\022\017\n\007endCall\030\005 \001(\010\032&\n\tReqResult\022\n\n\002ok\030\001 " +
+      "\002(\010\022\r\n\005cause\030\002 \002(\t\032M\n\014CallResponse\022\n\n\002ok" +
+      "\030\001 \002(\010\022\r\n\005cause\030\002 \002(\t\022\022\n\nip_address\030\003 \001(" +
+      "\t\022\016\n\006callID\030\004 \001(\005\"\'\n\007ResType\022\007\n\003ACT\020\001\022\010\n" +
+      "\004CALL\020\002\022\t\n\005ECALL\020\003B\013\n\007buffersH\001"
     };
     com.google.protobuf.Descriptors.FileDescriptor.InternalDescriptorAssigner assigner =
         new com.google.protobuf.Descriptors.FileDescriptor.    InternalDescriptorAssigner() {
@@ -2501,7 +2667,7 @@ public final class ServerResponse {
     internal_static_Response_fieldAccessorTable = new
       com.google.protobuf.GeneratedMessage.FieldAccessorTable(
         internal_static_Response_descriptor,
-        new java.lang.String[] { "ResType", "Result", "CallResponse", "EndCall", });
+        new java.lang.String[] { "ResType", "ReqResult", "CallResponse", "EndCall", });
     internal_static_Response_ReqResult_descriptor =
       internal_static_Response_descriptor.getNestedTypes().get(0);
     internal_static_Response_ReqResult_fieldAccessorTable = new
@@ -2513,7 +2679,7 @@ public final class ServerResponse {
     internal_static_Response_CallResponse_fieldAccessorTable = new
       com.google.protobuf.GeneratedMessage.FieldAccessorTable(
         internal_static_Response_CallResponse_descriptor,
-        new java.lang.String[] { "Ok", "Cause", "IpAddress", });
+        new java.lang.String[] { "Ok", "Cause", "IpAddress", "CallID", });
   }
 
   // @@protoc_insertion_point(outer_class_scope)

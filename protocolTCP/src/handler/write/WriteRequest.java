@@ -15,5 +15,5 @@ public interface WriteRequest {
 
     public ClientRequest.Request createCallReq(String username);
 
-    public ClientRequest.Request createEndCallReq(String username);
+    public ClientRequest.Request createEndCallReq(boolean endCall);
 }
