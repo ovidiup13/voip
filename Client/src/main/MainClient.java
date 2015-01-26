@@ -4,7 +4,7 @@ import tcp.sockethandler.SocketHandler;
 
 public class MainClient {
 	
-	private static final int port = 9992;
+	private static final int port = 9991;
 
 	public static void main(String[] args) {
 		SocketHandler client = new SocketHandler("localhost", port);
@@ -15,8 +15,30 @@ public class MainClient {
 				//get response from server
 				client.getResponse();*/
 			
-			client.sendLogInRequest("username2", "password");
+			//send a log in request
+			client.sendLogInRequest("username", "default");
+			System.out.println("Message for LOG IN: ");
 			client.getResponse();
+
+			try {
+				Thread.sleep(15000);
+			} catch (InterruptedException e) {
+				e.printStackTrace();
+			}
+			
+			//send call request
+			client.sendCallRequest("username2");
+			System.out.println("Message for CALL: ");
+			client.getResponse();
+
+			try {
+				Thread.sleep(5000);
+			} catch (InterruptedException e) {
+				e.printStackTrace();
+			}
+			
+			//send log out request
+			//client.sendLogOutRequest(true);
 
 			//close connection
 			if(!client.closeConnection())

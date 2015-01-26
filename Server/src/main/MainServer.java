@@ -9,7 +9,7 @@ import database.IPAddressMap;
 
 public class MainServer {
 	
-	private static final int port = 9992;
+	private static final int port = 9991;
 
 	public static void main(String[] args) {
 		boolean listening = true;
