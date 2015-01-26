@@ -177,12 +177,12 @@ public class ConnectToDb {
 	 * status is changed by the LogIn function)
 	 * @param username and status
 	 * @return true if  status in range and user name exists , false otherwise 
-	 * Glosary: status: 1 for online, 2 for away, 3 for  busy, 4 for incall; 
+	 * Glosary: status: 1 for online, 2 for away, 3 for  busy, 4 for incall, 5 for idle; 
 	 * 
 	 * **/
 	public boolean updateUserStatus(String username,String status){
 		try {
-			if(status.matches("[0-4]") && isRegistered(username) ){
+			if(status.matches("[0-5]") && isRegistered(username) ){
 				String query_updateUserStatus= "UPDATE Users SET status = ? WHERE username = ?";
 				preparedStatement = connection.prepareStatement(query_updateUserStatus);
 				preparedStatement.setString(2, username);

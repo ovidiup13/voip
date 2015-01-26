@@ -17,7 +17,7 @@ public class ClientHandler implements Runnable {
 	private IPAddressMap ClientIPMap;
 
 	//will need to pass parameter but will conflict
-	public ClientHandler(Socket client) {
+	public ClientHandler(Socket client, IPAddressMap ClientIPMap) {
 		System.out.println("Server: Client found...");
 		this.client = client;
 		this.ClientIPMap = ClientIPMap;
