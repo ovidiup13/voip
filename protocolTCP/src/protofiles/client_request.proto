@@ -39,9 +39,6 @@ message Request {
 		//fields for log in
 		required string username = 1;
 		required string password = 2;
-
-		//the ip address will remain in the cache of online users
-		required string ip_address = 3;
 	}
 	
 }

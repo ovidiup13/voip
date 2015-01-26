@@ -1292,32 +1292,6 @@ public final class ClientRequest {
        */
       com.google.protobuf.ByteString
           getPasswordBytes();
-
-      /**
-       * <code>required string ip_address = 3;</code>
-       *
-       * <pre>
-       *the ip address will remain in the cache of online users
-       * </pre>
-       */
-      boolean hasIpAddress();
-      /**
-       * <code>required string ip_address = 3;</code>
-       *
-       * <pre>
-       *the ip address will remain in the cache of online users
-       * </pre>
-       */
-      java.lang.String getIpAddress();
-      /**
-       * <code>required string ip_address = 3;</code>
-       *
-       * <pre>
-       *the ip address will remain in the cache of online users
-       * </pre>
-       */
-      com.google.protobuf.ByteString
-          getIpAddressBytes();
     }
     /**
      * Protobuf type {@code Request.LogIn}
@@ -1385,12 +1359,6 @@ public final class ClientRequest {
                 com.google.protobuf.ByteString bs = input.readBytes();
                 bitField0_ |= 0x00000002;
                 password_ = bs;
-                break;
-              }
-              case 26: {
-                com.google.protobuf.ByteString bs = input.readBytes();
-                bitField0_ |= 0x00000004;
-                ipAddress_ = bs;
                 break;
               }
             }
@@ -1529,64 +1497,9 @@ public final class ClientRequest {
         }
       }
 
-      public static final int IP_ADDRESS_FIELD_NUMBER = 3;
-      private java.lang.Object ipAddress_;
-      /**
-       * <code>required string ip_address = 3;</code>
-       *
-       * <pre>
-       *the ip address will remain in the cache of online users
-       * </pre>
-       */
-      public boolean hasIpAddress() {
-        return ((bitField0_ & 0x00000004) == 0x00000004);
-      }
-      /**
-       * <code>required string ip_address = 3;</code>
-       *
-       * <pre>
-       *the ip address will remain in the cache of online users
-       * </pre>
-       */
-      public java.lang.String getIpAddress() {
-        java.lang.Object ref = ipAddress_;
-        if (ref instanceof java.lang.String) {
-          return (java.lang.String) ref;
-        } else {
-          com.google.protobuf.ByteString bs = 
-              (com.google.protobuf.ByteString) ref;
-          java.lang.String s = bs.toStringUtf8();
-          if (bs.isValidUtf8()) {
-            ipAddress_ = s;
-          }
-          return s;
-        }
-      }
-      /**
-       * <code>required string ip_address = 3;</code>
-       *
-       * <pre>
-       *the ip address will remain in the cache of online users
-       * </pre>
-       */
-      public com.google.protobuf.ByteString
-          getIpAddressBytes() {
-        java.lang.Object ref = ipAddress_;
-        if (ref instanceof java.lang.String) {
-          com.google.protobuf.ByteString b = 
-              com.google.protobuf.ByteString.copyFromUtf8(
-                  (java.lang.String) ref);
-          ipAddress_ = b;
-          return b;
-        } else {
-          return (com.google.protobuf.ByteString) ref;
-        }
-      }
-
       private void initFields() {
         username_ = "";
         password_ = "";
-        ipAddress_ = "";
       }
       private byte memoizedIsInitialized = -1;
       public final boolean isInitialized() {
@@ -1602,10 +1515,6 @@ public final class ClientRequest {
           memoizedIsInitialized = 0;
           return false;
         }
-        if (!hasIpAddress()) {
-          memoizedIsInitialized = 0;
-          return false;
-        }
         memoizedIsInitialized = 1;
         return true;
       }
@@ -1618,9 +1527,6 @@ public final class ClientRequest {
         }
         if (((bitField0_ & 0x00000002) == 0x00000002)) {
           output.writeBytes(2, getPasswordBytes());
-        }
-        if (((bitField0_ & 0x00000004) == 0x00000004)) {
-          output.writeBytes(3, getIpAddressBytes());
         }
         getUnknownFields().writeTo(output);
       }
@@ -1638,10 +1544,6 @@ public final class ClientRequest {
         if (((bitField0_ & 0x00000002) == 0x00000002)) {
           size += com.google.protobuf.CodedOutputStream
             .computeBytesSize(2, getPasswordBytes());
-        }
-        if (((bitField0_ & 0x00000004) == 0x00000004)) {
-          size += com.google.protobuf.CodedOutputStream
-            .computeBytesSize(3, getIpAddressBytes());
         }
         size += getUnknownFields().getSerializedSize();
         memoizedSerializedSize = size;
@@ -1768,8 +1670,6 @@ public final class ClientRequest {
           bitField0_ = (bitField0_ & ~0x00000001);
           password_ = "";
           bitField0_ = (bitField0_ & ~0x00000002);
-          ipAddress_ = "";
-          bitField0_ = (bitField0_ & ~0x00000004);
           return this;
         }
 
@@ -1806,10 +1706,6 @@ public final class ClientRequest {
             to_bitField0_ |= 0x00000002;
           }
           result.password_ = password_;
-          if (((from_bitField0_ & 0x00000004) == 0x00000004)) {
-            to_bitField0_ |= 0x00000004;
-          }
-          result.ipAddress_ = ipAddress_;
           result.bitField0_ = to_bitField0_;
           onBuilt();
           return result;
@@ -1836,11 +1732,6 @@ public final class ClientRequest {
             password_ = other.password_;
             onChanged();
           }
-          if (other.hasIpAddress()) {
-            bitField0_ |= 0x00000004;
-            ipAddress_ = other.ipAddress_;
-            onChanged();
-          }
           this.mergeUnknownFields(other.getUnknownFields());
           return this;
         }
@@ -1851,10 +1742,6 @@ public final class ClientRequest {
             return false;
           }
           if (!hasPassword()) {
-            
-            return false;
-          }
-          if (!hasIpAddress()) {
             
             return false;
           }
@@ -2052,106 +1939,6 @@ public final class ClientRequest {
   }
   bitField0_ |= 0x00000002;
           password_ = value;
-          onChanged();
-          return this;
-        }
-
-        private java.lang.Object ipAddress_ = "";
-        /**
-         * <code>required string ip_address = 3;</code>
-         *
-         * <pre>
-         *the ip address will remain in the cache of online users
-         * </pre>
-         */
-        public boolean hasIpAddress() {
-          return ((bitField0_ & 0x00000004) == 0x00000004);
-        }
-        /**
-         * <code>required string ip_address = 3;</code>
-         *
-         * <pre>
-         *the ip address will remain in the cache of online users
-         * </pre>
-         */
-        public java.lang.String getIpAddress() {
-          java.lang.Object ref = ipAddress_;
-          if (!(ref instanceof java.lang.String)) {
-            com.google.protobuf.ByteString bs =
-                (com.google.protobuf.ByteString) ref;
-            java.lang.String s = bs.toStringUtf8();
-            if (bs.isValidUtf8()) {
-              ipAddress_ = s;
-            }
-            return s;
-          } else {
-            return (java.lang.String) ref;
-          }
-        }
-        /**
-         * <code>required string ip_address = 3;</code>
-         *
-         * <pre>
-         *the ip address will remain in the cache of online users
-         * </pre>
-         */
-        public com.google.protobuf.ByteString
-            getIpAddressBytes() {
-          java.lang.Object ref = ipAddress_;
-          if (ref instanceof String) {
-            com.google.protobuf.ByteString b = 
-                com.google.protobuf.ByteString.copyFromUtf8(
-                    (java.lang.String) ref);
-            ipAddress_ = b;
-            return b;
-          } else {
-            return (com.google.protobuf.ByteString) ref;
-          }
-        }
-        /**
-         * <code>required string ip_address = 3;</code>
-         *
-         * <pre>
-         *the ip address will remain in the cache of online users
-         * </pre>
-         */
-        public Builder setIpAddress(
-            java.lang.String value) {
-          if (value == null) {
-    throw new NullPointerException();
-  }
-  bitField0_ |= 0x00000004;
-          ipAddress_ = value;
-          onChanged();
-          return this;
-        }
-        /**
-         * <code>required string ip_address = 3;</code>
-         *
-         * <pre>
-         *the ip address will remain in the cache of online users
-         * </pre>
-         */
-        public Builder clearIpAddress() {
-          bitField0_ = (bitField0_ & ~0x00000004);
-          ipAddress_ = getDefaultInstance().getIpAddress();
-          onChanged();
-          return this;
-        }
-        /**
-         * <code>required string ip_address = 3;</code>
-         *
-         * <pre>
-         *the ip address will remain in the cache of online users
-         * </pre>
-         */
-        public Builder setIpAddressBytes(
-            com.google.protobuf.ByteString value) {
-          if (value == null) {
-    throw new NullPointerException();
-  }
-  bitField0_ |= 0x00000004;
-          ipAddress_ = value;
           onChanged();
           return this;
         }
@@ -3225,16 +3012,16 @@ public final class ClientRequest {
       descriptor;
   static {
     java.lang.String[] descriptorData = {
-      "\n\024client_request.proto\"\335\002\n\007Request\022!\n\007rq" +
+      "\n\024client_request.proto\"\311\002\n\007Request\022!\n\007rq" +
       "_type\030\001 \002(\0162\020.Request.ReqType\022\"\n\003reg\030\003 \001" +
       "(\0132\025.Request.Registration\022\033\n\003lin\030\004 \001(\0132\016" +
       ".Request.LogIn\022\020\n\010username\030\005 \001(\t\022\024\n\014conf" +
       "irmation\030\006 \001(\010\032@\n\014Registration\022\020\n\010userna" +
       "me\030\001 \002(\t\022\020\n\010password\030\002 \002(\t\022\014\n\004hint\030\003 \001(\t" +
-      "\032?\n\005LogIn\022\020\n\010username\030\001 \002(\t\022\020\n\010password\030" +
-      "\002 \002(\t\022\022\n\nip_address\030\003 \002(\t\"C\n\007ReqType\022\007\n\003" +
-      "REG\020\001\022\007\n\003LIN\020\002\022\010\n\004LOUT\020\003\022\010\n\004CALL\020\004\022\007\n\003ST" +
-      "S\020\005\022\t\n\005ECALL\020\006B\013\n\007buffersH\001"
+      "\032+\n\005LogIn\022\020\n\010username\030\001 \002(\t\022\020\n\010password\030" +
+      "\002 \002(\t\"C\n\007ReqType\022\007\n\003REG\020\001\022\007\n\003LIN\020\002\022\010\n\004LO" +
+      "UT\020\003\022\010\n\004CALL\020\004\022\007\n\003STS\020\005\022\t\n\005ECALL\020\006B\013\n\007bu" +
+      "ffersH\001"
     };
     com.google.protobuf.Descriptors.FileDescriptor.InternalDescriptorAssigner assigner =
         new com.google.protobuf.Descriptors.FileDescriptor.    InternalDescriptorAssigner() {
@@ -3265,7 +3052,7 @@ public final class ClientRequest {
     internal_static_Request_LogIn_fieldAccessorTable = new
       com.google.protobuf.GeneratedMessage.FieldAccessorTable(
         internal_static_Request_LogIn_descriptor,
-        new java.lang.String[] { "Username", "Password", "IpAddress", });
+        new java.lang.String[] { "Username", "Password", });
   }
 
   // @@protoc_insertion_point(outer_class_scope)

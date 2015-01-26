@@ -11,9 +11,12 @@ public class MainClient {
 		// trying to establish connection to the server
 		if(client.startConnection()){
 			// asking server for time
-			if(client.sendRegisterRequest("username", "password"))
+			/*if(client.sendRegisterRequest("username2", "password"))
 				//get response from server
-				client.getResponse();
+				client.getResponse();*/
+			
+			client.sendLogInRequest("username2", "password");
+			client.getResponse();
 
 			//close connection
 			if(!client.closeConnection())

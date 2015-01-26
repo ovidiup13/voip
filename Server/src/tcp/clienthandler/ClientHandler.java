@@ -28,7 +28,7 @@ public class ClientHandler implements Runnable {
 
 	@Override
 	public void run() {
-		
+
 		readRequest();
 		try {
 			client.close();
@@ -70,8 +70,8 @@ public class ClientHandler implements Runnable {
 			}
 		}
 		else if(type.equals(Request.ReqType.LIN)){
-			String username = request.getReg().getUsername();
-			String password = request.getReg().getPassword();
+			String username = request.getLin().getUsername();
+			String password = request.getLin().getPassword();
 			System.out.println("username is: " + username);
 			System.out.println("password is: " + password);
 			if(db.logIn(username, password)){
