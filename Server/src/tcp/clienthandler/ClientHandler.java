@@ -54,6 +54,7 @@ public class ClientHandler implements Runnable {
 			Request.ReqType type = request.getRqType();
 
 			if (type.equals(Request.ReqType.REG)) {
+				db.makeConnection();
 				System.out.println("Server: Request is of type REG, processing...");
 				System.out.println("Server: Adding user to database...");
 				if (db.register(request.getReg().getUsername(), request.getReg().getPassword())) {
@@ -64,6 +65,7 @@ public class ClientHandler implements Runnable {
 					sendResponse(false, "registration unsuccessful - the user already exists");
 					System.out.println("Server: Sent unsuccessful response.");
 				}
+				db.closeEverything();
 			} else if (type.equals(Request.ReqType.LIN)) {
 				String username = request.getLin().getUsername();
 				String password = request.getLin().getPassword();
