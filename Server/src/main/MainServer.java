@@ -17,11 +17,11 @@ public class MainServer {
 		try {
 			System.out.println("Starting server...");
 			ServerSocket serverSocket = new ServerSocket(port);
+			IPAddressMap ClientMap = new IPAddressMap();
 			while(listening){
 				System.out.println("Listening for connections...");
 				//init the IPMap
-				IPAddressMap ClientMap = new IPAddressMap();
-				new ClientHandler(serverSocket.accept(), ClientMap).run();
+				new Thread(new ClientHandler(serverSocket.accept(), ClientMap)).start();
 			}
 		} catch (IOException e) {
 			System.err.println("Server: could not init socket");
