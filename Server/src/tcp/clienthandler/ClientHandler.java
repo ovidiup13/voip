@@ -104,10 +104,9 @@ public class ClientHandler implements Runnable {
 					sendCallResponse(connectionToCallee, callID);
 
 					//send response to client1
-					sendCallResponse(client, callID);
+					//sendCallResponse(client, callID);
 					
 					//call iD must be unique for every call
-					callID++;
 
 					//chenge user status to in-call
 
@@ -133,7 +132,7 @@ public class ClientHandler implements Runnable {
 		String IPAddress = ((InetSocketAddress)connection.getRemoteSocketAddress()).getHostName();
 		Response response = responseWriter.createCallResponse(IPAddress, callID);
 		try {
-			response.writeDelimitedTo(connection.getOutputStream());
+			response.writeDelimitedTo(client.getOutputStream());
 		} catch (IOException e) {
 			System.err.println("Server: could not send response.");
 		}

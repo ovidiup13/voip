@@ -21,13 +21,13 @@ public class MainClient {
 			client.getResponse();
 
 			try {
-				Thread.sleep(1000);
+				Thread.sleep(3000);
 			} catch (InterruptedException e) {
 				e.printStackTrace();
 			}
 			
 			//send call request
-			client.sendCallRequest("username");
+			client.sendCallRequest("username2");
 			System.out.println("Message for CALL: ");
 			client.getResponse();
 
