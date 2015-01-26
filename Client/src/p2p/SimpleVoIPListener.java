@@ -70,8 +70,10 @@ class SimpleVoIPListener extends Thread {
 				
 				call.seq.add(Arrays.copyOfRange(pDat, 9, pDat.length), sequenceDiff);
 			} catch (IOException e) {
-				e.printStackTrace();
-				return;
+				if (running) {
+					e.printStackTrace();
+					return;
+				}
 			}
         }
 	}

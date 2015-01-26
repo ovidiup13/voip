@@ -53,18 +53,7 @@ public class SimpleVoIPCall implements VoIPCall {
 
 	@Override
 	public void stop() {
-		try {
-			broadcaster.terminate();
-			broadcaster.join();
-			listener.terminate();
-			listener.join();
-			sequencer.terminate();
-			sequencer.join();
-			started = false;
-		} catch (InterruptedException e) {
-			// what should we do here? this should never happen unless we deliberately interrupt the threads.
-			e.printStackTrace();
-		}
+		(new SimpleVoIPCallEnder()).start();
 	}
 
 	@Override
@@ -72,10 +61,36 @@ public class SimpleVoIPCall implements VoIPCall {
 		return started;
 	}
 	
-	void fireCallFailed() {
-		if (started) stop();
-		for (CallListener c:listeners) {
-			c.callFailed();
+	synchronized void fireCallFailed() {
+		System.out.println("stopping");
+		if (started) {
+			started = false;
+			stop();
+		}
+	}
+	
+	private class SimpleVoIPCallEnder extends Thread {
+		@Override
+		public void run() {
+			try {
+				broadcaster.terminate();
+				listener.terminate();
+				sequencer.terminate();
+				socket.close();
+				
+				broadcaster.join();
+				listener.join();
+				sequencer.join();
+			} catch (InterruptedException e) {
+				// what should we do here? this should never happen unless we deliberately interrupt the threads.
+				e.printStackTrace();
+			}
+			
+			//notify listeners
+			for (CallListener c:listeners) {
+				c.callFailed();
+			}
+			System.out.println("ended");
 		}
 	}
 }

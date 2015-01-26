@@ -12,6 +12,8 @@ public class SimpleVoIPSequencer extends Thread {
 	private SimpleVoIPCall call;
 	private byte sequence;
 	private int repeat = 0;
+	private static final int TIMEOUT_FRAMES = 50*5;
+	private static final int REPEAT_FRAMES = 5;
 	
 	private volatile boolean running = true;
 	public void terminate() {
@@ -54,7 +56,7 @@ public class SimpleVoIPSequencer extends Thread {
         		last = data;
         		repeat = 0;
         	} else {
-        		if (repeat >= 5) {
+        		if (repeat >= REPEAT_FRAMES) {
         			if (last != empty) {
 	        			//only repeat the last sequence entry for a specified number of times. The repetition is to fill gaps,
 	        			//but if the repeat happens for a whole second or two the user's ears will bleed, guaranteed.
@@ -62,10 +64,14 @@ public class SimpleVoIPSequencer extends Thread {
 	        			last = empty;
 	        			System.out.println("nothing for 5 frames, no longer repeating last frame.");
         			}
+        			if (repeat >= TIMEOUT_FRAMES) {
+        				call.fireCallFailed();
+        				return;
+        			}
         		} else {
             		System.out.println("got nothing :'(");
-        			repeat++;
         		}
+        		repeat++;
         		data = last;
         	}
             line2.write(data, 0, data.length); //write back out to audio

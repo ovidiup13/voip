@@ -79,9 +79,11 @@ class SimpleVoIPBroadcaster extends Thread {
             	data[8] = sequence++;
             	socket.send(packet);
 			} catch (IOException e) {
-				e.printStackTrace();
-				call.fireCallFailed();
-	        	return;
+				if (running) {
+					e.printStackTrace();
+					call.fireCallFailed();
+		        	return;
+				}
 			}
         }
         

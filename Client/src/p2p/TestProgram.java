@@ -36,6 +36,8 @@ public class TestProgram extends JFrame {
         		callID
         );
         
+        play.addCallFailedListener(new CallEndedList());
+        
         label.setText("<html>Attempting to stream audio.<br><br>"+"IP Address: "+IP+"<br>Port: "+port+"<br>callID: "+callID);
 	}
 	
@@ -43,6 +45,12 @@ public class TestProgram extends JFrame {
         public void windowClosing(WindowEvent event) {
             System.exit(0);
         }
+    }
+    
+    private class CallEndedList implements CallListener {
+		public void callFailed() {
+			label.setText("Call failed :'(");
+		}
     }
     
     public void updateLabel(String text) {
