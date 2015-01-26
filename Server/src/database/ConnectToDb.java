@@ -22,13 +22,13 @@ public class ConnectToDb {
 			//Class.forName("com.mysql.jdbc.Driver");
 			Class.forName("org.sqlite.JDBC");
 
-			System.out.println(" Connection to db driver Successful");
+			//System.out.println(" Connection to db driver Successful");
 
 
 			//1.Get a connection to the database	URL, Username, Password	
 			//connection = DriverManager.getConnection("jdbc:mysql://localhost:3306/TP3Hdb","root","zzz");
 			connection =  DriverManager.getConnection("jdbc:sqlite:Server/src/database/TP3Hdb.db");
-			System.out.println("Opened database successfully");
+			//System.out.println("Opened database successfully");
 
 
 
@@ -237,23 +237,22 @@ public class ConnectToDb {
 
 
 	// you need to close all three to make sure
-	public static void closeEverything(ResultSet rs, Statement stmt,
-			Connection con) {
-		if (rs != null) {
+	public void closeEverything() {
+		if (resultSet != null) {
 			try {
-				rs.close();
+				resultSet.close();
 			} catch (SQLException e) {
 			}
 		}
-		if (stmt != null) {
+		if (statement != null) {
 			try {
-				stmt.close();
+				statement.close();
 			} catch (SQLException e) {
 			}
 		}
-		if (con != null) {
+		if (connection != null) {
 			try {
-				con.close();
+				connection.close();
 			} catch (SQLException e) {
 			}
 		}

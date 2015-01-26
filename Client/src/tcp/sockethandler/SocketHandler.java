@@ -64,19 +64,34 @@ public class SocketHandler {
 			System.err.println("SocketHandler: failed to send logout request");
 		}
 	}
+	
+	public void sendCallRequest(String username){
+		Request request = requestWriter.createCallReq(username);
+		try {
+			request.writeDelimitedTo(socketClient.getOutputStream());
+		} catch (IOException e) {
+			System.err.println("SocketHandler: failed to send call request");
+		}
+	}
 
 	public void getResponse() {
 		Response response = null;
-
+		
 		try {
 			response = Response.parseDelimitedFrom(socketClient.getInputStream());
 		} catch (IOException e) {
 			System.err.println("SocketHandler: failed to open input stream");
 		}
-		//}
-		assert response != null;
-		System.out.println("Result: " + response.getReqResult().getOk());
-		System.out.println("Message: " + response.getReqResult().getCause());
+
+		Response.ResType type = response.getResType();
+		if(type.equals(Response.ResType.ACT)){
+			System.out.println("Result: " + response.getReqResult().getOk());
+			System.out.println("Message: " + response.getReqResult().getCause());
+		}
+		else if(type.equals(Response.ResType.CALL)){
+			System.out.println("IP Address of callee: " + response.getCallResponse().getIpAddress());
+			System.out.println("Call ID: " + response.getCallResponse().getCallID());
+		}
 	}
 
 	public boolean closeConnection() {
