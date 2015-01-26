@@ -3,6 +3,7 @@ package tcp.clienthandler;
 import buffers.ClientRequest.Request;
 import buffers.ServerResponse.Response;
 import database.ConnectToDb;
+import database.IPAddressMap;
 import writers.ResponseWriter;
 
 import java.io.IOException;
@@ -13,10 +14,13 @@ public class ClientHandler implements Runnable {
 	private Socket client;
 	ResponseWriter responseWriter;
 	private ConnectToDb db;
+	private IPAddressMap ClientIPMap;
 
+	//will need to pass parameter but will conflict
 	public ClientHandler(Socket client) {
 		System.out.println("Server: Client found...");
 		this.client = client;
+		this.ClientIPMap = ClientIPMap;
 		responseWriter = new ResponseWriter();
 		db =  new ConnectToDb();
 		db.makeConnection();
@@ -66,13 +70,22 @@ public class ClientHandler implements Runnable {
 			}
 		}
 		else if(type.equals(Request.ReqType.LIN)){
-			System.out.println("username is: " + request.getReg().getUsername());
-			System.out.println("password is: " + request.getReg().getPassword());
-			if(db.logIn(request.getReg().getUsername(), request.getReg().getPassword()))
-				//add user to cache with status idle
+			String username = request.getReg().getUsername();
+			String password = request.getReg().getPassword();
+			System.out.println("username is: " + username);
+			System.out.println("password is: " + password);
+			if(db.logIn(username, password)){
+				//add the user's IP the the map of active users
+				ClientIPMap.addIP(username, client.getRemoteSocketAddress().toString());
+				
+				//modify user's status in db to idle
+				db.updateUserStatus(username, "5");
+				
+				System.out.println("ClientIP"+ ClientIPMap.getIP(username));
 				
 				//if ok, send confirmation response
 				sendResponse(true, "Login successful");
+				}
 			else{
 				sendResponse(false, "Login unsuccessful");
 			}
