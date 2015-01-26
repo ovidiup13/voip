@@ -80,12 +80,22 @@ public class ConnectToDb {
 				preparedStatement.setString(1,name);
 				preparedStatement.setString(2,password);
 				preparedStatement.execute();
+				preparedStatement.close();
 				return true;
 			}
 		} catch (SQLException error) {
 			System.out.println("Error: " + error.getMessage());
 			error.printStackTrace();
-		}	 
+		}finally{
+			try {
+				preparedStatement.close();
+				resultSet.close();
+			} catch (SQLException e) {
+				System.out.println("Error in db registration: " + e.getMessage());
+				e.printStackTrace();
+			}
+			
+		} 
 		System.out.println("The user already Exists !");
 		return false;
 	}
@@ -132,6 +142,7 @@ public class ConnectToDb {
 					preparedStatement.setString(1, time.toString());
 					preparedStatement.setString(2, username);
 					preparedStatement.execute();
+					preparedStatement.close();
 					System.out.println("log in for user :"+username+"succesfull");
 					return true;
 				}
@@ -140,6 +151,15 @@ public class ConnectToDb {
 		catch (SQLException e) {
 			System.out.println("Error in db while registration: " + e.getMessage());
 			e.printStackTrace();
+		}finally{
+			try {
+				preparedStatement.close();
+				resultSet.close();
+			} catch (SQLException e) {
+				System.out.println("Error in db registration: " + e.getMessage());
+				e.printStackTrace();
+			}
+			
 		}
 		return false;
 	}
@@ -168,6 +188,14 @@ public class ConnectToDb {
 		}catch(SQLException e){
 			System.out.println("Error: "+ e.getMessage());
 			e.printStackTrace();
+		}finally{
+			try {
+				preparedStatement.close();
+				resultSet.close();
+			} catch (SQLException e) {
+				System.out.println("Error in db registration: " + e.getMessage());
+				e.printStackTrace();
+			}
 		}
 		System.out.println("User with such name does not exists!");
 		return false; 
