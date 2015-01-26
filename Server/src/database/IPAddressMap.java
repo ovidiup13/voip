@@ -14,7 +14,7 @@ public class IPAddressMap {
     }
 
     public boolean isOnline(String username) {
-        return IPTable.contains(username);
+        return IPTable.containsKey(username);
     }
 
     public Socket getIP(String username) {

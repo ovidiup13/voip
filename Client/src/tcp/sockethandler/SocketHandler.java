@@ -7,6 +7,8 @@ import writers.RequestWriter;
 import java.io.IOException;
 import java.net.Socket;
 
+import p2p.SimpleVoIPCall;
+
 /**
  * @author Ovidiu Popoviciu
  * */
@@ -91,6 +93,13 @@ public class SocketHandler {
 		else if(type.equals(Response.ResType.CALL)){
 			System.out.println("IP Address of callee: " + response.getCallResponse().getIpAddress());
 			System.out.println("Call ID: " + response.getCallResponse().getCallID());
+			
+	        SimpleVoIPCall play = new SimpleVoIPCall();
+	        play.start(
+	        		response.getCallResponse().getIpAddress(),
+	        		12345, 
+	        		response.getCallResponse().getCallID()
+	        );
 		}
 	}
 

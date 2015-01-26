@@ -7,6 +7,7 @@ import database.IPAddressMap;
 import writers.ResponseWriter;
 
 import java.io.IOException;
+import java.net.InetSocketAddress;
 import java.net.Socket;
 
 public class ClientHandler implements Runnable {
@@ -47,7 +48,9 @@ public class ClientHandler implements Runnable {
 				System.err.println("ClientHandler: cannot read request");
 				return;
 			}
-
+			
+			if (request == null) break;
+			
 			Request.ReqType type = request.getRqType();
 
 			if (type.equals(Request.ReqType.REG)) {
@@ -87,12 +90,9 @@ public class ClientHandler implements Runnable {
 				//if ok, send confirmation response
 				sendResponse(true, "LogOut successful");
 				break;
-			} else {
-				sendResponse(false, "LogOut unsuccessful");
-			}
-
-			if (type.equals(Request.ReqType.CALL)) {
+			} else if (type.equals(Request.ReqType.CALL)) {
 				String callee = request.getUsername();
+				System.out.println(callee);
 				//if (db.callCheckAvailable(request.getUsername()))
 				if (ClientIPMap.isOnline(callee)) {
 					//(true, "You can call the user");
@@ -130,7 +130,7 @@ public class ClientHandler implements Runnable {
 	}
 	
 	private void sendCallResponse(Socket connection, int callID){
-		String IPAddress = connection.getRemoteSocketAddress().toString();
+		String IPAddress = ((InetSocketAddress)connection.getRemoteSocketAddress()).getHostName();
 		Response response = responseWriter.createCallResponse(IPAddress, callID);
 		try {
 			response.writeDelimitedTo(connection.getOutputStream());

@@ -21,24 +21,24 @@ public class MainClient {
 			client.getResponse();
 
 			try {
-				Thread.sleep(15000);
+				Thread.sleep(1000);
 			} catch (InterruptedException e) {
 				e.printStackTrace();
 			}
 			
 			//send call request
-			client.sendCallRequest("username2");
+			client.sendCallRequest("username");
 			System.out.println("Message for CALL: ");
 			client.getResponse();
 
 			try {
-				Thread.sleep(5000);
+				Thread.sleep(1000);
 			} catch (InterruptedException e) {
 				e.printStackTrace();
 			}
 			
 			//send log out request
-			//client.sendLogOutRequest(true);
+			client.sendLogOutRequest(true);
 
 			//close connection
 			if(!client.closeConnection())
