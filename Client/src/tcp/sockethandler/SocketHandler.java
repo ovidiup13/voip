@@ -2,6 +2,7 @@ package tcp.sockethandler;
 
 import buffers.ClientRequest.Request;
 import buffers.ServerResponse.Response;
+import interfaces.RequestSender;
 import p2p.SimpleVoIPCall;
 import writers.RequestWriter;
 
@@ -12,7 +13,7 @@ import java.net.Socket;
  * @author Ovidiu Popoviciu
  * */
 
-public class SocketHandler {
+public class SocketHandler implements RequestSender {
 
 	private String hostname;
 	private int port;
@@ -35,19 +36,18 @@ public class SocketHandler {
 		return false;
 	}
 	
-	public boolean sendRegisterRequest(String username, String password) {
-		System.out.println("Client: Creating and sending register request...");
+	@Override
+	public void sendRegisterRequest(String username, String password) {
 		Request request = requestWriter.createRegisterReq(username, password);
 		try {
 			request.writeDelimitedTo(socketClient.getOutputStream());
-			System.out.println("Client: Sent register request...");
-			return true;
+			
 		} catch (IOException e) {
 			System.err.println("SocketHandler: failed to send register request");
 		}
-		return false;
 	}
 	
+	@Override
 	public void sendLogInRequest(String username, String password) {
 		Request request = requestWriter.createLogInReq(username, password);
 		try {
@@ -57,6 +57,7 @@ public class SocketHandler {
 		}
 	}
 	
+	@Override
 	public void sendLogOutRequest(boolean confirm) {
 		Request request = requestWriter.createLogOutReq(confirm);
 		try {
@@ -66,6 +67,7 @@ public class SocketHandler {
 		}
 	}
 	
+	@Override
 	public void sendCallRequest(String username){
 		Request request = requestWriter.createCallReq(username);
 		try {
@@ -73,6 +75,16 @@ public class SocketHandler {
 		} catch (IOException e) {
 			System.err.println("SocketHandler: failed to send call request");
 		}
+	}
+
+	@Override
+	public void sendStatusRequest(String username) {
+		//to be implemented
+	}
+
+	@Override
+	public void sendEndCallRequest(boolean endCall) {
+		//to be implemented
 	}
 
 	public void getResponse() {
