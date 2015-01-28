@@ -2,12 +2,11 @@ package tcp.sockethandler;
 
 import buffers.ClientRequest.Request;
 import buffers.ServerResponse.Response;
+import p2p.SimpleVoIPCall;
 import writers.RequestWriter;
 
 import java.io.IOException;
 import java.net.Socket;
-
-import p2p.SimpleVoIPCall;
 
 /**
  * @author Ovidiu Popoviciu
@@ -104,7 +103,12 @@ public class SocketHandler {
 	}
 
 	public boolean closeConnection() {
+		Request request = requestWriter.createLogOutReq(true);
 		try {
+			//tell the server we log out
+			request.writeDelimitedTo(socketClient.getOutputStream());
+			
+			//close the connection
 			socketClient.close();
 			return true;
 		} catch (IOException e) {
