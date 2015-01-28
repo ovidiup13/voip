@@ -16,8 +16,7 @@ import javax.swing.JTextField;
 import javax.swing.ScrollPaneConstants;
 import javax.swing.SwingConstants;
 
-import modelVoip.ClientThread;
-import modelVoip.Message;
+
 import tcp.sockethandler.*;
 
 public class GuiMainClient {
