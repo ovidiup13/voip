@@ -37,7 +37,7 @@ public class SocketHandler implements RequestSender {
 	}
 	
 	@Override
-	public void sendRegisterRequest(String username, String password) {
+	public boolean sendRegisterRequest(String username, String password) {
 		Request request = requestWriter.createRegisterReq(username, password);
 		try {
 			request.writeDelimitedTo(socketClient.getOutputStream());
@@ -45,74 +45,110 @@ public class SocketHandler implements RequestSender {
 		} catch (IOException e) {
 			System.err.println("SocketHandler: failed to send register request");
 		}
+
+        //get response
+        Response response = null;
+        
+        try {
+            response = Response.parseDelimitedFrom(socketClient.getInputStream());
+        } catch (IOException e) {
+            System.err.println("SocketHandler: failed to open input stream");
+            return false;
+        }
+        
+        return response.getReqResult().getOk();
 	}
 	
 	@Override
-	public void sendLogInRequest(String username, String password) {
+	public boolean sendLogInRequest(String username, String password) {
 		Request request = requestWriter.createLogInReq(username, password);
 		try {
 			request.writeDelimitedTo(socketClient.getOutputStream());
 		} catch (IOException e) {
 			System.err.println("SocketHandler: failed to send login request");
 		}
+
+        //get response
+        Response response = null;
+
+        try {
+            response = Response.parseDelimitedFrom(socketClient.getInputStream());
+        } catch (IOException e) {
+            System.err.println("SocketHandler: failed to open input stream");
+            return false;
+        }
+
+        return response.getReqResult().getOk();
 	}
 	
 	@Override
-	public void sendLogOutRequest(boolean confirm) {
+	public boolean sendLogOutRequest(boolean confirm) {
 		Request request = requestWriter.createLogOutReq(confirm);
 		try {
 			request.writeDelimitedTo(socketClient.getOutputStream());
 		} catch (IOException e) {
 			System.err.println("SocketHandler: failed to send logout request");
 		}
+
+        //get response
+        Response response = null;
+
+        try {
+            response = Response.parseDelimitedFrom(socketClient.getInputStream());
+        } catch (IOException e) {
+            System.err.println("SocketHandler: failed to open input stream");
+            return false;
+        }
+
+        return response.getReqResult().getOk();
 	}
 	
 	@Override
-	public void sendCallRequest(String username){
+	public boolean sendCallRequest(String username){
 		Request request = requestWriter.createCallReq(username);
 		try {
 			request.writeDelimitedTo(socketClient.getOutputStream());
 		} catch (IOException e) {
 			System.err.println("SocketHandler: failed to send call request");
 		}
+
+        Response response = null;
+
+        try {
+            response = Response.parseDelimitedFrom(socketClient.getInputStream());
+        } catch (IOException e) {
+            System.err.println("SocketHandler: failed to open input stream");
+        }
+
+        Response.ResType type = response.getResType();
+        if(type.equals(Response.ResType.ACT))
+            return response.getReqResult().getOk();
+        else if(type.equals(Response.ResType.CALL)){
+            SimpleVoIPCall play = new SimpleVoIPCall();
+            play.start(
+                    response.getCallResponse().getIpAddress(),
+                    12345,
+                    response.getCallResponse().getCallID()
+            );
+            
+            return true;
+        }
+        return false;
+        
 	}
 
 	@Override
-	public void sendStatusRequest(String username) {
+	public boolean sendStatusRequest(String username) {
 		//to be implemented
+        return false;
 	}
 
 	@Override
-	public void sendEndCallRequest(boolean endCall) {
+	public boolean sendEndCallRequest(boolean endCall) {
 		//to be implemented
+        return false;
 	}
-
-	public void getResponse() {
-		Response response = null;
-		
-		try {
-			response = Response.parseDelimitedFrom(socketClient.getInputStream());
-		} catch (IOException e) {
-			System.err.println("SocketHandler: failed to open input stream");
-		}
-
-		Response.ResType type = response.getResType();
-		if(type.equals(Response.ResType.ACT)){
-			System.out.println("Result: " + response.getReqResult().getOk());
-			System.out.println("Message: " + response.getReqResult().getCause());
-		}
-		else if(type.equals(Response.ResType.CALL)){
-			System.out.println("IP Address of callee: " + response.getCallResponse().getIpAddress());
-			System.out.println("Call ID: " + response.getCallResponse().getCallID());
-			
-	        SimpleVoIPCall play = new SimpleVoIPCall();
-	        play.start(
-	        		response.getCallResponse().getIpAddress(),
-	        		12345, 
-	        		response.getCallResponse().getCallID()
-	        );
-		}
-	}
+    
 
 	public boolean closeConnection() {
 		Request request = requestWriter.createLogOutReq(true);
