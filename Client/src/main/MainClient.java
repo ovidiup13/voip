@@ -18,7 +18,7 @@ public class MainClient {
 			//send a log in request
 			client.sendLogInRequest("username", "default");
 			System.out.println("Message for LOG IN: ");
-			client.getResponse();
+			//client.getResponse();
 
 			try {
 				Thread.sleep(3000);
@@ -29,7 +29,7 @@ public class MainClient {
 			//send call request
 			client.sendCallRequest("username2");
 			System.out.println("Message for CALL: ");
-			client.getResponse();
+			//client.getResponse();
 
 			try {
 				Thread.sleep(1000);

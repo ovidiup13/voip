@@ -19,6 +19,15 @@ import javax.swing.SwingConstants;
 
 import tcp.sockethandler.*;
 
+/**
+ * 
+ * @author Alex Danila
+ *
+ */
+
+
+
+
 public class GuiMainClient {
 
 	// vars declarations
@@ -69,8 +78,10 @@ public class GuiMainClient {
 	public static JLabel imageLabel = new JLabel(loadingBar);
 
 	public static void main(String[] args) {
-
+		
+		Connect();
 		BuildLoginWindow();
+		
 
 	}
 
@@ -86,19 +97,19 @@ public class GuiMainClient {
 		imagePanel.setBounds(10, 10, 270, 250);
 
 		enterHostLabel.setText("Host name:");
-		loginWindow.getContentPane().add(enterHostLabel);
+		//loginWindow.getContentPane().add(enterHostLabel);
 		enterHostLabel.setBounds(10, 290, 100, 20);
 
 		hostField.setText("localhost");
-		loginWindow.getContentPane().add(hostField);
+		//loginWindow.getContentPane().add(hostField);
 		hostField.setBounds(100, 290, 180, 20);
 
 		enterPortLabel.setText("Port number:");
-		loginWindow.getContentPane().add(enterPortLabel);
+		//loginWindow.getContentPane().add(enterPortLabel);
 		enterPortLabel.setBounds(10, 315, 100, 20);
 
 		portField.setText("9991");
-		loginWindow.getContentPane().add(portField);
+		//loginWindow.getContentPane().add(portField);
 		portField.setBounds(100, 315, 180, 20);
 
 		enterUsernameLabel.setText("Username:");
@@ -122,7 +133,7 @@ public class GuiMainClient {
 		registerButton.setBounds(10, 405, 90, 20);
 		registerButton.addActionListener(new java.awt.event.ActionListener() {
 			public void actionPerformed(java.awt.event.ActionEvent event) {
-				// Register();
+				RegisterRequest();
 			}
 		});
 
@@ -131,13 +142,15 @@ public class GuiMainClient {
 		loginButton.setBounds(190, 405, 90, 20);
 		loginButton.addActionListener(new java.awt.event.ActionListener() {
 			public void actionPerformed(java.awt.event.ActionEvent event) {
-				Connect();
+				LoginRequest();
+				
 				
 
 			}
 		});
 
 		loginWindow.setVisible(true);
+		
 
 		
 
@@ -214,7 +227,7 @@ public class GuiMainClient {
 
 		mainWindow.setVisible(true);
 
-		// BuildCallWindow();
+		
 
 	}
 
@@ -247,32 +260,99 @@ public class GuiMainClient {
 
 	}
 	
+	
+	public static void Connect(){
+		
+		try
+		{	
+			//hostname = hostField.getText().trim();
+			//port = Integer.parseInt(portField.getText().trim());
+			
+			hostname = "localhost";
+			port = 9991;
+			
+			client = new SocketHandler(hostname, port);
+			if(client.startConnection()){
+				System.out.println("Connection established!");
+			}
+		}
+		catch (Exception e)
+		{
+			System.out.println("Error connecting from client!");
+			JOptionPane.showMessageDialog(null, "Server not responding!");
+			e.printStackTrace();
+			System.exit(0);
+		}
+		
+	}
+	
 	public static void LoginRequest(){
 		
 		if (!usernameField.getText().equals("") || !passwordField.getText().equals(""))
 		{		
 			
+			username = usernameField.getText().trim();	
+			password = passwordField.getText().trim();
 			
-			client.sendLogInRequest(username, password);
+			if(client.sendLogInRequest(username, password)){
 			System.out.println("Message for LOG IN: ");
-			client.getResponse();
-			
-			try {
-				Thread.sleep(3000);
-			} catch (InterruptedException e) {
-				e.printStackTrace();
-			}
-			
-			
+
 			loginWindow.setVisible(false);
 			BuildMainWindow();
 			mainWindow.setTitle("VOIP-User: " + username);
 			logoutButton.setEnabled(true);
+			
+			
+			try {
+				Thread.sleep(300);
+			} catch (InterruptedException e) {
+				e.printStackTrace();
+			}
+			
+			}
+			
+			else {
+				
+				JOptionPane.showMessageDialog(null, "Login unsucessful! Try again!");
+			}
+			
+	
+			
 		}
 		else
 		{
-			JOptionPane.showMessageDialog(null, "Enter an username.");
+			JOptionPane.showMessageDialog(null, "Invalid username or password!");
 		}
+		
+		
+	}
+	
+	public static void RegisterRequest(){
+		
+		
+		if (!usernameField.getText().equals("") || !passwordField.getText().equals(""))
+		{		
+			
+			username = usernameField.getText().trim();	
+			password = passwordField.getText().trim();
+			
+			if (
+			client.sendRegisterRequest(username, password)){
+			System.out.println("Message for REGISTER: ");
+			JOptionPane.showMessageDialog(null, "Registration successful!");
+			}
+			
+			else {
+				JOptionPane.showMessageDialog(null, "Registration unsuccessful!");
+			}
+			
+		
+		}
+		else
+		{
+			JOptionPane.showMessageDialog(null, "Enter an username and a password!");
+		}
+		
 		
 		
 	}
@@ -282,14 +362,11 @@ public class GuiMainClient {
 		client.sendLogOutRequest(true);
 		System.out.println("Logout request sent");
 		
-		
-		
 		try {
-			Thread.sleep(1000);
+			Thread.sleep(300);
 		} catch (InterruptedException e) {
 			e.printStackTrace();
 		}
-		
 		
 		//close connection
 				if(!client.closeConnection())
@@ -310,7 +387,7 @@ public class GuiMainClient {
 			
 			client.sendCallRequest(callUserField.getText().trim());
 			System.out.println("Message for CALL: ");
-			client.getResponse();
+			
 
 			try {
 				Thread.sleep(1000);
@@ -332,35 +409,7 @@ public class GuiMainClient {
 		
 	}
 	
-	public static void Connect(){
-		
-		try
-		{	
-			
-			username = usernameField.getText().trim();		
-			hostname = hostField.getText().trim();
-			port = Integer.parseInt(portField.getText().trim());
-			password = passwordField.getText().trim();
-			
-			
-			client = new SocketHandler(hostname, port);
-			if(client.startConnection()){
-				System.out.println("Connection established!");
-				LoginRequest();
-				
-			}
-			
-			
-		}
-		catch (Exception e)
-		{
-			System.out.println("Error connecting from client!");
-			JOptionPane.showMessageDialog(null, "Server not responding!");
-			e.printStackTrace();
-			System.exit(0);
-		}
-		
-	}
+
 	
 	
 	
