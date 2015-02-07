@@ -25,11 +25,12 @@ public class ClientHandler implements Runnable, ResponseSender {
 	private IPAddressMap addressMap;
 
 	//will need to pass parameter but will conflict
-	public ClientHandler(Socket clientSocket, IPAddressMap addressMap) {
+	public ClientHandler(Socket clientSocket, IPAddressMap addressMap, ConnectToDb db) {
 		System.out.println("Server: Client found...");
 		
 		this.clientSocket = clientSocket;
 		this.addressMap = addressMap;
+		this.db = db;
 		
 		//create request writer
 		responseWriter = new ResponseWriter();
@@ -42,8 +43,6 @@ public class ClientHandler implements Runnable, ResponseSender {
 			e.printStackTrace();
 		}
 		
-		//make connection to db handler
-		db =  new ConnectToDb();
 	}
 
 	@Override
@@ -90,7 +89,6 @@ public class ClientHandler implements Runnable, ResponseSender {
 	}
 	
 	private void readRegisterRequest(Request request){
-		db.makeConnection();
 		System.out.println("Server: Request is of type REG, processing...");
 		System.out.println("Server: Adding user to database...");
 		if (db.register(request.getReg().getUsername(), request.getReg().getPassword())) {
@@ -101,14 +99,12 @@ public class ClientHandler implements Runnable, ResponseSender {
 			sendResponse(false, "registration unsuccessful - the user already exists");
 			System.out.println("Server: Sent unsuccessful response.");
 		}
-		db.closeEverything();
 	}
 	
 	private void readLogInRequest(Request request){
 		String username = request.getLin().getUsername();
 		String password = request.getLin().getPassword();
 
-		db.makeConnection();
 		if (db.logIn(username, password)) {
 			//add the user's IP the the map of active users
 			addressMap.addIP(username, clientSocket);
@@ -124,7 +120,7 @@ public class ClientHandler implements Runnable, ResponseSender {
 			sendResponse(false, "Login unsuccessful");
 		}
 
-		db.closeEverything();
+	
 	}
 	
 	private void readCallRequest(Request request){

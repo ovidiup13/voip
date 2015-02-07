@@ -1,6 +1,7 @@
 package database;
 
 import java.sql.*;
+import java.util.ArrayList;
 
 public class ConnectToDb {
 	private Connection connection = null;
@@ -28,32 +29,49 @@ public class ConnectToDb {
 			//1.Get a connection to the database	URL, Username, Password	
 			//connection = DriverManager.getConnection("jdbc:mysql://localhost:3306/TP3Hdb","root","zzz");
 			connection =  DriverManager.getConnection("jdbc:sqlite:Server/src/database/TP3Hdb.db");
-//			Statement stmt = connection.createStatement();
-//			stmt.executeUpdate("PRAGMA foreign_keys = ON");
-//			System.out.println("Opened database successfully");
+		
+
+			register("Usser31","password");
+			register("Usser32","password");
+			register("Usser33","password");
+			register("Usser34","password");
+			register("Usser35","password");
+			register("Usser36","password");
+			register("Usser37","password");
+			register("Usser38","password");
+			register("Usser39","password");
+			register("Usser40","password");
+			register("Usser41","password");
+			register("Usser42","password");
 
 
-		//	register("User11","password");
-//			register("User12","password");
-//			register("User13","password");
-//			register("User14","password");
-//			register("User15","password");
-//			register("User16","password");
-				
+			addFriend("User22","User23");
+			addFriend("User23","User22");
 			
-//			addFriend("User16","User15");
-//			addFriend("User15","User16");
-//			
-//			addFriend("User15","User13");
-//			addFriend("User13","User15");
-//			addFriend("User13","User15");
-//			addFriend("User13","User15");
-//			addFriend("User13","User15");
-//			
+			addFriend("User16","User15");
+			addFriend("User15","User16");
+			
+			addFriend("User35","Viktor");
+			
+
+			addFriend("User15","User13");
+			addFriend("User13","User15");
+			addFriend("User13","User15");
+			
+			addFriend("User45","Viktor");
+			addFriend("User13","User15");
+			addFriend("User13","User15");
+			//			
 			addFriend("User15","Viktor");
-				
-			getFriendsFor("User15");
-;
+			addFriend("User22","Viktor");
+
+			addFriend("ItIsWorking","IsIt");
+			addFriend("IsIt","ItIsWorking");
+			
+			ArrayList<String> list = getFriendsFor("User22");
+			for(int i = 0 ; i<list.size(); i++)
+				System.out.println(list.get(i));
+			;
 
 
 		}catch(ClassNotFoundException error){
@@ -62,16 +80,17 @@ public class ConnectToDb {
 		catch(SQLException error){
 			System.out.println("Error: " + error.getMessage());
 		}
-		//		finally{
-		//		System.out.println("The connection was closed, foreveerrrr");
-		//		closeEverything(resultSet,statement,connection);
-		//	}
+//		finally{
+//			System.out.println("The connection was closed, foreveerrrr");
+//			closeEverything();
+//		}
 
 	}
 	/**
 	 * Register method: register the user
 	 * @param name, password
 	 * @return true if user does not exists, false if exists
+	 * @throws SQLException 
 	 * **/
 	public boolean register( String name,String password)  {
 		try {
@@ -86,15 +105,8 @@ public class ConnectToDb {
 			System.out.println("Error in registation: " + error.getMessage());
 			error.printStackTrace();
 		}finally{
-			try {
-				preparedStatement.close();
-				resultSet.close();
-			} catch (SQLException e) {
-				System.out.println("Error in db registration: " + e.getMessage());
-				e.printStackTrace();
-			}
-			
-		} 
+			closeStatement(preparedStatement);
+		}
 		System.out.println("The user already Exists !");
 		return false;
 	}
@@ -151,14 +163,8 @@ public class ConnectToDb {
 			System.out.println("Error in db while registration: " + e.getMessage());
 			e.printStackTrace();
 		}finally{
-			try {
-				preparedStatement.close();
-				resultSet.close();
-			} catch (SQLException e) {
-				System.out.println("Error in db registration: " + e.getMessage());
-				e.printStackTrace();
-			}
-			
+
+			closeStatement(preparedStatement);
 		}
 		return false;
 	}
@@ -171,30 +177,24 @@ public class ConnectToDb {
 	 * **/
 	public boolean callCheckAvailable (String username) {
 		try{
-		if(isRegistered(username)){
-			String query_getUserStatus = "SELECT status FROM Users WHERE username= ?";
-			preparedStatement = connection.prepareStatement(query_getUserStatus);
-			preparedStatement.setString(1, username);
-			resultSet =  preparedStatement.executeQuery();
+			if(isRegistered(username)){
+				String query_getUserStatus = "SELECT status FROM Users WHERE username= ?";
+				preparedStatement = connection.prepareStatement(query_getUserStatus);
+				preparedStatement.setString(1, username);
+				resultSet =  preparedStatement.executeQuery();
 
-			//if user in call or offline return false
-			if(resultSet.next()) { // rs.next() is false if nothing is found
-				String status = resultSet.getString(1); 
-				if(status.equals("0") || status.equals("4")) return false;
+				//if user in call or offline return false
+				if(resultSet.next()) { // rs.next() is false if nothing is found
+					String status = resultSet.getString(1); 
+					if(status.equals("0") || status.equals("4")) return false;
+				}
+				return true;
 			}
-			return true;
-		}
 		}catch(SQLException e){
 			System.out.println("Error: "+ e.getMessage());
 			e.printStackTrace();
 		}finally{
-			try {
-				preparedStatement.close();
-				resultSet.close();
-			} catch (SQLException e) {
-				System.out.println("Error in db registration: " + e.getMessage());
-				e.printStackTrace();
-			}
+			closeStatement(preparedStatement);		
 		}
 		System.out.println("User with such name does not exists!");
 		return false; 
@@ -220,6 +220,8 @@ public class ConnectToDb {
 		} catch (SQLException e) {
 			System.out.println("Error: "+ e.getMessage());
 			e.printStackTrace();
+		}finally{
+			closeStatement(preparedStatement);
 		}
 		System.out.println("InvalidStatus");
 		return false;
@@ -228,12 +230,14 @@ public class ConnectToDb {
 
 	public void delete(String username) {
 		try{
-		preparedStatement = connection.prepareStatement("DELETE FROM Users WHERE username= ?");
-		preparedStatement.setString(1, username);
-		preparedStatement.execute();
+			preparedStatement = connection.prepareStatement("DELETE FROM Users WHERE username= ?");
+			preparedStatement.setString(1, username);
+			preparedStatement.execute();
 		}catch(SQLException e){
 			System.out.println("Error: "+ e.getMessage());
 			e.printStackTrace();
+		}finally{
+			closeStatement(preparedStatement);
 		}
 	}
 	/**
@@ -257,22 +261,23 @@ public class ConnectToDb {
 		}catch (SQLException e) {
 			System.out.println("Error: "+ e.getMessage());
 			e.printStackTrace();
+		}finally{
+			closeStatement(preparedStatement);
 		}
 		return null;
 	}
-	
+
 	/**
 	 * Method for adding friends to the db
 	 * @param fromUser, ToUser
-	 * must use this method twice :  
+	 * 
 	 * 1.first when user1 request friendship to user2
 	 * 2.second when user2 request friendship to user1
-	 * if both rows exit the two users become friends
+	 * if both rows exist the two users become friends
 	 * @Glosary sets relation status to : 1 ( Pending Friend Request)
-	 * 			calls updateFrinds
+	 * 			calls updateFrinds(if both rows exist set status to 2 (Confirm Friend Request)
 	 * 			
-	 * @important first ask for the acceptance of the requested user then use this 
-	 * method to modify db.
+	 * 
 	 * @throws excepts if users does not exist 
 	 *@return 
 	 * **/
@@ -286,13 +291,16 @@ public class ConnectToDb {
 				preparedStatement.setString(2, ToUser);
 				preparedStatement.setInt(3,1);
 				preparedStatement.execute();
-				updateFriends(fromUser,ToUser);
+				updateFriends();
 			}
 		}catch (SQLException e) {
 			System.out.println("Error in addFriends: "+ e.getMessage());
 			e.printStackTrace();}
-	
-		
+		finally{
+			closeStatement(preparedStatement);
+		}
+
+
 	}
 	/**
 	 * 
@@ -309,42 +317,61 @@ public class ConnectToDb {
 			resultSet =  preparedStatement.executeQuery();
 			if(resultSet.next()) {
 				int count = resultSet.getInt(1);
-				System.out.println(count);
 				if(count == 0) return false;
-			}
-			
-	}catch (SQLException e) {
-		System.out.println("Error in checkifExistsFriends: "+ e.getMessage());
-		e.printStackTrace();}
+			}	
+		}catch (SQLException e) {
+			System.out.println("Error in checkifExistsFriends: "+ e.getMessage());
+			e.printStackTrace();
+		}
+		finally{
+			closeStatement(preparedStatement);
+		}
 		return true;
-
-		
 	}
+
 	/**
 	 * Check if both users have made successful fried request
+	 * that is : if (user1, user2) and (user2,user1) both exist
 	 * if yes set relationship status to 2-Confirm Friend Request
 	 * 
-	 * NOT WORKING PROPERLY MUST FIX 
-	 * TO DO
-	**/
-	private void updateFriends(String user1, String user2){
+	 * Internal working : 1.Finds the relationships pairs
+	 * 					  2.For each relationship pair modify status if must
+	 * 
+	 *INEFICIENT METHOD (REVISE FOR EFFICIENCY )
+	 **/
+	private void updateFriends(){
 		try{
-			String query_updateFriends = "UPDATE RelationshipType SET relationship = ? WHERE (username= ? OR username2= ?) AND (username= ? OR username2= ?)";
-			preparedStatement = connection.prepareStatement(query_updateFriends);
-			preparedStatement.setInt(1,2);
-			preparedStatement.setString(2, user1);	
-			preparedStatement.setString(3, user1);
-			preparedStatement.setString(4, user2);
-			preparedStatement.setString(5, user2);
-			preparedStatement.execute();
+			String query_findFriendships = "SELECT  f1.* from RelationshipType f1 inner join RelationshipType f2 on f1.username = f2.username2 and f1.username2 = f2.username;";
+			preparedStatement = connection.prepareStatement(query_findFriendships);
+			resultSet =  preparedStatement.executeQuery();
+			while(resultSet.next()) {
+				String query_updateFriends = "UPDATE RelationshipType SET relationship = ? WHERE (username= ? AND username2= ?)";
+				preparedStatement = connection.prepareStatement(query_updateFriends);
+				preparedStatement.setInt(1,2);
+				preparedStatement.setString(2, resultSet.getString("username"));	
+				preparedStatement.setString(3, resultSet.getString("username2"));
+				preparedStatement.execute();
+				System.out.println("--------------------");
+				
+			}
 
 		}catch(SQLException e){
 			System.out.println("Error in updateFriends: "+ e.getMessage());
 			e.printStackTrace();
-		}
+		}finally{
+			closeStatement(preparedStatement);
+			}
 	}
+
 	
-	public void getFriendsFor(String user1){
+
+	/**
+	 * get ArrayList of the friends for a given user(confirmed friends)
+	 * 
+	 * TO DO: Pending friends
+	 **/
+	public ArrayList<String> getFriendsFor(String user1){
+		ArrayList<String> friendsArray = new ArrayList<String>();
 		try{
 			String query_getFriendsFor = "SELECT username2 FROM RelationshipType WHERE (username= ?  AND relationship= ?)";
 			preparedStatement = connection.prepareStatement(query_getFriendsFor);
@@ -352,19 +379,28 @@ public class ConnectToDb {
 			preparedStatement.setInt(2, 2);
 			ResultSet result = preparedStatement.executeQuery();
 			while(result.next()){
-				System.out.println(result.getString("username2"));
-				
-			
-				}
-			
-
+				friendsArray.add(result.getString("username2"));
+			}
 		}catch(SQLException e){
 			System.out.println("Error in getFriends: "+ e.getMessage());
 			e.printStackTrace();
-		}
+		}finally{
+			closeStatement(preparedStatement);
+			}
+		return friendsArray;
 	}
 
 
+	protected void closeStatement( Statement resource ) {
+		try {
+			if (resource != null) {
+				resource.close();
+			}
+		} catch( Exception error ) {
+			System.out.println("Error in updateFriends: "+ error.getMessage());
+			error.printStackTrace();
+		}
+	}
 
 	// you need to close all three to make sure
 	public void closeEverything() {
