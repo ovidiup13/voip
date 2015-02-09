@@ -2,6 +2,8 @@ package tcp.clienthandler;
 
 import buffers.ClientRequest.Request;
 import buffers.ServerResponse.Response;
+import database.Client;
+import database.ClientStatus;
 import database.ConnectToDb;
 import database.IPAddressMap;
 import interfaces.ResponseSender;
@@ -17,6 +19,7 @@ public class ClientHandler implements Runnable, ResponseSender {
 
 	private static int callID = 0;
 	
+	private Client client;
 	private Socket clientSocket;
 	private ResponseWriter responseWriter;
 	private InputStream input;
@@ -29,6 +32,7 @@ public class ClientHandler implements Runnable, ResponseSender {
 		System.out.println("Server: Client found...");
 		
 		this.clientSocket = clientSocket;
+		this.client = new Client(clientSocket);
 		this.addressMap = addressMap;
 		this.db = db;
 		
@@ -107,12 +111,14 @@ public class ClientHandler implements Runnable, ResponseSender {
 
 		if (db.logIn(username, password)) {
 			//add the user's IP the the map of active users
-			addressMap.addIP(username, clientSocket);
+			client.setUsername(username);
+			client.setStatus(ClientStatus.IDLE);
+			addressMap.addClient(client);
 
 			//modify user's status in db to idle
 			db.updateUserStatus(username, "5");
 
-			System.out.println("ClientIP" + addressMap.getIP(username));
+			System.out.println("ClientIP" + addressMap.getClient(username).getHostName());
 
 			//if ok, send confirmation response
 			sendResponse(true, "Login successful");
@@ -130,17 +136,17 @@ public class ClientHandler implements Runnable, ResponseSender {
 		if (addressMap.isOnline(callee)) {
 			//(true, "You can call the user");
 
-			//get the ClientIP from the onlineHashTable, and send it as responce
-			Socket connectionToCallee = addressMap.getIP(callee);
+			//get the ClientIP from the onlineHashTable, and send it as response
+			Client calleeClient = addressMap.getClient(callee);
 
 			//send response to client2
-			sendCallResponse(clientSocket, connectionToCallee, callID++);
+			sendCallResponse(client, calleeClient, callID++);
 
 			//send response to client1
 
 			//call iD must be unique for every call
 			
-			//chenge user status to in-call
+			//change user status to in-call
 
 			//db.updateUserStatus(request.getReg().getUsername(), "4");
 		} else {
@@ -159,11 +165,11 @@ public class ClientHandler implements Runnable, ResponseSender {
 	}
 	
 	@Override
-	public void sendCallResponse(Socket connection, Socket other, int callID){
-		String IPAddress = ((InetSocketAddress)other.getRemoteSocketAddress()).getHostName();
+	public void sendCallResponse(Client target, Client other, int callID){
+		String IPAddress = other.getHostName();
 		Response response = responseWriter.createCallResponse(IPAddress, callID);
 		try {
-			response.writeDelimitedTo(connection.getOutputStream());
+			response.writeDelimitedTo(target.getSocket().getOutputStream());
 		} catch (IOException e) {
 			System.err.println("Server: could not send response.");
 		}

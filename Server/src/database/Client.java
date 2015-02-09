@@ -1,5 +1,6 @@
 package database;
 
+import java.net.InetSocketAddress;
 import java.net.Socket;
 
 /**
@@ -8,24 +9,35 @@ import java.net.Socket;
 public class Client {
     
     private Socket socket;
-    private int status; // 0 for IDLE, 1 for IN CALL, 2 for WAITING
+    private ClientStatus status;
     private String username;
     
-    public Client(Socket socket, int status, String username){
+    public Client(Socket socket){
         this.socket = socket;
-        this.status = status;
-        this.username = username;
+        this.status = ClientStatus.NOT_LOGGED_IN;
     }
     
-    public int getStatus(){
+    public void setUsername(String name) {
+    	this.username = name;
+    }
+    
+    public String getUsername() {
+    	return this.username;
+    }
+    
+    public ClientStatus getStatus(){
         return status;
+    }
+    
+    public String getHostName() {
+    	return ((InetSocketAddress)socket.getRemoteSocketAddress()).getHostName();
     }
     
     public Socket getSocket(){
         return socket;
     }
     
-    public void setStatus(int status){
+    public void setStatus(ClientStatus status){
         this.status = status;
     }
 }

@@ -17,7 +17,12 @@ public class IPAddressMap {
         return IPTable.containsKey(username);
     }
     
-    public int getStatus(String username){
+    public Client getClient(String username) {
+    	return IPTable.get(username);
+    }
+    
+    /*
+    public ClientStatus getStatus(String username){
         return IPTable.get(username).getStatus();
     }
     
@@ -27,14 +32,14 @@ public class IPAddressMap {
 
     public String getIP(String username) {
         return IPTable.get(username).getSocket().getLocalAddress().toString();
+    } */
+
+    public void addClient(Client client) {
+        IPTable.put(client.getUsername(), client);
     }
 
-    public void addOnlineClient(String username, Socket socket) {
-        IPTable.put(username, new Client(socket, 0, username));
-    }
-
-    public void removeClient(String username) {
-        IPTable.remove(username);
+    public void removeClient(Client client) {
+        IPTable.remove(client.getUsername());
     }
 
 }
