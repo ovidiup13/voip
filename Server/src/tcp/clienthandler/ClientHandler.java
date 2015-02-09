@@ -87,12 +87,17 @@ public class ClientHandler implements Runnable, ResponseSender {
 					case REG:  { readRegisterRequest(request); break; }
 					case LIN:  { readLogInRequest(request); break; }
 					case CALL: { readCallRequest(request); break; }
-					case STS:  { break; } //to be implemented
+					case STS:  { readStatusRequest(request); break; }
+                    case CALLRES: { readCallResponse(request); break; }
+                    case FLIST: { readFriendListRequest(request); break; }
+                    case ADDF: { readAddFriendRequest(request); break; }
+                    case DELF: { readDeleteFriendRequest(request); break; }
+                    case ECALL: {}//to be implemented
 				}
 			}
 	}
-	
-	private void readRegisterRequest(Request request){
+
+    private void readRegisterRequest(Request request){
 		System.out.println("Server: Request is of type REG, processing...");
 		System.out.println("Server: Adding user to database...");
 		if (db.register(request.getReg().getUsername(), request.getReg().getPassword())) {
@@ -143,7 +148,7 @@ public class ClientHandler implements Runnable, ResponseSender {
 			sendCallResponse(client, calleeClient, callID++);
 
 			//send response to client1
-
+            
 			//call iD must be unique for every call
 			
 			//change user status to in-call
@@ -153,6 +158,67 @@ public class ClientHandler implements Runnable, ResponseSender {
 			sendResponse(false, "Call unsuccessful");
 		}
 	}
+
+    //read status request
+    private void readStatusRequest(Request request) {
+        Client userData = addressMap.getClient(request.getUsername());
+        //get the status of the user
+        ClientStatus status = userData.getStatus();
+
+        Response response;
+        //if user is not idle - user is unavailable
+        if (status.getNumVal() != 0)
+            //send unavailable response
+            response = responseWriter.createStatusResponse(false);
+        else
+            response = responseWriter.createStatusResponse(false);
+        
+        //send response to client
+        try {
+            response.writeDelimitedTo(output);
+        } catch (IOException e) {
+            System.err.println("cannot send status response");
+        }
+    }
+
+    //read friend request
+    private void readAddFriendRequest(Request request) {
+        db.addFriend(client.getUsername(), request.getUsername());
+        //need to know if it was successful or not !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
+        
+        Response response = responseWriter.createActionResponse(true, "some message");
+
+        try {
+            response.writeDelimitedTo(output);
+        } catch (IOException e) {
+            System.err.println("could not send confirmation for friend request");
+        }
+    }
+
+    //read friend list request
+    private void readFriendListRequest(Request request) {
+        ArrayList<String> friends = db.getFriendsFor(client.getUsername());
+        
+        Response response = responseWriter.createFriendListResponse(friends);
+
+        try {
+            response.writeDelimitedTo(output);
+        } catch (IOException e) {
+            System.err.println("Cannot send friend list");
+        }
+    }
+        
+    //read call response
+    private void readCallResponse(Request request) {
+        //to be implemented
+    }
+
+    //read delete friend request
+    private void readDeleteFriendRequest(Request request) {
+        //need function to delete friend relationship !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
+        //to be implemented
+    }
+    
 
 	@Override
 	public void sendResponse(boolean ok, String message) {
@@ -174,11 +240,6 @@ public class ClientHandler implements Runnable, ResponseSender {
 			System.err.println("Server: could not send response.");
 		}
 	}
-
-    @Override
-    public void sendFriendListResponse(ArrayList<String> list) {
-        //to be implemented
-    }
 
     @Override
     public void sendCallInquiry(String username) {

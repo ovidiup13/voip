@@ -3,9 +3,6 @@ package database;
 import java.net.InetSocketAddress;
 import java.net.Socket;
 
-/**
- * Created by Ovidiu on 09/02/2015.
- */
 public class Client {
 
     private Socket socket;

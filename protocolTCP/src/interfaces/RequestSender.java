@@ -1,5 +1,7 @@
 package interfaces;
 
+import java.util.ArrayList;
+
 public interface RequestSender {
 
     public boolean sendRegisterRequest(String username, String password);
@@ -17,7 +19,7 @@ public interface RequestSender {
     
     public boolean deleteFriendRequest(String username);
     
-    public boolean getFriendListRequest();
+    public ArrayList<String> getFriendListRequest();
     
     public boolean sendStatusRequest(String username);
 

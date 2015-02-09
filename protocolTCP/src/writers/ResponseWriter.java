@@ -18,7 +18,7 @@ public class ResponseWriter {
 	 * @param ok
 	 * 			Flags whether the action was successful or not
 	 * @param cause	 * 			The cause of failure as string
-	 * @returns response to a request
+	 * @return response to a request
 	 * */
 	public Response createActionResponse(boolean ok, String cause){
 		return actionResponse(ok, cause);
@@ -26,9 +26,8 @@ public class ResponseWriter {
 
 	private static Response actionResponse(boolean ok, String cause){
 		ReqResult reqResult = ReqResult.newBuilder().setOk(ok).setCause(cause).build();
-		Response response = Response.newBuilder().
-				setResType(Response.ResType.ACT).setReqResult(reqResult).build();
-		return response;
+		return Response.newBuilder().
+                setResType(Response.ResType.ACT).setReqResult(reqResult).build();
 	}
 
 	/**
@@ -37,7 +36,7 @@ public class ResponseWriter {
 	 * 			The IP Address of the user to be called
      * @param callID
      *          The call ID as integer
-	 * @returns response to the call request
+	 * @return response to the call request
 	 * */
 	public Response createCallResponse(String ipAddress, int callID){
 		return callResponse(ipAddress, callID);
@@ -45,16 +44,15 @@ public class ResponseWriter {
 
 	private static Response callResponse(String ipAddress, int callID){
 		CallResponse callResponse = CallResponse.newBuilder().setIpAddress(ipAddress).setCallID(callID).build();
-		Response response = Response.newBuilder().setResType(Response.ResType.CALLREC).
-				setCallResponse(callResponse).build();
-		return response;
+		return Response.newBuilder().setResType(Response.ResType.CALLREC).
+                setCallResponse(callResponse).build();
 	}
 
 	/**
 	 * method that creates a response to be sent to the other user who was left on the call
 	 * @param ok
 	 * 			Flags confirmation that the user should end the call
-	 * @returns response of end call
+	 * @return response of end call
 	 * */
 	public Response createEndCallResponse(boolean ok){
 		return endCallResponse(ok);
@@ -73,10 +71,9 @@ public class ResponseWriter {
     public Response createFriendListResponse(ArrayList<String> usernames) { return friendListRes(usernames); }
     
     private static Response friendListRes(ArrayList<String> usernames){
-        Response response = Response.newBuilder().setResType(Response.ResType.FLIST)
+        return Response.newBuilder().setResType(Response.ResType.FLIST)
                 .setList(Response.FriendList.newBuilder().addAllUsername(usernames))
                 .build();
-        return response;
     }
     
     /**
@@ -88,9 +85,8 @@ public class ResponseWriter {
     public Response createCallInquiry(String username) { return callInquiry(username); }
     
     private static Response callInquiry(String username){
-        Response response = Response.newBuilder().setResType(Response.ResType.CALLINQ)
+        return Response.newBuilder().setResType(Response.ResType.CALLINQ)
                 .setUsername(username).build();
-        return response;
     }
     
     /**
@@ -102,9 +98,8 @@ public class ResponseWriter {
     public Response createStatusResponse(boolean available) { return statusResponse(available); }
     
     private static Response statusResponse(boolean ok){
-        Response response = Response.newBuilder().setResType(Response.ResType.STS)
+        return Response.newBuilder().setResType(Response.ResType.STS)
                 .setStatus(ok).build();
-        return response;
     }
     
 }

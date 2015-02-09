@@ -29,9 +29,8 @@ public final class RequestWriter {
 		Registration reg = Registration.newBuilder().setUsername(username)
 				.setPassword(password).build();
 		// build request message
-		Request req = Request.newBuilder().setRqType(Request.ReqType.REG)
-				.setReg(reg).build();
-		return req;
+		return Request.newBuilder().setRqType(Request.ReqType.REG)
+                .setReg(reg).build();
 	}
 
 	/**
@@ -52,25 +51,21 @@ public final class RequestWriter {
 		LogIn lin = LogIn.newBuilder().setUsername(username)
 				.setPassword(password).build();
 		// build request message
-		Request req = Request.newBuilder().setRqType(Request.ReqType.LIN)
-				.setLin(lin).build();
-		return req;
+		return Request.newBuilder().setRqType(Request.ReqType.LIN)
+                .setLin(lin).build();
 	}
 
 	/**
 	 * method that creates a logout request
-	 * 
-	 * @param confirm
-	 *            The username of client to be logged out
+	 *
 	 * @return request of type log-out
 	 */
-	public Request createLogOutReq(boolean confirm) { return logOutReq(confirm); }
+	public Request createLogOutReq() { return logOutReq(); }
 
-	private static Request logOutReq(boolean confirm) {
+	private static Request logOutReq() {
 		// build request message
-		Request req = Request.newBuilder().setRqType(Request.ReqType.LOUT)
-				.setConfirmation(confirm).build();
-		return req;
+		return Request.newBuilder().setRqType(Request.ReqType.LOUT)
+                .setConfirmation(true).build();
 	}
 
 	/**
@@ -86,9 +81,8 @@ public final class RequestWriter {
 
 	private static Request callReq(String username) {
 		// build request message
-		Request req = Request.newBuilder().setRqType(Request.ReqType.CALL)
-				.setUsername(username).build();
-		return req;
+		return Request.newBuilder().setRqType(Request.ReqType.CALL)
+                .setUsername(username).build();
 	}
     
     /**
@@ -101,9 +95,8 @@ public final class RequestWriter {
     public Request createCallResponse(boolean ok) { return callResponse(ok);}
 
     private static Request callResponse(boolean ok){
-        Request req = Request.newBuilder().setRqType(Request.ReqType.CALLRES)
+        return Request.newBuilder().setRqType(Request.ReqType.CALLRES)
                 .setConfirmation(ok).build();
-        return req;
     }
 
     /**
@@ -117,9 +110,8 @@ public final class RequestWriter {
 
     private static Request endCallReq() {
         // build request message
-        Request req = Request.newBuilder().setRqType(Request.ReqType.ECALL)
+        return Request.newBuilder().setRqType(Request.ReqType.ECALL)
                 .setConfirmation(true).build();
-        return req;
     }
     
     /**
@@ -130,9 +122,8 @@ public final class RequestWriter {
     public Request createFriendListRequest() { return friendListReq(); }
     
     private static Request friendListReq(){
-        Request req = Request.newBuilder().setRqType(Request.ReqType.FLIST)
+        return Request.newBuilder().setRqType(Request.ReqType.FLIST)
                 .setConfirmation(true).build();
-        return req;
     }
     
     /**
@@ -145,9 +136,8 @@ public final class RequestWriter {
     public Request createFriendRequest(String username) { return friendReq(username); }
     
     private static Request friendReq(String username){
-        Request req = Request.newBuilder().setRqType(Request.ReqType.ADDF)
+        return Request.newBuilder().setRqType(Request.ReqType.ADDF)
                 .setUsername(username).build();
-        return req;
     }
 
     /**
@@ -160,9 +150,8 @@ public final class RequestWriter {
     public Request deleteFriendRequest(String username) { return deleteFriend(username); }
     
     private static Request deleteFriend(String username){
-        Request req = Request.newBuilder().setRqType(Request.ReqType.DELF)
+        return Request.newBuilder().setRqType(Request.ReqType.DELF)
                 .setUsername(username).build();
-        return req;
     }
     
 	/**
@@ -176,9 +165,8 @@ public final class RequestWriter {
 	
 	private static Request statusReq(String username){
 		//build request
-		Request req = Request.newBuilder().setRqType(Request.ReqType.STS)
-				.setUsername(username).build();
-		return req;
+		return Request.newBuilder().setRqType(Request.ReqType.STS)
+                .setUsername(username).build();
 	}
 
 }

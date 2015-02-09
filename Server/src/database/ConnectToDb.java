@@ -276,10 +276,6 @@ public class ConnectToDb {
 	 * if both rows exist the two users become friends
 	 * @Glosary sets relation status to : 1 ( Pending Friend Request)
 	 * 			calls updateFrinds(if both rows exist set status to 2 (Confirm Friend Request)
-	 * 			
-	 * 
-	 * @throws excepts if users does not exist 
-	 *@return 
 	 * **/
 	public void addFriend(String fromUser, String ToUser){
 		try{
