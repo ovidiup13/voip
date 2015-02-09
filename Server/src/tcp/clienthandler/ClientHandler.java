@@ -12,8 +12,8 @@ import writers.ResponseWriter;
 import java.io.IOException;
 import java.io.InputStream;
 import java.io.OutputStream;
-import java.net.InetSocketAddress;
 import java.net.Socket;
+import java.util.ArrayList;
 
 public class ClientHandler implements Runnable, ResponseSender {
 
@@ -175,7 +175,17 @@ public class ClientHandler implements Runnable, ResponseSender {
 		}
 	}
 
-	@Override
+    @Override
+    public void sendFriendListResponse(ArrayList<String> list) {
+        //to be implemented
+    }
+
+    @Override
+    public void sendCallInquiry(String username) {
+        //to be implemented
+    }
+
+    @Override
 	public void sendEndCallResponse(boolean ok) {
 		//to be implemented
 	}

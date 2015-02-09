@@ -95,6 +95,74 @@ public final class ServerResponse {
      * </pre>
      */
     boolean getEndCall();
+
+    /**
+     * <code>optional .Response.FriendList list = 6;</code>
+     *
+     * <pre>
+     *friend list field
+     * </pre>
+     */
+    boolean hasList();
+    /**
+     * <code>optional .Response.FriendList list = 6;</code>
+     *
+     * <pre>
+     *friend list field
+     * </pre>
+     */
+    buffers.ServerResponse.Response.FriendList getList();
+    /**
+     * <code>optional .Response.FriendList list = 6;</code>
+     *
+     * <pre>
+     *friend list field
+     * </pre>
+     */
+    buffers.ServerResponse.Response.FriendListOrBuilder getListOrBuilder();
+
+    /**
+     * <code>optional string username = 7;</code>
+     *
+     * <pre>
+     *username field for CALLINQ
+     * </pre>
+     */
+    boolean hasUsername();
+    /**
+     * <code>optional string username = 7;</code>
+     *
+     * <pre>
+     *username field for CALLINQ
+     * </pre>
+     */
+    java.lang.String getUsername();
+    /**
+     * <code>optional string username = 7;</code>
+     *
+     * <pre>
+     *username field for CALLINQ
+     * </pre>
+     */
+    com.google.protobuf.ByteString
+        getUsernameBytes();
+
+    /**
+     * <code>optional bool status = 8;</code>
+     *
+     * <pre>
+     *status of a user - available/unavailable
+     * </pre>
+     */
+    boolean hasStatus();
+    /**
+     * <code>optional bool status = 8;</code>
+     *
+     * <pre>
+     *status of a user - available/unavailable
+     * </pre>
+     */
+    boolean getStatus();
   }
   /**
    * Protobuf type {@code Response}
@@ -194,6 +262,30 @@ public final class ServerResponse {
               endCall_ = input.readBool();
               break;
             }
+            case 50: {
+              buffers.ServerResponse.Response.FriendList.Builder subBuilder = null;
+              if (((bitField0_ & 0x00000010) == 0x00000010)) {
+                subBuilder = list_.toBuilder();
+              }
+              list_ = input.readMessage(buffers.ServerResponse.Response.FriendList.PARSER, extensionRegistry);
+              if (subBuilder != null) {
+                subBuilder.mergeFrom(list_);
+                list_ = subBuilder.buildPartial();
+              }
+              bitField0_ |= 0x00000010;
+              break;
+            }
+            case 58: {
+              com.google.protobuf.ByteString bs = input.readBytes();
+              bitField0_ |= 0x00000020;
+              username_ = bs;
+              break;
+            }
+            case 64: {
+              bitField0_ |= 0x00000040;
+              status_ = input.readBool();
+              break;
+            }
           }
         }
       } catch (com.google.protobuf.InvalidProtocolBufferException e) {
@@ -247,13 +339,25 @@ public final class ServerResponse {
        */
       ACT(0, 1),
       /**
-       * <code>CALL = 2;</code>
+       * <code>CALLREC = 2;</code>
        */
-      CALL(1, 2),
+      CALLREC(1, 2),
       /**
        * <code>ECALL = 3;</code>
        */
       ECALL(2, 3),
+      /**
+       * <code>FLIST = 4;</code>
+       */
+      FLIST(3, 4),
+      /**
+       * <code>CALLINQ = 5;</code>
+       */
+      CALLINQ(4, 5),
+      /**
+       * <code>STS = 6;</code>
+       */
+      STS(5, 6),
       ;
 
       /**
@@ -261,13 +365,25 @@ public final class ServerResponse {
        */
       public static final int ACT_VALUE = 1;
       /**
-       * <code>CALL = 2;</code>
+       * <code>CALLREC = 2;</code>
        */
-      public static final int CALL_VALUE = 2;
+      public static final int CALLREC_VALUE = 2;
       /**
        * <code>ECALL = 3;</code>
        */
       public static final int ECALL_VALUE = 3;
+      /**
+       * <code>FLIST = 4;</code>
+       */
+      public static final int FLIST_VALUE = 4;
+      /**
+       * <code>CALLINQ = 5;</code>
+       */
+      public static final int CALLINQ_VALUE = 5;
+      /**
+       * <code>STS = 6;</code>
+       */
+      public static final int STS_VALUE = 6;
 
 
       public final int getNumber() { return value; }
@@ -275,8 +391,11 @@ public final class ServerResponse {
       public static ResType valueOf(int value) {
         switch (value) {
           case 1: return ACT;
-          case 2: return CALL;
+          case 2: return CALLREC;
           case 3: return ECALL;
+          case 4: return FLIST;
+          case 5: return CALLINQ;
+          case 6: return STS;
           default: return null;
         }
       }
@@ -1564,6 +1683,505 @@ public final class ServerResponse {
       // @@protoc_insertion_point(class_scope:Response.CallResponse)
     }
 
+    public interface FriendListOrBuilder extends
+        // @@protoc_insertion_point(interface_extends:Response.FriendList)
+        com.google.protobuf.MessageOrBuilder {
+
+      /**
+       * <code>repeated string username = 1;</code>
+       */
+      com.google.protobuf.ProtocolStringList
+          getUsernameList();
+      /**
+       * <code>repeated string username = 1;</code>
+       */
+      int getUsernameCount();
+      /**
+       * <code>repeated string username = 1;</code>
+       */
+      java.lang.String getUsername(int index);
+      /**
+       * <code>repeated string username = 1;</code>
+       */
+      com.google.protobuf.ByteString
+          getUsernameBytes(int index);
+    }
+    /**
+     * Protobuf type {@code Response.FriendList}
+     */
+    public static final class FriendList extends
+        com.google.protobuf.GeneratedMessage implements
+        // @@protoc_insertion_point(message_implements:Response.FriendList)
+        FriendListOrBuilder {
+      // Use FriendList.newBuilder() to construct.
+      private FriendList(com.google.protobuf.GeneratedMessage.Builder<?> builder) {
+        super(builder);
+        this.unknownFields = builder.getUnknownFields();
+      }
+      private FriendList(boolean noInit) { this.unknownFields = com.google.protobuf.UnknownFieldSet.getDefaultInstance(); }
+
+      private static final FriendList defaultInstance;
+      public static FriendList getDefaultInstance() {
+        return defaultInstance;
+      }
+
+      public FriendList getDefaultInstanceForType() {
+        return defaultInstance;
+      }
+
+      private final com.google.protobuf.UnknownFieldSet unknownFields;
+      @java.lang.Override
+      public final com.google.protobuf.UnknownFieldSet
+          getUnknownFields() {
+        return this.unknownFields;
+      }
+      private FriendList(
+          com.google.protobuf.CodedInputStream input,
+          com.google.protobuf.ExtensionRegistryLite extensionRegistry)
+          throws com.google.protobuf.InvalidProtocolBufferException {
+        initFields();
+        int mutable_bitField0_ = 0;
+        com.google.protobuf.UnknownFieldSet.Builder unknownFields =
+            com.google.protobuf.UnknownFieldSet.newBuilder();
+        try {
+          boolean done = false;
+          while (!done) {
+            int tag = input.readTag();
+            switch (tag) {
+              case 0:
+                done = true;
+                break;
+              default: {
+                if (!parseUnknownField(input, unknownFields,
+                                       extensionRegistry, tag)) {
+                  done = true;
+                }
+                break;
+              }
+              case 10: {
+                com.google.protobuf.ByteString bs = input.readBytes();
+                if (!((mutable_bitField0_ & 0x00000001) == 0x00000001)) {
+                  username_ = new com.google.protobuf.LazyStringArrayList();
+                  mutable_bitField0_ |= 0x00000001;
+                }
+                username_.add(bs);
+                break;
+              }
+            }
+          }
+        } catch (com.google.protobuf.InvalidProtocolBufferException e) {
+          throw e.setUnfinishedMessage(this);
+        } catch (java.io.IOException e) {
+          throw new com.google.protobuf.InvalidProtocolBufferException(
+              e.getMessage()).setUnfinishedMessage(this);
+        } finally {
+          if (((mutable_bitField0_ & 0x00000001) == 0x00000001)) {
+            username_ = username_.getUnmodifiableView();
+          }
+          this.unknownFields = unknownFields.build();
+          makeExtensionsImmutable();
+        }
+      }
+      public static final com.google.protobuf.Descriptors.Descriptor
+          getDescriptor() {
+        return buffers.ServerResponse.internal_static_Response_FriendList_descriptor;
+      }
+
+      protected com.google.protobuf.GeneratedMessage.FieldAccessorTable
+          internalGetFieldAccessorTable() {
+        return buffers.ServerResponse.internal_static_Response_FriendList_fieldAccessorTable
+            .ensureFieldAccessorsInitialized(
+                buffers.ServerResponse.Response.FriendList.class, buffers.ServerResponse.Response.FriendList.Builder.class);
+      }
+
+      public static com.google.protobuf.Parser<FriendList> PARSER =
+          new com.google.protobuf.AbstractParser<FriendList>() {
+        public FriendList parsePartialFrom(
+            com.google.protobuf.CodedInputStream input,
+            com.google.protobuf.ExtensionRegistryLite extensionRegistry)
+            throws com.google.protobuf.InvalidProtocolBufferException {
+          return new FriendList(input, extensionRegistry);
+        }
+      };
+
+      @java.lang.Override
+      public com.google.protobuf.Parser<FriendList> getParserForType() {
+        return PARSER;
+      }
+
+      public static final int USERNAME_FIELD_NUMBER = 1;
+      private com.google.protobuf.LazyStringList username_;
+      /**
+       * <code>repeated string username = 1;</code>
+       */
+      public com.google.protobuf.ProtocolStringList
+          getUsernameList() {
+        return username_;
+      }
+      /**
+       * <code>repeated string username = 1;</code>
+       */
+      public int getUsernameCount() {
+        return username_.size();
+      }
+      /**
+       * <code>repeated string username = 1;</code>
+       */
+      public java.lang.String getUsername(int index) {
+        return username_.get(index);
+      }
+      /**
+       * <code>repeated string username = 1;</code>
+       */
+      public com.google.protobuf.ByteString
+          getUsernameBytes(int index) {
+        return username_.getByteString(index);
+      }
+
+      private void initFields() {
+        username_ = com.google.protobuf.LazyStringArrayList.EMPTY;
+      }
+      private byte memoizedIsInitialized = -1;
+      public final boolean isInitialized() {
+        byte isInitialized = memoizedIsInitialized;
+        if (isInitialized == 1) return true;
+        if (isInitialized == 0) return false;
+
+        memoizedIsInitialized = 1;
+        return true;
+      }
+
+      public void writeTo(com.google.protobuf.CodedOutputStream output)
+                          throws java.io.IOException {
+        getSerializedSize();
+        for (int i = 0; i < username_.size(); i++) {
+          output.writeBytes(1, username_.getByteString(i));
+        }
+        getUnknownFields().writeTo(output);
+      }
+
+      private int memoizedSerializedSize = -1;
+      public int getSerializedSize() {
+        int size = memoizedSerializedSize;
+        if (size != -1) return size;
+
+        size = 0;
+        {
+          int dataSize = 0;
+          for (int i = 0; i < username_.size(); i++) {
+            dataSize += com.google.protobuf.CodedOutputStream
+              .computeBytesSizeNoTag(username_.getByteString(i));
+          }
+          size += dataSize;
+          size += 1 * getUsernameList().size();
+        }
+        size += getUnknownFields().getSerializedSize();
+        memoizedSerializedSize = size;
+        return size;
+      }
+
+      private static final long serialVersionUID = 0L;
+      @java.lang.Override
+      protected java.lang.Object writeReplace()
+          throws java.io.ObjectStreamException {
+        return super.writeReplace();
+      }
+
+      public static buffers.ServerResponse.Response.FriendList parseFrom(
+          com.google.protobuf.ByteString data)
+          throws com.google.protobuf.InvalidProtocolBufferException {
+        return PARSER.parseFrom(data);
+      }
+      public static buffers.ServerResponse.Response.FriendList parseFrom(
+          com.google.protobuf.ByteString data,
+          com.google.protobuf.ExtensionRegistryLite extensionRegistry)
+          throws com.google.protobuf.InvalidProtocolBufferException {
+        return PARSER.parseFrom(data, extensionRegistry);
+      }
+      public static buffers.ServerResponse.Response.FriendList parseFrom(byte[] data)
+          throws com.google.protobuf.InvalidProtocolBufferException {
+        return PARSER.parseFrom(data);
+      }
+      public static buffers.ServerResponse.Response.FriendList parseFrom(
+          byte[] data,
+          com.google.protobuf.ExtensionRegistryLite extensionRegistry)
+          throws com.google.protobuf.InvalidProtocolBufferException {
+        return PARSER.parseFrom(data, extensionRegistry);
+      }
+      public static buffers.ServerResponse.Response.FriendList parseFrom(java.io.InputStream input)
+          throws java.io.IOException {
+        return PARSER.parseFrom(input);
+      }
+      public static buffers.ServerResponse.Response.FriendList parseFrom(
+          java.io.InputStream input,
+          com.google.protobuf.ExtensionRegistryLite extensionRegistry)
+          throws java.io.IOException {
+        return PARSER.parseFrom(input, extensionRegistry);
+      }
+      public static buffers.ServerResponse.Response.FriendList parseDelimitedFrom(java.io.InputStream input)
+          throws java.io.IOException {
+        return PARSER.parseDelimitedFrom(input);
+      }
+      public static buffers.ServerResponse.Response.FriendList parseDelimitedFrom(
+          java.io.InputStream input,
+          com.google.protobuf.ExtensionRegistryLite extensionRegistry)
+          throws java.io.IOException {
+        return PARSER.parseDelimitedFrom(input, extensionRegistry);
+      }
+      public static buffers.ServerResponse.Response.FriendList parseFrom(
+          com.google.protobuf.CodedInputStream input)
+          throws java.io.IOException {
+        return PARSER.parseFrom(input);
+      }
+      public static buffers.ServerResponse.Response.FriendList parseFrom(
+          com.google.protobuf.CodedInputStream input,
+          com.google.protobuf.ExtensionRegistryLite extensionRegistry)
+          throws java.io.IOException {
+        return PARSER.parseFrom(input, extensionRegistry);
+      }
+
+      public static Builder newBuilder() { return Builder.create(); }
+      public Builder newBuilderForType() { return newBuilder(); }
+      public static Builder newBuilder(buffers.ServerResponse.Response.FriendList prototype) {
+        return newBuilder().mergeFrom(prototype);
+      }
+      public Builder toBuilder() { return newBuilder(this); }
+
+      @java.lang.Override
+      protected Builder newBuilderForType(
+          com.google.protobuf.GeneratedMessage.BuilderParent parent) {
+        Builder builder = new Builder(parent);
+        return builder;
+      }
+      /**
+       * Protobuf type {@code Response.FriendList}
+       */
+      public static final class Builder extends
+          com.google.protobuf.GeneratedMessage.Builder<Builder> implements
+          // @@protoc_insertion_point(builder_implements:Response.FriendList)
+          buffers.ServerResponse.Response.FriendListOrBuilder {
+        public static final com.google.protobuf.Descriptors.Descriptor
+            getDescriptor() {
+          return buffers.ServerResponse.internal_static_Response_FriendList_descriptor;
+        }
+
+        protected com.google.protobuf.GeneratedMessage.FieldAccessorTable
+            internalGetFieldAccessorTable() {
+          return buffers.ServerResponse.internal_static_Response_FriendList_fieldAccessorTable
+              .ensureFieldAccessorsInitialized(
+                  buffers.ServerResponse.Response.FriendList.class, buffers.ServerResponse.Response.FriendList.Builder.class);
+        }
+
+        // Construct using buffers.ServerResponse.Response.FriendList.newBuilder()
+        private Builder() {
+          maybeForceBuilderInitialization();
+        }
+
+        private Builder(
+            com.google.protobuf.GeneratedMessage.BuilderParent parent) {
+          super(parent);
+          maybeForceBuilderInitialization();
+        }
+        private void maybeForceBuilderInitialization() {
+          if (com.google.protobuf.GeneratedMessage.alwaysUseFieldBuilders) {
+          }
+        }
+        private static Builder create() {
+          return new Builder();
+        }
+
+        public Builder clear() {
+          super.clear();
+          username_ = com.google.protobuf.LazyStringArrayList.EMPTY;
+          bitField0_ = (bitField0_ & ~0x00000001);
+          return this;
+        }
+
+        public Builder clone() {
+          return create().mergeFrom(buildPartial());
+        }
+
+        public com.google.protobuf.Descriptors.Descriptor
+            getDescriptorForType() {
+          return buffers.ServerResponse.internal_static_Response_FriendList_descriptor;
+        }
+
+        public buffers.ServerResponse.Response.FriendList getDefaultInstanceForType() {
+          return buffers.ServerResponse.Response.FriendList.getDefaultInstance();
+        }
+
+        public buffers.ServerResponse.Response.FriendList build() {
+          buffers.ServerResponse.Response.FriendList result = buildPartial();
+          if (!result.isInitialized()) {
+            throw newUninitializedMessageException(result);
+          }
+          return result;
+        }
+
+        public buffers.ServerResponse.Response.FriendList buildPartial() {
+          buffers.ServerResponse.Response.FriendList result = new buffers.ServerResponse.Response.FriendList(this);
+          int from_bitField0_ = bitField0_;
+          if (((bitField0_ & 0x00000001) == 0x00000001)) {
+            username_ = username_.getUnmodifiableView();
+            bitField0_ = (bitField0_ & ~0x00000001);
+          }
+          result.username_ = username_;
+          onBuilt();
+          return result;
+        }
+
+        public Builder mergeFrom(com.google.protobuf.Message other) {
+          if (other instanceof buffers.ServerResponse.Response.FriendList) {
+            return mergeFrom((buffers.ServerResponse.Response.FriendList)other);
+          } else {
+            super.mergeFrom(other);
+            return this;
+          }
+        }
+
+        public Builder mergeFrom(buffers.ServerResponse.Response.FriendList other) {
+          if (other == buffers.ServerResponse.Response.FriendList.getDefaultInstance()) return this;
+          if (!other.username_.isEmpty()) {
+            if (username_.isEmpty()) {
+              username_ = other.username_;
+              bitField0_ = (bitField0_ & ~0x00000001);
+            } else {
+              ensureUsernameIsMutable();
+              username_.addAll(other.username_);
+            }
+            onChanged();
+          }
+          this.mergeUnknownFields(other.getUnknownFields());
+          return this;
+        }
+
+        public final boolean isInitialized() {
+          return true;
+        }
+
+        public Builder mergeFrom(
+            com.google.protobuf.CodedInputStream input,
+            com.google.protobuf.ExtensionRegistryLite extensionRegistry)
+            throws java.io.IOException {
+          buffers.ServerResponse.Response.FriendList parsedMessage = null;
+          try {
+            parsedMessage = PARSER.parsePartialFrom(input, extensionRegistry);
+          } catch (com.google.protobuf.InvalidProtocolBufferException e) {
+            parsedMessage = (buffers.ServerResponse.Response.FriendList) e.getUnfinishedMessage();
+            throw e;
+          } finally {
+            if (parsedMessage != null) {
+              mergeFrom(parsedMessage);
+            }
+          }
+          return this;
+        }
+        private int bitField0_;
+
+        private com.google.protobuf.LazyStringList username_ = com.google.protobuf.LazyStringArrayList.EMPTY;
+        private void ensureUsernameIsMutable() {
+          if (!((bitField0_ & 0x00000001) == 0x00000001)) {
+            username_ = new com.google.protobuf.LazyStringArrayList(username_);
+            bitField0_ |= 0x00000001;
+           }
+        }
+        /**
+         * <code>repeated string username = 1;</code>
+         */
+        public com.google.protobuf.ProtocolStringList
+            getUsernameList() {
+          return username_.getUnmodifiableView();
+        }
+        /**
+         * <code>repeated string username = 1;</code>
+         */
+        public int getUsernameCount() {
+          return username_.size();
+        }
+        /**
+         * <code>repeated string username = 1;</code>
+         */
+        public java.lang.String getUsername(int index) {
+          return username_.get(index);
+        }
+        /**
+         * <code>repeated string username = 1;</code>
+         */
+        public com.google.protobuf.ByteString
+            getUsernameBytes(int index) {
+          return username_.getByteString(index);
+        }
+        /**
+         * <code>repeated string username = 1;</code>
+         */
+        public Builder setUsername(
+            int index, java.lang.String value) {
+          if (value == null) {
+    throw new NullPointerException();
+  }
+  ensureUsernameIsMutable();
+          username_.set(index, value);
+          onChanged();
+          return this;
+        }
+        /**
+         * <code>repeated string username = 1;</code>
+         */
+        public Builder addUsername(
+            java.lang.String value) {
+          if (value == null) {
+    throw new NullPointerException();
+  }
+  ensureUsernameIsMutable();
+          username_.add(value);
+          onChanged();
+          return this;
+        }
+        /**
+         * <code>repeated string username = 1;</code>
+         */
+        public Builder addAllUsername(
+            java.lang.Iterable<java.lang.String> values) {
+          ensureUsernameIsMutable();
+          com.google.protobuf.AbstractMessageLite.Builder.addAll(
+              values, username_);
+          onChanged();
+          return this;
+        }
+        /**
+         * <code>repeated string username = 1;</code>
+         */
+        public Builder clearUsername() {
+          username_ = com.google.protobuf.LazyStringArrayList.EMPTY;
+          bitField0_ = (bitField0_ & ~0x00000001);
+          onChanged();
+          return this;
+        }
+        /**
+         * <code>repeated string username = 1;</code>
+         */
+        public Builder addUsernameBytes(
+            com.google.protobuf.ByteString value) {
+          if (value == null) {
+    throw new NullPointerException();
+  }
+  ensureUsernameIsMutable();
+          username_.add(value);
+          onChanged();
+          return this;
+        }
+
+        // @@protoc_insertion_point(builder_scope:Response.FriendList)
+      }
+
+      static {
+        defaultInstance = new FriendList(true);
+        defaultInstance.initFields();
+      }
+
+      // @@protoc_insertion_point(class_scope:Response.FriendList)
+    }
+
     private int bitField0_;
     public static final int RES_TYPE_FIELD_NUMBER = 1;
     private buffers.ServerResponse.Response.ResType resType_;
@@ -1677,11 +2295,124 @@ public final class ServerResponse {
       return endCall_;
     }
 
+    public static final int LIST_FIELD_NUMBER = 6;
+    private buffers.ServerResponse.Response.FriendList list_;
+    /**
+     * <code>optional .Response.FriendList list = 6;</code>
+     *
+     * <pre>
+     *friend list field
+     * </pre>
+     */
+    public boolean hasList() {
+      return ((bitField0_ & 0x00000010) == 0x00000010);
+    }
+    /**
+     * <code>optional .Response.FriendList list = 6;</code>
+     *
+     * <pre>
+     *friend list field
+     * </pre>
+     */
+    public buffers.ServerResponse.Response.FriendList getList() {
+      return list_;
+    }
+    /**
+     * <code>optional .Response.FriendList list = 6;</code>
+     *
+     * <pre>
+     *friend list field
+     * </pre>
+     */
+    public buffers.ServerResponse.Response.FriendListOrBuilder getListOrBuilder() {
+      return list_;
+    }
+
+    public static final int USERNAME_FIELD_NUMBER = 7;
+    private java.lang.Object username_;
+    /**
+     * <code>optional string username = 7;</code>
+     *
+     * <pre>
+     *username field for CALLINQ
+     * </pre>
+     */
+    public boolean hasUsername() {
+      return ((bitField0_ & 0x00000020) == 0x00000020);
+    }
+    /**
+     * <code>optional string username = 7;</code>
+     *
+     * <pre>
+     *username field for CALLINQ
+     * </pre>
+     */
+    public java.lang.String getUsername() {
+      java.lang.Object ref = username_;
+      if (ref instanceof java.lang.String) {
+        return (java.lang.String) ref;
+      } else {
+        com.google.protobuf.ByteString bs = 
+            (com.google.protobuf.ByteString) ref;
+        java.lang.String s = bs.toStringUtf8();
+        if (bs.isValidUtf8()) {
+          username_ = s;
+        }
+        return s;
+      }
+    }
+    /**
+     * <code>optional string username = 7;</code>
+     *
+     * <pre>
+     *username field for CALLINQ
+     * </pre>
+     */
+    public com.google.protobuf.ByteString
+        getUsernameBytes() {
+      java.lang.Object ref = username_;
+      if (ref instanceof java.lang.String) {
+        com.google.protobuf.ByteString b = 
+            com.google.protobuf.ByteString.copyFromUtf8(
+                (java.lang.String) ref);
+        username_ = b;
+        return b;
+      } else {
+        return (com.google.protobuf.ByteString) ref;
+      }
+    }
+
+    public static final int STATUS_FIELD_NUMBER = 8;
+    private boolean status_;
+    /**
+     * <code>optional bool status = 8;</code>
+     *
+     * <pre>
+     *status of a user - available/unavailable
+     * </pre>
+     */
+    public boolean hasStatus() {
+      return ((bitField0_ & 0x00000040) == 0x00000040);
+    }
+    /**
+     * <code>optional bool status = 8;</code>
+     *
+     * <pre>
+     *status of a user - available/unavailable
+     * </pre>
+     */
+    public boolean getStatus() {
+      return status_;
+    }
+
     private void initFields() {
       resType_ = buffers.ServerResponse.Response.ResType.ACT;
       reqResult_ = buffers.ServerResponse.Response.ReqResult.getDefaultInstance();
       callResponse_ = buffers.ServerResponse.Response.CallResponse.getDefaultInstance();
       endCall_ = false;
+      list_ = buffers.ServerResponse.Response.FriendList.getDefaultInstance();
+      username_ = "";
+      status_ = false;
     }
     private byte memoizedIsInitialized = -1;
     public final boolean isInitialized() {
@@ -1724,6 +2455,15 @@ public final class ServerResponse {
       if (((bitField0_ & 0x00000008) == 0x00000008)) {
         output.writeBool(5, endCall_);
       }
+      if (((bitField0_ & 0x00000010) == 0x00000010)) {
+        output.writeMessage(6, list_);
+      }
+      if (((bitField0_ & 0x00000020) == 0x00000020)) {
+        output.writeBytes(7, getUsernameBytes());
+      }
+      if (((bitField0_ & 0x00000040) == 0x00000040)) {
+        output.writeBool(8, status_);
+      }
       getUnknownFields().writeTo(output);
     }
 
@@ -1748,6 +2488,18 @@ public final class ServerResponse {
       if (((bitField0_ & 0x00000008) == 0x00000008)) {
         size += com.google.protobuf.CodedOutputStream
           .computeBoolSize(5, endCall_);
+      }
+      if (((bitField0_ & 0x00000010) == 0x00000010)) {
+        size += com.google.protobuf.CodedOutputStream
+          .computeMessageSize(6, list_);
+      }
+      if (((bitField0_ & 0x00000020) == 0x00000020)) {
+        size += com.google.protobuf.CodedOutputStream
+          .computeBytesSize(7, getUsernameBytes());
+      }
+      if (((bitField0_ & 0x00000040) == 0x00000040)) {
+        size += com.google.protobuf.CodedOutputStream
+          .computeBoolSize(8, status_);
       }
       size += getUnknownFields().getSerializedSize();
       memoizedSerializedSize = size;
@@ -1864,6 +2616,7 @@ public final class ServerResponse {
         if (com.google.protobuf.GeneratedMessage.alwaysUseFieldBuilders) {
           getReqResultFieldBuilder();
           getCallResponseFieldBuilder();
+          getListFieldBuilder();
         }
       }
       private static Builder create() {
@@ -1888,6 +2641,16 @@ public final class ServerResponse {
         bitField0_ = (bitField0_ & ~0x00000004);
         endCall_ = false;
         bitField0_ = (bitField0_ & ~0x00000008);
+        if (listBuilder_ == null) {
+          list_ = buffers.ServerResponse.Response.FriendList.getDefaultInstance();
+        } else {
+          listBuilder_.clear();
+        }
+        bitField0_ = (bitField0_ & ~0x00000010);
+        username_ = "";
+        bitField0_ = (bitField0_ & ~0x00000020);
+        status_ = false;
+        bitField0_ = (bitField0_ & ~0x00000040);
         return this;
       }
 
@@ -1940,6 +2703,22 @@ public final class ServerResponse {
           to_bitField0_ |= 0x00000008;
         }
         result.endCall_ = endCall_;
+        if (((from_bitField0_ & 0x00000010) == 0x00000010)) {
+          to_bitField0_ |= 0x00000010;
+        }
+        if (listBuilder_ == null) {
+          result.list_ = list_;
+        } else {
+          result.list_ = listBuilder_.build();
+        }
+        if (((from_bitField0_ & 0x00000020) == 0x00000020)) {
+          to_bitField0_ |= 0x00000020;
+        }
+        result.username_ = username_;
+        if (((from_bitField0_ & 0x00000040) == 0x00000040)) {
+          to_bitField0_ |= 0x00000040;
+        }
+        result.status_ = status_;
         result.bitField0_ = to_bitField0_;
         onBuilt();
         return result;
@@ -1967,6 +2746,17 @@ public final class ServerResponse {
         }
         if (other.hasEndCall()) {
           setEndCall(other.getEndCall());
+        }
+        if (other.hasList()) {
+          mergeList(other.getList());
+        }
+        if (other.hasUsername()) {
+          bitField0_ |= 0x00000020;
+          username_ = other.username_;
+          onChanged();
+        }
+        if (other.hasStatus()) {
+          setStatus(other.getStatus());
         }
         this.mergeUnknownFields(other.getUnknownFields());
         return this;
@@ -2414,6 +3204,306 @@ public final class ServerResponse {
         return this;
       }
 
+      private buffers.ServerResponse.Response.FriendList list_ = buffers.ServerResponse.Response.FriendList.getDefaultInstance();
+      private com.google.protobuf.SingleFieldBuilder<
+          buffers.ServerResponse.Response.FriendList, buffers.ServerResponse.Response.FriendList.Builder, buffers.ServerResponse.Response.FriendListOrBuilder> listBuilder_;
+      /**
+       * <code>optional .Response.FriendList list = 6;</code>
+       *
+       * <pre>
+       *friend list field
+       * </pre>
+       */
+      public boolean hasList() {
+        return ((bitField0_ & 0x00000010) == 0x00000010);
+      }
+      /**
+       * <code>optional .Response.FriendList list = 6;</code>
+       *
+       * <pre>
+       *friend list field
+       * </pre>
+       */
+      public buffers.ServerResponse.Response.FriendList getList() {
+        if (listBuilder_ == null) {
+          return list_;
+        } else {
+          return listBuilder_.getMessage();
+        }
+      }
+      /**
+       * <code>optional .Response.FriendList list = 6;</code>
+       *
+       * <pre>
+       *friend list field
+       * </pre>
+       */
+      public Builder setList(buffers.ServerResponse.Response.FriendList value) {
+        if (listBuilder_ == null) {
+          if (value == null) {
+            throw new NullPointerException();
+          }
+          list_ = value;
+          onChanged();
+        } else {
+          listBuilder_.setMessage(value);
+        }
+        bitField0_ |= 0x00000010;
+        return this;
+      }
+      /**
+       * <code>optional .Response.FriendList list = 6;</code>
+       *
+       * <pre>
+       *friend list field
+       * </pre>
+       */
+      public Builder setList(
+          buffers.ServerResponse.Response.FriendList.Builder builderForValue) {
+        if (listBuilder_ == null) {
+          list_ = builderForValue.build();
+          onChanged();
+        } else {
+          listBuilder_.setMessage(builderForValue.build());
+        }
+        bitField0_ |= 0x00000010;
+        return this;
+      }
+      /**
+       * <code>optional .Response.FriendList list = 6;</code>
+       *
+       * <pre>
+       *friend list field
+       * </pre>
+       */
+      public Builder mergeList(buffers.ServerResponse.Response.FriendList value) {
+        if (listBuilder_ == null) {
+          if (((bitField0_ & 0x00000010) == 0x00000010) &&
+              list_ != buffers.ServerResponse.Response.FriendList.getDefaultInstance()) {
+            list_ =
+              buffers.ServerResponse.Response.FriendList.newBuilder(list_).mergeFrom(value).buildPartial();
+          } else {
+            list_ = value;
+          }
+          onChanged();
+        } else {
+          listBuilder_.mergeFrom(value);
+        }
+        bitField0_ |= 0x00000010;
+        return this;
+      }
+      /**
+       * <code>optional .Response.FriendList list = 6;</code>
+       *
+       * <pre>
+       *friend list field
+       * </pre>
+       */
+      public Builder clearList() {
+        if (listBuilder_ == null) {
+          list_ = buffers.ServerResponse.Response.FriendList.getDefaultInstance();
+          onChanged();
+        } else {
+          listBuilder_.clear();
+        }
+        bitField0_ = (bitField0_ & ~0x00000010);
+        return this;
+      }
+      /**
+       * <code>optional .Response.FriendList list = 6;</code>
+       *
+       * <pre>
+       *friend list field
+       * </pre>
+       */
+      public buffers.ServerResponse.Response.FriendList.Builder getListBuilder() {
+        bitField0_ |= 0x00000010;
+        onChanged();
+        return getListFieldBuilder().getBuilder();
+      }
+      /**
+       * <code>optional .Response.FriendList list = 6;</code>
+       *
+       * <pre>
+       *friend list field
+       * </pre>
+       */
+      public buffers.ServerResponse.Response.FriendListOrBuilder getListOrBuilder() {
+        if (listBuilder_ != null) {
+          return listBuilder_.getMessageOrBuilder();
+        } else {
+          return list_;
+        }
+      }
+      /**
+       * <code>optional .Response.FriendList list = 6;</code>
+       *
+       * <pre>
+       *friend list field
+       * </pre>
+       */
+      private com.google.protobuf.SingleFieldBuilder<
+          buffers.ServerResponse.Response.FriendList, buffers.ServerResponse.Response.FriendList.Builder, buffers.ServerResponse.Response.FriendListOrBuilder> 
+          getListFieldBuilder() {
+        if (listBuilder_ == null) {
+          listBuilder_ = new com.google.protobuf.SingleFieldBuilder<
+              buffers.ServerResponse.Response.FriendList, buffers.ServerResponse.Response.FriendList.Builder, buffers.ServerResponse.Response.FriendListOrBuilder>(
+                  getList(),
+                  getParentForChildren(),
+                  isClean());
+          list_ = null;
+        }
+        return listBuilder_;
+      }
+
+      private java.lang.Object username_ = "";
+      /**
+       * <code>optional string username = 7;</code>
+       *
+       * <pre>
+       *username field for CALLINQ
+       * </pre>
+       */
+      public boolean hasUsername() {
+        return ((bitField0_ & 0x00000020) == 0x00000020);
+      }
+      /**
+       * <code>optional string username = 7;</code>
+       *
+       * <pre>
+       *username field for CALLINQ
+       * </pre>
+       */
+      public java.lang.String getUsername() {
+        java.lang.Object ref = username_;
+        if (!(ref instanceof java.lang.String)) {
+          com.google.protobuf.ByteString bs =
+              (com.google.protobuf.ByteString) ref;
+          java.lang.String s = bs.toStringUtf8();
+          if (bs.isValidUtf8()) {
+            username_ = s;
+          }
+          return s;
+        } else {
+          return (java.lang.String) ref;
+        }
+      }
+      /**
+       * <code>optional string username = 7;</code>
+       *
+       * <pre>
+       *username field for CALLINQ
+       * </pre>
+       */
+      public com.google.protobuf.ByteString
+          getUsernameBytes() {
+        java.lang.Object ref = username_;
+        if (ref instanceof String) {
+          com.google.protobuf.ByteString b = 
+              com.google.protobuf.ByteString.copyFromUtf8(
+                  (java.lang.String) ref);
+          username_ = b;
+          return b;
+        } else {
+          return (com.google.protobuf.ByteString) ref;
+        }
+      }
+      /**
+       * <code>optional string username = 7;</code>
+       *
+       * <pre>
+       *username field for CALLINQ
+       * </pre>
+       */
+      public Builder setUsername(
+          java.lang.String value) {
+        if (value == null) {
+    throw new NullPointerException();
+  }
+  bitField0_ |= 0x00000020;
+        username_ = value;
+        onChanged();
+        return this;
+      }
+      /**
+       * <code>optional string username = 7;</code>
+       *
+       * <pre>
+       *username field for CALLINQ
+       * </pre>
+       */
+      public Builder clearUsername() {
+        bitField0_ = (bitField0_ & ~0x00000020);
+        username_ = getDefaultInstance().getUsername();
+        onChanged();
+        return this;
+      }
+      /**
+       * <code>optional string username = 7;</code>
+       *
+       * <pre>
+       *username field for CALLINQ
+       * </pre>
+       */
+      public Builder setUsernameBytes(
+          com.google.protobuf.ByteString value) {
+        if (value == null) {
+    throw new NullPointerException();
+  }
+  bitField0_ |= 0x00000020;
+        username_ = value;
+        onChanged();
+        return this;
+      }
+
+      private boolean status_ ;
+      /**
+       * <code>optional bool status = 8;</code>
+       *
+       * <pre>
+       *status of a user - available/unavailable
+       * </pre>
+       */
+      public boolean hasStatus() {
+        return ((bitField0_ & 0x00000040) == 0x00000040);
+      }
+      /**
+       * <code>optional bool status = 8;</code>
+       *
+       * <pre>
+       *status of a user - available/unavailable
+       * </pre>
+       */
+      public boolean getStatus() {
+        return status_;
+      }
+      /**
+       * <code>optional bool status = 8;</code>
+       *
+       * <pre>
+       *status of a user - available/unavailable
+       * </pre>
+       */
+      public Builder setStatus(boolean value) {
+        bitField0_ |= 0x00000040;
+        status_ = value;
+        onChanged();
+        return this;
+      }
+      /**
+       * <code>optional bool status = 8;</code>
+       *
+       * <pre>
+       *status of a user - available/unavailable
+       * </pre>
+       */
+      public Builder clearStatus() {
+        bitField0_ = (bitField0_ & ~0x00000040);
+        status_ = false;
+        onChanged();
+        return this;
+      }
+
       // @@protoc_insertion_point(builder_scope:Response)
     }
 
@@ -2440,6 +3530,11 @@ public final class ServerResponse {
   private static
     com.google.protobuf.GeneratedMessage.FieldAccessorTable
       internal_static_Response_CallResponse_fieldAccessorTable;
+  private static final com.google.protobuf.Descriptors.Descriptor
+    internal_static_Response_FriendList_descriptor;
+  private static
+    com.google.protobuf.GeneratedMessage.FieldAccessorTable
+      internal_static_Response_FriendList_fieldAccessorTable;
 
   public static com.google.protobuf.Descriptors.FileDescriptor
       getDescriptor() {
@@ -2449,15 +3544,18 @@ public final class ServerResponse {
       descriptor;
   static {
     java.lang.String[] descriptorData = {
-      "\n\025server_response.proto\"\235\002\n\010Response\022#\n\010" +
+      "\n\025server_response.proto\"\247\003\n\010Response\022#\n\010" +
       "res_type\030\001 \002(\0162\021.Response.ResType\022\'\n\nreq" +
       "_result\030\003 \001(\0132\023.Response.ReqResult\022-\n\rca" +
       "ll_response\030\004 \001(\0132\026.Response.CallRespons" +
-      "e\022\017\n\007endCall\030\005 \001(\010\032&\n\tReqResult\022\n\n\002ok\030\001 " +
-      "\002(\010\022\r\n\005cause\030\002 \002(\t\0322\n\014CallResponse\022\022\n\nip" +
-      "_address\030\001 \002(\t\022\016\n\006callID\030\002 \002(\005\"\'\n\007ResTyp" +
-      "e\022\007\n\003ACT\020\001\022\010\n\004CALL\020\002\022\t\n\005ECALL\020\003B\013\n\007buffe" +
-      "rsH\001"
+      "e\022\017\n\007endCall\030\005 \001(\010\022\"\n\004list\030\006 \001(\0132\024.Respo" +
+      "nse.FriendList\022\020\n\010username\030\007 \001(\t\022\016\n\006stat" +
+      "us\030\010 \001(\010\032&\n\tReqResult\022\n\n\002ok\030\001 \002(\010\022\r\n\005cau" +
+      "se\030\002 \002(\t\0322\n\014CallResponse\022\022\n\nip_address\030\001" +
+      " \002(\t\022\016\n\006callID\030\002 \002(\005\032\036\n\nFriendList\022\020\n\010us" +
+      "ername\030\001 \003(\t\"K\n\007ResType\022\007\n\003ACT\020\001\022\013\n\007CALL",
+      "REC\020\002\022\t\n\005ECALL\020\003\022\t\n\005FLIST\020\004\022\013\n\007CALLINQ\020\005" +
+      "\022\007\n\003STS\020\006B\013\n\007buffersH\001"
     };
     com.google.protobuf.Descriptors.FileDescriptor.InternalDescriptorAssigner assigner =
         new com.google.protobuf.Descriptors.FileDescriptor.    InternalDescriptorAssigner() {
@@ -2476,7 +3574,7 @@ public final class ServerResponse {
     internal_static_Response_fieldAccessorTable = new
       com.google.protobuf.GeneratedMessage.FieldAccessorTable(
         internal_static_Response_descriptor,
-        new java.lang.String[] { "ResType", "ReqResult", "CallResponse", "EndCall", });
+        new java.lang.String[] { "ResType", "ReqResult", "CallResponse", "EndCall", "List", "Username", "Status", });
     internal_static_Response_ReqResult_descriptor =
       internal_static_Response_descriptor.getNestedTypes().get(0);
     internal_static_Response_ReqResult_fieldAccessorTable = new
@@ -2489,6 +3587,12 @@ public final class ServerResponse {
       com.google.protobuf.GeneratedMessage.FieldAccessorTable(
         internal_static_Response_CallResponse_descriptor,
         new java.lang.String[] { "IpAddress", "CallID", });
+    internal_static_Response_FriendList_descriptor =
+      internal_static_Response_descriptor.getNestedTypes().get(2);
+    internal_static_Response_FriendList_fieldAccessorTable = new
+      com.google.protobuf.GeneratedMessage.FieldAccessorTable(
+        internal_static_Response_FriendList_descriptor,
+        new java.lang.String[] { "Username", });
   }
 
   // @@protoc_insertion_point(outer_class_scope)

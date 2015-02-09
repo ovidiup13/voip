@@ -83,7 +83,7 @@ public final class ClientRequest {
      * <code>optional string username = 5;</code>
      *
      * <pre>
-     *username field will be filled in for types CALL and STS
+     *username field will be filled in for types CALL, STS, ADDF, DELF
      * </pre>
      */
     boolean hasUsername();
@@ -91,7 +91,7 @@ public final class ClientRequest {
      * <code>optional string username = 5;</code>
      *
      * <pre>
-     *username field will be filled in for types CALL and STS
+     *username field will be filled in for types CALL, STS, ADDF, DELF
      * </pre>
      */
     java.lang.String getUsername();
@@ -99,7 +99,7 @@ public final class ClientRequest {
      * <code>optional string username = 5;</code>
      *
      * <pre>
-     *username field will be filled in for types CALL and STS
+     *username field will be filled in for types CALL, STS, ADDF, DELF
      * </pre>
      */
     com.google.protobuf.ByteString
@@ -109,7 +109,7 @@ public final class ClientRequest {
      * <code>optional bool confirmation = 6;</code>
      *
      * <pre>
-     *confirmation field will be filled in for types LOUT and ECALL
+     *confirmation field will be filled in for types LOUT, ECALL, FLIST, CALLRES
      * </pre>
      */
     boolean hasConfirmation();
@@ -117,7 +117,7 @@ public final class ClientRequest {
      * <code>optional bool confirmation = 6;</code>
      *
      * <pre>
-     *confirmation field will be filled in for types LOUT and ECALL
+     *confirmation field will be filled in for types LOUT, ECALL, FLIST, CALLRES
      * </pre>
      */
     boolean getConfirmation();
@@ -291,13 +291,29 @@ public final class ClientRequest {
        */
       CALL(3, 4),
       /**
-       * <code>STS = 5;</code>
+       * <code>CALLRES = 5;</code>
        */
-      STS(4, 5),
+      CALLRES(4, 5),
       /**
        * <code>ECALL = 6;</code>
        */
       ECALL(5, 6),
+      /**
+       * <code>FLIST = 7;</code>
+       */
+      FLIST(6, 7),
+      /**
+       * <code>ADDF = 8;</code>
+       */
+      ADDF(7, 8),
+      /**
+       * <code>DELF = 9;</code>
+       */
+      DELF(8, 9),
+      /**
+       * <code>STS = 10;</code>
+       */
+      STS(9, 10),
       ;
 
       /**
@@ -317,13 +333,29 @@ public final class ClientRequest {
        */
       public static final int CALL_VALUE = 4;
       /**
-       * <code>STS = 5;</code>
+       * <code>CALLRES = 5;</code>
        */
-      public static final int STS_VALUE = 5;
+      public static final int CALLRES_VALUE = 5;
       /**
        * <code>ECALL = 6;</code>
        */
       public static final int ECALL_VALUE = 6;
+      /**
+       * <code>FLIST = 7;</code>
+       */
+      public static final int FLIST_VALUE = 7;
+      /**
+       * <code>ADDF = 8;</code>
+       */
+      public static final int ADDF_VALUE = 8;
+      /**
+       * <code>DELF = 9;</code>
+       */
+      public static final int DELF_VALUE = 9;
+      /**
+       * <code>STS = 10;</code>
+       */
+      public static final int STS_VALUE = 10;
 
 
       public final int getNumber() { return value; }
@@ -334,8 +366,12 @@ public final class ClientRequest {
           case 2: return LIN;
           case 3: return LOUT;
           case 4: return CALL;
-          case 5: return STS;
+          case 5: return CALLRES;
           case 6: return ECALL;
+          case 7: return FLIST;
+          case 8: return ADDF;
+          case 9: return DELF;
+          case 10: return STS;
           default: return null;
         }
       }
@@ -2050,7 +2086,7 @@ public final class ClientRequest {
      * <code>optional string username = 5;</code>
      *
      * <pre>
-     *username field will be filled in for types CALL and STS
+     *username field will be filled in for types CALL, STS, ADDF, DELF
      * </pre>
      */
     public boolean hasUsername() {
@@ -2060,7 +2096,7 @@ public final class ClientRequest {
      * <code>optional string username = 5;</code>
      *
      * <pre>
-     *username field will be filled in for types CALL and STS
+     *username field will be filled in for types CALL, STS, ADDF, DELF
      * </pre>
      */
     public java.lang.String getUsername() {
@@ -2081,7 +2117,7 @@ public final class ClientRequest {
      * <code>optional string username = 5;</code>
      *
      * <pre>
-     *username field will be filled in for types CALL and STS
+     *username field will be filled in for types CALL, STS, ADDF, DELF
      * </pre>
      */
     public com.google.protobuf.ByteString
@@ -2104,7 +2140,7 @@ public final class ClientRequest {
      * <code>optional bool confirmation = 6;</code>
      *
      * <pre>
-     *confirmation field will be filled in for types LOUT and ECALL
+     *confirmation field will be filled in for types LOUT, ECALL, FLIST, CALLRES
      * </pre>
      */
     public boolean hasConfirmation() {
@@ -2114,7 +2150,7 @@ public final class ClientRequest {
      * <code>optional bool confirmation = 6;</code>
      *
      * <pre>
-     *confirmation field will be filled in for types LOUT and ECALL
+     *confirmation field will be filled in for types LOUT, ECALL, FLIST, CALLRES
      * </pre>
      */
     public boolean getConfirmation() {
@@ -2834,7 +2870,7 @@ public final class ClientRequest {
        * <code>optional string username = 5;</code>
        *
        * <pre>
-       *username field will be filled in for types CALL and STS
+       *username field will be filled in for types CALL, STS, ADDF, DELF
        * </pre>
        */
       public boolean hasUsername() {
@@ -2844,7 +2880,7 @@ public final class ClientRequest {
        * <code>optional string username = 5;</code>
        *
        * <pre>
-       *username field will be filled in for types CALL and STS
+       *username field will be filled in for types CALL, STS, ADDF, DELF
        * </pre>
        */
       public java.lang.String getUsername() {
@@ -2865,7 +2901,7 @@ public final class ClientRequest {
        * <code>optional string username = 5;</code>
        *
        * <pre>
-       *username field will be filled in for types CALL and STS
+       *username field will be filled in for types CALL, STS, ADDF, DELF
        * </pre>
        */
       public com.google.protobuf.ByteString
@@ -2885,7 +2921,7 @@ public final class ClientRequest {
        * <code>optional string username = 5;</code>
        *
        * <pre>
-       *username field will be filled in for types CALL and STS
+       *username field will be filled in for types CALL, STS, ADDF, DELF
        * </pre>
        */
       public Builder setUsername(
@@ -2902,7 +2938,7 @@ public final class ClientRequest {
        * <code>optional string username = 5;</code>
        *
        * <pre>
-       *username field will be filled in for types CALL and STS
+       *username field will be filled in for types CALL, STS, ADDF, DELF
        * </pre>
        */
       public Builder clearUsername() {
@@ -2915,7 +2951,7 @@ public final class ClientRequest {
        * <code>optional string username = 5;</code>
        *
        * <pre>
-       *username field will be filled in for types CALL and STS
+       *username field will be filled in for types CALL, STS, ADDF, DELF
        * </pre>
        */
       public Builder setUsernameBytes(
@@ -2934,7 +2970,7 @@ public final class ClientRequest {
        * <code>optional bool confirmation = 6;</code>
        *
        * <pre>
-       *confirmation field will be filled in for types LOUT and ECALL
+       *confirmation field will be filled in for types LOUT, ECALL, FLIST, CALLRES
        * </pre>
        */
       public boolean hasConfirmation() {
@@ -2944,7 +2980,7 @@ public final class ClientRequest {
        * <code>optional bool confirmation = 6;</code>
        *
        * <pre>
-       *confirmation field will be filled in for types LOUT and ECALL
+       *confirmation field will be filled in for types LOUT, ECALL, FLIST, CALLRES
        * </pre>
        */
       public boolean getConfirmation() {
@@ -2954,7 +2990,7 @@ public final class ClientRequest {
        * <code>optional bool confirmation = 6;</code>
        *
        * <pre>
-       *confirmation field will be filled in for types LOUT and ECALL
+       *confirmation field will be filled in for types LOUT, ECALL, FLIST, CALLRES
        * </pre>
        */
       public Builder setConfirmation(boolean value) {
@@ -2967,7 +3003,7 @@ public final class ClientRequest {
        * <code>optional bool confirmation = 6;</code>
        *
        * <pre>
-       *confirmation field will be filled in for types LOUT and ECALL
+       *confirmation field will be filled in for types LOUT, ECALL, FLIST, CALLRES
        * </pre>
        */
       public Builder clearConfirmation() {
@@ -3012,16 +3048,17 @@ public final class ClientRequest {
       descriptor;
   static {
     java.lang.String[] descriptorData = {
-      "\n\024client_request.proto\"\311\002\n\007Request\022!\n\007rq" +
+      "\n\024client_request.proto\"\365\002\n\007Request\022!\n\007rq" +
       "_type\030\001 \002(\0162\020.Request.ReqType\022\"\n\003reg\030\003 \001" +
       "(\0132\025.Request.Registration\022\033\n\003lin\030\004 \001(\0132\016" +
       ".Request.LogIn\022\020\n\010username\030\005 \001(\t\022\024\n\014conf" +
       "irmation\030\006 \001(\010\032@\n\014Registration\022\020\n\010userna" +
       "me\030\001 \002(\t\022\020\n\010password\030\002 \002(\t\022\014\n\004hint\030\003 \001(\t" +
       "\032+\n\005LogIn\022\020\n\010username\030\001 \002(\t\022\020\n\010password\030" +
-      "\002 \002(\t\"C\n\007ReqType\022\007\n\003REG\020\001\022\007\n\003LIN\020\002\022\010\n\004LO" +
-      "UT\020\003\022\010\n\004CALL\020\004\022\007\n\003STS\020\005\022\t\n\005ECALL\020\006B\013\n\007bu" +
-      "ffersH\001"
+      "\002 \002(\t\"o\n\007ReqType\022\007\n\003REG\020\001\022\007\n\003LIN\020\002\022\010\n\004LO" +
+      "UT\020\003\022\010\n\004CALL\020\004\022\013\n\007CALLRES\020\005\022\t\n\005ECALL\020\006\022\t" +
+      "\n\005FLIST\020\007\022\010\n\004ADDF\020\010\022\010\n\004DELF\020\t\022\007\n\003STS\020\nB\013",
+      "\n\007buffersH\001"
     };
     com.google.protobuf.Descriptors.FileDescriptor.InternalDescriptorAssigner assigner =
         new com.google.protobuf.Descriptors.FileDescriptor.    InternalDescriptorAssigner() {

@@ -78,7 +78,7 @@ public final class RequestWriter {
 	 * 
 	 * @param username
 	 *            The username of the client to be called
-	 * @return request of type call
+	 * @return request for calling another user
 	 */
 	public Request createCallReq(String username) {
 		return callReq(username);
@@ -90,9 +90,83 @@ public final class RequestWriter {
 				.setUsername(username).build();
 		return req;
 	}
+    
+    /**
+     * method that creates a call response - ACCEPT OR REJECT
+     * 
+     * @param ok
+     *          Boolean value for accept/reject being true/false
+     * @return response of type call accept/reject
+     * */
+    public Request createCallResponse(boolean ok) { return callResponse(ok);}
 
+    private static Request callResponse(boolean ok){
+        Request req = Request.newBuilder().setRqType(Request.ReqType.CALLRES)
+                .setConfirmation(ok).build();
+        return req;
+    }
+
+    /**
+     * method that returns endcall request
+     *
+     * @return request of type end call
+     * */
+    public Request createEndCallReq() {
+        return endCallReq();
+    }
+
+    private static Request endCallReq() {
+        // build request message
+        Request req = Request.newBuilder().setRqType(Request.ReqType.ECALL)
+                .setConfirmation(true).build();
+        return req;
+    }
+    
+    /**
+     * method that returns a request for friend list
+     *  
+     * @return request of type friend list
+     * */
+    public Request createFriendListRequest() { return friendListReq(); }
+    
+    private static Request friendListReq(){
+        Request req = Request.newBuilder().setRqType(Request.ReqType.FLIST)
+                .setConfirmation(true).build();
+        return req;
+    }
+    
+    /**
+     * method that returns a friend request
+     * 
+     * @param username
+     *            The username of the client to be sent a request 
+     * @return a friend request            
+     * */
+    public Request createFriendRequest(String username) { return friendReq(username); }
+    
+    private static Request friendReq(String username){
+        Request req = Request.newBuilder().setRqType(Request.ReqType.ADDF)
+                .setUsername(username).build();
+        return req;
+    }
+
+    /**
+     * method that returns a delete friend request
+     *
+     * @param username
+     *            The username of the client to be deleted as friend
+     * @return a delete friend request            
+     * */
+    public Request deleteFriendRequest(String username) { return deleteFriend(username); }
+    
+    private static Request deleteFriend(String username){
+        Request req = Request.newBuilder().setRqType(Request.ReqType.DELF)
+                .setUsername(username).build();
+        return req;
+    }
+    
 	/**
-	 * method that returns endcall request
+	 * method that returns a status request
 	 *
 	 * @param username
 	 *            The username of the client to end the connection with
@@ -104,24 +178,6 @@ public final class RequestWriter {
 		//build request
 		Request req = Request.newBuilder().setRqType(Request.ReqType.STS)
 				.setUsername(username).build();
-		return req;
-	}
-	
-	/**
-	 * method that returns endcall request
-	 * 
-	 * @param confirm
-	 *            The username of the client to end the connection with
-	 * @return request of type end call
-	 * */
-	public Request createEndCallReq(boolean confirm) {
-		return endCallReq(confirm);
-	}
-
-	private static Request endCallReq(boolean confirm) {
-		// build request message
-		Request req = Request.newBuilder().setRqType(Request.ReqType.ECALL)
-				.setConfirmation(confirm).build();
 		return req;
 	}
 
