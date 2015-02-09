@@ -134,7 +134,6 @@ public class SocketHandler implements RequestSender {
             return true;
         }
         return false;
-        
 	}
 
 	@Override

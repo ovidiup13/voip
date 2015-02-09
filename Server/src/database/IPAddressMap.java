@@ -7,25 +7,33 @@ public class IPAddressMap {
     //Hashtable is syncronized (if we have concurrent access here which I doubt)
     //store usernames as keys nad IPaddresses as values
 
-    private Hashtable<String, Socket> IPTable;
+    private Hashtable<String, Client> IPTable;
 
     public IPAddressMap() {
-        IPTable = new Hashtable<String, Socket>();
+        IPTable = new Hashtable<String, Client>();
     }
 
     public boolean isOnline(String username) {
         return IPTable.containsKey(username);
     }
-
-    public Socket getIP(String username) {
-        return IPTable.get(username);
+    
+    public int getStatus(String username){
+        return IPTable.get(username).getStatus();
+    }
+    
+    public Socket getSocket(String username){
+        return IPTable.get(username).getSocket();
     }
 
-    public void addIP(String usename, Socket IPAdress) {
-        IPTable.put(usename, IPAdress);
+    public String getIP(String username) {
+        return IPTable.get(username).getSocket().getLocalAddress().toString();
     }
 
-    public void removeIP(String username) {
+    public void addOnlineClient(String username, Socket socket) {
+        IPTable.put(username, new Client(socket, 0, username));
+    }
+
+    public void removeClient(String username) {
         IPTable.remove(username);
     }
 
