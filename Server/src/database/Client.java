@@ -7,10 +7,11 @@ import java.net.Socket;
  * Created by Ovidiu on 09/02/2015.
  */
 public class Client {
-    
+
     private Socket socket;
     private ClientStatus status;
     private String username;
+    private Client callTarget;
     
     public Client(Socket socket){
         this.socket = socket;
@@ -40,4 +41,15 @@ public class Client {
     public void setStatus(ClientStatus status){
         this.status = status;
     }
+    
+    //set client which will be called
+    public void setClientCalled(Client client){
+        this.callTarget = client;
+    }
+    
+    //remove the client from call
+    public void removeClientCalled(){
+        this.callTarget = null;
+    }
+    
 }
