@@ -37,7 +37,7 @@ public class SimpleVoIPSequencer extends Thread {
         }
         try {
 			line2 = (SourceDataLine) AudioSystem.getLine(info2);
-			line2.open(format, (44100*2)/25);
+			line2.open(format, (41000*2)/25);
 		} catch (LineUnavailableException e) {
 			//could not open output line
 			call.fireCallFailed();

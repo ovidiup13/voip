@@ -134,7 +134,7 @@ public class ClientHandler implements Runnable, ResponseSender {
 			Socket connectionToCallee = addressMap.getIP(callee);
 
 			//send response to client2
-			sendCallResponse(connectionToCallee, callID++);
+			sendCallResponse(clientSocket, connectionToCallee, callID++);
 
 			//send response to client1
 
@@ -159,11 +159,11 @@ public class ClientHandler implements Runnable, ResponseSender {
 	}
 	
 	@Override
-	public void sendCallResponse(Socket connection, int callID){
-		String IPAddress = ((InetSocketAddress)connection.getRemoteSocketAddress()).getHostName();
+	public void sendCallResponse(Socket connection, Socket other, int callID){
+		String IPAddress = ((InetSocketAddress)other.getRemoteSocketAddress()).getHostName();
 		Response response = responseWriter.createCallResponse(IPAddress, callID);
 		try {
-			response.writeDelimitedTo(output);
+			response.writeDelimitedTo(connection.getOutputStream());
 		} catch (IOException e) {
 			System.err.println("Server: could not send response.");
 		}

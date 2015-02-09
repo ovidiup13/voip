@@ -29,7 +29,7 @@ public class SimpleVoIPCall implements VoIPCall {
 	@Override
 	public boolean start(String ip, int port, int callID) { //port should be agreed by both parties
 		//we want to define a format that is the same for both parties:
-		AudioFormat format = new AudioFormat(44100, 16, 1, true, true);
+		AudioFormat format = new AudioFormat(41000, 16, 1, true, true);
 		try {
 			socket = new DatagramSocket(port);
 			socket.connect(InetAddress.getByName(ip), port);

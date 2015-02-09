@@ -7,7 +7,7 @@ public class MainClient {
 	private static final int port = 9991;
 
 	public static void main(String[] args) {
-		SocketHandler client = new SocketHandler("localhost", port);
+		SocketHandler client = new SocketHandler("192.168.173.1", port);
 		// trying to establish connection to the server
 		if(client.startConnection()){
 			// asking server for time

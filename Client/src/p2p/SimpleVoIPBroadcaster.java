@@ -47,7 +47,7 @@ class SimpleVoIPBroadcaster extends Thread {
         
         try {
         	line = (TargetDataLine) AudioSystem.getLine(info);
-        	line.open(format, (44100*2)/25);
+        	line.open(format, (41000*4)/25);
         } catch (Exception e) {
         	//line failed to open!
         	call.fireCallFailed();

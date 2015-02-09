@@ -268,7 +268,7 @@ public class GuiMainClient {
 			//hostname = hostField.getText().trim();
 			//port = Integer.parseInt(portField.getText().trim());
 			
-			hostname = "localhost";
+			hostname = "192.168.173.1";
 			port = 9991;
 			
 			client = new SocketHandler(hostname, port);
