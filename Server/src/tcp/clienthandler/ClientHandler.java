@@ -215,7 +215,7 @@ public class ClientHandler implements Runnable, ResponseSender {
     		target.setStatus(ClientStatus.IN_CALL);
     		client.setStatus(ClientStatus.IN_CALL);
     	} else {
-    		sendEndCallResponse(true);
+    		sendEndCallResponse();
     		//failsafe, it is instantly declined for the caller.
     	}
         request.getConfirmation();
@@ -261,11 +261,14 @@ public class ClientHandler implements Runnable, ResponseSender {
 
     @Override
 	public void sendEndCallResponse() {
+    	
+    	if (client.getStatus().getNumVal() < ClientStatus.IN_CALL.getNumVal()) return; //not in a call or waiting on one, ignore
         //set the status of current client to idle
+    	Client clientCalled = client.getClientCalled();
         client.setStatus(ClientStatus.IDLE);
+        clientCalled.setStatus(ClientStatus.IDLE);
         
         //send an endcall message to other client and set his status to idle
-        Client clientCalled = client.getClientCalled();
         Response response = responseWriter.createEndCallResponse(true);
 
         try {
