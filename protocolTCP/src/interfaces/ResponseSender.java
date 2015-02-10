@@ -10,5 +10,5 @@ public interface ResponseSender {
     
     public void sendCallInquiry(String username);
 
-    public void sendEndCallResponse(boolean ok);
+    public void sendEndCallResponse();
 }

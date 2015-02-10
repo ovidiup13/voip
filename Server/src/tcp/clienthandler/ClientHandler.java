@@ -84,15 +84,15 @@ public class ClientHandler implements Runnable, ResponseSender {
 			} 
 			else
 				switch(type){
-					case REG:  { readRegisterRequest(request); break; }
-					case LIN:  { readLogInRequest(request); break; }
-					case CALL: { readCallRequest(request); break; }
-					case STS:  { readStatusRequest(request); break; }
-                    case CALLRES: { readCallResponse(request); break; }
-                    case FLIST: { readFriendListRequest(request); break; }
-                    case ADDF: { readAddFriendRequest(request); break; }
-                    case DELF: { readDeleteFriendRequest(request); break; }
-                    case ECALL: {}//to be implemented
+					case REG:        { readRegisterRequest(request); break; }
+					case LIN:        { readLogInRequest(request); break; }
+					case CALL:       { readCallRequest(request); break; }
+					case STS:        { readStatusRequest(request); break; }
+                    case CALLRES:    { readCallResponse(request); break; }
+                    case FLIST:      { readFriendListRequest(request); break; }
+                    case ADDF:       { readAddFriendRequest(request); break; }
+                    case DELF:       { readDeleteFriendRequest(request); break; }
+                    case ECALL:      { sendEndCallResponse(); break;}//to be implemented
 				}
 			}
 	}
@@ -247,7 +247,20 @@ public class ClientHandler implements Runnable, ResponseSender {
     }
 
     @Override
-	public void sendEndCallResponse(boolean ok) {
-		//to be implemented
-	}
+	public void sendEndCallResponse() {
+        //set the status of current client to idle
+        client.setStatus(ClientStatus.IDLE);
+        
+        //send an endcall message to other client and set his status to idle
+        Client clientCalled = client.getClientCalled();
+        Response response = responseWriter.createEndCallResponse(true);
+
+        try {
+            response.writeDelimitedTo(clientCalled.getSocket().getOutputStream());
+        } catch (IOException e) {
+            System.err.println("Could not send end call");
+        }
+        
+        clientCalled.setStatus(ClientStatus.IDLE);
+    }
 }
