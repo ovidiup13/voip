@@ -44,6 +44,10 @@ public class Client {
         this.callTarget = client;
     }
     
+    public Client getClientCalled() { 
+        return callTarget; 
+    }
+    
     //remove the client from call
     public void removeClientCalled(){
         this.callTarget = null;
