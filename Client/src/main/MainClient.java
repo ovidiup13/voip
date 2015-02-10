@@ -38,7 +38,7 @@ public class MainClient {
 			}
 			
 			//send log out request
-			client.sendLogOutRequest(true);
+			client.sendLogOutRequest();
 
 			//close connection
 			if(!client.closeConnection())

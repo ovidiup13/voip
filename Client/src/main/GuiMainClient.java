@@ -359,7 +359,7 @@ public class GuiMainClient {
 	
 	public static void LogoutRequest(){
 		
-		client.sendLogOutRequest(true);
+		client.sendLogOutRequest();
 		System.out.println("Logout request sent");
 		
 		try {

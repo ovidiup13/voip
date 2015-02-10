@@ -137,23 +137,21 @@ public class ClientHandler implements Runnable, ResponseSender {
 	private void readCallRequest(Request request){
 		String callee = request.getUsername();
 		System.out.println(callee);
-		//if (db.callCheckAvailable(request.getUsername()))
+		
 		if (addressMap.isOnline(callee)) {
-			//(true, "You can call the user");
-
-			//get the ClientIP from the onlineHashTable, and send it as response
 			Client calleeClient = addressMap.getClient(callee);
 
-			//send response to client2
-			sendCallResponse(client, calleeClient, callID++);
-
-			//send response to client1
-            
-			//call iD must be unique for every call
+			if (calleeClient.getStatus() == ClientStatus.IDLE && client.getStatus() == ClientStatus.IDLE) {
+				calleeClient.setClientCalled(client);
+				calleeClient.setStatus(ClientStatus.WAITING);
+				client.setStatus(ClientStatus.WAITING);
+				client.setClientCalled(calleeClient);
+				
+				sendCallInquiry(calleeClient); //both clients now in deadlock until a call response is achieved or a timeout is hit
+			}
 			
-			//change user status to in-call
-
-			//db.updateUserStatus(request.getReg().getUsername(), "4");
+			sendCallResponse(client, calleeClient, callID++);
+			
 		} else {
 			sendResponse(false, "Call unsuccessful");
 		}
@@ -167,11 +165,7 @@ public class ClientHandler implements Runnable, ResponseSender {
 
         Response response;
         //if user is not idle - user is unavailable
-        if (status.getNumVal() != 0)
-            //send unavailable response
-            response = responseWriter.createStatusResponse(false);
-        else
-            response = responseWriter.createStatusResponse(false);
+        response = responseWriter.createStatusResponse(status == ClientStatus.IDLE);
         
         //send response to client
         try {
@@ -210,7 +204,21 @@ public class ClientHandler implements Runnable, ResponseSender {
         
     //read call response
     private void readCallResponse(Request request) {
-        //to be implemented
+    	if (client.getStatus() != ClientStatus.WAITING) return; //can't respond when we aren't waiting on another client
+    	Client target = client.getClientCalled();
+    	
+    	//if they're waiting on us, we can accept the call
+    	if (target.getStatus() == ClientStatus.WAITING && target.getClientCalled() == client) {
+    		//link both clients up
+    		sendCallResponse(target, client, callID);
+    		sendCallResponse(client, target, callID++);
+    		target.setStatus(ClientStatus.IN_CALL);
+    		client.setStatus(ClientStatus.IN_CALL);
+    	} else {
+    		sendEndCallResponse(true);
+    		//failsafe, it is instantly declined for the caller.
+    	}
+        request.getConfirmation();
     }
 
     //read delete friend request
@@ -242,8 +250,13 @@ public class ClientHandler implements Runnable, ResponseSender {
 	}
 
     @Override
-    public void sendCallInquiry(String username) {
-        //to be implemented
+    public void sendCallInquiry(Client target) {
+    	Response response = responseWriter.createCallInquiry(client.getUsername());
+		try {
+			response.writeDelimitedTo(target.getSocket().getOutputStream());
+		} catch (IOException e) {
+			System.err.println("Server: could not send response");
+		}
     }
 
     @Override

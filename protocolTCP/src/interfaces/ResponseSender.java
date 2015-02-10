@@ -8,7 +8,7 @@ public interface ResponseSender {
 
     public void sendCallResponse(Client target, Client other, int callID);
     
-    public void sendCallInquiry(String username);
+    public void sendCallInquiry(Client target);
 
     public void sendEndCallResponse(boolean ok);
 }
