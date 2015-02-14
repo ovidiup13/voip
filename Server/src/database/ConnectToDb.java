@@ -31,42 +31,42 @@ public class ConnectToDb {
 			connection =  DriverManager.getConnection("jdbc:sqlite:Server/src/database/TP3Hdb.db");
 		
 
-			register("Usser31","password");
-			register("Usser32","password");
-			register("Usser33","password");
-			register("Usser34","password");
-			register("Usser35","password");
-			register("Usser36","password");
-			register("Usser37","password");
-			register("Usser38","password");
-			register("Usser39","password");
-			register("Usser40","password");
-			register("Usser41","password");
-			register("Usser42","password");
+//			register("Usser31","password");
+//			register("Usser32","password");
+//			register("Usser33","password");
+//			register("Usser34","password");
+//			register("Usser35","password");
+//			register("Usser36","password");
+//			register("Usser37","password");
+//			register("Usser38","password");
+//			register("Usser39","password");
+//			register("Usser40","password");
+//			register("Usser41","password");
+//			register("Usser42","password");
 
 
-			addFriend("User22","User23");
-			addFriend("User23","User22");
-			
-			addFriend("User16","User15");
-			addFriend("User15","User16");
-			
-			addFriend("User35","Viktor");
-			
 
-			addFriend("User15","User13");
-			addFriend("User13","User15");
-			addFriend("User13","User15");
 			
-			addFriend("User45","Viktor");
-			addFriend("User13","User15");
-			addFriend("User13","User15");
-			//			
-			addFriend("User15","Viktor");
-			addFriend("User22","Viktor");
-
-			addFriend("ItIsWorking","IsIt");
-			addFriend("IsIt","ItIsWorking");
+			
+			System.out.println("DELATION  "+ deleteFriendship("User15","User13"));
+//			addFriend("User15","User16");
+//			
+//			addFriend("User35","Viktor");
+//			
+//
+//			addFriend("User15","User13");
+//			addFriend("User13","User15");
+//			addFriend("User13","User15");
+//			
+//			addFriend("User45","Viktor");
+//			addFriend("User13","User15");
+//			addFriend("User13","User15");
+//			//			
+//			addFriend("User15","Viktor");
+//			addFriend("User22","Viktor");
+//
+//			addFriend("ItIsWorking","IsIt");
+//			addFriend("IsIt","ItIsWorking");
 			
 			ArrayList<String> list = getFriendsFor("User22");
 			for(int i = 0 ; i<list.size(); i++)
@@ -277,17 +277,19 @@ public class ConnectToDb {
 	 * @Glosary sets relation status to : 1 ( Pending Friend Request)
 	 * 			calls updateFrinds(if both rows exist set status to 2 (Confirm Friend Request)
 	 * **/
-	public void addFriend(String fromUser, String ToUser){
+	public boolean addFriend(String fromUser, String ToUser){
 		try{
 			if(!checkFriendRequestExists(fromUser, ToUser)){
-				System.out.println("I am here");
 				String query_addFriend= "INSERT INTO RelationshipType (username,username2,relationship) VALUES (?,?,?)";
 				preparedStatement = connection.prepareStatement(query_addFriend);
 				preparedStatement.setString(1, fromUser);
 				preparedStatement.setString(2, ToUser);
 				preparedStatement.setInt(3,1);
-				preparedStatement.execute();
-				updateFriends();
+				preparedStatement.execute();	
+				if (updateFriends()){
+					return true;
+				}
+					
 			}
 		}catch (SQLException e) {
 			System.out.println("Error in addFriends: "+ e.getMessage());
@@ -295,9 +297,52 @@ public class ConnectToDb {
 		finally{
 			closeStatement(preparedStatement);
 		}
+		return false;
 
 
 	}
+	
+	/**
+	 * Method for deletion a friendship from the db
+	 * 
+	 * @param username1 , username2
+	 * If a deletion request is sent from whoever user to delete its' friend
+	 * the deletion will occur in both ways and in neither friend's list the opposite user name will appear 
+	 * That means the user you want to delete will not have to  give his/her confirmation. 
+	 * 
+	 * @return true if successful ,false if not.
+	 * relation must exist (USERS MUST BE FRIENDS ), user name must be real
+	 * **/
+	public boolean deleteFriendship(String username, String username2){
+		try{
+			if(checkFriendRequestExists(username, username2) && checkFriendRequestExists(username2,username)){
+				String query_removeFriend= "DELETE FROM RelationshipType WHERE username= ? AND username2 = ?";
+				preparedStatement = connection.prepareStatement(query_removeFriend);
+				preparedStatement.setString(1, username);
+				preparedStatement.setString(2, username2);
+				preparedStatement.execute();
+				closeStatement(preparedStatement);
+				String query2_removeFriend= "DELETE FROM RelationshipType WHERE username2= ? AND username = ?";
+				preparedStatement = connection.prepareStatement(query2_removeFriend);
+				preparedStatement.setString(1, username);
+				preparedStatement.setString(2, username2);
+				preparedStatement.execute();
+				
+				return true;
+				
+					
+			}
+		}catch (SQLException e) {
+			System.out.println("Error in addFriends: "+ e.getMessage());
+			e.printStackTrace();}
+		finally{
+			closeStatement(preparedStatement);
+		}
+		return false;
+	}
+	
+	
+	
 	/**
 	 * 
 	 * 
@@ -329,27 +374,26 @@ public class ConnectToDb {
 	 * Check if both users have made successful fried request
 	 * that is : if (user1, user2) and (user2,user1) both exist
 	 * if yes set relationship status to 2-Confirm Friend Request
+	 * boolean to check if update was successful
 	 * 
 	 * Internal working : 1.Finds the relationships pairs
 	 * 					  2.For each relationship pair modify status if must
-	 * 
-	 *INEFICIENT METHOD (REVISE FOR EFFICIENCY )
 	 **/
-	private void updateFriends(){
+	private boolean updateFriends(){
 		try{
 			String query_findFriendships = "SELECT  f1.* from RelationshipType f1 inner join RelationshipType f2 on f1.username = f2.username2 and f1.username2 = f2.username;";
 			preparedStatement = connection.prepareStatement(query_findFriendships);
 			resultSet =  preparedStatement.executeQuery();
+			closeStatement(preparedStatement);
 			while(resultSet.next()) {
 				String query_updateFriends = "UPDATE RelationshipType SET relationship = ? WHERE (username= ? AND username2= ?)";
 				preparedStatement = connection.prepareStatement(query_updateFriends);
 				preparedStatement.setInt(1,2);
 				preparedStatement.setString(2, resultSet.getString("username"));	
 				preparedStatement.setString(3, resultSet.getString("username2"));
-				preparedStatement.execute();
-				System.out.println("--------------------");
-				
+				preparedStatement.execute();				
 			}
+			return true;
 
 		}catch(SQLException e){
 			System.out.println("Error in updateFriends: "+ e.getMessage());
@@ -357,6 +401,7 @@ public class ConnectToDb {
 		}finally{
 			closeStatement(preparedStatement);
 			}
+		return false;
 	}
 
 	

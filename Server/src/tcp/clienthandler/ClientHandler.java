@@ -177,10 +177,14 @@ public class ClientHandler implements Runnable, ResponseSender {
 
     //read friend request
     private void readAddFriendRequest(Request request) {
-        db.addFriend(client.getUsername(), request.getUsername());
-        //need to know if it was successful or not !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
-        
-        Response response = responseWriter.createActionResponse(true, "some message");
+    	Response response = null;
+        if (db.addFriend(client.getUsername(), request.getUsername())){			
+		    response = responseWriter.createActionResponse(true, "Adding friend successful");
+			System.out.println("Server: Sent successful response.");
+		} else {
+			response = responseWriter.createActionResponse(false,  "Adding friend  unsuccessful- Contact staff for support");
+			System.out.println("Server: Sent unsuccessful friend requesnt response.");
+			}
 
         try {
             response.writeDelimitedTo(output);
@@ -223,9 +227,24 @@ public class ClientHandler implements Runnable, ResponseSender {
 
     //read delete friend request
     private void readDeleteFriendRequest(Request request) {
-        //need function to delete friend relationship !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
-        //to be implemented
+       	Response response = null;
+        if (db.deleteFriendship(client.getUsername(), request.getUsername())){			
+		    response = responseWriter.createActionResponse(true, "Deleting friend successful");
+		    //MUST UPDATE BOTH FRIEND LISTS IN THE CLIENTS 
+		    
+			System.out.println("Server: Sent successful response.");
+		} else {
+			response = responseWriter.createActionResponse(false,  "Deleting friend  unsuccessful- Contact staff for support");
+			System.out.println("Server: Sent unsuccessfulresponse.");
+			}
+
+        try {
+            response.writeDelimitedTo(output);
+        } catch (IOException e) {
+            System.err.println("could not send confirmation for delete relationship request");
+        }
     }
+    
     
 
 	@Override
