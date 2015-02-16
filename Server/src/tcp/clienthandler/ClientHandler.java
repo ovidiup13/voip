@@ -52,8 +52,13 @@ public class ClientHandler implements Runnable, ResponseSender {
 	@Override
 	public void run() {
 		readRequest(); //loops until client wants to close the socket or a fatal error occurs
-		if (client.getStatus() != ClientStatus.NOT_LOGGED_IN) addressMap.removeClient(client);
-		sendEndCallResponse(); //if we are in a call with another user, end it
+		synchronized(client) { //require exclusive access to our own object so that other threads don't modify the state or attempt to access a half removed client.
+			//remove client first to avoid issues with half-ended clients.
+			//TODO: may be a synchronisation problem here.
+			if (client.getStatus() != ClientStatus.NOT_LOGGED_IN) addressMap.removeClient(client); //if they're logged in, remove their client from the hashtable as it is now invalid
+			client.setStatus(ClientStatus.NOT_LOGGED_IN); //no other clients should see this, as they need to access clients from the addressMap, but it's here just in case
+			sendEndCallResponse(); //if we are in a call with another user, end it
+		}
 		try {
 			clientSocket.close();
 		} catch (IOException e) {
@@ -77,26 +82,28 @@ public class ClientHandler implements Runnable, ResponseSender {
 			if (request == null) break;
 			Request.ReqType type = request.getRqType();
 			
-			if (type.equals(Request.ReqType.LOUT)) {
-				//remove the ClientID from the OnlineHashTable
-
-				//if ok, send confirmation response
-				sendLogOutResponse(true, "LogOut successful");
-				return;
-			} 
-			else
-				switch(type){
-					case REG:        { readRegisterRequest(request); break; }
-					case LIN:        { readLogInRequest(request); break; }
-					case CALL:       { readCallRequest(request); break; }
-					case STS:        { readStatusRequest(request); break; }
-                    case CALLRES:    { readCallResponse(request); break; }
-                    case FLIST:      { readFriendListRequest(request); break; }
-                    case ADDF:       { readAddFriendRequest(request); break; }
-                    case DELF:       { readDeleteFriendRequest(request); break; }
-                    case ECALL:      { sendEndCallResponse(); break;}//to be implemented
+			synchronized(client) { //we will need exclusive access to our client object to do any of these.
+				if (type.equals(Request.ReqType.LOUT)) {
+	
+					//if ok, send confirmation response
+					sendLogOutResponse(true, "LogOut successful");
+					return;
+				} 
+				else {
+					switch(type){
+						case REG:        { readRegisterRequest(request); break; }
+						case LIN:        { readLogInRequest(request); break; }
+						case CALL:       { readCallRequest(request); break; }
+						case STS:        { readStatusRequest(request); break; }
+	                    case CALLRES:    { readCallResponse(request); break; }
+	                    case FLIST:      { readFriendListRequest(request); break; }
+	                    case ADDF:       { readAddFriendRequest(request); break; }
+	                    case DELF:       { readDeleteFriendRequest(request); break; }
+	                    case ECALL:      { sendEndCallResponse(); break;}//to be implemented
+					}
 				}
 			}
+		}
 	}
 
     private void readRegisterRequest(Request request){
@@ -113,6 +120,10 @@ public class ClientHandler implements Runnable, ResponseSender {
 	}
 	
 	private void readLogInRequest(Request request){
+		if (client.getStatus() != ClientStatus.NOT_LOGGED_IN) {
+			sendLogInResponse(false, "Login unsuccessful, you are already logged in...");
+			return;
+		}
 		String username = request.getLin().getUsername();
 		String password = request.getLin().getPassword();
 
@@ -122,15 +133,12 @@ public class ClientHandler implements Runnable, ResponseSender {
 				//can't log in as user, they are already online.
 				sendLogInResponse(false, "Login unsuccessful, user already online");
 				return;
-			}
+			} //this check may have to be atomic with adding the client.
 			
 			//add the user's IP the the map of active users
 			client.setUsername(username);
 			client.setStatus(ClientStatus.IDLE);
-			addressMap.addClient(client);
-
-			//modify user's status in db to idle
-			db.updateUserStatus(username, "5");
+			addressMap.addClient(client); //do this at the end, so that 
 
 			System.out.println("ClientIP" + addressMap.getClient(username).getHostName());
 
@@ -148,16 +156,18 @@ public class ClientHandler implements Runnable, ResponseSender {
 		if (addressMap.isOnline(callee)) {
 			Client calleeClient = addressMap.getClient(callee);
 
-			if (calleeClient.getStatus() == ClientStatus.IDLE && client.getStatus() == ClientStatus.IDLE) {
-				calleeClient.setClientCalled(client);
-				calleeClient.setStatus(ClientStatus.WAITING);
-				client.setStatus(ClientStatus.WAITING);
-				client.setClientCalled(calleeClient);
+			synchronized (calleeClient) {
+				if (calleeClient.getStatus() == ClientStatus.IDLE && client.getStatus() == ClientStatus.IDLE) {
+					calleeClient.setClientCalled(client);
+					calleeClient.setStatus(ClientStatus.WAITING);
+					client.setStatus(ClientStatus.WAITING);
+					client.setClientCalled(calleeClient);
+					
+					sendCallInquiry(calleeClient); //both clients now in deadlock until a call response is achieved or a timeout is hit
+				}
 				
-				sendCallInquiry(calleeClient); //both clients now in deadlock until a call response is achieved or a timeout is hit
+				sendCallResponse(client, calleeClient, callID++);
 			}
-			
-			sendCallResponse(client, calleeClient, callID++);
 			
 		} else {
 			sendUnsuccessfulCall(false, "Call unsuccessful");
@@ -166,13 +176,18 @@ public class ClientHandler implements Runnable, ResponseSender {
 
     //read status request
     private void readStatusRequest(Request request) {
-        Client userData = addressMap.getClient(request.getUsername());
-        //get the status of the user
-        ClientStatus status = userData.getStatus();
+    	
+    	boolean responseVal = false;
+    	if (addressMap.isOnline(request.getUsername())) {
+	        Client userData = addressMap.getClient(request.getUsername());
+	        //get the status of the user
+	        ClientStatus status = userData.getStatus();
+	        responseVal = (status == ClientStatus.IDLE);
+    	}
 
         Response response;
-        //if user is not idle - user is unavailable
-        response = responseWriter.createStatusResponse(status == ClientStatus.IDLE);
+        //if user logged out or busy - user is unavailable
+        response = responseWriter.createStatusResponse(responseVal);
         
         //send response to client
         try {
@@ -189,7 +204,7 @@ public class ClientHandler implements Runnable, ResponseSender {
 		    response = responseWriter.createFriendRequestResponse(true, "Adding friend successful");
 			System.out.println("Server: Sent successful response.");
 		} else {
-			response = responseWriter.createFriendRequestResponse(false, "Adding friend  unsuccessful- Contact staff for support");
+			response = responseWriter.createFriendRequestResponse(false, "Adding friend unsuccessful- Contact staff for support");
 			System.out.println("Server: Sent unsuccessful friend requesnt response.");
 			}
 
@@ -219,17 +234,19 @@ public class ClientHandler implements Runnable, ResponseSender {
     	Client target = client.getClientCalled();
     	
     	//if they're waiting on us, we can accept the call
-    	if (target.getStatus() == ClientStatus.WAITING && target.getClientCalled() == client) {
-    		//link both clients up
-    		sendCallResponse(target, client, callID);
-    		sendCallResponse(client, target, callID++);
-    		target.setStatus(ClientStatus.IN_CALL);
-    		client.setStatus(ClientStatus.IN_CALL);
-    	} else {
-    		sendEndCallResponse();
-    		//failsafe, it is instantly declined for the caller.
+    	synchronized(target) { //need to deal with other client objects atomically
+	    	if (target.getStatus() == ClientStatus.WAITING && target.getClientCalled() == client) {
+	    		//link both clients up
+	    		sendCallResponse(target, client, callID);
+	    		sendCallResponse(client, target, callID++);
+	    		target.setStatus(ClientStatus.IN_CALL);
+	    		client.setStatus(ClientStatus.IN_CALL);
+	    	} else {
+	    		sendEndCallResponse();
+	    		//failsafe, it is instantly declined for the caller.
+	    	}
+	        request.getConfirmation();
     	}
-        request.getConfirmation();
     }
 
     //read delete friend request
@@ -317,13 +334,19 @@ public class ClientHandler implements Runnable, ResponseSender {
 
     @Override
 	public void sendEndCallResponse() {
-    	Client clientCalled = client.getClientCalled();
-    	if (clientCalled == null) return;
     	if (client.getStatus().getNumVal() < ClientStatus.IN_CALL.getNumVal()) return; //not in a call or waiting on one, ignore
-    	if (clientCalled.getStatus().getNumVal() < ClientStatus.IN_CALL.getNumVal()) return;
-        //set the status of current client to idle
-        client.setStatus(ClientStatus.IDLE);
-        clientCalled.setStatus(ClientStatus.IDLE);
+    	Client clientCalled = client.getClientCalled();
+    	synchronized(clientCalled) { //need to deal with other client objects atomically
+	    	if (clientCalled == null) return; //client called must not be null
+	    	if (clientCalled.getStatus().getNumVal() < ClientStatus.IN_CALL.getNumVal()) return; //other client must be in call
+	    	if (clientCalled.getClientCalled() != client) return; //other client must be in a call with this client.
+	        //set the status of current client to idle
+	        client.setStatus(ClientStatus.IDLE);
+	        client.setClientCalled(null);
+	        
+	        clientCalled.setStatus(ClientStatus.IDLE);
+	        clientCalled.setClientCalled(null);
+    	}
         
         //send an endcall message to other client and set his status to idle
         Response response = responseWriter.createEndCallResponse(true);
