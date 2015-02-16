@@ -51,7 +51,9 @@ public class ClientHandler implements Runnable, ResponseSender {
 
 	@Override
 	public void run() {
-		readRequest();
+		readRequest(); //loops until client wants to close the socket or a fatal error occurs
+		if (client.getStatus() != ClientStatus.NOT_LOGGED_IN) addressMap.removeClient(client);
+		sendEndCallResponse(); //if we are in a call with another user, end it
 		try {
 			clientSocket.close();
 		} catch (IOException e) {
@@ -115,6 +117,13 @@ public class ClientHandler implements Runnable, ResponseSender {
 		String password = request.getLin().getPassword();
 
 		if (db.logIn(username, password)) {
+			
+			if (addressMap.isOnline(username)) {
+				//can't log in as user, they are already online.
+				sendLogInResponse(false, "Login unsuccessful, user already online");
+				return;
+			}
+			
 			//add the user's IP the the map of active users
 			client.setUsername(username);
 			client.setStatus(ClientStatus.IDLE);
@@ -128,7 +137,7 @@ public class ClientHandler implements Runnable, ResponseSender {
 			//if ok, send confirmation response
 			sendLogInResponse(true, "Login successful");
 		} else {
-			sendLogInResponse(false, "Login unsuccessful");
+			sendLogInResponse(false, "Login unsuccessful, incorrect credentials");
 		}
 	}
 	
@@ -308,10 +317,11 @@ public class ClientHandler implements Runnable, ResponseSender {
 
     @Override
 	public void sendEndCallResponse() {
-    	
-    	if (client.getStatus().getNumVal() < ClientStatus.IN_CALL.getNumVal()) return; //not in a call or waiting on one, ignore
-        //set the status of current client to idle
     	Client clientCalled = client.getClientCalled();
+    	if (clientCalled == null) return;
+    	if (client.getStatus().getNumVal() < ClientStatus.IN_CALL.getNumVal()) return; //not in a call or waiting on one, ignore
+    	if (clientCalled.getStatus().getNumVal() < ClientStatus.IN_CALL.getNumVal()) return;
+        //set the status of current client to idle
         client.setStatus(ClientStatus.IDLE);
         clientCalled.setStatus(ClientStatus.IDLE);
         
@@ -323,8 +333,6 @@ public class ClientHandler implements Runnable, ResponseSender {
         } catch (IOException e) {
             System.err.println("Could not send end call");
         }
-        
-        clientCalled.setStatus(ClientStatus.IDLE);
     }
 
     @Override
@@ -343,7 +351,7 @@ public class ClientHandler implements Runnable, ResponseSender {
         try {
             response.writeDelimitedTo(output);
         } catch (IOException e) {
-            System.err.println("Server: could not send add friend response");
+            System.err.println("Server: could not send delete friend response");
         }
     }
 }
