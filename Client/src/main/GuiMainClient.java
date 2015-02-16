@@ -31,12 +31,13 @@ import tcp.sockethandler.*;
 public class GuiMainClient {
 
 	// vars declarations
-
+	
 	private static String hostname = "";
 	private static int port;
 	private static String username = "";
 	private static String password = "";
 	public static SocketHandler client;
+	private static ClientThread clientThread;
 
 	// log in window
 
@@ -78,6 +79,7 @@ public class GuiMainClient {
 	public static JLabel imageLabel = new JLabel(loadingBar);
 
 	public static void main(String[] args) {
+		
 		
 		Connect();
 		BuildLoginWindow();
@@ -274,6 +276,10 @@ public class GuiMainClient {
 			client = new SocketHandler(hostname, port);
 			if(client.startConnection()){
 				System.out.println("Connection established!");
+				
+				
+			clientThread = new ClientThread(client);
+			
 			}
 		}
 		catch (Exception e)
@@ -301,13 +307,7 @@ public class GuiMainClient {
 			BuildMainWindow();
 			mainWindow.setTitle("VOIP-User: " + username);
 			logoutButton.setEnabled(true);
-			
-			
-			try {
-				Thread.sleep(300);
-			} catch (InterruptedException e) {
-				e.printStackTrace();
-			}
+		
 			
 			}
 			
@@ -336,16 +336,10 @@ public class GuiMainClient {
 			username = usernameField.getText().trim();	
 			password = passwordField.getText().trim();
 			
-			if (
-			client.sendRegisterRequest(username, password)){
+			client.sendRegisterRequest(username, password);
 			System.out.println("Message for REGISTER: ");
-			JOptionPane.showMessageDialog(null, "Registration successful!");
-			}
-			
-			else {
-				JOptionPane.showMessageDialog(null, "Registration unsuccessful!");
-			}
-			
+			JOptionPane.showMessageDialog(null, "Registration request sent;");
+		
 		
 		}
 		else
@@ -384,22 +378,11 @@ public class GuiMainClient {
 		if (!callUserField.getText().equals(""))
 		{
 			
-			
 			client.sendCallRequest(callUserField.getText().trim());
 			System.out.println("Message for CALL: ");
-			
-
-			try {
-				Thread.sleep(1000);
-			} catch (InterruptedException e) {
-				e.printStackTrace();
-			}
-
-			
 			System.out.println("Call request sent");
 			callUserField.setText("");
 			callWindow.dispose();
-			
 			
 		}
 		else
@@ -408,6 +391,48 @@ public class GuiMainClient {
 		}
 		
 	}
+
+	
+	public static void EndCallRequest(){
+		
+			client.sendEndCallRequest();
+			
+		
+	}
+	
+	public static void AcceptCallResponse(){
+	
+	
+		client.sendCallResponse(true);}
+		
+	public static void RejectCallResponse(){
+		
+		client.sendCallResponse(false);
+		
+	}
+	
+	public static void FriendListRequest(){
+		
+		client.sendFriendListRequest();
+			}
+	
+	public static void AddFriendRequest(){
+		
+		String username = "";
+		client.sendAddFriendRequest(username);
+
+	}
+	
+	public static void DeleteFriendRequest(){
+		
+		
+		String username = "";
+		client.sendDeleteFriendRequest(username);
+		
+	}
+	
+	
+	
 	
 
 	

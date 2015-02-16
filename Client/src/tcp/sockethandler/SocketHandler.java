@@ -176,4 +176,10 @@ public class SocketHandler implements RequestSender {
 		}
 		return false;
 	}
+	
+	public Socket getSocket(){
+		
+		return this.socketClient;
+		
+	}
 }
