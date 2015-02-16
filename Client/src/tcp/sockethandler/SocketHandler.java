@@ -1,14 +1,11 @@
 package tcp.sockethandler;
 
 import buffers.ClientRequest.Request;
-import buffers.ServerResponse.Response;
 import interfaces.RequestSender;
-import p2p.SimpleVoIPCall;
 import writers.RequestWriter;
 
 import java.io.IOException;
 import java.net.Socket;
-import java.util.ArrayList;
 
 /**
  * @author Ovidiu Popoviciu
@@ -47,18 +44,7 @@ public class SocketHandler implements RequestSender {
 			System.err.println("SocketHandler: failed to send register request");
             return false;
 		}
-
-        //get response
-        Response response = null;
-        
-        try {
-            response = Response.parseDelimitedFrom(socketClient.getInputStream());
-        } catch (IOException e) {
-            System.err.println("SocketHandler: failed to open input stream");
-            return false;
-        }
-        
-        return response.getReqResult().getOk();
+        return true;
 	}
 	
 	@Override
@@ -70,18 +56,7 @@ public class SocketHandler implements RequestSender {
 			System.err.println("SocketHandler: failed to send login request");
             return false;
 		}
-
-        //get response
-        Response response = null;
-
-        try {
-            response = Response.parseDelimitedFrom(socketClient.getInputStream());
-        } catch (IOException e) {
-            System.err.println("SocketHandler: failed to open input stream");
-            return false;
-        }
-
-        return response.getReqResult().getOk();
+        return true;
 	}
 
     @Override
@@ -93,18 +68,8 @@ public class SocketHandler implements RequestSender {
 			System.err.println("SocketHandler: failed to send logout request");
             return false;
 		}
-
-        //get response
-        Response response = null;
-
-        try {
-            response = Response.parseDelimitedFrom(socketClient.getInputStream());
-        } catch (IOException e) {
-            System.err.println("SocketHandler: failed to open input stream");
-            return false;
-        }
-
-        return response.getReqResult().getOk();
+        
+        return true;
 	}
 	
 	@Override
@@ -116,39 +81,9 @@ public class SocketHandler implements RequestSender {
 			System.err.println("SocketHandler: failed to send call request");
             return false;
 		}
-
-        
-        /*
-        * This part will be handled in the receiver thread
-        * * * */
-        Response response = null;
-
-        try {
-            response = Response.parseDelimitedFrom(socketClient.getInputStream());
-        } catch (IOException e) {
-            System.err.println("SocketHandler: failed to open input stream");
-            return false;
-        }
-
-        Response.ResType type = response.getResType();
-        if(type.equals(Response.ResType.ACT))
-            return response.getReqResult().getOk();
-        else if(type.equals(Response.ResType.CALLREC)){
-            SimpleVoIPCall play = new SimpleVoIPCall();
-            play.start(
-                    response.getCallResponse().getIpAddress(),
-                    12345,
-                    response.getCallResponse().getCallID()
-            );
-            
-            return true;
-        }
-        return false;
+        return true;
 	}
-    
-    /*
-    * handled in receiver thread
-    * * * */
+
     @Override
     public boolean sendCallResponse(boolean ok) {
         Request request = requestWriter.createCallResponse(ok);
@@ -163,7 +98,7 @@ public class SocketHandler implements RequestSender {
 
     //add friend request sender
     @Override
-    public boolean addFriendRequest(String username) {
+    public boolean sendAddFriendRequest(String username) {
         Request request = requestWriter.createFriendRequest(username);
         try {
             request.writeDelimitedTo(socketClient.getOutputStream());
@@ -176,7 +111,7 @@ public class SocketHandler implements RequestSender {
 
     //delete friend request sender
     @Override
-    public boolean deleteFriendRequest(String username) {
+    public boolean sendDeleteFriendRequest(String username) {
         Request request = requestWriter.deleteFriendRequest(username);
         try {
             request.writeDelimitedTo(socketClient.getOutputStream());
@@ -189,26 +124,15 @@ public class SocketHandler implements RequestSender {
 
     //get friend list request sender
     @Override
-    public ArrayList<String> getFriendListRequest() {
+    public boolean sendFriendListRequest() {
         Request request = requestWriter.createFriendListRequest();
         try {
             request.writeDelimitedTo(socketClient.getOutputStream());
         } catch (IOException e) {
             System.err.println("cannot send friend list request");
-            return null;
+            return false;
         }
-
-        Response response = null;
-        
-        try {
-            response = Response.parseDelimitedFrom(socketClient.getInputStream());
-        } catch (IOException e) {
-            System.err.println("cannot get friend list");
-            return null;
-        }
-        
-        ArrayList<String> friends = (ArrayList<String>) response.getList().getUsernameList();
-        return friends;
+        return true;
     }
 
     //get status request sender and receiver
@@ -221,17 +145,7 @@ public class SocketHandler implements RequestSender {
             System.err.println("cannot send status request");
             return false;
         }
-        
-        Response response = null;
-
-        try {
-            response = Response.parseDelimitedFrom(socketClient.getInputStream());
-        } catch (IOException e) {
-            System.err.println("cannot get user status");
-            return false;
-        }
-        
-        return response.getStatus();
+        return true;
     }
 
     //send end call request
