@@ -7,13 +7,13 @@ option optimize_for = SPEED;
 message Response {
 
 	//define the types of responses 
-	enum ResType { ACT = 1; CALLREC = 2; ECALL = 3; FLIST = 4; CALLINQ = 5; STS = 6;}
+	enum ResType { REG = 1; LIN = 2; CALLREC = 3; ECALL = 4; FLIST = 5; CALLINQ = 6; STS = 7; ADDF = 8; DELF = 9; LOUT = 10; NOCALL = 11;}
 
 	//type of response
 	required ResType res_type = 1;
 
 	//request result filed for type ACT
-	optional ReqResult req_result = 3;
+	optional Result req_result = 3;
 	
 	//call response field for type CALL
 	optional CallResponse call_response = 4;
@@ -31,7 +31,7 @@ message Response {
     optional bool status = 8;
 
 	//request result message structure
-	message ReqResult {
+	message Result {
 		required bool ok = 1;
 		required string cause = 2;
 	}

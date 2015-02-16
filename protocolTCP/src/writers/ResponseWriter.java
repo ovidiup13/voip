@@ -2,7 +2,7 @@ package writers;
 
 import buffers.ServerResponse.Response;
 import buffers.ServerResponse.Response.CallResponse;
-import buffers.ServerResponse.Response.ReqResult;
+import buffers.ServerResponse.Response.Result;
 
 import java.util.ArrayList;
 
@@ -14,21 +14,55 @@ import java.util.ArrayList;
 public class ResponseWriter {
 
 	/**
-	 * method that creates a response to a request
+	 * method that creates a response to a registration request
 	 * @param ok
-	 * 			Flags whether the action was successful or not
+	 * 			Flags whether the registration was successful or not
 	 * @param cause	 * 			The cause of failure as string
 	 * @return response to a request
 	 * */
-	public Response createActionResponse(boolean ok, String cause){
-		return actionResponse(ok, cause);
+	public Response createRegistrationResponse(boolean ok, String cause){
+		return RegResponse(ok, cause);
 	}
 
-	private static Response actionResponse(boolean ok, String cause){
-		ReqResult reqResult = ReqResult.newBuilder().setOk(ok).setCause(cause).build();
+	private static Response RegResponse(boolean ok, String cause){
+		Result reqResult = Result.newBuilder().setOk(ok).setCause(cause).build();
 		return Response.newBuilder().
-                setResType(Response.ResType.ACT).setReqResult(reqResult).build();
+                setResType(Response.ResType.REG).setReqResult(reqResult).build();
 	}
+
+    /**
+     * method that creates a response to a log in request
+     * @param ok
+     * 			Flags whether the log in was successful or not
+     * @param cause	 * 			The cause of failure as string
+     * @return response to a request
+     * */
+    public Response createLogInResponse(boolean ok, String cause){
+        return LogInResponse(ok, cause);
+    }
+
+    private static Response LogInResponse(boolean ok, String cause){
+        Result reqResult = Result.newBuilder().setOk(ok).setCause(cause).build();
+        return Response.newBuilder().
+                setResType(Response.ResType.LIN).setReqResult(reqResult).build();
+    }
+
+    /**
+     * method that creates a response to a log out request
+     * @param ok
+     * 			Flags whether the log out was successful or not
+     * @param cause	 * 			The cause of failure as string
+     * @return response to a request
+     * */
+    public Response createLogOutResponse(boolean ok, String cause){
+        return LogOutResponse(ok, cause);
+    }
+
+    private static Response LogOutResponse(boolean ok, String cause){
+        Result reqResult = Result.newBuilder().setOk(ok).setCause(cause).build();
+        return Response.newBuilder().
+                setResType(Response.ResType.LOUT).setReqResult(reqResult).build();
+    }
 
 	/**
 	 * method that creates a response to a call request
@@ -38,7 +72,7 @@ public class ResponseWriter {
      *          The call ID as integer
 	 * @return response to the call request
 	 * */
-	public Response createCallResponse(String ipAddress, int callID){
+	public Response createCallSuccessResponse(String ipAddress, int callID){
 		return callResponse(ipAddress, callID);
 	}
 
@@ -47,6 +81,24 @@ public class ResponseWriter {
 		return Response.newBuilder().setResType(Response.ResType.CALLREC).
                 setCallResponse(callResponse).build();
 	}
+
+    /**
+     * method that creates a response for a unsucessfull call
+     * @param ok
+     * 			Flags whether the request was successful or not
+     * @param message
+     *  		The cause of failure as string
+     * @return response to a request
+     * */
+    public Response createCallUnSuccessResponse(boolean ok, String message){
+        return callUnsucessResponse(ok, message);
+    }
+
+    private static Response callUnsucessResponse(boolean ok, String message){
+        Result reqResult = Result.newBuilder().setOk(ok).setCause(message).build();
+        return Response.newBuilder().
+                setResType(Response.ResType.NOCALL).setReqResult(reqResult).build();
+    }
 
 	/**
 	 * method that creates a response to be sent to the other user who was left on the call
@@ -100,6 +152,40 @@ public class ResponseWriter {
     private static Response statusResponse(boolean ok){
         return Response.newBuilder().setResType(Response.ResType.STS)
                 .setStatus(ok).build();
+    }
+
+    /**
+     * method that creates a response to a friend request
+     * @param ok
+     * 			Flags whether the request was successful or not
+     * @param cause	 * 			The cause of failure as string
+     * @return response to a request
+     * */
+    public Response createFriendRequestResponse(boolean ok, String cause){
+        return friendReqResponse(ok, cause);
+    }
+
+    private static Response friendReqResponse(boolean ok, String cause){
+        Result reqResult = Result.newBuilder().setOk(ok).setCause(cause).build();
+        return Response.newBuilder().
+                setResType(Response.ResType.ADDF).setReqResult(reqResult).build();
+    }
+
+    /**
+     * method that creates a response to a delete friend request
+     * @param ok
+     * 			Flags whether the request was successful or not
+     * @param cause	 * 			The cause of failure as string
+     * @return response to a request
+     * */
+    public Response createDeleteFriendResponse(boolean ok, String cause){
+        return friendReqResponse(ok, cause);
+    }
+
+    private static Response friendDelResponse(boolean ok, String cause){
+        Result reqResult = Result.newBuilder().setOk(ok).setCause(cause).build();
+        return Response.newBuilder().
+                setResType(Response.ResType.DELF).setReqResult(reqResult).build();
     }
     
 }

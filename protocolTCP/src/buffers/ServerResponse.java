@@ -30,7 +30,7 @@ public final class ServerResponse {
     buffers.ServerResponse.Response.ResType getResType();
 
     /**
-     * <code>optional .Response.ReqResult req_result = 3;</code>
+     * <code>optional .Response.Result req_result = 3;</code>
      *
      * <pre>
      *request result filed for type ACT
@@ -38,21 +38,21 @@ public final class ServerResponse {
      */
     boolean hasReqResult();
     /**
-     * <code>optional .Response.ReqResult req_result = 3;</code>
+     * <code>optional .Response.Result req_result = 3;</code>
      *
      * <pre>
      *request result filed for type ACT
      * </pre>
      */
-    buffers.ServerResponse.Response.ReqResult getReqResult();
+    buffers.ServerResponse.Response.Result getReqResult();
     /**
-     * <code>optional .Response.ReqResult req_result = 3;</code>
+     * <code>optional .Response.Result req_result = 3;</code>
      *
      * <pre>
      *request result filed for type ACT
      * </pre>
      */
-    buffers.ServerResponse.Response.ReqResultOrBuilder getReqResultOrBuilder();
+    buffers.ServerResponse.Response.ResultOrBuilder getReqResultOrBuilder();
 
     /**
      * <code>optional .Response.CallResponse call_response = 4;</code>
@@ -232,11 +232,11 @@ public final class ServerResponse {
               break;
             }
             case 26: {
-              buffers.ServerResponse.Response.ReqResult.Builder subBuilder = null;
+              buffers.ServerResponse.Response.Result.Builder subBuilder = null;
               if (((bitField0_ & 0x00000002) == 0x00000002)) {
                 subBuilder = reqResult_.toBuilder();
               }
-              reqResult_ = input.readMessage(buffers.ServerResponse.Response.ReqResult.PARSER, extensionRegistry);
+              reqResult_ = input.readMessage(buffers.ServerResponse.Response.Result.PARSER, extensionRegistry);
               if (subBuilder != null) {
                 subBuilder.mergeFrom(reqResult_);
                 reqResult_ = subBuilder.buildPartial();
@@ -335,67 +335,112 @@ public final class ServerResponse {
     public enum ResType
         implements com.google.protobuf.ProtocolMessageEnum {
       /**
-       * <code>ACT = 1;</code>
+       * <code>REG = 1;</code>
        */
-      ACT(0, 1),
+      REG(0, 1),
       /**
-       * <code>CALLREC = 2;</code>
+       * <code>LIN = 2;</code>
        */
-      CALLREC(1, 2),
+      LIN(1, 2),
       /**
-       * <code>ECALL = 3;</code>
+       * <code>CALLREC = 3;</code>
        */
-      ECALL(2, 3),
+      CALLREC(2, 3),
       /**
-       * <code>FLIST = 4;</code>
+       * <code>ECALL = 4;</code>
        */
-      FLIST(3, 4),
+      ECALL(3, 4),
       /**
-       * <code>CALLINQ = 5;</code>
+       * <code>FLIST = 5;</code>
        */
-      CALLINQ(4, 5),
+      FLIST(4, 5),
       /**
-       * <code>STS = 6;</code>
+       * <code>CALLINQ = 6;</code>
        */
-      STS(5, 6),
+      CALLINQ(5, 6),
+      /**
+       * <code>STS = 7;</code>
+       */
+      STS(6, 7),
+      /**
+       * <code>ADDF = 8;</code>
+       */
+      ADDF(7, 8),
+      /**
+       * <code>DELF = 9;</code>
+       */
+      DELF(8, 9),
+      /**
+       * <code>LOUT = 10;</code>
+       */
+      LOUT(9, 10),
+      /**
+       * <code>NOCALL = 11;</code>
+       */
+      NOCALL(10, 11),
       ;
 
       /**
-       * <code>ACT = 1;</code>
+       * <code>REG = 1;</code>
        */
-      public static final int ACT_VALUE = 1;
+      public static final int REG_VALUE = 1;
       /**
-       * <code>CALLREC = 2;</code>
+       * <code>LIN = 2;</code>
        */
-      public static final int CALLREC_VALUE = 2;
+      public static final int LIN_VALUE = 2;
       /**
-       * <code>ECALL = 3;</code>
+       * <code>CALLREC = 3;</code>
        */
-      public static final int ECALL_VALUE = 3;
+      public static final int CALLREC_VALUE = 3;
       /**
-       * <code>FLIST = 4;</code>
+       * <code>ECALL = 4;</code>
        */
-      public static final int FLIST_VALUE = 4;
+      public static final int ECALL_VALUE = 4;
       /**
-       * <code>CALLINQ = 5;</code>
+       * <code>FLIST = 5;</code>
        */
-      public static final int CALLINQ_VALUE = 5;
+      public static final int FLIST_VALUE = 5;
       /**
-       * <code>STS = 6;</code>
+       * <code>CALLINQ = 6;</code>
        */
-      public static final int STS_VALUE = 6;
+      public static final int CALLINQ_VALUE = 6;
+      /**
+       * <code>STS = 7;</code>
+       */
+      public static final int STS_VALUE = 7;
+      /**
+       * <code>ADDF = 8;</code>
+       */
+      public static final int ADDF_VALUE = 8;
+      /**
+       * <code>DELF = 9;</code>
+       */
+      public static final int DELF_VALUE = 9;
+      /**
+       * <code>LOUT = 10;</code>
+       */
+      public static final int LOUT_VALUE = 10;
+      /**
+       * <code>NOCALL = 11;</code>
+       */
+      public static final int NOCALL_VALUE = 11;
 
 
       public final int getNumber() { return value; }
 
       public static ResType valueOf(int value) {
         switch (value) {
-          case 1: return ACT;
-          case 2: return CALLREC;
-          case 3: return ECALL;
-          case 4: return FLIST;
-          case 5: return CALLINQ;
-          case 6: return STS;
+          case 1: return REG;
+          case 2: return LIN;
+          case 3: return CALLREC;
+          case 4: return ECALL;
+          case 5: return FLIST;
+          case 6: return CALLINQ;
+          case 7: return STS;
+          case 8: return ADDF;
+          case 9: return DELF;
+          case 10: return LOUT;
+          case 11: return NOCALL;
           default: return null;
         }
       }
@@ -447,8 +492,8 @@ public final class ServerResponse {
       // @@protoc_insertion_point(enum_scope:Response.ResType)
     }
 
-    public interface ReqResultOrBuilder extends
-        // @@protoc_insertion_point(interface_extends:Response.ReqResult)
+    public interface ResultOrBuilder extends
+        // @@protoc_insertion_point(interface_extends:Response.Result)
         com.google.protobuf.MessageOrBuilder {
 
       /**
@@ -475,29 +520,29 @@ public final class ServerResponse {
           getCauseBytes();
     }
     /**
-     * Protobuf type {@code Response.ReqResult}
+     * Protobuf type {@code Response.Result}
      *
      * <pre>
      *request result message structure
      * </pre>
      */
-    public static final class ReqResult extends
+    public static final class Result extends
         com.google.protobuf.GeneratedMessage implements
-        // @@protoc_insertion_point(message_implements:Response.ReqResult)
-        ReqResultOrBuilder {
-      // Use ReqResult.newBuilder() to construct.
-      private ReqResult(com.google.protobuf.GeneratedMessage.Builder<?> builder) {
+        // @@protoc_insertion_point(message_implements:Response.Result)
+        ResultOrBuilder {
+      // Use Result.newBuilder() to construct.
+      private Result(com.google.protobuf.GeneratedMessage.Builder<?> builder) {
         super(builder);
         this.unknownFields = builder.getUnknownFields();
       }
-      private ReqResult(boolean noInit) { this.unknownFields = com.google.protobuf.UnknownFieldSet.getDefaultInstance(); }
+      private Result(boolean noInit) { this.unknownFields = com.google.protobuf.UnknownFieldSet.getDefaultInstance(); }
 
-      private static final ReqResult defaultInstance;
-      public static ReqResult getDefaultInstance() {
+      private static final Result defaultInstance;
+      public static Result getDefaultInstance() {
         return defaultInstance;
       }
 
-      public ReqResult getDefaultInstanceForType() {
+      public Result getDefaultInstanceForType() {
         return defaultInstance;
       }
 
@@ -507,7 +552,7 @@ public final class ServerResponse {
           getUnknownFields() {
         return this.unknownFields;
       }
-      private ReqResult(
+      private Result(
           com.google.protobuf.CodedInputStream input,
           com.google.protobuf.ExtensionRegistryLite extensionRegistry)
           throws com.google.protobuf.InvalidProtocolBufferException {
@@ -555,28 +600,28 @@ public final class ServerResponse {
       }
       public static final com.google.protobuf.Descriptors.Descriptor
           getDescriptor() {
-        return buffers.ServerResponse.internal_static_Response_ReqResult_descriptor;
+        return buffers.ServerResponse.internal_static_Response_Result_descriptor;
       }
 
       protected com.google.protobuf.GeneratedMessage.FieldAccessorTable
           internalGetFieldAccessorTable() {
-        return buffers.ServerResponse.internal_static_Response_ReqResult_fieldAccessorTable
+        return buffers.ServerResponse.internal_static_Response_Result_fieldAccessorTable
             .ensureFieldAccessorsInitialized(
-                buffers.ServerResponse.Response.ReqResult.class, buffers.ServerResponse.Response.ReqResult.Builder.class);
+                buffers.ServerResponse.Response.Result.class, buffers.ServerResponse.Response.Result.Builder.class);
       }
 
-      public static com.google.protobuf.Parser<ReqResult> PARSER =
-          new com.google.protobuf.AbstractParser<ReqResult>() {
-        public ReqResult parsePartialFrom(
+      public static com.google.protobuf.Parser<Result> PARSER =
+          new com.google.protobuf.AbstractParser<Result>() {
+        public Result parsePartialFrom(
             com.google.protobuf.CodedInputStream input,
             com.google.protobuf.ExtensionRegistryLite extensionRegistry)
             throws com.google.protobuf.InvalidProtocolBufferException {
-          return new ReqResult(input, extensionRegistry);
+          return new Result(input, extensionRegistry);
         }
       };
 
       @java.lang.Override
-      public com.google.protobuf.Parser<ReqResult> getParserForType() {
+      public com.google.protobuf.Parser<Result> getParserForType() {
         return PARSER;
       }
 
@@ -698,53 +743,53 @@ public final class ServerResponse {
         return super.writeReplace();
       }
 
-      public static buffers.ServerResponse.Response.ReqResult parseFrom(
+      public static buffers.ServerResponse.Response.Result parseFrom(
           com.google.protobuf.ByteString data)
           throws com.google.protobuf.InvalidProtocolBufferException {
         return PARSER.parseFrom(data);
       }
-      public static buffers.ServerResponse.Response.ReqResult parseFrom(
+      public static buffers.ServerResponse.Response.Result parseFrom(
           com.google.protobuf.ByteString data,
           com.google.protobuf.ExtensionRegistryLite extensionRegistry)
           throws com.google.protobuf.InvalidProtocolBufferException {
         return PARSER.parseFrom(data, extensionRegistry);
       }
-      public static buffers.ServerResponse.Response.ReqResult parseFrom(byte[] data)
+      public static buffers.ServerResponse.Response.Result parseFrom(byte[] data)
           throws com.google.protobuf.InvalidProtocolBufferException {
         return PARSER.parseFrom(data);
       }
-      public static buffers.ServerResponse.Response.ReqResult parseFrom(
+      public static buffers.ServerResponse.Response.Result parseFrom(
           byte[] data,
           com.google.protobuf.ExtensionRegistryLite extensionRegistry)
           throws com.google.protobuf.InvalidProtocolBufferException {
         return PARSER.parseFrom(data, extensionRegistry);
       }
-      public static buffers.ServerResponse.Response.ReqResult parseFrom(java.io.InputStream input)
+      public static buffers.ServerResponse.Response.Result parseFrom(java.io.InputStream input)
           throws java.io.IOException {
         return PARSER.parseFrom(input);
       }
-      public static buffers.ServerResponse.Response.ReqResult parseFrom(
+      public static buffers.ServerResponse.Response.Result parseFrom(
           java.io.InputStream input,
           com.google.protobuf.ExtensionRegistryLite extensionRegistry)
           throws java.io.IOException {
         return PARSER.parseFrom(input, extensionRegistry);
       }
-      public static buffers.ServerResponse.Response.ReqResult parseDelimitedFrom(java.io.InputStream input)
+      public static buffers.ServerResponse.Response.Result parseDelimitedFrom(java.io.InputStream input)
           throws java.io.IOException {
         return PARSER.parseDelimitedFrom(input);
       }
-      public static buffers.ServerResponse.Response.ReqResult parseDelimitedFrom(
+      public static buffers.ServerResponse.Response.Result parseDelimitedFrom(
           java.io.InputStream input,
           com.google.protobuf.ExtensionRegistryLite extensionRegistry)
           throws java.io.IOException {
         return PARSER.parseDelimitedFrom(input, extensionRegistry);
       }
-      public static buffers.ServerResponse.Response.ReqResult parseFrom(
+      public static buffers.ServerResponse.Response.Result parseFrom(
           com.google.protobuf.CodedInputStream input)
           throws java.io.IOException {
         return PARSER.parseFrom(input);
       }
-      public static buffers.ServerResponse.Response.ReqResult parseFrom(
+      public static buffers.ServerResponse.Response.Result parseFrom(
           com.google.protobuf.CodedInputStream input,
           com.google.protobuf.ExtensionRegistryLite extensionRegistry)
           throws java.io.IOException {
@@ -753,7 +798,7 @@ public final class ServerResponse {
 
       public static Builder newBuilder() { return Builder.create(); }
       public Builder newBuilderForType() { return newBuilder(); }
-      public static Builder newBuilder(buffers.ServerResponse.Response.ReqResult prototype) {
+      public static Builder newBuilder(buffers.ServerResponse.Response.Result prototype) {
         return newBuilder().mergeFrom(prototype);
       }
       public Builder toBuilder() { return newBuilder(this); }
@@ -765,7 +810,7 @@ public final class ServerResponse {
         return builder;
       }
       /**
-       * Protobuf type {@code Response.ReqResult}
+       * Protobuf type {@code Response.Result}
        *
        * <pre>
        *request result message structure
@@ -773,21 +818,21 @@ public final class ServerResponse {
        */
       public static final class Builder extends
           com.google.protobuf.GeneratedMessage.Builder<Builder> implements
-          // @@protoc_insertion_point(builder_implements:Response.ReqResult)
-          buffers.ServerResponse.Response.ReqResultOrBuilder {
+          // @@protoc_insertion_point(builder_implements:Response.Result)
+          buffers.ServerResponse.Response.ResultOrBuilder {
         public static final com.google.protobuf.Descriptors.Descriptor
             getDescriptor() {
-          return buffers.ServerResponse.internal_static_Response_ReqResult_descriptor;
+          return buffers.ServerResponse.internal_static_Response_Result_descriptor;
         }
 
         protected com.google.protobuf.GeneratedMessage.FieldAccessorTable
             internalGetFieldAccessorTable() {
-          return buffers.ServerResponse.internal_static_Response_ReqResult_fieldAccessorTable
+          return buffers.ServerResponse.internal_static_Response_Result_fieldAccessorTable
               .ensureFieldAccessorsInitialized(
-                  buffers.ServerResponse.Response.ReqResult.class, buffers.ServerResponse.Response.ReqResult.Builder.class);
+                  buffers.ServerResponse.Response.Result.class, buffers.ServerResponse.Response.Result.Builder.class);
         }
 
-        // Construct using buffers.ServerResponse.Response.ReqResult.newBuilder()
+        // Construct using buffers.ServerResponse.Response.Result.newBuilder()
         private Builder() {
           maybeForceBuilderInitialization();
         }
@@ -820,23 +865,23 @@ public final class ServerResponse {
 
         public com.google.protobuf.Descriptors.Descriptor
             getDescriptorForType() {
-          return buffers.ServerResponse.internal_static_Response_ReqResult_descriptor;
+          return buffers.ServerResponse.internal_static_Response_Result_descriptor;
         }
 
-        public buffers.ServerResponse.Response.ReqResult getDefaultInstanceForType() {
-          return buffers.ServerResponse.Response.ReqResult.getDefaultInstance();
+        public buffers.ServerResponse.Response.Result getDefaultInstanceForType() {
+          return buffers.ServerResponse.Response.Result.getDefaultInstance();
         }
 
-        public buffers.ServerResponse.Response.ReqResult build() {
-          buffers.ServerResponse.Response.ReqResult result = buildPartial();
+        public buffers.ServerResponse.Response.Result build() {
+          buffers.ServerResponse.Response.Result result = buildPartial();
           if (!result.isInitialized()) {
             throw newUninitializedMessageException(result);
           }
           return result;
         }
 
-        public buffers.ServerResponse.Response.ReqResult buildPartial() {
-          buffers.ServerResponse.Response.ReqResult result = new buffers.ServerResponse.Response.ReqResult(this);
+        public buffers.ServerResponse.Response.Result buildPartial() {
+          buffers.ServerResponse.Response.Result result = new buffers.ServerResponse.Response.Result(this);
           int from_bitField0_ = bitField0_;
           int to_bitField0_ = 0;
           if (((from_bitField0_ & 0x00000001) == 0x00000001)) {
@@ -853,16 +898,16 @@ public final class ServerResponse {
         }
 
         public Builder mergeFrom(com.google.protobuf.Message other) {
-          if (other instanceof buffers.ServerResponse.Response.ReqResult) {
-            return mergeFrom((buffers.ServerResponse.Response.ReqResult)other);
+          if (other instanceof buffers.ServerResponse.Response.Result) {
+            return mergeFrom((buffers.ServerResponse.Response.Result)other);
           } else {
             super.mergeFrom(other);
             return this;
           }
         }
 
-        public Builder mergeFrom(buffers.ServerResponse.Response.ReqResult other) {
-          if (other == buffers.ServerResponse.Response.ReqResult.getDefaultInstance()) return this;
+        public Builder mergeFrom(buffers.ServerResponse.Response.Result other) {
+          if (other == buffers.ServerResponse.Response.Result.getDefaultInstance()) return this;
           if (other.hasOk()) {
             setOk(other.getOk());
           }
@@ -891,11 +936,11 @@ public final class ServerResponse {
             com.google.protobuf.CodedInputStream input,
             com.google.protobuf.ExtensionRegistryLite extensionRegistry)
             throws java.io.IOException {
-          buffers.ServerResponse.Response.ReqResult parsedMessage = null;
+          buffers.ServerResponse.Response.Result parsedMessage = null;
           try {
             parsedMessage = PARSER.parsePartialFrom(input, extensionRegistry);
           } catch (com.google.protobuf.InvalidProtocolBufferException e) {
-            parsedMessage = (buffers.ServerResponse.Response.ReqResult) e.getUnfinishedMessage();
+            parsedMessage = (buffers.ServerResponse.Response.Result) e.getUnfinishedMessage();
             throw e;
           } finally {
             if (parsedMessage != null) {
@@ -1014,15 +1059,15 @@ public final class ServerResponse {
           return this;
         }
 
-        // @@protoc_insertion_point(builder_scope:Response.ReqResult)
+        // @@protoc_insertion_point(builder_scope:Response.Result)
       }
 
       static {
-        defaultInstance = new ReqResult(true);
+        defaultInstance = new Result(true);
         defaultInstance.initFields();
       }
 
-      // @@protoc_insertion_point(class_scope:Response.ReqResult)
+      // @@protoc_insertion_point(class_scope:Response.Result)
     }
 
     public interface CallResponseOrBuilder extends
@@ -2207,9 +2252,9 @@ public final class ServerResponse {
     }
 
     public static final int REQ_RESULT_FIELD_NUMBER = 3;
-    private buffers.ServerResponse.Response.ReqResult reqResult_;
+    private buffers.ServerResponse.Response.Result reqResult_;
     /**
-     * <code>optional .Response.ReqResult req_result = 3;</code>
+     * <code>optional .Response.Result req_result = 3;</code>
      *
      * <pre>
      *request result filed for type ACT
@@ -2219,23 +2264,23 @@ public final class ServerResponse {
       return ((bitField0_ & 0x00000002) == 0x00000002);
     }
     /**
-     * <code>optional .Response.ReqResult req_result = 3;</code>
+     * <code>optional .Response.Result req_result = 3;</code>
      *
      * <pre>
      *request result filed for type ACT
      * </pre>
      */
-    public buffers.ServerResponse.Response.ReqResult getReqResult() {
+    public buffers.ServerResponse.Response.Result getReqResult() {
       return reqResult_;
     }
     /**
-     * <code>optional .Response.ReqResult req_result = 3;</code>
+     * <code>optional .Response.Result req_result = 3;</code>
      *
      * <pre>
      *request result filed for type ACT
      * </pre>
      */
-    public buffers.ServerResponse.Response.ReqResultOrBuilder getReqResultOrBuilder() {
+    public buffers.ServerResponse.Response.ResultOrBuilder getReqResultOrBuilder() {
       return reqResult_;
     }
 
@@ -2406,8 +2451,8 @@ public final class ServerResponse {
     }
 
     private void initFields() {
-      resType_ = buffers.ServerResponse.Response.ResType.ACT;
-      reqResult_ = buffers.ServerResponse.Response.ReqResult.getDefaultInstance();
+      resType_ = buffers.ServerResponse.Response.ResType.REG;
+      reqResult_ = buffers.ServerResponse.Response.Result.getDefaultInstance();
       callResponse_ = buffers.ServerResponse.Response.CallResponse.getDefaultInstance();
       endCall_ = false;
       list_ = buffers.ServerResponse.Response.FriendList.getDefaultInstance();
@@ -2625,10 +2670,10 @@ public final class ServerResponse {
 
       public Builder clear() {
         super.clear();
-        resType_ = buffers.ServerResponse.Response.ResType.ACT;
+        resType_ = buffers.ServerResponse.Response.ResType.REG;
         bitField0_ = (bitField0_ & ~0x00000001);
         if (reqResultBuilder_ == null) {
-          reqResult_ = buffers.ServerResponse.Response.ReqResult.getDefaultInstance();
+          reqResult_ = buffers.ServerResponse.Response.Result.getDefaultInstance();
         } else {
           reqResultBuilder_.clear();
         }
@@ -2801,7 +2846,7 @@ public final class ServerResponse {
       }
       private int bitField0_;
 
-      private buffers.ServerResponse.Response.ResType resType_ = buffers.ServerResponse.Response.ResType.ACT;
+      private buffers.ServerResponse.Response.ResType resType_ = buffers.ServerResponse.Response.ResType.REG;
       /**
        * <code>required .Response.ResType res_type = 1;</code>
        *
@@ -2847,16 +2892,16 @@ public final class ServerResponse {
        */
       public Builder clearResType() {
         bitField0_ = (bitField0_ & ~0x00000001);
-        resType_ = buffers.ServerResponse.Response.ResType.ACT;
+        resType_ = buffers.ServerResponse.Response.ResType.REG;
         onChanged();
         return this;
       }
 
-      private buffers.ServerResponse.Response.ReqResult reqResult_ = buffers.ServerResponse.Response.ReqResult.getDefaultInstance();
+      private buffers.ServerResponse.Response.Result reqResult_ = buffers.ServerResponse.Response.Result.getDefaultInstance();
       private com.google.protobuf.SingleFieldBuilder<
-          buffers.ServerResponse.Response.ReqResult, buffers.ServerResponse.Response.ReqResult.Builder, buffers.ServerResponse.Response.ReqResultOrBuilder> reqResultBuilder_;
+          buffers.ServerResponse.Response.Result, buffers.ServerResponse.Response.Result.Builder, buffers.ServerResponse.Response.ResultOrBuilder> reqResultBuilder_;
       /**
-       * <code>optional .Response.ReqResult req_result = 3;</code>
+       * <code>optional .Response.Result req_result = 3;</code>
        *
        * <pre>
        *request result filed for type ACT
@@ -2866,13 +2911,13 @@ public final class ServerResponse {
         return ((bitField0_ & 0x00000002) == 0x00000002);
       }
       /**
-       * <code>optional .Response.ReqResult req_result = 3;</code>
+       * <code>optional .Response.Result req_result = 3;</code>
        *
        * <pre>
        *request result filed for type ACT
        * </pre>
        */
-      public buffers.ServerResponse.Response.ReqResult getReqResult() {
+      public buffers.ServerResponse.Response.Result getReqResult() {
         if (reqResultBuilder_ == null) {
           return reqResult_;
         } else {
@@ -2880,13 +2925,13 @@ public final class ServerResponse {
         }
       }
       /**
-       * <code>optional .Response.ReqResult req_result = 3;</code>
+       * <code>optional .Response.Result req_result = 3;</code>
        *
        * <pre>
        *request result filed for type ACT
        * </pre>
        */
-      public Builder setReqResult(buffers.ServerResponse.Response.ReqResult value) {
+      public Builder setReqResult(buffers.ServerResponse.Response.Result value) {
         if (reqResultBuilder_ == null) {
           if (value == null) {
             throw new NullPointerException();
@@ -2900,14 +2945,14 @@ public final class ServerResponse {
         return this;
       }
       /**
-       * <code>optional .Response.ReqResult req_result = 3;</code>
+       * <code>optional .Response.Result req_result = 3;</code>
        *
        * <pre>
        *request result filed for type ACT
        * </pre>
        */
       public Builder setReqResult(
-          buffers.ServerResponse.Response.ReqResult.Builder builderForValue) {
+          buffers.ServerResponse.Response.Result.Builder builderForValue) {
         if (reqResultBuilder_ == null) {
           reqResult_ = builderForValue.build();
           onChanged();
@@ -2918,18 +2963,18 @@ public final class ServerResponse {
         return this;
       }
       /**
-       * <code>optional .Response.ReqResult req_result = 3;</code>
+       * <code>optional .Response.Result req_result = 3;</code>
        *
        * <pre>
        *request result filed for type ACT
        * </pre>
        */
-      public Builder mergeReqResult(buffers.ServerResponse.Response.ReqResult value) {
+      public Builder mergeReqResult(buffers.ServerResponse.Response.Result value) {
         if (reqResultBuilder_ == null) {
           if (((bitField0_ & 0x00000002) == 0x00000002) &&
-              reqResult_ != buffers.ServerResponse.Response.ReqResult.getDefaultInstance()) {
+              reqResult_ != buffers.ServerResponse.Response.Result.getDefaultInstance()) {
             reqResult_ =
-              buffers.ServerResponse.Response.ReqResult.newBuilder(reqResult_).mergeFrom(value).buildPartial();
+              buffers.ServerResponse.Response.Result.newBuilder(reqResult_).mergeFrom(value).buildPartial();
           } else {
             reqResult_ = value;
           }
@@ -2941,7 +2986,7 @@ public final class ServerResponse {
         return this;
       }
       /**
-       * <code>optional .Response.ReqResult req_result = 3;</code>
+       * <code>optional .Response.Result req_result = 3;</code>
        *
        * <pre>
        *request result filed for type ACT
@@ -2949,7 +2994,7 @@ public final class ServerResponse {
        */
       public Builder clearReqResult() {
         if (reqResultBuilder_ == null) {
-          reqResult_ = buffers.ServerResponse.Response.ReqResult.getDefaultInstance();
+          reqResult_ = buffers.ServerResponse.Response.Result.getDefaultInstance();
           onChanged();
         } else {
           reqResultBuilder_.clear();
@@ -2958,25 +3003,25 @@ public final class ServerResponse {
         return this;
       }
       /**
-       * <code>optional .Response.ReqResult req_result = 3;</code>
+       * <code>optional .Response.Result req_result = 3;</code>
        *
        * <pre>
        *request result filed for type ACT
        * </pre>
        */
-      public buffers.ServerResponse.Response.ReqResult.Builder getReqResultBuilder() {
+      public buffers.ServerResponse.Response.Result.Builder getReqResultBuilder() {
         bitField0_ |= 0x00000002;
         onChanged();
         return getReqResultFieldBuilder().getBuilder();
       }
       /**
-       * <code>optional .Response.ReqResult req_result = 3;</code>
+       * <code>optional .Response.Result req_result = 3;</code>
        *
        * <pre>
        *request result filed for type ACT
        * </pre>
        */
-      public buffers.ServerResponse.Response.ReqResultOrBuilder getReqResultOrBuilder() {
+      public buffers.ServerResponse.Response.ResultOrBuilder getReqResultOrBuilder() {
         if (reqResultBuilder_ != null) {
           return reqResultBuilder_.getMessageOrBuilder();
         } else {
@@ -2984,18 +3029,18 @@ public final class ServerResponse {
         }
       }
       /**
-       * <code>optional .Response.ReqResult req_result = 3;</code>
+       * <code>optional .Response.Result req_result = 3;</code>
        *
        * <pre>
        *request result filed for type ACT
        * </pre>
        */
       private com.google.protobuf.SingleFieldBuilder<
-          buffers.ServerResponse.Response.ReqResult, buffers.ServerResponse.Response.ReqResult.Builder, buffers.ServerResponse.Response.ReqResultOrBuilder> 
+          buffers.ServerResponse.Response.Result, buffers.ServerResponse.Response.Result.Builder, buffers.ServerResponse.Response.ResultOrBuilder> 
           getReqResultFieldBuilder() {
         if (reqResultBuilder_ == null) {
           reqResultBuilder_ = new com.google.protobuf.SingleFieldBuilder<
-              buffers.ServerResponse.Response.ReqResult, buffers.ServerResponse.Response.ReqResult.Builder, buffers.ServerResponse.Response.ReqResultOrBuilder>(
+              buffers.ServerResponse.Response.Result, buffers.ServerResponse.Response.Result.Builder, buffers.ServerResponse.Response.ResultOrBuilder>(
                   getReqResult(),
                   getParentForChildren(),
                   isClean());
@@ -3521,10 +3566,10 @@ public final class ServerResponse {
     com.google.protobuf.GeneratedMessage.FieldAccessorTable
       internal_static_Response_fieldAccessorTable;
   private static final com.google.protobuf.Descriptors.Descriptor
-    internal_static_Response_ReqResult_descriptor;
+    internal_static_Response_Result_descriptor;
   private static
     com.google.protobuf.GeneratedMessage.FieldAccessorTable
-      internal_static_Response_ReqResult_fieldAccessorTable;
+      internal_static_Response_Result_fieldAccessorTable;
   private static final com.google.protobuf.Descriptors.Descriptor
     internal_static_Response_CallResponse_descriptor;
   private static
@@ -3544,18 +3589,19 @@ public final class ServerResponse {
       descriptor;
   static {
     java.lang.String[] descriptorData = {
-      "\n\025server_response.proto\"\247\003\n\010Response\022#\n\010" +
-      "res_type\030\001 \002(\0162\021.Response.ResType\022\'\n\nreq" +
-      "_result\030\003 \001(\0132\023.Response.ReqResult\022-\n\rca" +
-      "ll_response\030\004 \001(\0132\026.Response.CallRespons" +
-      "e\022\017\n\007endCall\030\005 \001(\010\022\"\n\004list\030\006 \001(\0132\024.Respo" +
-      "nse.FriendList\022\020\n\010username\030\007 \001(\t\022\016\n\006stat" +
-      "us\030\010 \001(\010\032&\n\tReqResult\022\n\n\002ok\030\001 \002(\010\022\r\n\005cau" +
-      "se\030\002 \002(\t\0322\n\014CallResponse\022\022\n\nip_address\030\001" +
-      " \002(\t\022\016\n\006callID\030\002 \002(\005\032\036\n\nFriendList\022\020\n\010us" +
-      "ername\030\001 \003(\t\"K\n\007ResType\022\007\n\003ACT\020\001\022\013\n\007CALL",
-      "REC\020\002\022\t\n\005ECALL\020\003\022\t\n\005FLIST\020\004\022\013\n\007CALLINQ\020\005" +
-      "\022\007\n\003STS\020\006B\013\n\007buffersH\001"
+      "\n\025server_response.proto\"\324\003\n\010Response\022#\n\010" +
+      "res_type\030\001 \002(\0162\021.Response.ResType\022$\n\nreq" +
+      "_result\030\003 \001(\0132\020.Response.Result\022-\n\rcall_" +
+      "response\030\004 \001(\0132\026.Response.CallResponse\022\017" +
+      "\n\007endCall\030\005 \001(\010\022\"\n\004list\030\006 \001(\0132\024.Response" +
+      ".FriendList\022\020\n\010username\030\007 \001(\t\022\016\n\006status\030" +
+      "\010 \001(\010\032#\n\006Result\022\n\n\002ok\030\001 \002(\010\022\r\n\005cause\030\002 \002" +
+      "(\t\0322\n\014CallResponse\022\022\n\nip_address\030\001 \002(\t\022\016" +
+      "\n\006callID\030\002 \002(\005\032\036\n\nFriendList\022\020\n\010username" +
+      "\030\001 \003(\t\"~\n\007ResType\022\007\n\003REG\020\001\022\007\n\003LIN\020\002\022\013\n\007C",
+      "ALLREC\020\003\022\t\n\005ECALL\020\004\022\t\n\005FLIST\020\005\022\013\n\007CALLIN" +
+      "Q\020\006\022\007\n\003STS\020\007\022\010\n\004ADDF\020\010\022\010\n\004DELF\020\t\022\010\n\004LOUT" +
+      "\020\n\022\n\n\006NOCALL\020\013B\013\n\007buffersH\001"
     };
     com.google.protobuf.Descriptors.FileDescriptor.InternalDescriptorAssigner assigner =
         new com.google.protobuf.Descriptors.FileDescriptor.    InternalDescriptorAssigner() {
@@ -3575,11 +3621,11 @@ public final class ServerResponse {
       com.google.protobuf.GeneratedMessage.FieldAccessorTable(
         internal_static_Response_descriptor,
         new java.lang.String[] { "ResType", "ReqResult", "CallResponse", "EndCall", "List", "Username", "Status", });
-    internal_static_Response_ReqResult_descriptor =
+    internal_static_Response_Result_descriptor =
       internal_static_Response_descriptor.getNestedTypes().get(0);
-    internal_static_Response_ReqResult_fieldAccessorTable = new
+    internal_static_Response_Result_fieldAccessorTable = new
       com.google.protobuf.GeneratedMessage.FieldAccessorTable(
-        internal_static_Response_ReqResult_descriptor,
+        internal_static_Response_Result_descriptor,
         new java.lang.String[] { "Ok", "Cause", });
     internal_static_Response_CallResponse_descriptor =
       internal_static_Response_descriptor.getNestedTypes().get(1);

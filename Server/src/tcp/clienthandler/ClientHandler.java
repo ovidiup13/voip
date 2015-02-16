@@ -79,7 +79,7 @@ public class ClientHandler implements Runnable, ResponseSender {
 				//remove the ClientID from the OnlineHashTable
 
 				//if ok, send confirmation response
-				sendResponse(true, "LogOut successful");
+				sendLogOutResponse(true, "LogOut successful");
 				return;
 			} 
 			else
@@ -102,10 +102,10 @@ public class ClientHandler implements Runnable, ResponseSender {
 		System.out.println("Server: Adding user to database...");
 		if (db.register(request.getReg().getUsername(), request.getReg().getPassword())) {
 			//if ok, send confirmation response
-			sendResponse(true, "registration successful - you can log in now");
+			sendRegisterResponse(true, "registration successful - you can log in now");
 			System.out.println("Server: Sent successful response.");
 		} else {
-			sendResponse(false, "registration unsuccessful - the user already exists");
+			sendRegisterResponse(false, "registration unsuccessful - the user already exists");
 			System.out.println("Server: Sent unsuccessful response.");
 		}
 	}
@@ -126,12 +126,10 @@ public class ClientHandler implements Runnable, ResponseSender {
 			System.out.println("ClientIP" + addressMap.getClient(username).getHostName());
 
 			//if ok, send confirmation response
-			sendResponse(true, "Login successful");
+			sendLogInResponse(true, "Login successful");
 		} else {
-			sendResponse(false, "Login unsuccessful");
+			sendLogInResponse(false, "Login unsuccessful");
 		}
-
-	
 	}
 	
 	private void readCallRequest(Request request){
@@ -153,7 +151,7 @@ public class ClientHandler implements Runnable, ResponseSender {
 			sendCallResponse(client, calleeClient, callID++);
 			
 		} else {
-			sendResponse(false, "Call unsuccessful");
+			sendUnsuccessfulCall(false, "Call unsuccessful");
 		}
 	}
 
@@ -179,10 +177,10 @@ public class ClientHandler implements Runnable, ResponseSender {
     private void readAddFriendRequest(Request request) {
     	Response response = null;
         if (db.addFriend(client.getUsername(), request.getUsername())){			
-		    response = responseWriter.createActionResponse(true, "Adding friend successful");
+		    response = responseWriter.createFriendRequestResponse(true, "Adding friend successful");
 			System.out.println("Server: Sent successful response.");
 		} else {
-			response = responseWriter.createActionResponse(false,  "Adding friend  unsuccessful- Contact staff for support");
+			response = responseWriter.createFriendRequestResponse(false, "Adding friend  unsuccessful- Contact staff for support");
 			System.out.println("Server: Sent unsuccessful friend requesnt response.");
 			}
 
@@ -229,12 +227,12 @@ public class ClientHandler implements Runnable, ResponseSender {
     private void readDeleteFriendRequest(Request request) {
        	Response response = null;
         if (db.deleteFriendship(client.getUsername(), request.getUsername())){			
-		    response = responseWriter.createActionResponse(true, "Deleting friend successful");
+		    response = responseWriter.createDeleteFriendResponse(true, "Deleting friend successful");
 		    //MUST UPDATE BOTH FRIEND LISTS IN THE CLIENTS 
 		    
 			System.out.println("Server: Sent successful response.");
 		} else {
-			response = responseWriter.createActionResponse(false,  "Deleting friend  unsuccessful- Contact staff for support");
+			response = responseWriter.createDeleteFriendResponse(false, "Deleting friend  unsuccessful- Contact staff for support");
 			System.out.println("Server: Sent unsuccessfulresponse.");
 			}
 
@@ -248,25 +246,55 @@ public class ClientHandler implements Runnable, ResponseSender {
     
 
 	@Override
-	public void sendResponse(boolean ok, String message) {
-		Response response = responseWriter.createActionResponse(ok, message);
+	public void sendRegisterResponse(boolean ok, String message) {
+		Response response = responseWriter.createRegistrationResponse(ok, message);
 		try {
 			response.writeDelimitedTo(output);
 		} catch (IOException e) {
 			System.err.println("Server: could not send response");
 		}
 	}
-	
-	@Override
+
+    @Override
+    public void sendLogInResponse(boolean ok, String message) {
+        Response response = responseWriter.createLogInResponse(ok, message);
+        try {
+            response.writeDelimitedTo(output);
+        } catch (IOException e) {
+            System.err.println("Server: could not send log in response");
+        }
+    }
+
+    @Override
+    public void sendLogOutResponse(boolean ok, String message) {
+        Response response = responseWriter.createLogOutResponse(ok, message);
+        try {
+            response.writeDelimitedTo(output);
+        } catch (IOException e) {
+            System.err.println("Server: could not send log out response");
+        }
+    }
+
+    @Override
 	public void sendCallResponse(Client target, Client other, int callID){
 		String IPAddress = other.getHostName();
-		Response response = responseWriter.createCallResponse(IPAddress, callID);
+		Response response = responseWriter.createCallSuccessResponse(IPAddress, callID);
 		try {
 			response.writeDelimitedTo(target.getSocket().getOutputStream());
 		} catch (IOException e) {
 			System.err.println("Server: could not send response.");
 		}
 	}
+
+    @Override
+    public void sendUnsuccessfulCall(boolean ok, String message) {
+        Response response = responseWriter.createCallUnSuccessResponse(ok, message);
+        try {
+            response.writeDelimitedTo(output);
+        } catch (IOException e) {
+            System.err.println("Server: could not send call unsuccessful response");
+        }
+    }
 
     @Override
     public void sendCallInquiry(Client target) {
@@ -297,5 +325,25 @@ public class ClientHandler implements Runnable, ResponseSender {
         }
         
         clientCalled.setStatus(ClientStatus.IDLE);
+    }
+
+    @Override
+    public void sendAddFriendResponse(boolean ok, String message) {
+        Response response = responseWriter.createFriendRequestResponse(ok, message);
+        try {
+            response.writeDelimitedTo(output);
+        } catch (IOException e) {
+            System.err.println("Server: could not send add friend response");
+        }
+    }
+
+    @Override
+    public void sendDelFriendResponse(boolean ok, String message) {
+        Response response = responseWriter.createDeleteFriendResponse(ok, message);
+        try {
+            response.writeDelimitedTo(output);
+        } catch (IOException e) {
+            System.err.println("Server: could not send add friend response");
+        }
     }
 }
