@@ -96,7 +96,7 @@ public class ClientHandler implements Runnable, ResponseSender {
 						case CALL:       { readCallRequest(request); break; }
 						case STS:        { readStatusRequest(request); break; }
 	                    case CALLRES:    { readCallResponse(request); break; }
-	                    case FLIST:      { readFriendListRequest(request); break; }
+	                    case FLIST:      { readFriendListRequest(); break; }
 	                    case ADDF:       { readAddFriendRequest(request); break; }
 	                    case DELF:       { readDeleteFriendRequest(request); break; }
 	                    case ECALL:      { sendEndCallResponse(); break;}//to be implemented
@@ -163,10 +163,10 @@ public class ClientHandler implements Runnable, ResponseSender {
 					client.setStatus(ClientStatus.WAITING);
 					client.setClientCalled(calleeClient);
 					
-					sendCallInquiry(calleeClient); //both clients now in deadlock until a call response is achieved or a timeout is hit
+					sendCallInquiry(calleeClient); //both clients now waiting until a call response is recieved or a timeout is hit
+					//TODO: the actual timeout
+					//yeah
 				}
-				
-				sendCallResponse(client, calleeClient, callID++);
 			}
 			
 		} else {
@@ -202,6 +202,7 @@ public class ClientHandler implements Runnable, ResponseSender {
     	Response response = null;
         if (db.addFriend(client.getUsername(), request.getUsername())){			
 		    response = responseWriter.createFriendRequestResponse(true, "Adding friend successful");
+		    readFriendListRequest(); //send friends list back as well
 			System.out.println("Server: Sent successful response.");
 		} else {
 			response = responseWriter.createFriendRequestResponse(false, "Adding friend unsuccessful- Contact staff for support");
@@ -216,7 +217,7 @@ public class ClientHandler implements Runnable, ResponseSender {
     }
 
     //read friend list request
-    private void readFriendListRequest(Request request) {
+    private void readFriendListRequest() {
         ArrayList<String> friends = db.getFriendsFor(client.getUsername());
         
         Response response = responseWriter.createFriendListResponse(friends);
@@ -254,8 +255,8 @@ public class ClientHandler implements Runnable, ResponseSender {
        	Response response = null;
         if (db.deleteFriendship(client.getUsername(), request.getUsername())){			
 		    response = responseWriter.createDeleteFriendResponse(true, "Deleting friend successful");
-		    //MUST UPDATE BOTH FRIEND LISTS IN THE CLIENTS 
-		    
+		    readFriendListRequest(); //send friends list back as well
+		    //TODO: other client needs to have their friends list updated.
 			System.out.println("Server: Sent successful response.");
 		} else {
 			response = responseWriter.createDeleteFriendResponse(false, "Deleting friend  unsuccessful- Contact staff for support");

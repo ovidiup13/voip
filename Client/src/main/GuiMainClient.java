@@ -329,7 +329,7 @@ public class GuiMainClient {
 			//port = Integer.parseInt(portField.getText().trim());
 			
 			hostname = "localhost";
-			port = 9992;
+			port = 9991;
 			
 			client = new SocketHandler(hostname, port);
 			if(client.startConnection()){
