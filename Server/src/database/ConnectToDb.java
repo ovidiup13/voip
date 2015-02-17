@@ -1,5 +1,6 @@
 package database;
 
+import java.security.MessageDigest;
 import java.sql.*;
 import java.util.ArrayList;
 
@@ -45,8 +46,7 @@ public class ConnectToDb {
 //			register("Usser42","password");
 
 
-
-			
+			System.out.println("Encoding for password is "+ sha256("VIktor"));
 			
 			System.out.println("DELATION  "+ deleteFriendship("User15","User13"));
 //			addFriend("User15","User16");
@@ -441,6 +441,32 @@ public class ConnectToDb {
 			System.out.println("Error in updateFriends: "+ error.getMessage());
 			error.printStackTrace();
 		}
+	}
+	/**
+	 * basically convert the string into bytes 
+	 * (e.g. using text.getBytes("UTF-8")) and then hash the bytes. 
+	 * To represent that in a string converts the array of bytes into a 
+	 * String representing the hexadecimal values of each byte in order
+	 * 
+	 * @param base
+	 * @return
+	 */
+	public static String sha256(String base) {
+	    try{
+	        MessageDigest digest = MessageDigest.getInstance("SHA-256");
+	        byte[] hash = digest.digest(base.getBytes("UTF-8"));
+	        StringBuffer hexString = new StringBuffer();
+
+	        for (int i = 0; i < hash.length; i++) {
+	            String hex = Integer.toHexString(0xff & hash[i]);
+	            if(hex.length() == 1) hexString.append('0');
+	            hexString.append(hex);
+	        }
+
+	        return hexString.toString();
+	    } catch(Exception ex){
+	       throw new RuntimeException(ex);
+	    }
 	}
 
 	// you need to close all three to make sure
