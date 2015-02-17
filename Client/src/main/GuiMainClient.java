@@ -41,7 +41,7 @@ public class GuiMainClient {
 
 	// log in window
 
-	private static JFrame loginWindow = new JFrame();
+	public static JFrame loginWindow = new JFrame();
 	private static JPanel imagePanel = new JPanel();
 	private static JTextField portField = new JTextField(20);
 	private static JTextField hostField = new JTextField(20);
@@ -53,30 +53,40 @@ public class GuiMainClient {
 	private static JLabel enterPortLabel = new JLabel();
 	private static JLabel enterHostLabel = new JLabel();
 	private static JButton registerButton = new JButton();
-	private static JButton loginButton = new JButton();
+	public static JButton loginButton = new JButton();
 
 	// main window
 
-	private static JFrame mainWindow = new JFrame();
+	public static JFrame mainWindow = new JFrame();
 	public static JPanel userAvatar = new JPanel();
 	public static JList onlineUsers = new JList();
 
-	private static JButton callButton = new JButton();
-	private static JButton logoutButton = new JButton();
+	public static JButton callButton = new JButton();
+	public static JButton logoutButton = new JButton();
 
 	private static JLabel onlineLabel = new JLabel();
 	private static JLabel usernameLabel = new JLabel();
 	private static JLabel usernameBox = new JLabel();
 	private static JScrollPane onlineScroller = new JScrollPane();
 
-	// call window
-	private static JFrame callWindow = new JFrame();
-	private static JTextField callUserField = new JTextField(15);
-	private static JButton makeCallButton = new JButton();
+	// call initiated window
+	public static JFrame callWindow = new JFrame();
+	public static JTextField callUserField = new JTextField(15);
+	public static JButton makeCallButton = new JButton();
 	private static JLabel callUserLabel = new JLabel();
+	
+	
+	// call in progress window
+	
+	public static JFrame callinprogWindow = new JFrame();
+	public static JLabel callerUserLabel = new JLabel();
 	private static ImageIcon loadingBar = new ImageIcon("ajax-loader.gif",
 			"loading-bar");
 	public static JLabel imageLabel = new JLabel(loadingBar);
+	
+	public static JButton startCallButton = new JButton();
+	public static  JButton stopCallButton = new JButton();
+	
 
 	public static void main(String[] args) {
 		
@@ -87,6 +97,11 @@ public class GuiMainClient {
 
 	}
 
+	public static String getUsername() {
+		return username;
+	}
+
+	
 	public static void BuildLoginWindow() {
 
 		loginWindow.setTitle("VOIP Login ");
@@ -262,6 +277,49 @@ public class GuiMainClient {
 
 	}
 	
+	public static void BuildCallInProgWindow (){
+		
+		callinprogWindow = new JFrame();
+		callinprogWindow.setTitle("Call in progress! ");
+		callinprogWindow.setLayout(null);
+		callinprogWindow.setSize(310, 200);
+		callinprogWindow.setLocationRelativeTo(null);
+
+		callerUserLabel.setText("You are in a call.");
+		callinprogWindow.getContentPane().add(callerUserLabel);
+		callerUserLabel.setBounds(5, 5, 200, 20);
+
+		imageLabel.setHorizontalAlignment(SwingConstants.CENTER);
+		callinprogWindow.getContentPane().add(imageLabel);
+		imageLabel.setBounds(70, 120, 170, 10);
+		
+		
+		/*
+		startCallButton.setText("Yes");
+		callWindow.getContentPane().add(startCallButton);
+		startCallButton.setBounds(105, 30, 80, 20);
+		startCallButton.addActionListener(new java.awt.event.ActionListener() {
+			public void actionPerformed(java.awt.event.ActionEvent event) {
+				AcceptCallResponse();
+			}
+		});
+		
+		*/
+		
+		stopCallButton.setText("End call");
+		callinprogWindow.getContentPane().add(stopCallButton);
+		stopCallButton.setBounds(105, 30, 80, 20);
+		stopCallButton.addActionListener(new java.awt.event.ActionListener() {
+			public void actionPerformed(java.awt.event.ActionEvent event) {
+				EndCallRequest();
+			}
+		});
+		
+
+		callinprogWindow.setVisible(false);
+		
+	}
+	
 	
 	public static void Connect(){
 		
@@ -270,8 +328,8 @@ public class GuiMainClient {
 			//hostname = hostField.getText().trim();
 			//port = Integer.parseInt(portField.getText().trim());
 			
-			hostname = "192.168.173.1";
-			port = 9991;
+			hostname = "localhost";
+			port = 9992;
 			
 			client = new SocketHandler(hostname, port);
 			if(client.startConnection()){
@@ -279,6 +337,7 @@ public class GuiMainClient {
 				
 				
 			clientThread = new ClientThread(client);
+			clientThread.start();
 			
 			}
 		}
@@ -300,25 +359,18 @@ public class GuiMainClient {
 			username = usernameField.getText().trim();	
 			password = passwordField.getText().trim();
 			
-			if(client.sendLogInRequest(username, password)){
+			client.sendLogInRequest(username, password);
 			System.out.println("Message for LOG IN: ");
-
+			System.out.println("Log in request sent from client");
+			/*
 			loginWindow.setVisible(false);
 			BuildMainWindow();
 			mainWindow.setTitle("VOIP-User: " + username);
 			logoutButton.setEnabled(true);
-		
+		*/
 			
 			}
 			
-			else {
-				
-				JOptionPane.showMessageDialog(null, "Login unsucessful! Try again!");
-			}
-			
-	
-			
-		}
 		else
 		{
 			JOptionPane.showMessageDialog(null, "Invalid username or password!");
@@ -332,13 +384,12 @@ public class GuiMainClient {
 		
 		if (!usernameField.getText().equals("") || !passwordField.getText().equals(""))
 		{		
-			
 			username = usernameField.getText().trim();	
 			password = passwordField.getText().trim();
 			
 			client.sendRegisterRequest(username, password);
 			System.out.println("Message for REGISTER: ");
-			JOptionPane.showMessageDialog(null, "Registration request sent;");
+			System.out.println("Register request sent from client");
 		
 		
 		}
@@ -355,22 +406,7 @@ public class GuiMainClient {
 		
 		client.sendLogOutRequest();
 		System.out.println("Logout request sent");
-		
-		try {
-			Thread.sleep(300);
-		} catch (InterruptedException e) {
-			e.printStackTrace();
-		}
-		
-		//close connection
-				if(!client.closeConnection())
-					System.err.println("Client: Connection error, could not close connection");
-				else
-					System.out.println("Connection closed.");
-		
-		System.exit(0);
-		
-		
+		clientThread.interrupt();
 	}
 	
 	public static void CallRequest(){
@@ -396,14 +432,19 @@ public class GuiMainClient {
 	public static void EndCallRequest(){
 		
 			client.sendEndCallRequest();
+			callinprogWindow.dispose();
+			
 			
 		
 	}
 	
 	public static void AcceptCallResponse(){
-	
-	
-		client.sendCallResponse(true);}
+		
+		client.sendCallResponse(true);
+		
+		
+		
+	}
 		
 	public static void RejectCallResponse(){
 		
