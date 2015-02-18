@@ -171,7 +171,7 @@ public class ConnectToDb {
 	/**
 	 * looks up in DB if the user exist:
  		if user does not exists : return false
-		if user has status of “off/call” (is either offline-0 or in a call-4) return false;
+		if user has status of â€œoff/callâ€� (is either offline-0 or in a call-4) return false;
 		if user has status of 1 for online, 2 for away, 3 for  busy,  return true;
 	 * 
 	 * **/

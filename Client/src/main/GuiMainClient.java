@@ -67,7 +67,6 @@ public class GuiMainClient {
 	private static JScrollPane onlineScroller = new JScrollPane();
 
 	// call initiated window
-	
 	public static JFrame callWindow = new JFrame();
 	public static JTextField callUserField = new JTextField(15);
 	public static JButton makeCallButton = new JButton();
