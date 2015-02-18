@@ -215,6 +215,7 @@ public class ClientThread extends Thread {
 		    }
 		  });
 
+		
 	}
 	
 	//add friend response
