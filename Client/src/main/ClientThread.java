@@ -211,11 +211,11 @@ public class ClientThread extends Thread {
 		
 		SwingUtilities.invokeLater(new Runnable() {
 		    public void run() {
-		    	//GuiMainClient.onlineUsers.setListData( ((ArrayList<String>) response.getList().getUsernameList()).toArray());
+		    	
+		    	GuiMainClient.onlineUsers.setListData( (response.getList().getUsernameList()).toArray());
 		    }
 		  });
 
-		
 	}
 	
 	//add friend response

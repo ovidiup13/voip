@@ -1,5 +1,6 @@
 package main;
 
+import java.awt.event.ActionListener;
 import java.awt.event.WindowAdapter;
 import java.awt.event.WindowEvent;
 
@@ -9,12 +10,19 @@ import javax.swing.JButton;
 import javax.swing.JFrame;
 import javax.swing.JLabel;
 import javax.swing.JList;
+import javax.swing.JMenu;
+import javax.swing.JMenuBar;
+import javax.swing.JMenuItem;
 import javax.swing.JOptionPane;
 import javax.swing.JPanel;
 import javax.swing.JScrollPane;
 import javax.swing.JTextField;
 import javax.swing.ScrollPaneConstants;
 import javax.swing.SwingConstants;
+
+
+
+
 
 
 import tcp.sockethandler.*;
@@ -52,7 +60,27 @@ public class GuiMainClient {
 	private static JButton registerButton = new JButton();
 	public static JButton loginButton = new JButton();
 
-	// main window
+	// main window //
+	
+	
+	//menu
+     private static JMenuBar menuBar = new JMenuBar();
+    
+  
+    // Define and add two drop down menu to the menubar
+     private static JMenu optMenu = new JMenu("Options");
+    
+    
+    // Create and add simple menu item to one of the drop down menu
+    private static JMenuItem addfAction = new JMenuItem("Add friend");
+    private static JMenuItem delfAction = new JMenuItem("Delete friend");
+    private static JMenuItem helpAction = new JMenuItem("Help");
+    private static JMenuItem logoutAction = new JMenuItem("Log out");
+ 
+    
+	
+	
+	//rest of the main window
 
 	public static JFrame mainWindow = new JFrame();
 	public static JPanel userAvatar = new JPanel();
@@ -173,6 +201,54 @@ public class GuiMainClient {
 	}
 
 	public static void BuildMainWindow() {
+		
+		
+		//menu building
+		
+		menuBar.add(optMenu);
+		optMenu.add(addfAction);
+		optMenu.add(delfAction);
+		optMenu.add(helpAction);
+		optMenu.add(logoutAction);
+		
+		addfAction.addActionListener(new java.awt.event.ActionListener() {
+			public void actionPerformed(java.awt.event.ActionEvent event) {
+				System.out.println("Add friend clicked!");
+				AddFriendRequest();
+				
+
+			}
+		});
+		
+		delfAction.addActionListener(new java.awt.event.ActionListener() {
+			public void actionPerformed(java.awt.event.ActionEvent event) {
+				System.out.println("Delete friend clicked!");
+				DeleteFriendRequest();
+			}
+		});
+		
+		helpAction.addActionListener(new java.awt.event.ActionListener() {
+			public void actionPerformed(java.awt.event.ActionEvent event) {
+				System.out.println("Help clicked!");
+
+			}
+		});
+		
+		logoutAction.addActionListener(new java.awt.event.ActionListener() {
+			public void actionPerformed(java.awt.event.ActionEvent event) {
+				System.out.println("Log out clicked!");
+				LogoutRequest();
+				
+
+			}
+		});
+		
+		mainWindow.setJMenuBar(menuBar);
+		
+		
+		
+		
+		//window building
 
 		mainWindow.addWindowListener(new WindowAdapter() {
 			public void windowClosing(WindowEvent evt) {
@@ -221,7 +297,7 @@ public class GuiMainClient {
 		// Online users list
 
 		onlineLabel.setHorizontalAlignment(SwingConstants.CENTER);
-		onlineLabel.setText("Online users:");
+		onlineLabel.setText("Friends list:");
 		mainWindow.getContentPane().add(onlineLabel);
 		onlineLabel.setBounds(70, 230, 170, 16);
 
