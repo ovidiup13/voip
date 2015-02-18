@@ -25,9 +25,6 @@ import tcp.sockethandler.*;
  *
  */
 
-
-
-
 public class GuiMainClient {
 
 	// vars declarations
@@ -77,11 +74,13 @@ public class GuiMainClient {
 	
 	
 	// call in progress window
-	
 	public static JFrame callinprogWindow = new JFrame();
+	public static JPanel avatarPanel = new JPanel();
 	public static JLabel callerUserLabel = new JLabel();
-	private static ImageIcon loadingBar = new ImageIcon("ajax-loader.gif",
-			"loading-bar");
+	public static JLabel userstatusLabel = new JLabel();
+	public static JLabel callstateLabel = new JLabel();
+	
+	private static ImageIcon loadingBar = new ImageIcon("ajax-loader.gif", "loading bar");
 	public static JLabel imageLabel = new JLabel(loadingBar);
 	
 	public static JButton startCallButton = new JButton();
@@ -242,6 +241,7 @@ public class GuiMainClient {
 		mainWindow.getContentPane().add(usernameBox);
 		usernameBox.setBounds(70, 17, 170, 20);
 
+		
 		mainWindow.setVisible(true);
 
 		
@@ -274,24 +274,38 @@ public class GuiMainClient {
 		});
 
 		callWindow.setVisible(true);
+		
 
 	}
 	
 	public static void BuildCallInProgWindow (){
 		
 		callinprogWindow = new JFrame();
-		callinprogWindow.setTitle("Call in progress! ");
+		callinprogWindow.setTitle("VOIP Call ");
 		callinprogWindow.setLayout(null);
-		callinprogWindow.setSize(310, 200);
+		callinprogWindow.setSize(310, 300);
 		callinprogWindow.setLocationRelativeTo(null);
+		
+		avatarPanel.setBorder(BorderFactory.createRaisedBevelBorder());
+		callinprogWindow.getContentPane().add(avatarPanel);
+		avatarPanel.setBounds(105, 20, 105, 105);
+		
+		
 
-		callerUserLabel.setText("You are in a call.");
+		callerUserLabel.setText("Username ??");
+		callerUserLabel.setHorizontalAlignment(SwingConstants.CENTER);
 		callinprogWindow.getContentPane().add(callerUserLabel);
-		callerUserLabel.setBounds(5, 5, 200, 20);
+		callerUserLabel.setBounds(55, 140, 200, 20);
+		
+		callstateLabel.setText("Calling...");
+		callstateLabel.setHorizontalAlignment(SwingConstants.CENTER);
+		callinprogWindow.getContentPane().add(callstateLabel);
+		callstateLabel.setBounds(55, 165, 200, 20);
 
 		imageLabel.setHorizontalAlignment(SwingConstants.CENTER);
 		callinprogWindow.getContentPane().add(imageLabel);
-		imageLabel.setBounds(70, 120, 170, 10);
+		imageLabel.setBounds(70, 190, 170, 10);
+		imageLabel.setVisible(false);
 		
 		
 		/*
@@ -307,8 +321,9 @@ public class GuiMainClient {
 		*/
 		
 		stopCallButton.setText("End call");
+		stopCallButton.setHorizontalAlignment(SwingConstants.CENTER);
 		callinprogWindow.getContentPane().add(stopCallButton);
-		stopCallButton.setBounds(105, 30, 80, 20);
+		stopCallButton.setBounds(105, 220, 80, 20);
 		stopCallButton.addActionListener(new java.awt.event.ActionListener() {
 			public void actionPerformed(java.awt.event.ActionEvent event) {
 				EndCallRequest();
@@ -329,7 +344,7 @@ public class GuiMainClient {
 			//port = Integer.parseInt(portField.getText().trim());
 			
 			hostname = "localhost";
-			port = 9991;
+			port = 9992;
 			
 			client = new SocketHandler(hostname, port);
 			if(client.startConnection()){
@@ -362,12 +377,7 @@ public class GuiMainClient {
 			client.sendLogInRequest(username, password);
 			System.out.println("Message for LOG IN: ");
 			System.out.println("Log in request sent from client");
-			/*
-			loginWindow.setVisible(false);
-			BuildMainWindow();
-			mainWindow.setTitle("VOIP-User: " + username);
-			logoutButton.setEnabled(true);
-		*/
+		
 			
 			}
 			
@@ -413,12 +423,15 @@ public class GuiMainClient {
 		
 		if (!callUserField.getText().equals(""))
 		{
-			
-			client.sendCallRequest(callUserField.getText().trim());
+			String usercalled = callUserField.getText().trim();
+			client.sendCallRequest(usercalled);
 			System.out.println("Message for CALL: ");
 			System.out.println("Call request sent");
 			callUserField.setText("");
 			callWindow.dispose();
+			BuildCallInProgWindow();
+			callinprogWindow.setVisible(true);
+			callerUserLabel.setText(usercalled);
 			
 		}
 		else
@@ -433,6 +446,7 @@ public class GuiMainClient {
 		
 			client.sendEndCallRequest();
 			callinprogWindow.dispose();
+			callstateLabel.setText("Disconnected!");
 			
 			
 		
@@ -453,6 +467,7 @@ public class GuiMainClient {
 	}
 	
 	public static void FriendListRequest(){
+		
 		
 		client.sendFriendListRequest();
 			}
