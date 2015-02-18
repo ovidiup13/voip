@@ -53,7 +53,10 @@ public class SimpleVoIPCall implements VoIPCall {
 
 	@Override
 	public void stop() {
-		(new SimpleVoIPCallEnder()).start();
+		if (started) {
+			started = false;
+			(new SimpleVoIPCallEnder()).start();
+		}
 	}
 
 	@Override
