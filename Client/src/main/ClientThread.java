@@ -207,7 +207,7 @@ public class ClientThread extends Thread {
 	}
 	
 
-	private void displayflistResponse(Response response){
+	private void displayflistResponse(final Response response){
 		
 		SwingUtilities.invokeLater(new Runnable() {
 		    public void run() {

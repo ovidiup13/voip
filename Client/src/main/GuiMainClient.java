@@ -15,10 +15,12 @@ import javax.swing.JMenuBar;
 import javax.swing.JMenuItem;
 import javax.swing.JOptionPane;
 import javax.swing.JPanel;
+import javax.swing.JPopupMenu;
 import javax.swing.JScrollPane;
 import javax.swing.JTextField;
 import javax.swing.ScrollPaneConstants;
 import javax.swing.SwingConstants;
+
 
 
 
@@ -100,6 +102,11 @@ public class GuiMainClient {
 	public static JButton makeCallButton = new JButton();
 	private static JLabel callUserLabel = new JLabel();
 	
+	public static JFrame addFriendWindow = new JFrame();
+	public static JTextField addFriendField = new JTextField(15);
+	public static JButton addFriendButton = new JButton();
+	private static JLabel addFriendLabel = new JLabel();
+	
 	
 	// call in progress window
 	public static JFrame callinprogWindow = new JFrame();
@@ -113,6 +120,7 @@ public class GuiMainClient {
 	
 	public static JButton startCallButton = new JButton();
 	public static  JButton stopCallButton = new JButton();
+	
 	
 
 	public static void main(String[] args) {
@@ -213,8 +221,7 @@ public class GuiMainClient {
 		
 		addfAction.addActionListener(new java.awt.event.ActionListener() {
 			public void actionPerformed(java.awt.event.ActionEvent event) {
-				System.out.println("Add friend clicked!");
-				AddFriendRequest();
+				BuildAddFriendWindow();
 				
 
 			}
@@ -343,13 +350,45 @@ public class GuiMainClient {
 		makeCallButton.setText("Call");
 		callWindow.getContentPane().add(makeCallButton);
 		makeCallButton.setBounds(105, 30, 80, 20);
-		makeCallButton.addActionListener(new java.awt.event.ActionListener() {
-			public void actionPerformed(java.awt.event.ActionEvent event) {
-				CallRequest();
+		if((makeCallButton.getActionListeners().length == 0)){
+			makeCallButton.addActionListener(new java.awt.event.ActionListener() {
+				public void actionPerformed(java.awt.event.ActionEvent event) {
+					CallRequest();
+				}
+			});
 			}
-		});
-
 		callWindow.setVisible(true);
+		
+
+	}
+	
+	public static void BuildAddFriendWindow() {
+		addFriendWindow = new JFrame();
+		addFriendWindow.setTitle("Add Friend");
+		addFriendWindow.setLayout(null);
+		addFriendWindow.setSize(310, 80);
+		//addFriendWindow.setLocationRelativeTo(null);
+		
+
+		addFriendLabel.setText("Username:");
+		addFriendWindow.getContentPane().add(addFriendLabel);
+		addFriendLabel.setBounds(5, 5, 100, 20);
+
+		addFriendField.setText("");
+		addFriendWindow.getContentPane().add(addFriendField);
+		addFriendField.setBounds(105, 5, 200, 20);
+
+		addFriendButton.setText("Add");
+		addFriendWindow.getContentPane().add(addFriendButton);
+		addFriendButton.setBounds(105, 30, 80, 20);
+		if((addFriendButton.getActionListeners().length == 0)){
+			addFriendButton.addActionListener(new java.awt.event.ActionListener() {
+				public void actionPerformed(java.awt.event.ActionEvent event) {
+					AddFriendRequest();
+				}
+		});
+		}
+		addFriendWindow.setVisible(true);
 		
 
 	}
@@ -400,12 +439,13 @@ public class GuiMainClient {
 		stopCallButton.setHorizontalAlignment(SwingConstants.CENTER);
 		callinprogWindow.getContentPane().add(stopCallButton);
 		stopCallButton.setBounds(105, 220, 80, 20);
-		stopCallButton.addActionListener(new java.awt.event.ActionListener() {
-			public void actionPerformed(java.awt.event.ActionEvent event) {
-				EndCallRequest();
+		if((stopCallButton.getActionListeners().length == 0)){
+			stopCallButton.addActionListener(new java.awt.event.ActionListener() {
+				public void actionPerformed(java.awt.event.ActionEvent event) {
+					EndCallRequest();
+				}
+			});
 			}
-		});
-		
 
 		callinprogWindow.setVisible(false);
 		
@@ -420,7 +460,7 @@ public class GuiMainClient {
 			//port = Integer.parseInt(portField.getText().trim());
 			
 			hostname = "localhost";
-			port = 9992;
+			port = 9991;
 			
 			client = new SocketHandler(hostname, port);
 			if(client.startConnection()){
@@ -549,11 +589,24 @@ public class GuiMainClient {
 			}
 	
 	public static void AddFriendRequest(){
-		
-		String username = "";
-		client.sendAddFriendRequest(username);
+		if (!addFriendField.getText().equals(""))
+		{
+			String username = addFriendField.getText().trim();
+			client.sendAddFriendRequest(username);
+			System.out.println("AddFriend request sent: "+ username);
+			addFriendField.setText("");
+			addFriendWindow.dispose();
+
+		}else
+		{
+			JOptionPane.showMessageDialog(null, "Enter username to add.");
+
+		}
 
 	}
+	
+
+	
 	
 	public static void DeleteFriendRequest(){
 		
