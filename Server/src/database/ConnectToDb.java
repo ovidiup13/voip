@@ -54,18 +54,14 @@ public class ConnectToDb {
 //			addFriend("User15","User16");
 //			
 //			addFriend("User35","Viktor");
-//			logIn("User4","password");
+			logIn("User4","password");
 //
 			addFriend("username","User4");
-			addFriend("username2","User4");
+			addFriend("username2","User3");
 			addFriend("User10","User4");
 			addFriend("User4","User10");
 			addFriend("User4","username");
-//			
-//			addFriend("User45","Viktor");
-//			addFriend("User13","User15");
-//			addFriend("User13","User15");
-//			//			
+		
 			addFriend("username","username2");
 			addFriend("username2","username");
 //
