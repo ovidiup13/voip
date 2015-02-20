@@ -44,7 +44,7 @@ public class ConnectToDb {
 			Class.forName(DRIVER);     
 			SQLiteConfig config = new SQLiteConfig();  
 			config.enforceForeignKeys(true);  
-			connection = DriverManager.getConnection(DB_URL,config.toProperties());  
+			connection = DriverManager.getConnection(DB_URL);  
 		}catch(ClassNotFoundException error){
 			System.out.println("Error: "+ error.getMessage());
 		}catch(SQLException error){
