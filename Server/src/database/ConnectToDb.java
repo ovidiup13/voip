@@ -6,91 +6,50 @@ import java.sql.*;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 
+import org.sqlite.SQLiteConfig;
+
 public class ConnectToDb {
 	private Connection connection = null;
 	private Statement statement = null;
 	private PreparedStatement preparedStatement = null;	
 	private ResultSet resultSet = null;
 
+	private static final String DB_URL = "jdbc:sqlite:Server/src/database/TP3Hdb.db";  
+	private static final String DRIVER = "org.sqlite.JDBC";  
+
 
 
 
 	public void makeConnection(){
 
-
-		try
-		{
-			//Utilize the driver
-
-
-			//Class.forName("com.mysql.jdbc.Driver");
-			Class.forName("org.sqlite.JDBC");
-
-			//System.out.println(" Connection to db driver Successful");
-
-
-			//1.Get a connection to the database	URL, Username, Password	
-			//connection = DriverManager.getConnection("jdbc:mysql://localhost:3306/TP3Hdb","root","zzz");
-			connection =  DriverManager.getConnection("jdbc:sqlite:Server/src/database/TP3Hdb.db");
 		
+		getConnection();
+		System.out.println("Encoding for password is "+ sha256("VIktor"));
 
-//			register("Usser31","password");
-//			register("Usser32","password");
-//			register("Usser33","password");
-//			register("Usser34","password");
-//			register("Usser35","password");
-//			register("Usser36","password");
-//			register("Usser37","password");
-//			register("Usser38","password");
-//			register("Usser39","password");
-//			register("Usser40","password");
-//			register("Usser41","password");
-//			register("Usser42","password");
+		//		System.out.println("DELATION  "+ deleteFriendship("User15","User13"));
+		//			addFriend("User15","User16");
+		//			
+		//			addFriend("User35","Viktor");
+		//		logIn("User4","password");
+		//
+		//			addFriend("username","User4");
+		//			addFriend("username2","User3");
+		//			addFriend("User11","User4");
+	
+	}
 
 
-			System.out.println("Encoding for password is "+ sha256("VIktor"));
-			
-			System.out.println("DELATION  "+ deleteFriendship("User15","User13"));
-//			addFriend("User15","User16");
-//			
-//			addFriend("User35","Viktor");
-			logIn("User4","password");
-//
-			addFriend("username","User4");
-			addFriend("username2","User3");
-			addFriend("User10","User4");
-			addFriend("User4","User10");
-			addFriend("User4","username");
-		
-			addFriend("username","username2");
-			addFriend("username2","username");
-//
-//			addFriend("ItIsWorking","IsIt");
-//			addFriend("IsIt","ItIsWorking");
-			
-//			ArrayList<String> list = getRelationshipsFor("User4");
-//			System.out.println(list.size());
-//			for(int i = 0 ; i<list.size(); i++){
-//				if ((i%3)==0)
-//					System.out.println("USER: "+ list.get(i));
-//				if ((i%3)==1)
-//					System.out.println("Status: "+ list.get(i));
-//				if ((i%3)==2)
-//					System.out.println("LastLogin: "+ list.get(i));
-//			}
-			
-
+	private void getConnection()  { 
+		try { 
+			Class.forName(DRIVER);     
+			SQLiteConfig config = new SQLiteConfig();  
+			config.enforceForeignKeys(true);  
+			connection = DriverManager.getConnection(DB_URL,config.toProperties());  
 		}catch(ClassNotFoundException error){
 			System.out.println("Error: "+ error.getMessage());
+		}catch(SQLException error){
+			System.out.println("Error in connecting to db: " + error.getMessage());
 		}
-		catch(SQLException error){
-			System.out.println("Error: " + error.getMessage());
-		}
-//		finally{
-//			System.out.println("The connection was closed, foreveerrrr");
-//			closeEverything();
-//		}
-
 	}
 	/**
 	 * Register method: register the user
@@ -297,7 +256,7 @@ public class ConnectToDb {
 				if (updateFriends()){
 					return true;
 				}
-					
+
 			}
 		}catch (SQLException e) {
 			System.out.println("Error in addFriends: "+ e.getMessage());
@@ -309,7 +268,7 @@ public class ConnectToDb {
 
 
 	}
-	
+
 	/**
 	 * Method for deletion a friendship from the db
 	 * 
@@ -335,10 +294,10 @@ public class ConnectToDb {
 				preparedStatement.setString(1, username);
 				preparedStatement.setString(2, username2);
 				preparedStatement.execute();
-				
+
 				return true;
-				
-					
+
+
 			}
 		}catch (SQLException e) {
 			System.out.println("Error in addFriends: "+ e.getMessage());
@@ -348,9 +307,9 @@ public class ConnectToDb {
 		}
 		return false;
 	}
-	
-	
-	
+
+
+
 	/**
 	 * 
 	 * 
@@ -395,7 +354,7 @@ public class ConnectToDb {
 			String query_findFriendships = "SELECT  f1.* from RelationshipType f1 inner join RelationshipType f2 on f1.username = f2.username2 and f1.username2 = f2.username;";
 			preparedStatement = connection.prepareStatement(query_findFriendships);
 			resultSet =  preparedStatement.executeQuery();
-		//	closeStatement(preparedStatement);
+			//	closeStatement(preparedStatement);
 			while(resultSet.next()) {
 				String query_updateFriends = "UPDATE RelationshipType SET relationship = ? WHERE (username= ? AND username2= ?)";
 				preparedStatement = connection.prepareStatement(query_updateFriends);
@@ -411,11 +370,11 @@ public class ConnectToDb {
 			e.printStackTrace();
 		}finally{
 			closeStatement(preparedStatement);
-			}
+		}
 		return false;
 	}
 
-	
+
 
 	/**
 	 * get ArrayList of the friends(confirmed) and pending(requested) request for a given user as well as the 
@@ -443,19 +402,19 @@ public class ConnectToDb {
 			preparedStatement.setInt(2, 1);
 			preparedStatement.setInt(3, 2);
 			ResultSet result = preparedStatement.executeQuery();
-			
+
 			while(result.next()){
 				array.add(result.getString("username"));
 				array.add(result.getString("relationship"));
 				array.add(getLastLogin(result.getString("username")));
-		
-				}
-			}catch(SQLException e){
+
+			}
+		}catch(SQLException e){
 			System.out.println("Error in getFriends: "+ e.getMessage());
 			e.printStackTrace();
 		}finally{
 			closeStatement(preparedStatement);
-			}
+		}
 		return array;
 	}
 
@@ -480,21 +439,21 @@ public class ConnectToDb {
 	 * @return
 	 */
 	public static String sha256(String base) {
-	    try{
-	        MessageDigest digest = MessageDigest.getInstance("SHA-256");
-	        byte[] hash = digest.digest(base.getBytes("UTF-8"));
-	        StringBuffer hexString = new StringBuffer();
+		try{
+			MessageDigest digest = MessageDigest.getInstance("SHA-256");
+			byte[] hash = digest.digest(base.getBytes("UTF-8"));
+			StringBuffer hexString = new StringBuffer();
 
-	        for (int i = 0; i < hash.length; i++) {
-	            String hex = Integer.toHexString(0xff & hash[i]);
-	            if(hex.length() == 1) hexString.append('0');
-	            hexString.append(hex);
-	        }
+			for (int i = 0; i < hash.length; i++) {
+				String hex = Integer.toHexString(0xff & hash[i]);
+				if(hex.length() == 1) hexString.append('0');
+				hexString.append(hex);
+			}
 
-	        return hexString.toString();
-	    } catch(Exception ex){
-	       throw new RuntimeException(ex);
-	    }
+			return hexString.toString();
+		} catch(Exception ex){
+			throw new RuntimeException(ex);
+		}
 	}
 
 	// you need to close all three to make sure
