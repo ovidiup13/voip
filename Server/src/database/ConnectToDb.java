@@ -1,7 +1,9 @@
 package database;
 
+import java.awt.List;
 import java.security.MessageDigest;
 import java.sql.*;
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 
 public class ConnectToDb {
@@ -52,27 +54,35 @@ public class ConnectToDb {
 //			addFriend("User15","User16");
 //			
 //			addFriend("User35","Viktor");
-//			
+//			logIn("User4","password");
 //
-//			addFriend("User15","User13");
-//			addFriend("User13","User15");
-//			addFriend("User13","User15");
+			addFriend("username","User4");
+			addFriend("username2","User4");
+			addFriend("User10","User4");
+			addFriend("User4","User10");
+			addFriend("User4","username");
 //			
 //			addFriend("User45","Viktor");
 //			addFriend("User13","User15");
 //			addFriend("User13","User15");
 //			//			
-//			addFriend("User15","Viktor");
-//			addFriend("User22","Viktor");
+			addFriend("username","username2");
+			addFriend("username2","username");
 //
 //			addFriend("ItIsWorking","IsIt");
 //			addFriend("IsIt","ItIsWorking");
 			
-			ArrayList<String> list = getFriendsFor("User22");
-			for(int i = 0 ; i<list.size(); i++)
-				System.out.println(list.get(i));
-			;
-
+//			ArrayList<String> list = getRelationshipsFor("User4");
+//			System.out.println(list.size());
+//			for(int i = 0 ; i<list.size(); i++){
+//				if ((i%3)==0)
+//					System.out.println("USER: "+ list.get(i));
+//				if ((i%3)==1)
+//					System.out.println("Status: "+ list.get(i));
+//				if ((i%3)==2)
+//					System.out.println("LastLogin: "+ list.get(i));
+//			}
+			
 
 		}catch(ClassNotFoundException error){
 			System.out.println("Error: "+ error.getMessage());
@@ -249,14 +259,16 @@ public class ConnectToDb {
 	 * 
 	 *@return the date or null if registered, but still haven't logged in 
 	 * **/
-	public Timestamp getLastLogin(String username) {
+	private String getLastLogin(String username) {
 		try{
 			preparedStatement = connection.prepareStatement("SELECT lastLogin FROM Users WHERE username= ?");
 			preparedStatement.setString(1, username);
 			resultSet = preparedStatement.executeQuery();
 			if(resultSet.next()) {
 				Timestamp date;
-				return date = resultSet.getTimestamp("lastLogin");
+				date = resultSet.getTimestamp("lastLogin");
+				SimpleDateFormat sdf = new java.text.SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
+				return sdf.format(date);
 			}
 		}catch (SQLException e) {
 			System.out.println("Error: "+ e.getMessage());
@@ -378,13 +390,16 @@ public class ConnectToDb {
 	 * 
 	 * Internal working : 1.Finds the relationships pairs
 	 * 					  2.For each relationship pair modify status if must
+	 * 
+	 * When a Statement object is closed, its current ResultSet object, if one exists, is also closed.
+	 * 
 	 **/
 	private boolean updateFriends(){
 		try{
 			String query_findFriendships = "SELECT  f1.* from RelationshipType f1 inner join RelationshipType f2 on f1.username = f2.username2 and f1.username2 = f2.username;";
 			preparedStatement = connection.prepareStatement(query_findFriendships);
 			resultSet =  preparedStatement.executeQuery();
-			closeStatement(preparedStatement);
+		//	closeStatement(preparedStatement);
 			while(resultSet.next()) {
 				String query_updateFriends = "UPDATE RelationshipType SET relationship = ? WHERE (username= ? AND username2= ?)";
 				preparedStatement = connection.prepareStatement(query_updateFriends);
@@ -407,28 +422,45 @@ public class ConnectToDb {
 	
 
 	/**
-	 * get ArrayList of the friends for a given user(confirmed friends)
+	 * get ArrayList of the friends(confirmed) and pending(requested) request for a given user as well as the 
+	 * LastLogin field 
 	 * 
-	 * TO DO: Pending friends
+	 * status: 1 for pending (send , but not accepted)
+	 * 			2 for accepted (friendships)
+	 * USE: 
+	 * 	for(int i = 0 ; i<list.size(); i++){
+				if ((i%3)==0)
+					System.out.println("USER: "+ list.get(i));
+				if ((i%3)==1)
+					System.out.println("Status: "+ list.get(i));
+				if ((i%3)==2)
+					System.out.println("LastLogin: "+ list.get(i));
+			}
+	 * 
 	 **/
-	public ArrayList<String> getFriendsFor(String user1){
-		ArrayList<String> friendsArray = new ArrayList<String>();
+	public ArrayList<String> getRelationshipsFor(String user1){
+		ArrayList<String> array = new ArrayList<String>();
 		try{
-			String query_getFriendsFor = "SELECT username2 FROM RelationshipType WHERE (username= ?  AND relationship= ?)";
+			String query_getFriendsFor = "SELECT username, relationship FROM RelationshipType WHERE (username2 = ?  AND ( relationship= ? OR relationship = ?))";
 			preparedStatement = connection.prepareStatement(query_getFriendsFor);
 			preparedStatement.setString(1, user1);
-			preparedStatement.setInt(2, 2);
+			preparedStatement.setInt(2, 1);
+			preparedStatement.setInt(3, 2);
 			ResultSet result = preparedStatement.executeQuery();
+			
 			while(result.next()){
-				friendsArray.add(result.getString("username2"));
-			}
-		}catch(SQLException e){
+				array.add(result.getString("username"));
+				array.add(result.getString("relationship"));
+				array.add(getLastLogin(result.getString("username")));
+		
+				}
+			}catch(SQLException e){
 			System.out.println("Error in getFriends: "+ e.getMessage());
 			e.printStackTrace();
 		}finally{
 			closeStatement(preparedStatement);
 			}
-		return friendsArray;
+		return array;
 	}
 
 

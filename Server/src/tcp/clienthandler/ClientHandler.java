@@ -218,8 +218,23 @@ public class ClientHandler implements Runnable, ResponseSender {
 
     //read friend list request
     private void readFriendListRequest() {
-        ArrayList<String> friends = db.getFriendsFor(client.getUsername());
-        
+    	//FORMAT: USER, STATUS, LASTLogin
+        ArrayList<String> relationships = db.getRelationshipsFor(client.getUsername());
+        ArrayList<String> friends = new ArrayList<String>();
+        for(int i= 0; i< relationships.size();i++){
+        	if ((i%3)==0)
+				System.out.println("USER: "+ relationships.get(i));
+			if ((i%3)==1)
+				if(relationships.get(i).equals(2)){ //friends 
+					System.out.println("Status: "+ relationships.get(i));
+					friends.add(relationships.get(i-1));
+				if(relationships.get(i).equals(1)){
+					//TODO : add to pending  friend request array
+				}
+				}
+			if ((i%3)==2)
+				System.out.println("LastLogin: "+ relationships.get(i));
+        }
         Response response = responseWriter.createFriendListResponse(friends);
 
         try {
