@@ -38,6 +38,8 @@ import javax.swing.SwingConstants;
 
 
 
+import javax.swing.UIManager;
+import javax.swing.UnsupportedLookAndFeelException;
 import javax.swing.WindowConstants;
 
 import tcp.sockethandler.*;
@@ -139,12 +141,8 @@ public class GuiMainClient {
 	
 
 	public static void main(String[] args) {
-		
-		
 		Connect();
 		BuildLoginWindow();
-		
-
 	}
 
 	public static String getUsername() {
@@ -342,6 +340,8 @@ public class GuiMainClient {
 		onlineScroller.setViewportView(onlineUsers);
 		mainWindow.getContentPane().add(onlineScroller);
 		onlineScroller.setBounds(70, 250, 170, 180);
+		
+		onlineUsers.setCellRenderer( new FriendsCellRenderer() );
 
 		usernameLabel.setText("");
 		mainWindow.getContentPane().add(usernameLabel);
