@@ -1,20 +1,41 @@
 package main;
 
+import java.awt.BorderLayout;
 import java.awt.Color;
 import java.awt.Component;
+import java.awt.Font;
 
 import javax.swing.BorderFactory;
+import javax.swing.BoxLayout;
 import javax.swing.ImageIcon;
 import javax.swing.JLabel;
 import javax.swing.JList;
+import javax.swing.JPanel;
 import javax.swing.ListCellRenderer;
 import javax.swing.border.Border;
 
-public class FriendsCellRenderer extends JLabel implements ListCellRenderer<Object> {
+public class FriendsCellRenderer extends JPanel implements ListCellRenderer<FriendListItem> {
 
 	private static ImageIcon onlineStatus[];	
+	private static ImageIcon acceptIcon;
+	private static ImageIcon declineIcon;
+	
+	private JLabel label;
+	
+	private JLabel acceptLabel;
+	private JLabel declineLabel;
+	
+	private JPanel buttonsPanel;
+	private BoxLayout buttonsLayout;
+	
+	private BorderLayout layout;
 	
 	public FriendsCellRenderer() {
+		layout = new BorderLayout();
+		label = new JLabel();
+		this.setLayout(layout);
+		
+		add(label, BorderLayout.CENTER);
 		if (onlineStatus == null) {
 			//load status images
 			//0 - offline, 1 - online, 2 - unavailable for whatever reason
@@ -22,26 +43,60 @@ public class FriendsCellRenderer extends JLabel implements ListCellRenderer<Obje
 			for (int i=0; i<3; i++) {
 				onlineStatus[i] = createImageIcon("status"+i+".png", "status");
 			}
+			//load accept/decline too
+			acceptIcon = createImageIcon("acceptn.png", "accept");
+			declineIcon = createImageIcon("declinen.png", "decline");
 		}
 		
-		setOpaque(true);
+		buttonsPanel = new JPanel();
+		buttonsLayout = new BoxLayout(buttonsPanel, BoxLayout.X_AXIS);
+		buttonsPanel.setBorder(null);
+		buttonsPanel.setOpaque(false);
 		
-		Border paddingBorder = BorderFactory.createEmptyBorder(1,3,1,3); //some padding
-		Border border = BorderFactory.createLineBorder(Color.WHITE); //might use this in future
-
-		setBorder(BorderFactory.createCompoundBorder(border,paddingBorder));
+		setOpaque(true);
+		acceptLabel = new JLabel();
+		acceptLabel.setIcon(acceptIcon);
+		acceptLabel.setOpaque(false);
+		declineLabel = new JLabel();
+		declineLabel.setIcon(declineIcon);
+		declineLabel.setOpaque(false);
+		
+		add(buttonsPanel, BorderLayout.LINE_END);
 	}
 	
 	@Override
-	public Component getListCellRendererComponent(JList<? extends Object> list,
-			Object value, int i, boolean selected, boolean focused) {
-		setText(value.toString());
-		setIcon(onlineStatus[i%3]); //temporary, in future list should contain a special "friends list" object
-		if (selected) {
-			setBackground(new Color(0xB3ECFF));
+	public Component getListCellRendererComponent(JList<? extends FriendListItem> list,
+			FriendListItem value, int i, boolean selected, boolean focused) {
+		
+		label.setText(value.text);
+		
+		buttonsPanel.removeAll();
+		
+		if (value.mode != FriendListItemMode.TITLE) {
+			label.setFont(new Font("Verdana", Font.PLAIN, 12));
+			label.setForeground((value.status == 0)?Color.GRAY:Color.BLACK); //offline users are grayed out
+			label.setIcon(onlineStatus[value.status]); //temporary, in future list should contain a special "friends list" object
+			if (selected) {
+				setBackground(new Color(0xB3ECFF));
+			} else {
+				setBackground(Color.WHITE);
+			}
+			
+			if (value.mode == FriendListItemMode.REQUEST) {
+				buttonsPanel.add(declineLabel);
+				buttonsPanel.add(acceptLabel);
+			}
 		} else {
+			label.setFont(new Font("Verdana", Font.BOLD, 14));
+			label.setForeground(new Color(0x2693FF));
+			label.setIcon(null);
 			setBackground(Color.WHITE);
 		}
+		
+		Border paddingBorder = BorderFactory.createEmptyBorder((value.mode == FriendListItemMode.TITLE)?6:1,3,1,3); //some padding
+		Border border = BorderFactory.createLineBorder(Color.WHITE); //might use this in future
+
+		setBorder(BorderFactory.createCompoundBorder(border,paddingBorder));
 		
 		return this;
 	}

@@ -102,7 +102,7 @@ public class GuiMainClient {
 
 	public static JFrame mainWindow = new JFrame();
 	public static JPanel userAvatar = new JPanel();
-	public static JList onlineUsers = new JList();
+	public static JList<FriendListItem> onlineUsers = new JList<FriendListItem>();
 
 	public static JButton callButton = new JButton();
 	public static JButton logoutButton = new JButton();
@@ -339,7 +339,7 @@ public class GuiMainClient {
 				.setVerticalScrollBarPolicy(ScrollPaneConstants.VERTICAL_SCROLLBAR_ALWAYS);
 		onlineScroller.setViewportView(onlineUsers);
 		mainWindow.getContentPane().add(onlineScroller);
-		onlineScroller.setBounds(70, 250, 170, 180);
+		onlineScroller.setBounds(20, 250, 270, 180);
 		
 		onlineUsers.setCellRenderer( new FriendsCellRenderer() );
 

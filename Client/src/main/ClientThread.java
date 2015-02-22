@@ -10,6 +10,8 @@ import tcp.sockethandler.*;
 import javax.swing.JOptionPane;
 import javax.swing.SwingUtilities;
 
+import com.google.protobuf.ProtocolStringList;
+
 import p2p.SimpleVoIPCall;
 import buffers.ServerResponse.Response;
 
@@ -211,8 +213,22 @@ public class ClientThread extends Thread {
 		
 		SwingUtilities.invokeLater(new Runnable() {
 		    public void run() {
+		    	//convert response into array of FriendListItems
+		    	//what this SHOULD do in future is add all the friends, then add a title with text "Pending Requests",
+		    	//then add the pending users, with pending set to true.
+		    	ArrayList<FriendListItem> test = new ArrayList<FriendListItem>();
 		    	
-		    	GuiMainClient.onlineUsers.setListData( (response.getList().getUsernameList()).toArray());
+		    	
+		    	ProtocolStringList usernames = response.getList().getUsernameList();
+		    	
+		    	for (int i=0; i<usernames.size(); i++) {
+		    		test.add(new FriendListItem(FriendListItemMode.FRIEND, usernames.get(i), 1));
+		    	}
+		    	
+		    	test.add(new FriendListItem(FriendListItemMode.TITLE, "Pending Requests:", 0));
+		    	test.add(new FriendListItem(FriendListItemMode.REQUEST, "test user", 1));
+		    	
+		    	GuiMainClient.onlineUsers.setListData(test.toArray(new FriendListItem[test.size()]));
 		    }
 		  });
 
