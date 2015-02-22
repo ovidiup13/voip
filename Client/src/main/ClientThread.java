@@ -213,7 +213,9 @@ public class ClientThread extends Thread {
 		    	test.add(new FriendListItem(FriendListItemMode.TITLE, "Pending Requests:", 0));
 		    	test.add(new FriendListItem(FriendListItemMode.REQUEST, "test user", 1));
 		    	
-		    	GuiMainClient.onlineUsers.setListData(test.toArray(new FriendListItem[test.size()]));
+		    	GuiMainClient.friendListItems = test.toArray(new FriendListItem[test.size()]);
+		    	GuiMainClient.onlineUsers.setListData(GuiMainClient.friendListItems);
+		    	
 		    }
 		  });
 
