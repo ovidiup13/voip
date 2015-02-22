@@ -10,6 +10,7 @@ import java.awt.event.ActionListener;
 import java.awt.event.WindowAdapter;
 import java.awt.event.WindowEvent;
 import java.net.URL;
+import java.util.Properties;
 
 import javax.swing.AbstractAction;
 import javax.swing.BorderFactory;
@@ -38,9 +39,14 @@ import javax.swing.SwingConstants;
 
 
 
+import javax.swing.SwingUtilities;
 import javax.swing.UIManager;
 import javax.swing.UnsupportedLookAndFeelException;
 import javax.swing.WindowConstants;
+
+import p2p.SimpleVoIPCall;
+
+import com.jtattoo.plaf.smart.SmartLookAndFeel;
 
 import tcp.sockethandler.*;
 
@@ -111,6 +117,18 @@ public class GuiMainClient {
 	private static JLabel usernameLabel = new JLabel();
 	private static JLabel usernameBox = new JLabel();
 	private static JScrollPane onlineScroller = new JScrollPane();
+	
+	
+	//add friend window
+	
+	public static JFrame addFriendWindow = new JFrame();
+	public static JTextField addFriendField = new JTextField(15);
+	public static JButton addFriendButton = new JButton();
+	private static JLabel addFriendLabel = new JLabel();
+		
+	//delete friend window
+		
+		
 
 	// call initiated window
 	public static JFrame callWindow = new JFrame();
@@ -118,10 +136,20 @@ public class GuiMainClient {
 	public static JButton makeCallButton = new JButton();
 	private static JLabel callUserLabel = new JLabel();
 	
-	public static JFrame addFriendWindow = new JFrame();
-	public static JTextField addFriendField = new JTextField(15);
-	public static JButton addFriendButton = new JButton();
-	private static JLabel addFriendLabel = new JLabel();
+	
+	
+	
+	
+	// call inquiry window
+	
+	public static JFrame callinqWindow = new JFrame();
+	public static JLabel callmsgLabel = new JLabel();
+	public static JLabel usercallingLabel = new JLabel();
+	public static JButton acceptCallButton = new JButton();
+	public static JButton declineCallButton = new JButton();
+	
+	
+	 
 	
 	
 	// call in progress window
@@ -139,10 +167,19 @@ public class GuiMainClient {
 	private static URL resource;
 	
 	
-
-	public static void main(String[] args) {
-		Connect();
-		BuildLoginWindow();
+	public static SimpleVoIPCall play;
+	
+	/*
+	public GuiMainClient(){
+		main();
+	}
+	
+	*/
+	public static void main(String args[]) {
+	
+            Connect();
+    		BuildLoginWindow();
+       
 	}
 
 	public static String getUsername() {
@@ -420,6 +457,58 @@ public class GuiMainClient {
 
 	}
 	
+	
+	public static void BuildCallInqWindow(){
+		
+		callinqWindow.setTitle("Incoming call");
+		callinqWindow.setLayout(null);
+		callinqWindow.setSize(310, 300);
+		callinqWindow.setLocationRelativeTo(null);
+		
+		callmsgLabel.setText("You have an incoming call from ");
+		callmsgLabel.setHorizontalAlignment(SwingConstants.CENTER);
+		callmsgLabel.setBounds(55,100,200,20);
+		callinqWindow.getContentPane().add(callmsgLabel);
+		
+		
+		usercallingLabel.setHorizontalAlignment(SwingConstants.CENTER);
+		usercallingLabel.setBounds(55,125,200,20);
+		callinqWindow.getContentPane().add(usercallingLabel);
+		
+		
+		acceptCallButton.setText("Accept");
+		acceptCallButton.setHorizontalAlignment(SwingConstants.CENTER);
+		callinqWindow.getContentPane().add(acceptCallButton);
+		acceptCallButton.setBounds(20, 220, 80, 20);
+		if((acceptCallButton.getActionListeners().length == 0)){
+			acceptCallButton.addActionListener(new java.awt.event.ActionListener() {
+				public void actionPerformed(java.awt.event.ActionEvent event) {
+					AcceptCallResponse();
+				}
+			});
+			}
+		
+		declineCallButton.setText("Decline");
+		declineCallButton.setHorizontalAlignment(SwingConstants.CENTER);
+		callinqWindow.getContentPane().add(declineCallButton);
+		declineCallButton.setBounds(200, 220, 80, 20);
+		if((declineCallButton.getActionListeners().length == 0)){
+			declineCallButton.addActionListener(new java.awt.event.ActionListener() {
+				public void actionPerformed(java.awt.event.ActionEvent event) {
+					RejectCallResponse();
+				}
+			});
+			}
+		
+		
+		callinqWindow.setVisible(true);
+		
+		
+		
+		
+	}
+	
+	
 	public static void BuildCallInProgWindow (){
 		
 		callinprogWindow = new JFrame();
@@ -434,7 +523,7 @@ public class GuiMainClient {
 		
 		
 
-		callerUserLabel.setText("Username ??");
+		//callerUserLabel.setText("Username ??");
 		callerUserLabel.setHorizontalAlignment(SwingConstants.CENTER);
 		callinprogWindow.getContentPane().add(callerUserLabel);
 		callerUserLabel.setBounds(55, 140, 200, 20);
@@ -572,9 +661,10 @@ public class GuiMainClient {
 			System.out.println("Call request sent");
 			callUserField.setText("");
 			callWindow.dispose();
+			callerUserLabel.setText(usercalled);
 			BuildCallInProgWindow();
 			callinprogWindow.setVisible(true);
-			callerUserLabel.setText(usercalled);
+			
 			
 		}
 		else
@@ -590,6 +680,7 @@ public class GuiMainClient {
 			client.sendEndCallRequest();
 			callinprogWindow.dispose();
 			callstateLabel.setText("Disconnected!");
+			endCall();
 			
 			
 		
@@ -598,6 +689,11 @@ public class GuiMainClient {
 	public static void AcceptCallResponse(){
 		
 		client.sendCallResponse(true);
+		System.out.println("Call was accepted");
+		callinqWindow.dispose();
+		BuildCallInProgWindow();
+		callinprogWindow.setVisible(true);
+		
 		
 		
 		
@@ -606,8 +702,30 @@ public class GuiMainClient {
 	public static void RejectCallResponse(){
 		
 		client.sendCallResponse(false);
+		System.out.println("Call was rejected");
+		callinqWindow.dispose();
+		
 		
 	}
+	
+	
+	public static void startCall(String ip, int port, int callid){
+		
+		System.out.println("Call started!");
+		play = new SimpleVoIPCall();
+		play.start(ip, port,callid);
+		
+		
+	
+	}
+	
+	
+	public static void endCall(){
+		System.out.println("Call fucking ended!");
+		play.stop();
+	}
+	
+	
 	
 	public static void FriendListRequest(){
 		

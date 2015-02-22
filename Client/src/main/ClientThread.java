@@ -128,36 +128,19 @@ public class ClientThread extends Thread {
 	
 	private void callinqResponse(Response response){   
 
-		String prompt = "Accept call from " + response.getUsername() + "?";
-		int reply = JOptionPane.showConfirmDialog(null, prompt, "Call confirmation", JOptionPane.YES_NO_OPTION);
-        if (reply == JOptionPane.YES_OPTION)
-        {				        	
-        	recUser = response.getUsername();
-        	System.out.println("Call accepted request sent!");
-        	SwingUtilities.invokeLater(new Runnable() {
-			    public void run() {
-			    	GuiMainClient.AcceptCallResponse();
-			    	GuiMainClient.BuildCallInProgWindow();
-			    	GuiMainClient.callinprogWindow.setVisible(true);
-			    	GuiMainClient.callerUserLabel.setText(recUser);
-			    }
-			  });
-        }
-        else 
-        	
-        {
-        	System.out.println("Call reject request was sent!");
-        	SwingUtilities.invokeLater(new Runnable() {
-			    public void run() {
-			    	GuiMainClient.RejectCallResponse();
-			    }
-			  });
-        	
-        }
 		
-	}
-	
-	
+        	recUser = response.getUsername();
+        	SwingUtilities.invokeLater(new Runnable() {
+			    public void run() {
+			    	GuiMainClient.callerUserLabel.setText(recUser);
+			    	GuiMainClient.usercallingLabel.setText(recUser);
+			    	GuiMainClient.BuildCallInqWindow();
+			    	
+			    	
+			    }
+			  });
+        }
+        
 	
 	
 	//sent call request accepted
@@ -168,13 +151,14 @@ public class ClientThread extends Thread {
 		SwingUtilities.invokeLater(new Runnable() {
 		    public void run() {
 		    	
-		    	
 		    	GuiMainClient.callstateLabel.setText("Connected");
 		    	GuiMainClient.imageLabel.setVisible(true);
+		    	GuiMainClient.startCall(response.getCallResponse().getIpAddress(), 12345, response.getCallResponse().getCallID());
+		    	
 		    }
 		  });
 		
-		
+		/*
 		play = new SimpleVoIPCall();
         play.start(
                 response.getCallResponse().getIpAddress(),
@@ -182,7 +166,7 @@ public class ClientThread extends Thread {
                 response.getCallResponse().getCallID()
         );
 		
-		
+		*/
 	}
 	
 	//sent call request rejected
@@ -199,11 +183,12 @@ public class ClientThread extends Thread {
 		
 		SwingUtilities.invokeLater(new Runnable() {
 		    public void run() {
+		    	GuiMainClient.endCall();
 		    	GuiMainClient.callinprogWindow.dispose();
 		    }
 		  });
 		// doesn't work from both sides
-		play.stop();
+		//play.stop();
 			
 	//friend list 
 	}
