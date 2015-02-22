@@ -4,9 +4,12 @@ import java.awt.Dimension;
 import java.awt.GridBagConstraints;
 import java.awt.GridBagLayout;
 import java.awt.Insets;
+import java.awt.Point;
 import java.awt.Toolkit;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.awt.event.MouseAdapter;
+import java.awt.event.MouseEvent;
 import java.awt.event.WindowAdapter;
 import java.awt.event.WindowEvent;
 import java.net.URL;
@@ -76,6 +79,9 @@ public class GuiMainClient {
 	private static JLabel enterHostLabel = new JLabel();
 	private static JButton registerButton = new JButton();
 	public static JButton loginButton = new JButton();
+	
+	public static FriendListItem[] friendListItems;
+	private static JPopupMenu popupMenu;
 
 	// main window //
 	
@@ -351,12 +357,59 @@ public class GuiMainClient {
 		mainWindow.getContentPane().add(usernameBox);
 		usernameBox.setBounds(70, 17, 170, 20);
 
+		popupMenu = new JPopupMenu();
+		JMenuItem removeFriendItem = new JMenuItem("Remove Friend");
+		removeFriendItem.addActionListener(new java.awt.event.ActionListener() {
+			public void actionPerformed(java.awt.event.ActionEvent event) {
+				System.out.println("removing friend"); //probably keep a variable that is set to the target friend when the popup menu is spawned
+			}
+		});
 		
+		popupMenu.add(removeFriendItem);
 		mainWindow.setVisible(true);
 
-		
+		onlineUsers.addMouseListener(new MouseAdapter() {
+			
+			public void mousePressed(MouseEvent evt) {
+				if (evt.isPopupTrigger()) showPopup(evt);
+			}
+			
+			public void mouseReleased(MouseEvent evt) {
+				if (evt.isPopupTrigger()) showPopup(evt);
+			}
+			
+			public void showPopup(MouseEvent evt) {
+		    	if (friendListItems == null) return;
+		    	
+		    	JList list = (JList)evt.getSource();
+	            int index = list.locationToIndex(evt.getPoint());
+	            FriendListItem item = friendListItems[index];
+	            
+	            if (item.mode == FriendListItemMode.FRIEND) popupMenu.show(evt.getComponent(), evt.getX(), evt.getY());
+			}
+			
+		    public void mouseClicked(MouseEvent evt) {
+		    	if (friendListItems == null) return;
+		    	
+		    	JList list = (JList)evt.getSource();
+	            int index = list.locationToIndex(evt.getPoint());
+	            //here we'll want to initiate a call if the user is online
+	            FriendListItem item = friendListItems[index];
+		        
+	            if (item.mode == FriendListItemMode.REQUEST && evt.getClickCount() == 1) { //click friend request (accept/decline)
+	            	int x = evt.getPoint().x-list.getLocation().x;
+	            	if (list.getWidth()-x < 26) System.out.println("accept");
+	            	else if (list.getWidth()-x < 46) System.out.println("decline");
+	            } else if (item.mode == FriendListItemMode.FRIEND && item.status == 1 && evt.getClickCount() == 2) { //double click friend (call)
+		            CallRequest(item.text);
+		            System.out.println("double clicked: "+item.text);
+		        } 
+		    }
+		});
 
 	}
+	
+	
 
 	public static void BuildCallWindow() {
 
@@ -380,7 +433,7 @@ public class GuiMainClient {
 		if((makeCallButton.getActionListeners().length == 0)){
 			makeCallButton.addActionListener(new java.awt.event.ActionListener() {
 				public void actionPerformed(java.awt.event.ActionEvent event) {
-					CallRequest();
+					CallRequest(callUserField.getText());
 				}
 			});
 			}
@@ -562,11 +615,11 @@ public class GuiMainClient {
 		clientThread.interrupt();
 	}
 	
-	public static void CallRequest(){
+	public static void CallRequest(String target){
 		
-		if (!callUserField.getText().equals(""))
+		if (!target.equals(""))
 		{
-			String usercalled = callUserField.getText().trim();
+			String usercalled = target.trim();
 			client.sendCallRequest(usercalled);
 			System.out.println("Message for CALL: ");
 			System.out.println("Call request sent");
