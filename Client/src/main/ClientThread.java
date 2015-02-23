@@ -1,19 +1,14 @@
 package main;
 
+import buffers.ServerResponse.Response;
+import com.google.protobuf.ProtocolStringList;
+import p2p.SimpleVoIPCall;
+import tcp.sockethandler.SocketHandler;
+
+import javax.swing.*;
 import java.io.IOException;
 import java.net.Socket;
-import java.net.SocketException;
 import java.util.ArrayList;
-
-import tcp.sockethandler.*;
-
-import javax.swing.JOptionPane;
-import javax.swing.SwingUtilities;
-
-import com.google.protobuf.ProtocolStringList;
-
-import p2p.SimpleVoIPCall;
-import buffers.ServerResponse.Response;
 
 
 
@@ -144,7 +139,7 @@ public class ClientThread extends Thread {
 	
 	
 	//sent call request accepted
-	private void callrecResponse (Response response){
+	private void callrecResponse (final Response response){
 		
 		System.out.println("Call was accepted. Connection can begin for "+ recUser );
 		
@@ -201,19 +196,33 @@ public class ClientThread extends Thread {
 		    	//convert response into array of FriendListItems
 		    	//what this SHOULD do in future is add all the friends, then add a title with text "Pending Requests",
 		    	//then add the pending users, with pending set to true.
-		    	ArrayList<FriendListItem> test = new ArrayList<FriendListItem>();
+		    	ArrayList<FriendListItem> friends = new ArrayList<FriendListItem>();
+                ArrayList<FriendListItem> pending = new ArrayList<FriendListItem>();
 		    	
 		    	
 		    	ProtocolStringList usernames = response.getList().getUsernameList();
-		    	
-		    	for (int i=0; i<usernames.size(); i++) {
-		    		test.add(new FriendListItem(FriendListItemMode.FRIEND, usernames.get(i), 1));
+
+		    	for (int i = 0; i<usernames.size(); i++) {
+                    //get data
+                    String friend = usernames.get(i++);
+                    int status = Integer.parseInt(usernames.get(i++));
+                    String lastSeen = usernames.get(i++);
+                    int onlineStatus = Integer.parseInt(usernames.get(i));
+
+                    if(onlineStatus < 2) onlineStatus++;
+                    
+                    if(status == 2)
+                        friends.add(new FriendListItem(FriendListItemMode.FRIEND, friend, onlineStatus));
+                    else
+                        pending.add(new FriendListItem(FriendListItemMode.REQUEST, friend, onlineStatus));
+
 		    	}
 		    	
-		    	test.add(new FriendListItem(FriendListItemMode.TITLE, "Pending Requests:", 0));
-		    	test.add(new FriendListItem(FriendListItemMode.REQUEST, "test user", 1));
+		    	friends.add(new FriendListItem(FriendListItemMode.TITLE, "Pending Requests:", 0));
+
+                friends.addAll(pending);
 		    	
-		    	GuiMainClient.friendListItems = test.toArray(new FriendListItem[test.size()]);
+		    	GuiMainClient.friendListItems = friends.toArray(new FriendListItem[friends.size()]);
 		    	GuiMainClient.onlineUsers.setListData(GuiMainClient.friendListItems);
 		    	
 		    }
@@ -230,9 +239,5 @@ public class ClientThread extends Thread {
 	private void deletefriendResponse(Response response){
 		
 	}
-	
-	
-	
-	
 
 }
