@@ -37,7 +37,7 @@ public class SimpleVoIPSequencer extends Thread {
         }
         try {
 			line2 = (SourceDataLine) AudioSystem.getLine(info2);
-			line2.open(format, (41000*2)/25);
+			line2.open(format, SimpleVoIPCall.bufferSize);
 		} catch (LineUnavailableException e) {
 			//could not open output line
 			call.fireCallFailed();
@@ -46,7 +46,7 @@ public class SimpleVoIPSequencer extends Thread {
         
         line2.start();
         
-        byte[] empty = new byte[line2.getBufferSize()];
+        byte[] empty = new byte[SimpleVoIPCall.packetSize];
         byte[] data;
         byte[] last = empty;
         

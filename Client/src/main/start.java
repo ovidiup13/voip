@@ -19,7 +19,7 @@ public class start {
            
            // select Look and Feel
            UIManager.setLookAndFeel("com.jtattoo.plaf.noire.NoireLookAndFeel");
-          new GuiMainClient();
+          GuiMainClient.main(new String[0]);
        }
        catch (Exception ex) {
            ex.printStackTrace();

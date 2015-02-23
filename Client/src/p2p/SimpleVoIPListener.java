@@ -40,7 +40,7 @@ class SimpleVoIPListener extends Thread {
         //4 bytes: Call ID (big endian)
         //1 byte: Sequence Number
         
-        byte[] data = new byte[(41000*4)/25+9];
+        byte[] data = new byte[(SimpleVoIPCall.packetSize)+9];
         DatagramPacket packet = new DatagramPacket(data, data.length);
         
         while (running) {

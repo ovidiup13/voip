@@ -1,9 +1,3 @@
-/buffers/
-/database/
-/gui/
-/interfaces/
 /main/
+/database/
 /p2p/
-/protofiles/
-/tcp/
-/writers/

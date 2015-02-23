@@ -183,6 +183,13 @@ public class GuiMainClient {
 	*/
 	public static void main(String args[]) {
 	
+			frameIco = createImageIcon("hype.png", "icon");
+			mainWindow.setIconImage(frameIco.getImage());
+			callWindow.setIconImage(frameIco.getImage());
+			loginWindow.setIconImage(frameIco.getImage());
+			callinprogWindow.setIconImage(frameIco.getImage());
+			callinqWindow.setIconImage(frameIco.getImage());
+			addFriendWindow.setIconImage(frameIco.getImage());
             Connect();
     		BuildLoginWindow();
        
@@ -263,6 +270,8 @@ public class GuiMainClient {
 		
 
 	}
+	
+	public static ImageIcon frameIco;
 
 	public static void BuildMainWindow() {
 		
@@ -451,6 +460,7 @@ public class GuiMainClient {
 	public static void BuildCallWindow() {
 
 		callWindow = new JFrame();
+		callWindow.setIconImage(frameIco.getImage());
 		callWindow.setTitle("Call Receiver");
 		callWindow.setLayout(null);
 		callWindow.setSize(310, 100);
@@ -481,6 +491,7 @@ public class GuiMainClient {
 	
 	public static void BuildAddFriendWindow() {
 		addFriendWindow = new JFrame();
+		addFriendWindow.setIconImage(frameIco.getImage());
 		addFriendWindow.setTitle("Add Friend");
 		addFriendWindow.setLayout(null);
 		addFriendWindow.setSize(310, 80);
@@ -565,6 +576,7 @@ public class GuiMainClient {
 	public static void BuildCallInProgWindow (){
 		
 		callinprogWindow = new JFrame();
+		callinprogWindow.setIconImage(frameIco.getImage());
 		callinprogWindow.setTitle("VOIP Call ");
 		callinprogWindow.setLayout(null);
 		callinprogWindow.setSize(310, 300);
@@ -775,7 +787,7 @@ public class GuiMainClient {
 	
 	public static void endCall(){
 		System.out.println("Call fucking ended!");
-		play.stop();
+		if (play != null) play.stop();
 	}
 	
 	
