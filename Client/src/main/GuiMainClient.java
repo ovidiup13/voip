@@ -102,7 +102,6 @@ public class GuiMainClient {
     
     // Create and add simple menu item to one of the drop down menu
     private static JMenuItem addfAction = new JMenuItem("Add friend");
-    private static JMenuItem delfAction = new JMenuItem("Delete friend");
     private static JMenuItem helpAction = new JMenuItem("Help");
     private static JMenuItem logoutAction = new JMenuItem("Log out");
     private static JMenuItem testNotifcaion = new JMenuItem("TestNotificaions");
@@ -203,6 +202,12 @@ public class GuiMainClient {
 	
 	public static void BuildLoginWindow() {
 
+		loginWindow.addWindowListener(new WindowAdapter() {
+			public void windowClosing(WindowEvent evt) {
+				LogoutRequest();
+			}
+		});
+		
 		loginWindow.setTitle("VOIP Login ");
 		loginWindow.setLayout(null);
 		loginWindow.setSize(310, 500);
@@ -281,7 +286,6 @@ public class GuiMainClient {
 		
 		menuBar.add(optMenu);
 		optMenu.add(addfAction);
-		optMenu.add(delfAction);
 		optMenu.add(helpAction);
 		optMenu.add(logoutAction);
 		optMenu.add(testNotifcaion);
@@ -291,13 +295,6 @@ public class GuiMainClient {
 				BuildAddFriendWindow();
 				
 
-			}
-		});
-		
-		delfAction.addActionListener(new java.awt.event.ActionListener() {
-			public void actionPerformed(java.awt.event.ActionEvent event) {
-				System.out.println("Delete friend clicked!");
-				DeleteFriendRequest("");
 			}
 		});
 		
@@ -505,7 +502,9 @@ public class GuiMainClient {
 		addFriendWindow.setIconImage(frameIco.getImage());
 		addFriendWindow.setTitle("Add Friend");
 		addFriendWindow.setLayout(null);
-		addFriendWindow.setSize(310, 80);
+		addFriendWindow.getContentPane().setPreferredSize(new Dimension(310, 60));
+		addFriendWindow.pack();
+		//addFriendWindow.setSize(310, 80);
 		//addFriendWindow.setLocationRelativeTo(null);
 		
 
@@ -587,6 +586,13 @@ public class GuiMainClient {
 	public static void BuildCallInProgWindow (){
 		
 		callinprogWindow = new JFrame();
+		
+		callinprogWindow.addWindowListener(new WindowAdapter() {
+			public void windowClosing(WindowEvent evt) {
+				EndCallRequest();
+			}
+		});
+		
 		callinprogWindow.setIconImage(frameIco.getImage());
 		callinprogWindow.setTitle("VOIP Call ");
 		callinprogWindow.setLayout(null);
