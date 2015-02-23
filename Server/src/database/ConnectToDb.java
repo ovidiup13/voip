@@ -245,7 +245,9 @@ public class ConnectToDb {
 	 * @Glosary sets relation status to : 1 ( Pending Friend Request)
 	 * 			calls updateFrinds(if both rows exist set status to 2 (Confirm Friend Request)
 	 * **/
-	public boolean addFriend(String fromUser, String ToUser){
+	public addFriendResult addFriend(String fromUser, String ToUser){
+		String  type = "request";
+	
 		try{
 			if(!checkFriendRequestExists(fromUser, ToUser) &&  isRegistered(ToUser)){
 				String query_addFriend= "INSERT INTO RelationshipType (username,username2,relationship) VALUES (?,?,?)";
@@ -254,9 +256,13 @@ public class ConnectToDb {
 				preparedStatement.setString(2, ToUser);
 				preparedStatement.setInt(3,1);
 				preparedStatement.execute();	
-				if (updateFriends()){
-					return true;
+				if(checkFriendRequestExists(ToUser, fromUser)){
+					if (updateFriends()){
+						type = "response";
+						return new addFriendResult(true,type);	
+						}	
 				}
+				return new addFriendResult(true,type);	
 
 			}
 		}catch (SQLException e) {
@@ -265,7 +271,7 @@ public class ConnectToDb {
 		finally{
 			closeStatement(preparedStatement);
 		}
-		return false;
+		return new addFriendResult(false,type);	
 
 
 	}

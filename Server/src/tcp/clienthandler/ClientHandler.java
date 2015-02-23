@@ -6,6 +6,7 @@ import database.Client;
 import database.ClientStatus;
 import database.ConnectToDb;
 import database.IPAddressMap;
+import database.addFriendResult;
 import interfaces.ResponseSender;
 import writers.ResponseWriter;
 
@@ -227,9 +228,10 @@ public class ClientHandler implements Runnable, ResponseSender {
     //read friend request
     private void readAddFriendRequest(Request request) {
         Response response = null;
-        if (db.addFriend(client.getUsername(), request.getUsername())) {
+        addFriendResult result = db.addFriend(client.getUsername(), request.getUsername());
+        if (result.getSuccessful()) {
             response = responseWriter.createFriendRequestResponse(true, "Adding friend successful");
-            
+            System.out.println("The type of the add friend is "+ result.getType());
             //send friend list back
             readFriendListRequest(client);
 
@@ -240,7 +242,6 @@ public class ClientHandler implements Runnable, ResponseSender {
             System.out.println("Server: Sent successful response.");
         } else {
             response = responseWriter.createFriendRequestResponse(false, "Adding friend unsuccessful- Contact staff for support");
-            System.out.println("Server: Sent unsuccessful friend requesnt response.");
         }
 
         try {
