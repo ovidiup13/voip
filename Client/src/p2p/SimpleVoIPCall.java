@@ -38,6 +38,7 @@ public class SimpleVoIPCall implements VoIPCall {
 			socket = new DatagramSocket(port);
 			socket.connect(InetAddress.getByName(ip), port);
 		} catch (Exception e) {
+			System.out.println("can't connect :'((((((");
 			return false;
 		}
 		

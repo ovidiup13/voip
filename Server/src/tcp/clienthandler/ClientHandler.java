@@ -231,7 +231,7 @@ public class ClientHandler implements Runnable, ResponseSender {
             response = responseWriter.createFriendRequestResponse(true, "Adding friend successful");
             
             //send friend list back
-            //readFriendListRequest(client);
+            readFriendListRequest(client);
 
             if(addressMap.isOnline(request.getUsername()))
                 readFriendListRequest(addressMap.getClient(request.getUsername()));
@@ -286,7 +286,7 @@ public class ClientHandler implements Runnable, ResponseSender {
 
         //if they're waiting on us, we can accept the call
         synchronized (target) { //need to deal with other client objects atomically
-            if (target.getStatus() == ClientStatus.WAITING && target.getClientCalled() == client) {
+            if (request.getConfirmation() && target.getStatus() == ClientStatus.WAITING && target.getClientCalled() == client) {
                 //link both clients up
                 sendCallResponse(target, client, callID);
                 sendCallResponse(client, target, callID++);
@@ -296,7 +296,6 @@ public class ClientHandler implements Runnable, ResponseSender {
                 sendEndCallResponse();
                 //failsafe, it is instantly declined for the caller.
             }
-            request.getConfirmation();
         }
     }
 
@@ -308,7 +307,7 @@ public class ClientHandler implements Runnable, ResponseSender {
             //update both client lists
 
             readFriendListRequest(client); //send friends list back as well
-            readFriendListRequest(addressMap.getClient(request.getUsername()));
+            if (addressMap.isOnline(request.getUsername())) readFriendListRequest(addressMap.getClient(request.getUsername()));
             
             System.out.println("Server: Sent successful response.");
         } else {

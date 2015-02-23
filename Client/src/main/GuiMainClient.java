@@ -174,6 +174,7 @@ public class GuiMainClient {
 	
 	
 	public static SimpleVoIPCall play;
+	public static String deleteTarget;
 	
 	/*
 	public GuiMainClient(){
@@ -296,7 +297,7 @@ public class GuiMainClient {
 		delfAction.addActionListener(new java.awt.event.ActionListener() {
 			public void actionPerformed(java.awt.event.ActionEvent event) {
 				System.out.println("Delete friend clicked!");
-				DeleteFriendRequest();
+				DeleteFriendRequest("");
 			}
 		});
 		
@@ -407,6 +408,7 @@ public class GuiMainClient {
 		JMenuItem removeFriendItem = new JMenuItem("Remove Friend");
 		removeFriendItem.addActionListener(new java.awt.event.ActionListener() {
 			public void actionPerformed(java.awt.event.ActionEvent event) {
+				if (deleteTarget != null) DeleteFriendRequest(deleteTarget);
 				System.out.println("removing friend"); //probably keep a variable that is set to the target friend when the popup menu is spawned
 			}
 		});
@@ -431,7 +433,10 @@ public class GuiMainClient {
 	            int index = list.locationToIndex(evt.getPoint());
 	            FriendListItem item = friendListItems[index];
 	            
-	            if (item.mode == FriendListItemMode.FRIEND) popupMenu.show(evt.getComponent(), evt.getX(), evt.getY());
+	            if (item.mode == FriendListItemMode.FRIEND) {
+	            	deleteTarget = item.text;
+	            	popupMenu.show(evt.getComponent(), evt.getX(), evt.getY());
+	            }
 			}
 			
 		    public void mouseClicked(MouseEvent evt) {
@@ -444,8 +449,14 @@ public class GuiMainClient {
 		        
 	            if (item.mode == FriendListItemMode.REQUEST && evt.getClickCount() == 1) { //click friend request (accept/decline)
 	            	int x = evt.getPoint().x-list.getLocation().x;
-	            	if (list.getWidth()-x < 26) System.out.println("accept");
-	            	else if (list.getWidth()-x < 46) System.out.println("decline");
+	            	if (list.getWidth()-x < 26) {
+	            		AddFriendRequest(item.text);
+	            		System.out.println("accept");
+	            	}
+	            	else if (list.getWidth()-x < 46) {
+	            		DeleteFriendRequest(item.text);
+	            		System.out.println("decline");
+	            	}
 	            } else if (item.mode == FriendListItemMode.FRIEND && item.status == 1 && evt.getClickCount() == 2) { //double click friend (call)
 		            CallRequest(item.text);
 		            System.out.println("double clicked: "+item.text);
@@ -512,7 +523,7 @@ public class GuiMainClient {
 		if((addFriendButton.getActionListeners().length == 0)){
 			addFriendButton.addActionListener(new java.awt.event.ActionListener() {
 				public void actionPerformed(java.awt.event.ActionEvent event) {
-					AddFriendRequest();
+					AddFriendRequest(addFriendField.getText().trim());
 				}
 		});
 		}
@@ -777,9 +788,9 @@ public class GuiMainClient {
 	public static void startCall(String ip, int port, int callid){
 		
 		System.out.println("Call started!");
+		System.out.println(callid);
 		play = new SimpleVoIPCall();
 		play.start(ip, port,callid);
-		
 		
 	
 	}
@@ -798,10 +809,9 @@ public class GuiMainClient {
 		client.sendFriendListRequest();
 			}
 	
-	public static void AddFriendRequest(){
-		if (!addFriendField.getText().equals(""))
+	public static void AddFriendRequest(String username){
+		if (!username.equals(""))
 		{
-			String username = addFriendField.getText().trim();
 			client.sendAddFriendRequest(username);
 			System.out.println("AddFriend request sent: "+ username);
 			addFriendField.setText("");
@@ -818,10 +828,7 @@ public class GuiMainClient {
 
 	
 	
-	public static void DeleteFriendRequest(){
-		
-		
-		String username = "";
+	public static void DeleteFriendRequest(String username){
 		client.sendDeleteFriendRequest(username);
 		
 	}
