@@ -232,8 +232,15 @@ public class ClientThread extends Thread {
 	
 	//add friend response
 	private void addfriendResponse (Response response){
-		
-	}
+
+			System.out.println("This is response back to the client");
+			if (response.getReqResult().getOk())
+				System.out.println("You action  to user "+response.getReqResult().getCause()+" was successul ");
+			else{
+				System.out.println("You action  to user "+response.getReqResult().getCause()+" was unsuccesful ");
+			}
+		}
+	
 	
 	//delete friend
 	private void deletefriendResponse(Response response){

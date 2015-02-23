@@ -179,7 +179,7 @@ public class ResponseWriter {
      * @return response to a request
      * */
     public Response createDeleteFriendResponse(boolean ok, String cause){
-        return friendReqResponse(ok, cause);
+        return friendDelResponse(ok, cause);
     }
 
     private static Response friendDelResponse(boolean ok, String cause){
