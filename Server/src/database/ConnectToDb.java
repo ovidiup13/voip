@@ -282,31 +282,39 @@ public class ConnectToDb {
 	 * relation must exist (USERS MUST BE FRIENDS ), user name must be real
 	 * **/
 	public boolean deleteFriendship(String username, String username2){
+		boolean successful = false;
 		try{
-			if(checkFriendRequestExists(username, username2) && checkFriendRequestExists(username2,username)){
+			boolean friends = checkFriendRequestExists(username2,username);
+			System.out.println("Friends: "+ friends);
+			
+			if(checkFriendRequestExists(username, username2)&& friends ){
 				String query_removeFriend= "DELETE FROM RelationshipType WHERE username= ? AND username2 = ?";
 				preparedStatement = connection.prepareStatement(query_removeFriend);
 				preparedStatement.setString(1, username);
 				preparedStatement.setString(2, username2);
 				preparedStatement.execute();
 				closeStatement(preparedStatement);
-				String query2_removeFriend= "DELETE FROM RelationshipType WHERE username2= ? AND username = ?";
+				successful = true;
+				}
+				
+			if( friends){
+				String query2_removeFriend= "DELETE FROM RelationshipType WHERE username= ? AND username2 = ?";
 				preparedStatement = connection.prepareStatement(query2_removeFriend);
-				preparedStatement.setString(1, username);
-				preparedStatement.setString(2, username2);
+				preparedStatement.setString(1, username2);
+				preparedStatement.setString(2, username);
 				preparedStatement.execute();
+				closeStatement(preparedStatement);
+				successful = true;
+				}
 
-				return true;
-
-
-			}
 		}catch (SQLException e) {
+			closeStatement(preparedStatement);
 			System.out.println("Error in addFriends: "+ e.getMessage());
 			e.printStackTrace();}
 		finally{
-			closeStatement(preparedStatement);
+			
 		}
-		return false;
+		return successful;
 	}
 
 
