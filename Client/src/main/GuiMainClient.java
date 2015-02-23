@@ -102,7 +102,6 @@ public class GuiMainClient {
     
     // Create and add simple menu item to one of the drop down menu
     private static JMenuItem addfAction = new JMenuItem("Add friend");
-    private static JMenuItem delfAction = new JMenuItem("Delete friend");
     private static JMenuItem helpAction = new JMenuItem("Help");
     private static JMenuItem logoutAction = new JMenuItem("Log out");
     private static JMenuItem testNotifcaion = new JMenuItem("TestNotificaions");
@@ -281,7 +280,6 @@ public class GuiMainClient {
 		
 		menuBar.add(optMenu);
 		optMenu.add(addfAction);
-		optMenu.add(delfAction);
 		optMenu.add(helpAction);
 		optMenu.add(logoutAction);
 		optMenu.add(testNotifcaion);
@@ -291,13 +289,6 @@ public class GuiMainClient {
 				BuildAddFriendWindow();
 				
 
-			}
-		});
-		
-		delfAction.addActionListener(new java.awt.event.ActionListener() {
-			public void actionPerformed(java.awt.event.ActionEvent event) {
-				System.out.println("Delete friend clicked!");
-				DeleteFriendRequest("");
 			}
 		});
 		
@@ -505,7 +496,9 @@ public class GuiMainClient {
 		addFriendWindow.setIconImage(frameIco.getImage());
 		addFriendWindow.setTitle("Add Friend");
 		addFriendWindow.setLayout(null);
-		addFriendWindow.setSize(310, 80);
+		addFriendWindow.getContentPane().setPreferredSize(new Dimension(310, 60));
+		addFriendWindow.pack();
+		//addFriendWindow.setSize(310, 80);
 		//addFriendWindow.setLocationRelativeTo(null);
 		
 
