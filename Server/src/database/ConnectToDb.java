@@ -237,7 +237,8 @@ public class ConnectToDb {
 	/**
 	 * Method for adding friends to the db
 	 * @param fromUser, ToUser
-	 * 
+	 * @must the username you want to add as a friend must exist and check for consistency if the
+	 * pending request is not already send
 	 * 1.first when user1 request friendship to user2
 	 * 2.second when user2 request friendship to user1
 	 * if both rows exist the two users become friends
@@ -246,7 +247,7 @@ public class ConnectToDb {
 	 * **/
 	public boolean addFriend(String fromUser, String ToUser){
 		try{
-			if(!checkFriendRequestExists(fromUser, ToUser)){
+			if(!checkFriendRequestExists(fromUser, ToUser) &&  isRegistered(ToUser)){
 				String query_addFriend= "INSERT INTO RelationshipType (username,username2,relationship) VALUES (?,?,?)";
 				preparedStatement = connection.prepareStatement(query_addFriend);
 				preparedStatement.setString(1, fromUser);
@@ -416,6 +417,29 @@ public class ConnectToDb {
 			closeStatement(preparedStatement);
 		}
 		return array;
+	}
+	
+	
+	public boolean deletePendingRequest(String fromUser, String toUser){
+		try{
+			if(checkFriendRequestExists(fromUser, toUser)){
+				String query_removeFriend= "DELETE FROM RelationshipType WHERE username= ? AND username2 = ?";
+				preparedStatement = connection.prepareStatement(query_removeFriend);
+				preparedStatement.setString(1, fromUser);
+				preparedStatement.setString(2, toUser);
+				preparedStatement.execute();
+				closeStatement(preparedStatement);
+				return true;
+
+
+			}
+		}catch (SQLException e) {
+			System.out.println("Error in deletePendingRequest: (db) "+ e.getMessage());
+			e.printStackTrace();}
+		finally{
+			closeStatement(preparedStatement);
+		}
+		return false;
 	}
 
 
