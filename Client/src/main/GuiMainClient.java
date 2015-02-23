@@ -202,6 +202,12 @@ public class GuiMainClient {
 	
 	public static void BuildLoginWindow() {
 
+		loginWindow.addWindowListener(new WindowAdapter() {
+			public void windowClosing(WindowEvent evt) {
+				LogoutRequest();
+			}
+		});
+		
 		loginWindow.setTitle("VOIP Login ");
 		loginWindow.setLayout(null);
 		loginWindow.setSize(310, 500);
@@ -580,6 +586,13 @@ public class GuiMainClient {
 	public static void BuildCallInProgWindow (){
 		
 		callinprogWindow = new JFrame();
+		
+		callinprogWindow.addWindowListener(new WindowAdapter() {
+			public void windowClosing(WindowEvent evt) {
+				EndCallRequest();
+			}
+		});
+		
 		callinprogWindow.setIconImage(frameIco.getImage());
 		callinprogWindow.setTitle("VOIP Call ");
 		callinprogWindow.setLayout(null);
