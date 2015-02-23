@@ -2,11 +2,7 @@ package tcp.clienthandler;
 
 import buffers.ClientRequest.Request;
 import buffers.ServerResponse.Response;
-import database.Client;
-import database.ClientStatus;
-import database.ConnectToDb;
-import database.IPAddressMap;
-import database.addFriendResult;
+import database.*;
 import interfaces.ResponseSender;
 import writers.ResponseWriter;
 
@@ -14,6 +10,7 @@ import java.io.IOException;
 import java.io.InputStream;
 import java.io.OutputStream;
 import java.net.Socket;
+import java.net.SocketException;
 import java.util.ArrayList;
 
 public class ClientHandler implements Runnable, ResponseSender {
@@ -36,6 +33,13 @@ public class ClientHandler implements Runnable, ResponseSender {
         this.client = new Client(clientSocket);
         this.addressMap = addressMap;
         this.db = db;
+
+        try {
+            clientSocket.setKeepAlive(true);
+            clientSocket.setSoTimeout(10000);
+        } catch (SocketException e) {
+            System.err.println("Connection with client timed out. Client will be logged out.");
+        }
 
         //create request writer
         responseWriter = new ResponseWriter();
@@ -204,19 +208,9 @@ public class ClientHandler implements Runnable, ResponseSender {
 
     //read status request
     private void readStatusRequest(Request request) {
-
-        boolean responseVal = false;
-        if (addressMap.isOnline(request.getUsername())) {
-            Client userData = addressMap.getClient(request.getUsername());
-            //get the status of the user
-            ClientStatus status = userData.getStatus();
-            responseVal = (status == ClientStatus.IDLE);
-        }
-
-        Response response;
-        //if user logged out or busy - user is unavailable
-        response = responseWriter.createStatusResponse(responseVal);
-
+        
+        Response response = Response.newBuilder().setResType(Response.ResType.STS).build();
+        
         //send response to client
         try {
             response.writeDelimitedTo(output);

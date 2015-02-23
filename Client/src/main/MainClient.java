@@ -2,11 +2,13 @@ package main;
 
 import tcp.sockethandler.SocketHandler;
 
+import java.io.IOException;
+
 public class MainClient {
 	
 	private static final int port = 9991;
 
-	public static void main(String[] args) {
+	public static void main(String[] args) throws IOException {
 		SocketHandler client = new SocketHandler("192.168.173.1", port);
 		// trying to establish connection to the server
 		if(client.startConnection()){

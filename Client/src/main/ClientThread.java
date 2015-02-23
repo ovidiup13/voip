@@ -32,38 +32,33 @@ public class ClientThread extends Thread {
 		while(true) {
 			try {
 				response = Response.parseDelimitedFrom(recSocket.getInputStream());
+
+                Response.ResType type = response.getResType();
+
+
+                switch(type){
+
+                    case REG: { registerResponse(response);break;}
+                    case LIN: { loginResponse(response); break;}
+                    case LOUT: { logoutResponse(response); break;}
+                    case CALLINQ: { callinqResponse(response); break;}
+                    case CALLREC: { callrecResponse(response); break;}
+                    case NOCALL: { nocallResponse(response); break;}
+                    case ECALL: { endcallResponse(response); break;}
+                    case FLIST: { displayflistResponse(response); break;}
+                    case ADDF: { addfriendResponse(response);break;}
+                    case DELF: { deletefriendResponse(response); break;}
+                    default:
+                        break;
+                }
 			} catch (IOException e) {
-				System.err.println("SocketHandler: failed to open input stream");
-			}
-			
-			finally  {
-				
-				Response.ResType type = response.getResType();
-				
-				
-				switch(type){
-				
-				case REG: { registerResponse(response);break;}
-				case LIN: { loginResponse(response); break;}
-				case LOUT: { logoutResponse(response); break;}
-				case CALLINQ: { callinqResponse(response); break;}
-				case CALLREC: { callrecResponse(response); break;}
-				case NOCALL: { nocallResponse(response); break;}
-				case ECALL: { endcallResponse(response); break;}
-				case FLIST: { displayflistResponse(response); break;}
-				case ADDF: { addfriendResponse(response);break;}
-				case DELF: { deletefriendResponse(response); break;}
-				default:
-					break;
-				
-				
-				}
-				
-			}
-			
-	
+                try {
+                    Thread.sleep(5000);
+                } catch (InterruptedException e1) {
+                    e1.printStackTrace();
+                }
+            }
 		}
-			
 
 	}
 	

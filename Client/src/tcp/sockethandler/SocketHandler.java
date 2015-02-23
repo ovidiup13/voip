@@ -24,13 +24,10 @@ public class SocketHandler implements RequestSender {
 		requestWriter  = new RequestWriter();
 	}
 
-	public boolean startConnection() {
-		try {
-			socketClient = new Socket(hostname, port);
-		} catch (IOException e) {
-			System.err.println("SocketHandler: failed to open socket");
-            return false;
-		}
+	public boolean startConnection() throws IOException {
+		socketClient = new Socket(hostname, port);
+        socketClient.setKeepAlive(true);
+        socketClient.setSoTimeout(10000);
 		return true;
 	}
 	
