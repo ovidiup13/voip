@@ -8,6 +8,10 @@ import java.util.List;
 import javax.sound.sampled.AudioFormat;
 
 public class SimpleVoIPCall implements VoIPCall {
+	
+	public static int bufferSize = 5000;
+	public static int packetSize = 41000/30;
+	
 	private List<CallListener> listeners;
 	private boolean started;
 	private DatagramSocket socket;

@@ -47,7 +47,7 @@ class SimpleVoIPBroadcaster extends Thread {
         
         try {
         	line = (TargetDataLine) AudioSystem.getLine(info);
-        	line.open(format, (41000*4)/25);
+        	line.open(format, SimpleVoIPCall.bufferSize);
         } catch (Exception e) {
         	//line failed to open!
         	call.fireCallFailed();
@@ -61,7 +61,8 @@ class SimpleVoIPBroadcaster extends Thread {
         //4 bytes: Call ID (big endian)
         //1 byte: Sequence Number
         
-        byte[] data = new byte[line.getBufferSize()+9];
+        System.out.println(line.getBufferSize());
+        byte[] data = new byte[SimpleVoIPCall.packetSize+9];
         data[0] = (byte)'V'; data[1] = (byte)'o'; data[2] = (byte)'I'; data[3] = (byte)'P';
         insertInt32(data, 4, call.callID);
         
