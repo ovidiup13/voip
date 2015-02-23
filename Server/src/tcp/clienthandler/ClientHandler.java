@@ -273,7 +273,7 @@ public class ClientHandler implements Runnable, ResponseSender {
         Response response = responseWriter.createFriendListResponse(relationships);
 
         try {
-            response.writeDelimitedTo(output);
+            response.writeDelimitedTo(client.getSocket().getOutputStream());
         } catch (IOException e) {
             System.err.println("Cannot send friend list");
         }
