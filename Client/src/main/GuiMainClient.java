@@ -267,7 +267,7 @@ public class GuiMainClient {
 
 
             }
-        });
+        });	
 
         helpAction.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent event) {
@@ -628,8 +628,8 @@ public class GuiMainClient {
             System.out.println("Connection established!");
     
             //start sending
-            keepAliveThread = new KeepAliveThread(client.getSocket());
-            keepAliveThread.start();
+           keepAliveThread = new KeepAliveThread(client.getSocket());
+           keepAliveThread.start();
 
             clientThread = new ClientThread(client);
             clientThread.start();

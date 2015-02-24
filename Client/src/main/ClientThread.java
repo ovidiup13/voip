@@ -49,7 +49,7 @@ public class ClientThread extends Thread {
                     default:
                         break;
                 }
-			} catch (IOException e) {
+			} catch (IOException | NullPointerException e) {
                 try {
                     Thread.sleep(5000);
                 } catch (InterruptedException e1) {

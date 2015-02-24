@@ -27,7 +27,7 @@ public class KeepAliveThread extends Thread{
             //wait 5 seconds
             try {
                 Thread.sleep(5000);
-                Request request = writer.createFriendListRequest();
+                Request request = writer.createStatusReq("k");
                 request.writeDelimitedTo(socket.getOutputStream());
             } catch (InterruptedException e) {
                 break;

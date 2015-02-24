@@ -63,6 +63,7 @@ public class ClientHandler implements Runnable, ResponseSender {
             if (client.getStatus() != ClientStatus.NOT_LOGGED_IN)
                 addressMap.removeClient(client); //if they're logged in, remove their client from the hashtable as it is now invalid
             client.setStatus(ClientStatus.NOT_LOGGED_IN); //no other clients should see this, as they need to access clients from the addressMap, but it's here just in case
+            
             sendEndCallResponse(); //if we are in a call with another user, end it
         }
         try {
@@ -171,6 +172,9 @@ public class ClientHandler implements Runnable, ResponseSender {
             client.setUsername(username);
             client.setStatus(ClientStatus.IDLE);
             addressMap.addClient(client); //do this at the end, so that
+            
+            //notify all user friends for status change
+            sendFriendListStatusChange(client);
 
             System.out.println("ClientIP" + addressMap.getClient(username).getHostName());
 
@@ -192,8 +196,14 @@ public class ClientHandler implements Runnable, ResponseSender {
                 if (calleeClient.getStatus() == ClientStatus.IDLE && client.getStatus() == ClientStatus.IDLE) {
                     calleeClient.setClientCalled(client);
                     calleeClient.setStatus(ClientStatus.WAITING);
+                    
                     client.setStatus(ClientStatus.WAITING);
                     client.setClientCalled(calleeClient);
+                    
+                    //notify all user friends for status change
+                    sendFriendListStatusChange(client);
+                    sendFriendListStatusChange(calleeClient);
+
 
                     sendCallInquiry(calleeClient); //both clients now waiting until a call response is recieved or a timeout is hit
                     //TODO: the actual timeout
@@ -266,6 +276,21 @@ public class ClientHandler implements Runnable, ResponseSender {
             System.err.println("Cannot send friend list");
         }
     }
+    
+    
+    private void sendFriendListStatusChange(Client client) {
+      
+        ArrayList<String> relationships = db.getRelationshipsFor(client.getUsername());
+        
+        
+      //look through the array
+        for(int i = 0; i < relationships.size()-2; i+= 3){
+        	System.out.println(relationships.get(i));
+        	String username = relationships.get(i);
+        	if (addressMap.getClient(username) != null)
+        		readFriendListRequest(addressMap.getClient(username));
+        }
+        }
 
     //read call response
     private void readCallResponse(Request request) {
@@ -280,6 +305,11 @@ public class ClientHandler implements Runnable, ResponseSender {
                 sendCallResponse(client, target, callID++);
                 target.setStatus(ClientStatus.IN_CALL);
                 client.setStatus(ClientStatus.IN_CALL);
+                
+                //notify all user friends for status change
+                sendFriendListStatusChange(client);
+                sendFriendListStatusChange(target);
+                
             } else {
                 sendEndCallResponse();
                 //failsafe, it is instantly declined for the caller.
@@ -328,6 +358,9 @@ public class ClientHandler implements Runnable, ResponseSender {
     public void sendLogOutResponse(boolean ok, String message) {
         Response response = responseWriter.createLogOutResponse(ok, message);
         try {
+            //notify all user friends for status change
+            sendFriendListStatusChange(client);
+
             response.writeDelimitedTo(output);
         } catch (IOException e) {
             System.err.println("Server: could not send log out response");
@@ -378,9 +411,16 @@ public class ClientHandler implements Runnable, ResponseSender {
             //set the status of current client to idle
             client.setStatus(ClientStatus.IDLE);
             client.setClientCalled(null);
+            
+
 
             clientCalled.setStatus(ClientStatus.IDLE);
             clientCalled.setClientCalled(null);
+            
+            //notify all user friends for status change
+            sendFriendListStatusChange(client);
+            sendFriendListStatusChange(clientCalled);
+
         }
 
         //send an endcall message to other client and set his status to idle
