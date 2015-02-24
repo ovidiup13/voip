@@ -22,6 +22,7 @@ public interface ResponseSender {
     
     public void sendDelFriendResponse(boolean ok, String message);
     
-    public void sendFriendRequestResponse(String username, boolean ok);
+    public void sendFriendRequestResponse(Client target,String username, boolean ok);
+
     
 }

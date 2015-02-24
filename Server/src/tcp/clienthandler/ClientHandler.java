@@ -231,16 +231,19 @@ public class ClientHandler implements Runnable, ResponseSender {
 
     //read friend request
     private void readAddFriendRequest(Request request) {
-        addFriendResult result = db.addFriend(client.getUsername(), request.getUsername());
+        ResultPair result = db.addFriend(client.getUsername(), request.getUsername());
         if (result.getSuccessful()) {
             sendAddFriendResponse(true, "Adding friend successful");
             System.out.println("The type of the add friend is "+ result.getType());
             //send friend list back
             readFriendListRequest(client);
 
-            if(addressMap.isOnline(request.getUsername()))
+            if(addressMap.isOnline(request.getUsername())){
                 readFriendListRequest(addressMap.getClient(request.getUsername()));
-            
+                if(result.getType().equals("response")){
+                	sendFriendRequestResponse(addressMap.getClient(request.getUsername()),client.getUsername(), true);
+                }
+             }
             
             System.out.println("Server: Sent successful response.");
         } else {
@@ -319,12 +322,20 @@ public class ClientHandler implements Runnable, ResponseSender {
 
     //read delete friend request
     private void readDeleteFriendRequest(Request request) {
-        if (db.deleteFriendship(client.getUsername(), request.getUsername())) {
+    	ResultPair result = db.deleteFriendship(client.getUsername(), request.getUsername());
+        if (result.getSuccessful()) {
             sendDelFriendResponse(true, "Deleting friend successful");
             //update both client lists
 
             readFriendListRequest(client); //send friends list back as well
-            if (addressMap.isOnline(request.getUsername())) readFriendListRequest(addressMap.getClient(request.getUsername()));
+            if (addressMap.isOnline(request.getUsername())){
+            	System.out.println("RESULT IS "+ result.getType());
+            	readFriendListRequest(addressMap.getClient(request.getUsername()));
+            	if(result.getType().equals("NotFriends")){
+            		System.out.println("WE AREEEE HEREEE");
+            		sendFriendRequestResponse(addressMap.getClient(request.getUsername()),client.getUsername(), false);
+            		}
+            }
             
             System.out.println("Server: Sent successful response.");
         } else {
@@ -454,10 +465,10 @@ public class ClientHandler implements Runnable, ResponseSender {
     }
 
     @Override
-    public void sendFriendRequestResponse(String username, boolean ok) {
+    public void sendFriendRequestResponse(Client target, String username, boolean ok) {
         Response response = responseWriter.createFriendResponse(username, ok);
         try {
-            response.writeDelimitedTo(output);
+            response.writeDelimitedTo(target.getSocket().getOutputStream());
         } catch (IOException e) {
             System.err.println("Server: could send response for friend request");
         }

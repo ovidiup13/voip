@@ -32,9 +32,12 @@ public class ConnectToDb {
 		//			addFriend("User35","Viktor");
 		//		logIn("User4","password");
 		//
-		//			addFriend("username","User4");
+		//			addFriend("usernae","User4");
 		//			addFriend("username2","User3");
 		//			addFriend("User11","User4");
+		
+		//System.out.println("first "+checkFriendRequestExists("username", "ben16"));
+		//Sstem.out.println("second"+checkFriendRequestExists("ben16", "username"));
 	
 	}
 
@@ -245,7 +248,7 @@ public class ConnectToDb {
 	 * @Glosary sets relation status to : 1 ( Pending Friend Request)
 	 * 			calls updateFrinds(if both rows exist set status to 2 (Confirm Friend Request)
 	 * **/
-	public addFriendResult addFriend(String fromUser, String ToUser){
+	public ResultPair addFriend(String fromUser, String ToUser){
 		String  type = "request";
 	
 		try{
@@ -259,10 +262,10 @@ public class ConnectToDb {
 				if(checkFriendRequestExists(ToUser, fromUser)){
 					if (updateFriends()){
 						type = "response";
-						return new addFriendResult(true,type);	
+						return new ResultPair(true,type);	
 						}	
 				}
-				return new addFriendResult(true,type);	
+				return new ResultPair(true,type);	
 
 			}
 		}catch (SQLException e) {
@@ -271,7 +274,7 @@ public class ConnectToDb {
 		finally{
 			closeStatement(preparedStatement);
 		}
-		return new addFriendResult(false,type);	
+		return new ResultPair(false,type);	
 
 
 	}
@@ -287,42 +290,40 @@ public class ConnectToDb {
 	 * @return true if successful ,false if not.
 	 * relation must exist (USERS MUST BE FRIENDS ), user name must be real
 	 * **/
-	public boolean deleteFriendship(String username, String username2){
+	public ResultPair deleteFriendship(String username, String username2){
 		boolean successful = false;
+		String friendsReturn = null;
 		try{
-			boolean friends = checkFriendRequestExists(username2,username);
-			System.out.println("Friends: "+ friends);
-			
-			if(checkFriendRequestExists(username, username2)&& friends ){
-				String query_removeFriend= "DELETE FROM RelationshipType WHERE username= ? AND username2 = ?";
-				preparedStatement = connection.prepareStatement(query_removeFriend);
-				preparedStatement.setString(1, username);
-				preparedStatement.setString(2, username2);
-				preparedStatement.execute();
-				closeStatement(preparedStatement);
-				successful = true;
-				}
-				
-			if( friends){
-				String query2_removeFriend= "DELETE FROM RelationshipType WHERE username= ? AND username2 = ?";
-				preparedStatement = connection.prepareStatement(query2_removeFriend);
-				preparedStatement.setString(1, username2);
-				preparedStatement.setString(2, username);
-				preparedStatement.execute();
-				closeStatement(preparedStatement);
-				successful = true;
-				}
-
+		boolean friends = checkFriendRequestExists(username2,username);
+		System.out.println("Friends: "+ friends);
+		if(checkFriendRequestExists(username, username2)&& friends ){
+			String query_removeFriend= "DELETE FROM RelationshipType WHERE username= ? AND username2 = ?";
+			preparedStatement = connection.prepareStatement(query_removeFriend);
+			preparedStatement.setString(1, username);
+			preparedStatement.setString(2, username2);
+			preparedStatement.execute();
+			closeStatement(preparedStatement);
+			successful = true;
+			friendsReturn = "Friends";
+		}
+		if( friends){
+			String query2_removeFriend= "DELETE FROM RelationshipType WHERE username= ? AND username2 = ?";
+			preparedStatement = connection.prepareStatement(query2_removeFriend);
+			preparedStatement.setString(1, username2);
+			preparedStatement.setString(2, username);
+			preparedStatement.execute();
+			closeStatement(preparedStatement);
+			successful = true;
+			friendsReturn = "NotFriends";
+		}
 		}catch (SQLException e) {
 			closeStatement(preparedStatement);
 			System.out.println("Error in addFriends: "+ e.getMessage());
 			e.printStackTrace();}
-		finally{
-			
-		}
-		return successful;
-	}
-
+			finally{
+			}
+			return new ResultPair(successful,friendsReturn);
+			}
 
 
 	/**

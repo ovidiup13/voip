@@ -1,11 +1,15 @@
 package main;
 
 import buffers.ServerResponse.Response;
+
 import com.google.protobuf.ProtocolStringList;
+
+import database.Client;
 import p2p.SimpleVoIPCall;
 import tcp.sockethandler.SocketHandler;
 
 import javax.swing.*;
+
 import java.io.IOException;
 import java.net.Socket;
 import java.util.ArrayList;
@@ -46,6 +50,7 @@ public class ClientThread extends Thread {
                     case FLIST: { displayflistResponse(response); break;}
                     case ADDF: { addfriendResponse(response);break;}
                     case DELF: { deletefriendResponse(response); break;}
+                    case FRES: { AcceptedDeclineFrindRequestResponse(response); break;}
                     default:
                         break;
                 }
@@ -61,6 +66,9 @@ public class ClientThread extends Thread {
 	}
 	
 	
+	
+
+
 	//register response
 	private void registerResponse(Response response){
 		
@@ -233,6 +241,19 @@ public class ClientThread extends Thread {
 				System.out.println("You action  to user "+response.getReqResult().getCause()+" was unsuccesful ");
 			}
 		}
+	
+	
+	private void AcceptedDeclineFrindRequestResponse(Response response2) {
+		System.out.println("This is response back to the client");
+//		System.out.println("we are in Client :"+ GuiMainClient.getUsername());
+//		System.out.println("add/decline"+response.getStatus());
+//		System.out.println("by who" + response.getUsername());
+ 		//new FriendRequestResponseNotificaion(response.getUsername(), false);
+		new FriendRequestResponseNotificaion(response.getUsername(), response.getStatus());
+	
+			
+		
+	}
 	
 	
 	//delete friend
