@@ -378,6 +378,10 @@ public final class ServerResponse {
        * <code>NOCALL = 11;</code>
        */
       NOCALL(10, 11),
+      /**
+       * <code>FRES = 12;</code>
+       */
+      FRES(11, 12),
       ;
 
       /**
@@ -424,6 +428,10 @@ public final class ServerResponse {
        * <code>NOCALL = 11;</code>
        */
       public static final int NOCALL_VALUE = 11;
+      /**
+       * <code>FRES = 12;</code>
+       */
+      public static final int FRES_VALUE = 12;
 
 
       public final int getNumber() { return value; }
@@ -441,6 +449,7 @@ public final class ServerResponse {
           case 9: return DELF;
           case 10: return LOUT;
           case 11: return NOCALL;
+          case 12: return FRES;
           default: return null;
         }
       }
@@ -3589,7 +3598,7 @@ public final class ServerResponse {
       descriptor;
   static {
     java.lang.String[] descriptorData = {
-      "\n\025server_response.proto\"\324\003\n\010Response\022#\n\010" +
+      "\n\025server_response.proto\"\337\003\n\010Response\022#\n\010" +
       "res_type\030\001 \002(\0162\021.Response.ResType\022$\n\nreq" +
       "_result\030\003 \001(\0132\020.Response.Result\022-\n\rcall_" +
       "response\030\004 \001(\0132\026.Response.CallResponse\022\017" +
@@ -3598,10 +3607,10 @@ public final class ServerResponse {
       "\010 \001(\010\032#\n\006Result\022\n\n\002ok\030\001 \002(\010\022\r\n\005cause\030\002 \002" +
       "(\t\0322\n\014CallResponse\022\022\n\nip_address\030\001 \002(\t\022\016" +
       "\n\006callID\030\002 \002(\005\032\036\n\nFriendList\022\020\n\010username" +
-      "\030\001 \003(\t\"~\n\007ResType\022\007\n\003REG\020\001\022\007\n\003LIN\020\002\022\013\n\007C",
-      "ALLREC\020\003\022\t\n\005ECALL\020\004\022\t\n\005FLIST\020\005\022\013\n\007CALLIN" +
-      "Q\020\006\022\007\n\003STS\020\007\022\010\n\004ADDF\020\010\022\010\n\004DELF\020\t\022\010\n\004LOUT" +
-      "\020\n\022\n\n\006NOCALL\020\013B\013\n\007buffersH\001"
+      "\030\001 \003(\t\"\210\001\n\007ResType\022\007\n\003REG\020\001\022\007\n\003LIN\020\002\022\013\n\007",
+      "CALLREC\020\003\022\t\n\005ECALL\020\004\022\t\n\005FLIST\020\005\022\013\n\007CALLI" +
+      "NQ\020\006\022\007\n\003STS\020\007\022\010\n\004ADDF\020\010\022\010\n\004DELF\020\t\022\010\n\004LOU" +
+      "T\020\n\022\n\n\006NOCALL\020\013\022\010\n\004FRES\020\014B\013\n\007buffersH\001"
     };
     com.google.protobuf.Descriptors.FileDescriptor.InternalDescriptorAssigner assigner =
         new com.google.protobuf.Descriptors.FileDescriptor.    InternalDescriptorAssigner() {

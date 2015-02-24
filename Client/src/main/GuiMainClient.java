@@ -242,6 +242,7 @@ public class GuiMainClient {
             }
         });
 
+        //loginWindow.setResizable(false);
         loginWindow.setVisible(true);
 
 

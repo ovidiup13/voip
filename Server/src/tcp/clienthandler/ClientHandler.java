@@ -221,10 +221,9 @@ public class ClientHandler implements Runnable, ResponseSender {
 
     //read friend request
     private void readAddFriendRequest(Request request) {
-        Response response = null;
         addFriendResult result = db.addFriend(client.getUsername(), request.getUsername());
         if (result.getSuccessful()) {
-            response = responseWriter.createFriendRequestResponse(true, "Adding friend successful");
+            sendAddFriendResponse(true, "Adding friend successful");
             System.out.println("The type of the add friend is "+ result.getType());
             //send friend list back
             readFriendListRequest(client);
@@ -235,13 +234,7 @@ public class ClientHandler implements Runnable, ResponseSender {
             
             System.out.println("Server: Sent successful response.");
         } else {
-            response = responseWriter.createFriendRequestResponse(false, "Adding friend unsuccessful- Contact staff for support");
-        }
-
-        try {
-            response.writeDelimitedTo(output);
-        } catch (IOException e) {
-            System.err.println("could not send confirmation for friend request");
+            sendAddFriendResponse(false, "Adding friend unsuccessful- Contact staff for support");
         }
     }
 
@@ -296,9 +289,8 @@ public class ClientHandler implements Runnable, ResponseSender {
 
     //read delete friend request
     private void readDeleteFriendRequest(Request request) {
-        Response response = null;
         if (db.deleteFriendship(client.getUsername(), request.getUsername())) {
-            response = responseWriter.createDeleteFriendResponse(true, "Deleting friend successful");
+            sendDelFriendResponse(true, "Deleting friend successful");
             //update both client lists
 
             readFriendListRequest(client); //send friends list back as well
@@ -306,14 +298,8 @@ public class ClientHandler implements Runnable, ResponseSender {
             
             System.out.println("Server: Sent successful response.");
         } else {
-            response = responseWriter.createDeleteFriendResponse(false, "Deleting friend  unsuccessful - Contact staff for support");
+            sendDelFriendResponse(false, "Deleting friend  unsuccessful - Contact staff for support");
             System.out.println("Server: Sent unsuccessful response.");
-        }
-
-        try {
-            response.writeDelimitedTo(output);
-        } catch (IOException e) {
-            System.err.println("could not send confirmation for delete relationship request");
         }
     }
 
@@ -424,6 +410,16 @@ public class ClientHandler implements Runnable, ResponseSender {
             response.writeDelimitedTo(output);
         } catch (IOException e) {
             System.err.println("Server: could not send delete friend response");
+        }
+    }
+
+    @Override
+    public void sendFriendRequestResponse(String username, boolean ok) {
+        Response response = responseWriter.createFriendResponse(username, ok);
+        try {
+            response.writeDelimitedTo(output);
+        } catch (IOException e) {
+            System.err.println("Server: could send response for friend request");
         }
     }
 }

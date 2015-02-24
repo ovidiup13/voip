@@ -7,7 +7,7 @@ option optimize_for = SPEED;
 message Response {
 
 	//define the types of responses 
-	enum ResType { REG = 1; LIN = 2; CALLREC = 3; ECALL = 4; FLIST = 5; CALLINQ = 6; STS = 7; ADDF = 8; DELF = 9; LOUT = 10; NOCALL = 11;}
+	enum ResType { REG = 1; LIN = 2; CALLREC = 3; ECALL = 4; FLIST = 5; CALLINQ = 6; STS = 7; ADDF = 8; DELF = 9; LOUT = 10; NOCALL = 11; FRES = 12;}
 
 	//type of response
 	required ResType res_type = 1;

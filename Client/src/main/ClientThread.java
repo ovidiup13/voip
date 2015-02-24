@@ -23,8 +23,6 @@ public class ClientThread extends Thread {
 	public ClientThread(SocketHandler sockethandler ){
 		recSocket = sockethandler.getSocket();
 		System.out.println("Thread Started!");
-		
-
 	}
 	
 	

@@ -187,5 +187,22 @@ public class ResponseWriter {
         return Response.newBuilder().
                 setResType(Response.ResType.DELF).setReqResult(reqResult).build();
     }
+
+    /**
+     * method that creates a response to a friend request response
+     * @param ok
+     * 			Flags whether the request was successful or not
+     * @param username
+     * 			The username of the friend
+     * @return response to a request
+     * */
+    public Response createFriendResponse(String username, boolean ok){
+        return friendResponse(username, ok);
+    }
+
+    private static Response friendResponse(String username, boolean ok){
+        return Response.newBuilder().
+                setResType(Response.ResType.FRES).setUsername(username).setStatus(ok).build();
+    }
     
 }
