@@ -3,6 +3,7 @@ package tcp.clienthandler;
 import buffers.ClientRequest.Request;
 import buffers.ServerResponse.Response;
 import database.*;
+import database.ConnectToDb.TypeAction;
 import interfaces.ResponseSender;
 import writers.ResponseWriter;
 
@@ -241,7 +242,7 @@ public class ClientHandler implements Runnable, ResponseSender {
 
             if(addressMap.isOnline(request.getUsername())){
                 readFriendListRequest(addressMap.getClient(request.getUsername()));
-                if(result.getType().equals("response")){
+                if(result.getType()== TypeAction.RESPONSE_FR){
                 	sendFriendRequestResponse(addressMap.getClient(request.getUsername()),client.getUsername(), true);
                 }
              }
@@ -323,7 +324,7 @@ public class ClientHandler implements Runnable, ResponseSender {
 
     //read delete friend request
     private void readDeleteFriendRequest(Request request) {
-    	ResultPair result = db.deleteFriendship(client.getUsername(), request.getUsername());
+    	ResultPair result = db.deleteFriendship(request.getUsername(),client.getUsername() );
         if (result.getSuccessful()) {
             sendDelFriendResponse(true, "Deleting friend successful");
             //update both client lists
@@ -332,7 +333,7 @@ public class ClientHandler implements Runnable, ResponseSender {
             if (addressMap.isOnline(request.getUsername())){
             	System.out.println("RESULT IS "+ result.getType());
             	readFriendListRequest(addressMap.getClient(request.getUsername()));
-            	if(result.getType().equals("NotFriends")){
+            	if(result.getType()== TypeAction.PENDING_DEL){
             		System.out.println("WE AREEEE HEREEE");
             		sendFriendRequestResponse(addressMap.getClient(request.getUsername()),client.getUsername(), false);
             		}

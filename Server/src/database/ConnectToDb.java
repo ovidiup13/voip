@@ -17,6 +17,7 @@ public class ConnectToDb {
 	private static final String DB_URL = "jdbc:sqlite:Server/src/database/TP3Hdb.db";  
 	private static final String DRIVER = "org.sqlite.JDBC";  
 
+	public enum TypeAction {REQUEST_FR, RESPONSE_FR,PENDING_DEL , FRIENDSHIP_DEL};
 
 
 
@@ -249,7 +250,7 @@ public class ConnectToDb {
 	 * 			calls updateFrinds(if both rows exist set status to 2 (Confirm Friend Request)
 	 * **/
 	public ResultPair addFriend(String fromUser, String ToUser){
-		String  type = "request";
+	//	String  type = "request";
 	
 		try{
 			if(!checkFriendRequestExists(fromUser, ToUser) &&  isRegistered(ToUser)){
@@ -261,11 +262,11 @@ public class ConnectToDb {
 				preparedStatement.execute();	
 				if(checkFriendRequestExists(ToUser, fromUser)){
 					if (updateFriends()){
-						type = "response";
-						return new ResultPair(true,type);	
+					//	type = "response";
+						return new ResultPair(true,TypeAction.RESPONSE_FR);	
 						}	
 				}
-				return new ResultPair(true,type);	
+				return new ResultPair(true,TypeAction.REQUEST_FR);	
 
 			}
 		}catch (SQLException e) {
@@ -274,7 +275,7 @@ public class ConnectToDb {
 		finally{
 			closeStatement(preparedStatement);
 		}
-		return new ResultPair(false,type);	
+		return new ResultPair(false,TypeAction.REQUEST_FR);	//Type is not important here, choose random
 
 
 	}
@@ -291,39 +292,36 @@ public class ConnectToDb {
 	 * relation must exist (USERS MUST BE FRIENDS ), user name must be real
 	 * **/
 	public ResultPair deleteFriendship(String username, String username2){
-		boolean successful = false;
-		String friendsReturn = null;
+		boolean areFriends = checkFriendRequestExists(username2,username);
+		
 		try{
-		boolean friends = checkFriendRequestExists(username2,username);
-		System.out.println("Friends: "+ friends);
-		if(checkFriendRequestExists(username, username2)&& friends ){
-			String query_removeFriend= "DELETE FROM RelationshipType WHERE username= ? AND username2 = ?";
-			preparedStatement = connection.prepareStatement(query_removeFriend);
-			preparedStatement.setString(1, username);
-			preparedStatement.setString(2, username2);
-			preparedStatement.execute();
-			closeStatement(preparedStatement);
-			successful = true;
-			friendsReturn = "Friends";
-		}
-		if( friends){
-			String query2_removeFriend= "DELETE FROM RelationshipType WHERE username= ? AND username2 = ?";
-			preparedStatement = connection.prepareStatement(query2_removeFriend);
-			preparedStatement.setString(1, username2);
-			preparedStatement.setString(2, username);
-			preparedStatement.execute();
-			closeStatement(preparedStatement);
-			successful = true;
-			friendsReturn = "NotFriends";
-		}
+			if(checkFriendRequestExists(username, username2) ){
+				String query_removeFriend= "DELETE FROM RelationshipType WHERE username= ? AND username2 = ?";
+				preparedStatement = connection.prepareStatement(query_removeFriend);
+				preparedStatement.setString(1, username);
+				preparedStatement.setString(2, username2);
+				preparedStatement.execute();
+				closeStatement(preparedStatement);
+			}
+			if( areFriends){
+				String query2_removeFriend= "DELETE FROM RelationshipType WHERE username= ? AND username2 = ?";
+				preparedStatement = connection.prepareStatement(query2_removeFriend);
+				preparedStatement.setString(1, username2);
+				preparedStatement.setString(2, username);
+				preparedStatement.execute();
+				closeStatement(preparedStatement);
+				return new ResultPair(true,TypeAction.FRIENDSHIP_DEL);
+			}
+			return new ResultPair(true,TypeAction.PENDING_DEL);
+		
 		}catch (SQLException e) {
 			closeStatement(preparedStatement);
 			System.out.println("Error in addFriends: "+ e.getMessage());
-			e.printStackTrace();}
-			finally{
+			e.printStackTrace();
 			}
-			return new ResultPair(successful,friendsReturn);
-			}
+		
+		return new ResultPair(false,TypeAction.FRIENDSHIP_DEL); //Type irrelevant here
+	}
 
 
 	/**

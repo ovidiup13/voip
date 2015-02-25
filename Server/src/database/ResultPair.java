@@ -1,19 +1,33 @@
 package database;
 
- public class ResultPair {
-    private boolean successful;
-    private  String type;
+import database.ConnectToDb.TypeAction;
 
-    public ResultPair(boolean first, String type2) {
+
+ /**
+ * @author viktor
+ * class for returning multiple parameters for a function 
+ * used in addFriend and remove Friend to determine if the action was 
+ * for addition : request for friendship or accepting the pending request
+ * for deletion: declining the friendship or deleting existing friend 
+ */
+public class ResultPair {
+    private boolean successful;
+    private  TypeAction type;
+
+    public ResultPair(boolean first, TypeAction responseFr) {
         this.successful = first;
-        this.type = type2;
+        this.type = responseFr;
     }
 
     public boolean getSuccessful() {
         return successful;
     }
 
-    public String getType() {
+    public TypeAction getType() {
         return type;
     }
+    
+    
 }
+
+
