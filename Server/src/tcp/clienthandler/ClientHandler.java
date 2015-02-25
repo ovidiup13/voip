@@ -173,6 +173,7 @@ public class ClientHandler implements Runnable, ResponseSender {
             client.setStatus(ClientStatus.IDLE);
             addressMap.addClient(client); //do this at the end, so that
             
+            
             //notify all user friends for status change
             sendFriendListStatusChange(client);
 
@@ -369,8 +370,12 @@ public class ClientHandler implements Runnable, ResponseSender {
     public void sendLogOutResponse(boolean ok, String message) {
         Response response = responseWriter.createLogOutResponse(ok, message);
         try {
+        	
+            client.setStatus(ClientStatus.NOT_LOGGED_IN);
             //notify all user friends for status change
             sendFriendListStatusChange(client);
+            
+            addressMap.removeClient(client);
 
             response.writeDelimitedTo(output);
         } catch (IOException e) {
