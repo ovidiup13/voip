@@ -1,6 +1,5 @@
 package database;
 
-import java.awt.List;
 import java.security.MessageDigest;
 import java.sql.*;
 import java.text.SimpleDateFormat;
@@ -21,15 +20,15 @@ public class ConnectToDb {
 
 
 
-	public void makeConnection(){
-		//method used for testing 
-		getConnection();
-		System.out.println("Encoding for password is "+ sha256("VIktor"));
 
-	}
-
-
-	private void getConnection()  { 
+	/**
+	 * Connection method : connect to the db driver
+	 * 
+	 * @return void
+	 * @throws SQLException , ClassNotFoundException
+	 * This implementation  does not turn on foreign keys!
+	 * **/
+	public void makeConnection()  { 
 		try { 
 			Class.forName(DRIVER);     
 			SQLiteConfig config = new SQLiteConfig();  
@@ -84,11 +83,7 @@ public class ConnectToDb {
 	 *@return  true if user name and password match
 	 *    false if password does not match or user name does not exists
 	 *    
-	 * if successful update last login and set status to 1 (online)
-	 * Glosary: Status (enum;0 for offline 1 for online, 2 for away, 3 for  busy, 4 for in a call ) DEFAUL null
 	 * 
-	 * NOTE: status checking not implemented, should be restricted in GUI (sign in should be 
-	 * disabled if logged in )
 	 * **/
 	public boolean logIn(String username, String password) {
 		try {
@@ -101,10 +96,10 @@ public class ConnectToDb {
 				int count = resultSet.getInt(1);
 				if(count == 1){
 					//login authorization successful 
-					//set the lastLogin field to the current time and status to 1 (online), in query add+1
+					//set the lastLogin field to the current time 
 					java.util.Date date= new java.util.Date();
 					Timestamp time = new Timestamp(date.getTime());
-					preparedStatement = connection.prepareStatement("UPDATE Users SET lastLogin = ?, status= 1 WHERE username= ?");
+					preparedStatement = connection.prepareStatement("UPDATE Users SET lastLogin = ? WHERE username= ?");
 					preparedStatement.setString(1, time.toString());
 					preparedStatement.setString(2, username);
 					preparedStatement.execute();
