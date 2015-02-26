@@ -24,6 +24,7 @@ public class FriendsCellRenderer extends JPanel implements ListCellRenderer<Frie
 	
 	private JLabel acceptLabel;
 	private JLabel declineLabel;
+	private JLabel lastLogin ;
 	
 	private JPanel buttonsPanel;
 	private BoxLayout buttonsLayout;
@@ -61,6 +62,9 @@ public class FriendsCellRenderer extends JPanel implements ListCellRenderer<Frie
 		declineLabel.setIcon(declineIcon);
 		declineLabel.setOpaque(false);
 		
+		lastLogin= new JLabel();
+	
+	//	add(lastLogin, BorderLayout.EAST);
 		add(buttonsPanel, BorderLayout.LINE_END);
 	}
 	
@@ -68,13 +72,16 @@ public class FriendsCellRenderer extends JPanel implements ListCellRenderer<Frie
 	public Component getListCellRendererComponent(JList<? extends FriendListItem> list,
 			FriendListItem value, int i, boolean selected, boolean focused) {
 		
-		label.setText(value.text);
-		
+		label.setText(value.text);	
 		buttonsPanel.removeAll();
 		
 		if (value.mode != FriendListItemMode.TITLE) {
+			buttonsPanel.add(lastLogin);
 			label.setFont(new Font("Verdana", Font.PLAIN, 12));
 			label.setForeground((value.status == 0)?Color.GRAY:Color.BLACK); //offline users are grayed out
+			lastLogin.setText((value.status == 0)?value.lastSeen:"ONLINE");
+			lastLogin.setFont((value.status == 0)?new Font("Serif", Font.ITALIC, 10):new Font("Serif", Font.ITALIC, 10));
+			lastLogin.setForeground((value.status == 0)?Color.GRAY:new Color(0x2693FF));
 			label.setIcon(onlineStatus[value.status]); //temporary, in future list should contain a special "friends list" object
 			if (selected) {
 				setBackground(new Color(0xB3ECFF));
@@ -83,6 +90,7 @@ public class FriendsCellRenderer extends JPanel implements ListCellRenderer<Frie
 			}
 			
 			if (value.mode == FriendListItemMode.REQUEST) {
+				buttonsPanel.removeAll(); //remove l
 				buttonsPanel.add(declineLabel);
 				buttonsPanel.add(acceptLabel);
 			}

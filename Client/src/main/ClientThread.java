@@ -213,13 +213,13 @@ public class ClientThread extends Thread {
                     if(onlineStatus < 2) onlineStatus++;
                     
                     if(status == 2)
-                        friends.add(new FriendListItem(FriendListItemMode.FRIEND, friend, onlineStatus));
+                        friends.add(new FriendListItem(FriendListItemMode.FRIEND, friend, onlineStatus,lastSeen));
                     else
-                        pending.add(new FriendListItem(FriendListItemMode.REQUEST, friend, onlineStatus));
+                        pending.add(new FriendListItem(FriendListItemMode.REQUEST, friend, onlineStatus,lastSeen));
 
 		    	}
 		    	
-		    	friends.add(new FriendListItem(FriendListItemMode.TITLE, "Pending Requests:", 0));
+		    	friends.add(new FriendListItem(FriendListItemMode.TITLE, "Pending Requests:", 0,""));
 
                 friends.addAll(pending);
 		    	

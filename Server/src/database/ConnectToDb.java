@@ -22,24 +22,10 @@ public class ConnectToDb {
 
 
 	public void makeConnection(){
-
-		
+		//method used for testing 
 		getConnection();
 		System.out.println("Encoding for password is "+ sha256("VIktor"));
 
-		//		System.out.println("DELATION  "+ deleteFriendship("User15","User13"));
-		//			addFriend("User15","User16");
-		//			
-		//			addFriend("User35","Viktor");
-		//		logIn("User4","password");
-		//
-		//			addFriend("usernae","User4");
-		//			addFriend("username2","User3");
-		//			addFriend("User11","User4");
-		
-		//System.out.println("first "+checkFriendRequestExists("username", "ben16"));
-		//Sstem.out.println("second"+checkFriendRequestExists("ben16", "username"));
-	
 	}
 
 
@@ -226,7 +212,7 @@ public class ConnectToDb {
 			if(resultSet.next()) {
 				Timestamp date;
 				date = resultSet.getTimestamp("lastLogin");
-				SimpleDateFormat sdf = new java.text.SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
+				SimpleDateFormat sdf = new java.text.SimpleDateFormat("yyyy-MM-dd");
 				return sdf.format(date);
 			}
 		}catch (SQLException e) {
