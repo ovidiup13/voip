@@ -90,7 +90,7 @@ public class FriendsCellRenderer extends JPanel implements ListCellRenderer<Frie
 			}
 			
 			if (value.mode == FriendListItemMode.REQUEST) {
-				buttonsPanel.removeAll(); //remove l
+				buttonsPanel.removeAll(); //remove lastLogin if it is request (LastLogin not visible if pending
 				buttonsPanel.add(declineLabel);
 				buttonsPanel.add(acceptLabel);
 			}

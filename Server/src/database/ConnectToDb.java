@@ -52,7 +52,7 @@ public class ConnectToDb {
 			if(!isRegistered(name)){
 				preparedStatement= connection.prepareStatement("INSERT INTO Users(username,password) VALUES (?,?)");
 				preparedStatement.setString(1,name);
-				preparedStatement.setString(2,password);
+				preparedStatement.setString(2, sha256(password));
 				preparedStatement.execute();
 				return true;
 			}
@@ -95,7 +95,7 @@ public class ConnectToDb {
 			preparedStatement = connection.prepareStatement("SELECT count(*) FROM Users WHERE username= ? AND password= ?");
 
 			preparedStatement.setString(1, username);
-			preparedStatement.setString(2, password);
+			preparedStatement.setString(2,  sha256(password));
 			resultSet = preparedStatement.executeQuery();
 			if(resultSet.next()) { // rs.next() is false if nothing is found
 				int count = resultSet.getInt(1);
@@ -123,78 +123,9 @@ public class ConnectToDb {
 		}
 		return false;
 	}
-	/**
-	 * looks up in DB if the user exist:
- 		if user does not exists : return false
-		if user has status of â€œoff/callâ€� (is either offline-0 or in a call-4) return false;
-		if user has status of 1 for online, 2 for away, 3 for  busy,  return true;
-	 * 
-	 * **/
-	public boolean callCheckAvailable (String username) {
-		try{
-			if(isRegistered(username)){
-				String query_getUserStatus = "SELECT status FROM Users WHERE username= ?";
-				preparedStatement = connection.prepareStatement(query_getUserStatus);
-				preparedStatement.setString(1, username);
-				resultSet =  preparedStatement.executeQuery();
-
-				//if user in call or offline return false
-				if(resultSet.next()) { // rs.next() is false if nothing is found
-					String status = resultSet.getString(1); 
-					if(status.equals("0") || status.equals("4")) return false;
-				}
-				return true;
-			}
-		}catch(SQLException e){
-			System.out.println("Error: "+ e.getMessage());
-			e.printStackTrace();
-		}finally{
-			closeStatement(preparedStatement);		
-		}
-		System.out.println("User with such name does not exists!");
-		return false; 
-	}
-
-	/**method to update the user status for a given user name (use for log out functionality etc. when LogIN 
-	 * status is changed by the LogIn function)
-	 * @param username and status
-	 * @return true if  status in range and user name exists , false otherwise 
-	 * Glosary: status: 1 for online, 2 for away, 3 for  busy, 4 for incall, 5 for idle; 
-	 * 
-	 * **/
-	public boolean updateUserStatus(String username,String status){
-		try {
-			if(status.matches("[0-5]") && isRegistered(username) ){
-				String query_updateUserStatus= "UPDATE Users SET status = ? WHERE username = ?";
-				preparedStatement = connection.prepareStatement(query_updateUserStatus);
-				preparedStatement.setString(2, username);
-				preparedStatement.setString(1, status);
-				preparedStatement.execute();
-				return true;
-			}
-		} catch (SQLException e) {
-			System.out.println("Error: "+ e.getMessage());
-			e.printStackTrace();
-		}finally{
-			closeStatement(preparedStatement);
-		}
-		System.out.println("InvalidStatus");
-		return false;
-	}
 
 
-	public void delete(String username) {
-		try{
-			preparedStatement = connection.prepareStatement("DELETE FROM Users WHERE username= ?");
-			preparedStatement.setString(1, username);
-			preparedStatement.execute();
-		}catch(SQLException e){
-			System.out.println("Error: "+ e.getMessage());
-			e.printStackTrace();
-		}finally{
-			closeStatement(preparedStatement);
-		}
-	}
+	
 	/**
 	 * Method to get lastLogin date for a user
 	 * return Timestamp use:
@@ -227,8 +158,8 @@ public class ConnectToDb {
 	/**
 	 * Method for adding friends to the db
 	 * @param fromUser, ToUser
-	 * @must the username you want to add as a friend must exist and check for consistency if the
-	 * pending request is not already send
+	 * @must the username you want to add as a friend must exist in users tabme  and check for consistency if the
+	 * pending request is not already send as well if you are not trying to add yourself as a friend 
 	 * 1.first when user1 request friendship to user2
 	 * 2.second when user2 request friendship to user1
 	 * if both rows exist the two users become friends
@@ -239,7 +170,7 @@ public class ConnectToDb {
 	//	String  type = "request";
 	
 		try{
-			if(!checkFriendRequestExists(fromUser, ToUser) &&  isRegistered(ToUser)){
+			if(!checkFriendRequestExists(fromUser, ToUser) &&  isRegistered(ToUser) && !fromUser.equals(ToUser)){
 				String query_addFriend= "INSERT INTO RelationshipType (username,username2,relationship) VALUES (?,?,?)";
 				preparedStatement = connection.prepareStatement(query_addFriend);
 				preparedStatement.setString(1, fromUser);
@@ -346,7 +277,8 @@ public class ConnectToDb {
 	 * Internal working : 1.Finds the relationships pairs
 	 * 					  2.For each relationship pair modify status if must
 	 * 
-	 * When a Statement object is closed, its current ResultSet object, if one exists, is also closed.
+	 * FUTURE WORK: Optimize this method: right now it is selecting all pairs and it is updating
+	 * all existing pairs 
 	 * 
 	 **/
 	private boolean updateFriends(){
@@ -354,14 +286,15 @@ public class ConnectToDb {
 			String query_findFriendships = "SELECT  f1.* from RelationshipType f1 inner join RelationshipType f2 on f1.username = f2.username2 and f1.username2 = f2.username;";
 			preparedStatement = connection.prepareStatement(query_findFriendships);
 			resultSet =  preparedStatement.executeQuery();
-			//	closeStatement(preparedStatement);
+	
 			while(resultSet.next()) {
 				String query_updateFriends = "UPDATE RelationshipType SET relationship = ? WHERE (username= ? AND username2= ?)";
 				preparedStatement = connection.prepareStatement(query_updateFriends);
 				preparedStatement.setInt(1,2);
 				preparedStatement.setString(2, resultSet.getString("username"));	
 				preparedStatement.setString(3, resultSet.getString("username2"));
-				preparedStatement.execute();				
+				preparedStatement.execute();	
+				closeStatement(preparedStatement);
 			}
 			return true;
 
