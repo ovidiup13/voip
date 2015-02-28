@@ -4,9 +4,8 @@
   
   <property file="build.properties"/>
   <!-- Uncomment the following property if no tests compilation is needed -->
-  <!-- 
+
   <property name="skip.tests" value="true"/>
-   -->
   
   <!-- Compiler options -->
   
@@ -113,7 +112,7 @@
   <property name="module.jdk.bin.protocoltcp" value="${project.jdk.bin}"/>
   <property name="module.jdk.classpath.protocoltcp" value="${project.jdk.classpath}"/>
   
-  <property name="compiler.args.protocoltcp" value="-encoding UTF-8 -source 1.6 ${compiler.args}"/>
+  <property name="compiler.args.protocoltcp" value="-encoding UTF-8 -source 1.7 ${compiler.args}"/>
   
   <property name="protocoltcp.output.dir" value="${module.protocoltcp.basedir}/out/production/protocolTCP"/>
   <property name="protocoltcp.testoutput.dir" value="${module.protocoltcp.basedir}/out/test/protocolTCP"/>
@@ -192,97 +191,6 @@
   </target>
   
   
-  <!-- Module Client -->
-  
-  <dirname property="module.client.basedir" file="${ant.file}"/>
-  
-  
-  <property name="module.jdk.home.client" value="${project.jdk.home}"/>
-  <property name="module.jdk.bin.client" value="${project.jdk.bin}"/>
-  <property name="module.jdk.classpath.client" value="${project.jdk.classpath}"/>
-  
-  <property name="compiler.args.client" value="-encoding UTF-8 -source 1.6 ${compiler.args}"/>
-  
-  <property name="client.output.dir" value="${module.client.basedir}/out/production/Client"/>
-  <property name="client.testoutput.dir" value="${module.client.basedir}/out/test/Client"/>
-  
-  <path id="client.module.bootclasspath">
-    <!-- Paths to be included in compilation bootclasspath -->
-  </path>
-  
-  <path id="client.module.production.classpath">
-    <path refid="${module.jdk.classpath.client}"/>
-    <pathelement location="${protocoltcp.output.dir}"/>
-    <pathelement location="${basedir}/protocolTCP/lib/protobuf-java-2.6.0.jar"/>
-    <pathelement location="${basedir}/protocolTCP/lib/protobuf-java-2.6.0.jar"/>
-  </path>
-  
-  <path id="client.runtime.production.module.classpath">
-    <pathelement location="${client.output.dir}"/>
-    <path refid="protocoltcp.runtime.production.module.classpath"/>
-    <pathelement location="${basedir}/protocolTCP/lib/protobuf-java-2.6.0.jar"/>
-  </path>
-  
-  <path id="client.module.classpath">
-    <path refid="${module.jdk.classpath.client}"/>
-    <pathelement location="${client.output.dir}"/>
-    <pathelement location="${protocoltcp.testoutput.dir}"/>
-    <pathelement location="${protocoltcp.output.dir}"/>
-    <pathelement location="${basedir}/protocolTCP/lib/protobuf-java-2.6.0.jar"/>
-    <pathelement location="${basedir}/protocolTCP/lib/protobuf-java-2.6.0.jar"/>
-  </path>
-  
-  <path id="client.runtime.module.classpath">
-    <pathelement location="${client.testoutput.dir}"/>
-    <pathelement location="${client.output.dir}"/>
-    <path refid="protocoltcp.runtime.module.classpath"/>
-    <pathelement location="${basedir}/protocolTCP/lib/protobuf-java-2.6.0.jar"/>
-  </path>
-  
-  
-  <patternset id="excluded.from.module.client">
-    <patternset refid="ignored.files"/>
-  </patternset>
-  
-  <patternset id="excluded.from.compilation.client">
-    <patternset refid="excluded.from.module.client"/>
-  </patternset>
-  
-  <path id="client.module.sourcepath">
-    <dirset dir="${module.client.basedir}/Client">
-      <include name="src"/>
-    </dirset>
-  </path>
-  
-  
-  <target name="compile.module.client" depends="compile.module.client.production,compile.module.client.tests" description="Compile module Client"/>
-  
-  <target name="compile.module.client.production" depends="compile.module.protocoltcp" description="Compile module Client; production classes">
-    <mkdir dir="${client.output.dir}"/>
-    <javac destdir="${client.output.dir}" debug="${compiler.debug}" nowarn="${compiler.generate.no.warnings}" memorymaximumsize="${compiler.max.memory}" fork="true" executable="${module.jdk.bin.client}/javac">
-      <compilerarg line="${compiler.args.client}"/>
-      <bootclasspath refid="client.module.bootclasspath"/>
-      <classpath refid="client.module.production.classpath"/>
-      <src refid="client.module.sourcepath"/>
-      <patternset refid="excluded.from.compilation.client"/>
-    </javac>
-    
-    <copy todir="${client.output.dir}">
-      <fileset dir="${module.client.basedir}/Client/src">
-        <patternset refid="compiler.resources"/>
-        <type type="file"/>
-      </fileset>
-    </copy>
-  </target>
-  
-  <target name="compile.module.client.tests" depends="compile.module.client.production" description="compile module Client; test classes" unless="skip.tests"/>
-  
-  <target name="clean.module.client" description="cleanup module">
-    <delete dir="${client.output.dir}"/>
-    <delete dir="${client.testoutput.dir}"/>
-  </target>
-  
-  
   <!-- Module Server -->
   
   <dirname property="module.server.basedir" file="${ant.file}"/>
@@ -292,7 +200,7 @@
   <property name="module.jdk.bin.server" value="${project.jdk.bin}"/>
   <property name="module.jdk.classpath.server" value="${project.jdk.classpath}"/>
   
-  <property name="compiler.args.server" value="-encoding UTF-8 -source 1.6 ${compiler.args}"/>
+  <property name="compiler.args.server" value="-encoding UTF-8 -source 1.7 ${compiler.args}"/>
   
   <property name="server.output.dir" value="${module.server.basedir}/out/production/Server"/>
   <property name="server.testoutput.dir" value="${module.server.basedir}/out/test/Server"/>
@@ -305,6 +213,7 @@
     <path refid="${module.jdk.classpath.server}"/>
     <pathelement location="${protocoltcp.output.dir}"/>
     <pathelement location="${basedir}/protocolTCP/lib/protobuf-java-2.6.0.jar"/>
+    <path refid="library.protobuf-java-2.6.0.classpath"/>
     <path refid="library.lib.classpath"/>
   </path>
   
@@ -320,6 +229,7 @@
     <pathelement location="${protocoltcp.testoutput.dir}"/>
     <pathelement location="${protocoltcp.output.dir}"/>
     <pathelement location="${basedir}/protocolTCP/lib/protobuf-java-2.6.0.jar"/>
+    <path refid="library.protobuf-java-2.6.0.classpath"/>
     <path refid="library.lib.classpath"/>
   </path>
   
@@ -373,13 +283,115 @@
     <delete dir="${server.testoutput.dir}"/>
   </target>
   
+  
+  <!-- Module Client -->
+  
+  <dirname property="module.client.basedir" file="${ant.file}"/>
+  
+  
+  <property name="module.jdk.home.client" value="${project.jdk.home}"/>
+  <property name="module.jdk.bin.client" value="${project.jdk.bin}"/>
+  <property name="module.jdk.classpath.client" value="${project.jdk.classpath}"/>
+  
+  <property name="compiler.args.client" value="-encoding UTF-8 -source 1.7 ${compiler.args}"/>
+  
+  <property name="client.output.dir" value="${module.client.basedir}/out/production/Client"/>
+  <property name="client.testoutput.dir" value="${module.client.basedir}/out/test/Client"/>
+  
+  <path id="client.module.bootclasspath">
+    <!-- Paths to be included in compilation bootclasspath -->
+  </path>
+  
+  <path id="client.module.production.classpath">
+    <path refid="${module.jdk.classpath.client}"/>
+    <pathelement location="${protocoltcp.output.dir}"/>
+    <pathelement location="${basedir}/protocolTCP/lib/protobuf-java-2.6.0.jar"/>
+    <path refid="library.protobuf-java-2.6.0.classpath"/>
+    <pathelement location="${basedir}/protocolTCP/lib/protobuf-java-2.6.0.jar"/>
+    <pathelement location="${basedir}/Client/lib/JTattoo-1.6.11.jar"/>
+    <pathelement location="${server.output.dir}"/>
+  </path>
+  
+  <path id="client.runtime.production.module.classpath">
+    <pathelement location="${client.output.dir}"/>
+    <path refid="protocoltcp.runtime.production.module.classpath"/>
+    <pathelement location="${basedir}/protocolTCP/lib/protobuf-java-2.6.0.jar"/>
+    <pathelement location="${basedir}/Client/lib/JTattoo-1.6.11.jar"/>
+    <path refid="server.runtime.production.module.classpath"/>
+  </path>
+  
+  <path id="client.module.classpath">
+    <path refid="${module.jdk.classpath.client}"/>
+    <pathelement location="${client.output.dir}"/>
+    <pathelement location="${protocoltcp.testoutput.dir}"/>
+    <pathelement location="${protocoltcp.output.dir}"/>
+    <pathelement location="${basedir}/protocolTCP/lib/protobuf-java-2.6.0.jar"/>
+    <path refid="library.protobuf-java-2.6.0.classpath"/>
+    <pathelement location="${basedir}/protocolTCP/lib/protobuf-java-2.6.0.jar"/>
+    <pathelement location="${basedir}/Client/lib/JTattoo-1.6.11.jar"/>
+    <pathelement location="${server.testoutput.dir}"/>
+    <pathelement location="${server.output.dir}"/>
+  </path>
+  
+  <path id="client.runtime.module.classpath">
+    <pathelement location="${client.testoutput.dir}"/>
+    <pathelement location="${client.output.dir}"/>
+    <path refid="protocoltcp.runtime.module.classpath"/>
+    <pathelement location="${basedir}/protocolTCP/lib/protobuf-java-2.6.0.jar"/>
+    <pathelement location="${basedir}/Client/lib/JTattoo-1.6.11.jar"/>
+    <path refid="server.runtime.module.classpath"/>
+  </path>
+  
+  
+  <patternset id="excluded.from.module.client">
+    <patternset refid="ignored.files"/>
+  </patternset>
+  
+  <patternset id="excluded.from.compilation.client">
+    <patternset refid="excluded.from.module.client"/>
+  </patternset>
+  
+  <path id="client.module.sourcepath">
+    <dirset dir="${module.client.basedir}/Client">
+      <include name="src"/>
+    </dirset>
+  </path>
+  
+  
+  <target name="compile.module.client" depends="compile.module.client.production,compile.module.client.tests" description="Compile module Client"/>
+  
+  <target name="compile.module.client.production" depends="compile.module.protocoltcp,compile.module.server" description="Compile module Client; production classes">
+    <mkdir dir="${client.output.dir}"/>
+    <javac destdir="${client.output.dir}" debug="${compiler.debug}" nowarn="${compiler.generate.no.warnings}" memorymaximumsize="${compiler.max.memory}" fork="true" executable="${module.jdk.bin.client}/javac">
+      <compilerarg line="${compiler.args.client}"/>
+      <bootclasspath refid="client.module.bootclasspath"/>
+      <classpath refid="client.module.production.classpath"/>
+      <src refid="client.module.sourcepath"/>
+      <patternset refid="excluded.from.compilation.client"/>
+    </javac>
+    
+    <copy todir="${client.output.dir}">
+      <fileset dir="${module.client.basedir}/Client/src">
+        <patternset refid="compiler.resources"/>
+        <type type="file"/>
+      </fileset>
+    </copy>
+  </target>
+  
+  <target name="compile.module.client.tests" depends="compile.module.client.production" description="compile module Client; test classes" unless="skip.tests"/>
+  
+  <target name="clean.module.client" description="cleanup module">
+    <delete dir="${client.output.dir}"/>
+    <delete dir="${client.testoutput.dir}"/>
+  </target>
+  
   <target name="init" description="Build initialization">
     <!-- Perform any build initialization in this target -->
   </target>
   
-  <target name="clean" depends="clean.module.protocoltcp, clean.module.client, clean.module.server" description="cleanup all"/>
+  <target name="clean" depends="clean.module.protocoltcp, clean.module.server, clean.module.client" description="cleanup all"/>
   
-  <target name="build.modules" depends="init, clean, compile.module.protocoltcp, compile.module.client, compile.module.server" description="build all modules"/>
+  <target name="build.modules" depends="init, clean, compile.module.protocoltcp, compile.module.server, compile.module.client" description="build all modules"/>
   
   <target name="all" depends="build.modules" description="build all"/>
 </project>

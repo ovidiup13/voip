@@ -1,7 +1,6 @@
 package tcp.sockethandler;
 
 import buffers.ClientRequest.Request;
-import interfaces.RequestSender;
 import writers.RequestWriter;
 
 import java.io.IOException;
@@ -27,7 +26,7 @@ public class SocketHandler implements RequestSender {
 	public boolean startConnection() throws IOException {
 		socketClient = new Socket(hostname, port);
         socketClient.setKeepAlive(true);
-        socketClient.setSoTimeout(10000);
+        //socketClient.setSoTimeout(10000);
 		return true;
 	}
 	

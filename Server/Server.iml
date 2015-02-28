@@ -7,7 +7,7 @@
     </content>
     <orderEntry type="inheritedJdk" />
     <orderEntry type="sourceFolder" forTests="false" />
-    <orderEntry type="module" module-name="protocolTCP" />
+    <orderEntry type="module" module-name="protocolTCP" exported="" />
     <orderEntry type="library" name="lib" level="project" />
   </component>
 </module>

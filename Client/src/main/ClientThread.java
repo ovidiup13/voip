@@ -1,15 +1,11 @@
 package main;
 
 import buffers.ServerResponse.Response;
-
 import com.google.protobuf.ProtocolStringList;
-
-import database.Client;
 import p2p.SimpleVoIPCall;
 import tcp.sockethandler.SocketHandler;
 
 import javax.swing.*;
-
 import java.io.IOException;
 import java.net.Socket;
 import java.util.ArrayList;
@@ -55,11 +51,7 @@ public class ClientThread extends Thread {
                         break;
                 }
 			} catch (IOException | NullPointerException e) {
-                try {
-                    Thread.sleep(5000);
-                } catch (InterruptedException e1) {
-                    e1.printStackTrace();
-                }
+                GuiMainClient.disconnect();
             }
 		}
 
@@ -182,8 +174,6 @@ public class ClientThread extends Thread {
 		    	GuiMainClient.callinprogWindow.dispose();
 		    }
 		  });
-		// doesn't work from both sides
-		//play.stop();
 			
 	//friend list 
 	}

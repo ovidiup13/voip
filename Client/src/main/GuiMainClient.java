@@ -4,11 +4,9 @@ import p2p.SimpleVoIPCall;
 import tcp.sockethandler.SocketHandler;
 
 import javax.swing.*;
-
 import java.awt.*;
 import java.awt.event.*;
 import java.io.IOException;
-import java.net.URL;
 
 /**
  * @author Team H
@@ -24,8 +22,8 @@ public class GuiMainClient {
     private static String password = "";
     public static SocketHandler client;
     private static ClientThread clientThread;
-    private static KeepAliveThread keepAliveThread;
     public static boolean isConnected = false;
+    public static boolean inCall = false;
 
     // log in window
 
@@ -115,6 +113,10 @@ public class GuiMainClient {
 
     public static SimpleVoIPCall play;
     public static String deleteTarget;
+    
+    //call sounds
+    public static CallSound callingSound = new CallSound("Client/src/main/phone-calling-1.wav");
+    public static CallSound beingCalledSound = new CallSound("Client/src/main/skype.wav");
 
     /*
     public GuiMainClient(){
@@ -276,8 +278,6 @@ public class GuiMainClient {
             public void actionPerformed(java.awt.event.ActionEvent event) {
                 System.out.println("Log out clicked!");
                 LogoutRequest();
-
-
             }
         });
 
@@ -464,6 +464,7 @@ public class GuiMainClient {
             acceptCallButton.addActionListener(new java.awt.event.ActionListener() {
                 public void actionPerformed(java.awt.event.ActionEvent event) {
                     AcceptCallResponse();
+
                 }
             });
         }
@@ -479,9 +480,9 @@ public class GuiMainClient {
                 }
             });
         }
-
-
+        
         callinqWindow.setVisible(true);
+        callingSound.start();
 
 
     }
@@ -550,57 +551,45 @@ public class GuiMainClient {
         }
 
         callinprogWindow.setVisible(false);
+        beingCalledSound.start();
 
     }
 
 
     public static void Connect() throws IOException {
-
-
-        //hostname = hostField.getText().trim();
-        //port = Integer.parseInt(portField.getText().trim());
-
-        //hostname = "localhost";
         port = 9991;
 
         client = new SocketHandler(hostname, port);
         if (client.startConnection()) {
             System.out.println("Connection established!");
-    
-            //start sending
-           keepAliveThread = new KeepAliveThread(client.getSocket());
-           keepAliveThread.start();
-
             clientThread = new ClientThread(client);
             clientThread.start();
-
         }
-		/*catch (Exception e)
-		{
-			System.out.println("Error connecting from client!");
-			JOptionPane.showMessageDialog(null, "Server not responding!");
-			e.printStackTrace();
-			System.exit(0);
-		}*/
-
+        
+        isConnected = true;
     }
     
     public static void disconnect(){
-        JOptionPane.showMessageDialog(null, "You have been disconnected from the server. System will exit.");
-        loginWindow.dispose();
-        keepAliveThread.interrupt();
+        
+        isConnected = false;
         clientThread.interrupt();
+        
+        if(inCall) play.stop();
+        inCall = false;
+        
+        JOptionPane.showMessageDialog(null, "Ooops! You seem to have disconnected from the server. The application will exit.");
         System.exit(0);
     }
 
     public static void LoginRequest() {
 
-        if (!usernameField.getText().equals("") || !passwordField.getText().equals("")) {
+        if (!usernameField.getText().equals("") && !passwordField.getText().equals("")) {
 
             username = usernameField.getText().trim();
-            password = passwordField.getText().trim();
+            password = new String(passwordField.getPassword());
 
             client.sendLogInRequest(username, password);
+            System.out.println("Message for LOG IN: ");
             System.out.println("Message for LOG IN: ");
             System.out.println("Log in request sent from client");
 
@@ -617,12 +606,11 @@ public class GuiMainClient {
 
         if (!usernameField.getText().equals("") || !passwordField.getText().equals("")) {
             username = usernameField.getText().trim();
-            password = passwordField.getText().trim();
+            password = new String(passwordField.getPassword());
 
             client.sendRegisterRequest(username, password);
             System.out.println("Message for REGISTER: ");
             System.out.println("Register request sent from client");
-
 
         } else {
             JOptionPane.showMessageDialog(null, "Enter an username and a password!");
@@ -636,7 +624,6 @@ public class GuiMainClient {
         client.sendLogOutRequest();
         System.out.println("Logout request sent");
         clientThread.interrupt();
-        keepAliveThread.interrupt();
     }
 
     public static void CallRequest(String target) {
@@ -647,6 +634,7 @@ public class GuiMainClient {
             System.out.println("Message for CALL: ");
             System.out.println("Call request sent");
             callerUserLabel.setText(usercalled);
+            callingSound.close();
             BuildCallInProgWindow();
             callinprogWindow.setVisible(true);
 
@@ -664,6 +652,7 @@ public class GuiMainClient {
         callinprogWindow.dispose();
         callstateLabel.setText("Disconnected!");
         endCall();
+        inCall = false;
 
 
     }
@@ -673,6 +662,7 @@ public class GuiMainClient {
         client.sendCallResponse(true);
         System.out.println("Call was accepted");
         callinqWindow.dispose();
+        beingCalledSound.close();
         BuildCallInProgWindow();
         callinprogWindow.setVisible(true);
 
@@ -695,7 +685,7 @@ public class GuiMainClient {
         System.out.println(callid);
         play = new SimpleVoIPCall();
         play.start(ip, port, callid);
-
+        inCall = true;
 
     }
 
@@ -703,6 +693,7 @@ public class GuiMainClient {
     public static void endCall() {
         System.out.println("Call fucking ended!");
         if (play != null) play.stop();
+        inCall = false;
     }
 
 
