@@ -4,13 +4,14 @@ import p2p.SimpleVoIPCall;
 import tcp.sockethandler.SocketHandler;
 
 import javax.swing.*;
+
 import java.awt.*;
 import java.awt.event.*;
 import java.io.IOException;
 import java.net.URL;
 
 /**
- * @author Alex Danila
+ * @author Team H
  */
 
 public class GuiMainClient {
@@ -29,7 +30,7 @@ public class GuiMainClient {
     // log in window
 
     public static JFrame loginWindow = new JFrame();
-    private static JPanel imagePanel = new JPanel();
+    private static BgPanel imagePanel = new BgPanel();
     private static JTextField hostField = new JTextField(20);
     private static JTextField usernameField = new JTextField(20);
     private static JPasswordField passwordField = new JPasswordField(20);
@@ -60,21 +61,22 @@ public class GuiMainClient {
     private static JMenuItem addfAction = new JMenuItem("Add friend");
     private static JMenuItem helpAction = new JMenuItem("Help");
     private static JMenuItem logoutAction = new JMenuItem("Log out");
-    private static JMenuItem testNotifcaion = new JMenuItem("TestNotificaions");
 
 
     //rest of the main window
 
     public static JFrame mainWindow = new JFrame();
-    public static JPanel userAvatar = new JPanel();
+    public static JLabel userAvatar = new JLabel();
     public static JList<FriendListItem> onlineUsers = new JList<FriendListItem>();
 
     public static JButton callButton = new JButton();
     public static JButton logoutButton = new JButton();
 
-    private static JLabel onlineLabel = new JLabel();
+    
+    private static BgPanel usernameBar = new BgPanel();
+    private static JPanel namePanel = new JPanel();
+    private static JLabel onlineText = new JLabel();
     private static JLabel usernameLabel = new JLabel();
-    private static JLabel usernameBox = new JLabel();
     private static JScrollPane onlineScroller = new JScrollPane();
 
 
@@ -86,13 +88,6 @@ public class GuiMainClient {
     private static JLabel addFriendLabel = new JLabel();
 
     //delete friend window
-
-
-    // call initiated window
-    public static JFrame callWindow = new JFrame();
-    public static JTextField callUserField = new JTextField(15);
-    public static JButton makeCallButton = new JButton();
-    private static JLabel callUserLabel = new JLabel();
 
 
     // call inquiry window
@@ -116,7 +111,6 @@ public class GuiMainClient {
 
     public static JButton startCallButton = new JButton();
     public static JButton stopCallButton = new JButton();
-    private static URL resource;
 
 
     public static SimpleVoIPCall play;
@@ -132,7 +126,6 @@ public class GuiMainClient {
 
         frameIco = createImageIcon("hype.png", "icon");
         mainWindow.setIconImage(frameIco.getImage());
-        callWindow.setIconImage(frameIco.getImage());
         loginWindow.setIconImage(frameIco.getImage());
         callinprogWindow.setIconImage(frameIco.getImage());
         callinqWindow.setIconImage(frameIco.getImage());
@@ -154,14 +147,15 @@ public class GuiMainClient {
             }
         });
 
-        loginWindow.setTitle("VOIP Login ");
+        loginWindow.setTitle("Hype Login");
         loginWindow.setLayout(null);
-        loginWindow.setSize(310, 500);
+        loginWindow.setSize(295, 465);
         loginWindow.setLocationRelativeTo(null);
 
         imagePanel.setBorder(BorderFactory.createRaisedBevelBorder());
         loginWindow.getContentPane().add(imagePanel);
-        imagePanel.setBounds(10, 10, 270, 250);
+        imagePanel.setBounds(10, 10, 270, 270);
+        imagePanel.setBackground(createImageIcon("hypebig.png", "logo").getImage());
 
         enterHostLabel.setText("Host name:");
         loginWindow.getContentPane().add(enterHostLabel);
@@ -242,7 +236,7 @@ public class GuiMainClient {
             }
         });
 
-        //loginWindow.setResizable(false);
+        loginWindow.setResizable(false);
         loginWindow.setVisible(true);
 
 
@@ -250,16 +244,18 @@ public class GuiMainClient {
 
     public static ImageIcon frameIco;
 
-    public static void BuildMainWindow() {
+    public static void BuildMainWindow(String username) {
 
-
+    	BorderLayout mainLayout = new BorderLayout();
+        mainWindow.setLayout(mainLayout);
+        
         //menu building
 
         menuBar.add(optMenu);
+        
         optMenu.add(addfAction);
         optMenu.add(helpAction);
         optMenu.add(logoutAction);
-        optMenu.add(testNotifcaion);
 
         addfAction.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent event) {
@@ -285,17 +281,6 @@ public class GuiMainClient {
             }
         });
 
-        testNotifcaion.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent event) {
-                System.out.println("testNotificaions clicked!");
-               // NotificationForSentFriendRequest("Viktor", false);
-
-
-            }
-
-
-        });
-
         mainWindow.setJMenuBar(menuBar);
 
 
@@ -309,66 +294,51 @@ public class GuiMainClient {
         });
 
         mainWindow.setSize(310, 500);
-        mainWindow.setResizable(false);
-        mainWindow.getContentPane().setLayout(null);
-        mainWindow.setSize(310, 500);
+        mainWindow.setTitle("Hype");
         mainWindow.setLocationRelativeTo(null);
-
-        userAvatar.setBorder(BorderFactory.createRaisedBevelBorder());
-        mainWindow.getContentPane().add(userAvatar);
-        userAvatar.setBounds(10, 10, 150, 150);
-
-        callButton.setText("Call");
-        mainWindow.getContentPane().add(callButton);
-        callButton.setBounds(10, 170, 115, 25);
-        callButton.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent event) {
-                BuildCallWindow();
-
-            }
-        });
-
-        logoutButton.setText("Logout");
-        mainWindow.getContentPane().add(logoutButton);
-        logoutButton.setBounds(170, 170, 115, 25);
-        logoutButton.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent event) {
-                LogoutRequest();
-
-            }
-        });
-
-        // Loading Bar
-
-        imageLabel.setHorizontalAlignment(SwingConstants.CENTER);
-        mainWindow.getContentPane().add(imageLabel);
-        imageLabel.setBounds(70, 210, 170, 10);
-        imageLabel.setVisible(false);
-
+        mainWindow.setMinimumSize(new Dimension(250, 250));
+        
         // Online users list
-
-        onlineLabel.setHorizontalAlignment(SwingConstants.CENTER);
-        onlineLabel.setText("Friends list:");
-        mainWindow.getContentPane().add(onlineLabel);
-        onlineLabel.setBounds(70, 230, 170, 16);
 
         onlineScroller
                 .setHorizontalScrollBarPolicy(ScrollPaneConstants.HORIZONTAL_SCROLLBAR_NEVER);
         onlineScroller
                 .setVerticalScrollBarPolicy(ScrollPaneConstants.VERTICAL_SCROLLBAR_ALWAYS);
         onlineScroller.setViewportView(onlineUsers);
-        mainWindow.getContentPane().add(onlineScroller);
-        onlineScroller.setBounds(20, 250, 270, 180);
+        mainWindow.add(onlineScroller, BorderLayout.CENTER);
+        onlineScroller.setMinimumSize(new Dimension(10, 10));
 
         onlineUsers.setCellRenderer(new FriendsCellRenderer());
-
-        usernameLabel.setText("");
-        mainWindow.getContentPane().add(usernameLabel);
-        usernameLabel.setBounds(70, 10, 170, 15);
-
-        usernameBox.setHorizontalAlignment(SwingConstants.CENTER);
-        mainWindow.getContentPane().add(usernameBox);
-        usernameBox.setBounds(70, 17, 170, 20);
+        
+        //init top bar
+       
+        usernameBar.setBackground(createImageIcon("topbg.png", "top bar bg").getImage());
+        usernameBar.setMinimumSize(new Dimension(50, 100));
+        mainWindow.add(usernameBar, BorderLayout.NORTH);
+        BorderLayout bgPanLayout = new BorderLayout();
+        usernameBar.setLayout(bgPanLayout);
+        
+        usernameBar.add(userAvatar, BorderLayout.WEST);
+        userAvatar.setIcon(createImageIcon("hype.png", "user icon"));
+        userAvatar.setSize(48, 48);
+        userAvatar.setBorder(BorderFactory.createEmptyBorder(5,5,5,5));
+        
+        namePanel.setOpaque(false);
+        namePanel.setBorder(BorderFactory.createEmptyBorder(5,5,5,5));
+        BoxLayout nameLayout = new BoxLayout(namePanel, BoxLayout.Y_AXIS);
+        namePanel.setLayout(nameLayout);
+        usernameBar.add(namePanel, BorderLayout.CENTER);
+        
+        usernameLabel.setText(username);
+        usernameLabel.setFont(new Font("Verdana", Font.BOLD, 14));
+        namePanel.add(usernameLabel);
+        
+        
+        onlineText.setText("online");
+        onlineText.setForeground(Color.GRAY);
+        namePanel.add(onlineText);
+        
+        //end init top bar
 
         popupMenu = new JPopupMenu();
         JMenuItem removeFriendItem = new JMenuItem("Remove Friend");
@@ -431,48 +401,16 @@ public class GuiMainClient {
 
     }
 
-
-    public static void BuildCallWindow() {
-
-        callWindow = new JFrame();
-        callWindow.setIconImage(frameIco.getImage());
-        callWindow.setTitle("Call Receiver");
-        callWindow.setLayout(null);
-        callWindow.setSize(310, 100);
-        callWindow.setLocationRelativeTo(null);
-
-        callUserLabel.setText("Username:");
-        callWindow.getContentPane().add(callUserLabel);
-        callUserLabel.setBounds(5, 5, 100, 20);
-
-        callUserField.setText("");
-        callWindow.getContentPane().add(callUserField);
-        callUserField.setBounds(105, 5, 200, 20);
-
-        makeCallButton.setText("Call");
-        callWindow.getContentPane().add(makeCallButton);
-        makeCallButton.setBounds(105, 30, 80, 20);
-        if ((makeCallButton.getActionListeners().length == 0)) {
-            makeCallButton.addActionListener(new java.awt.event.ActionListener() {
-                public void actionPerformed(java.awt.event.ActionEvent event) {
-                    CallRequest(callUserField.getText());
-                }
-            });
-        }
-        callWindow.setVisible(true);
-
-
-    }
-
     public static void BuildAddFriendWindow() {
         addFriendWindow = new JFrame();
         addFriendWindow.setIconImage(frameIco.getImage());
         addFriendWindow.setTitle("Add Friend");
+        addFriendWindow.setResizable(false);
         addFriendWindow.setLayout(null);
-        addFriendWindow.getContentPane().setPreferredSize(new Dimension(310, 60));
+        addFriendWindow.getContentPane().setPreferredSize(new Dimension(300, 50));
         addFriendWindow.pack();
         //addFriendWindow.setSize(310, 80);
-        //addFriendWindow.setLocationRelativeTo(null);
+        addFriendWindow.setLocationRelativeTo(null);
 
 
         addFriendLabel.setText("Username:");
@@ -503,6 +441,7 @@ public class GuiMainClient {
 
         callinqWindow.setTitle("Incoming call");
         callinqWindow.setLayout(null);
+        callinqWindow.setResizable(false);
         callinqWindow.setSize(310, 300);
         callinqWindow.setLocationRelativeTo(null);
 
@@ -562,6 +501,7 @@ public class GuiMainClient {
         callinprogWindow.setTitle("VOIP Call ");
         callinprogWindow.setLayout(null);
         callinprogWindow.setSize(310, 300);
+        callinprogWindow.setResizable(false);
         callinprogWindow.setLocationRelativeTo(null);
 
         avatarPanel.setBorder(BorderFactory.createRaisedBevelBorder());
@@ -706,8 +646,6 @@ public class GuiMainClient {
             client.sendCallRequest(usercalled);
             System.out.println("Message for CALL: ");
             System.out.println("Call request sent");
-            callUserField.setText("");
-            callWindow.dispose();
             callerUserLabel.setText(usercalled);
             BuildCallInProgWindow();
             callinprogWindow.setVisible(true);

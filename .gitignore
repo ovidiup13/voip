@@ -4,3 +4,4 @@
 *.form
 *.properties
 .classpath
+/bin1/

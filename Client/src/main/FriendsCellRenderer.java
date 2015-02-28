@@ -101,7 +101,7 @@ public class FriendsCellRenderer extends JPanel implements ListCellRenderer<Frie
 			setBackground(Color.WHITE);
 		}
 		
-		Border paddingBorder = BorderFactory.createEmptyBorder((value.mode == FriendListItemMode.TITLE)?6:1,3,1,3); //some padding
+		Border paddingBorder = BorderFactory.createEmptyBorder((value.mode == FriendListItemMode.TITLE)?6:0,3,0,3); //some padding
 		Border border = BorderFactory.createLineBorder(Color.WHITE); //might use this in future
 
 		setBorder(BorderFactory.createCompoundBorder(border,paddingBorder));

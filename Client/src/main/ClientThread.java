@@ -91,8 +91,7 @@ public class ClientThread extends Thread {
 			SwingUtilities.invokeLater(new Runnable() {
 			    public void run() {
 			    	GuiMainClient.loginWindow.setVisible(false);
-					GuiMainClient.BuildMainWindow();
-					GuiMainClient.mainWindow.setTitle("VOIP-User: " + GuiMainClient.getUsername());
+					GuiMainClient.BuildMainWindow(GuiMainClient.getUsername());
 					GuiMainClient.logoutButton.setEnabled(true);
 					GuiMainClient.FriendListRequest();
 			    }
@@ -200,7 +199,8 @@ public class ClientThread extends Thread {
 		    	ArrayList<FriendListItem> friends = new ArrayList<FriendListItem>();
                 ArrayList<FriendListItem> pending = new ArrayList<FriendListItem>();
 		    	
-		    	
+                friends.add(new FriendListItem(FriendListItemMode.TITLE, "Friends:", 0,""));
+                
 		    	ProtocolStringList usernames = response.getList().getUsernameList();
 
 		    	for (int i = 0; i<usernames.size(); i++) {
@@ -219,7 +219,7 @@ public class ClientThread extends Thread {
 
 		    	}
 		    	
-		    	friends.add(new FriendListItem(FriendListItemMode.TITLE, "Pending Requests:", 0,""));
+		    	if (pending.size() > 0) friends.add(new FriendListItem(FriendListItemMode.TITLE, "Pending Requests:", 0,""));
 
                 friends.addAll(pending);
 		    	
