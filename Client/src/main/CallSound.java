@@ -44,6 +44,15 @@ public class CallSound {
         play.close();
     }
     
+    public void stop(){
+    	play.stop();
+    }
+    
+    public void flush(){
+    	
+    	play.flush();
+    }
+    
     public boolean isRunning() {
         return play.isRunning();
     }

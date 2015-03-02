@@ -314,7 +314,8 @@ public class ClientHandler implements Runnable, ResponseSender {
                 sendFriendListStatusChange(target);
 
             } else {
-                sendEndCallResponse();
+               
+                sendUnsuccessfulCall(true, "Call refused by " + target.getUsername());
                 //failsafe, it is instantly declined for the caller.
             }
         }

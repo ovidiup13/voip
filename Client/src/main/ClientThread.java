@@ -77,7 +77,7 @@ public class ClientThread extends Thread {
 	private void loginResponse(Response response){
 		
 		if( response.getReqResult().getOk()){
-			//JOptionPane.showMessageDialog(null, "Login successful!");
+			
 			System.out.println("Login successul!");
 			
 			SwingUtilities.invokeLater(new Runnable() {
@@ -120,7 +120,7 @@ public class ClientThread extends Thread {
 			    	GuiMainClient.callerUserLabel.setText(recUser);
 			    	GuiMainClient.usercallingLabel.setText(recUser);
 			    	GuiMainClient.BuildCallInqWindow();
-			    	GuiMainClient.startSound(GuiMainClient.beingCalledSound, GuiMainClient.calledSoundPath);
+			    	GuiMainClient.beingCalledSound.start();
 			    }
 			  });
         }
@@ -137,41 +137,61 @@ public class ClientThread extends Thread {
 		    	
 		    	GuiMainClient.callstateLabel.setText("Connected");
 		    	GuiMainClient.imageLabel.setVisible(true);
-                GuiMainClient.stopSound(GuiMainClient.callingSound);
+		    	
+		    	if (GuiMainClient.callingSound.isRunning())
+		    	{ GuiMainClient.callingSound.stop();
+		    		GuiMainClient.callingSound.flush();}
+		    	
+		    	
 		    	GuiMainClient.startCall(response.getCallResponse().getIpAddress(), 12345, response.getCallResponse().getCallID());
 		    	
 		    }
 		  });
 		
-		/*
-		play = new SimpleVoIPCall();
-        play.start(
-                response.getCallResponse().getIpAddress(),
-                12345,
-                response.getCallResponse().getCallID()
-        );
-		
-		*/
+	
 	}
 	
 	//sent call request rejected
 	private void nocallResponse (Response response){
-		System.out.println("Call was rejected");
-		JOptionPane.showMessageDialog(null, "Call was rejected!");
 		
+		
+		SwingUtilities.invokeLater(new Runnable() {
+		    public void run() {
+		    	
+				if (GuiMainClient.callingSound.isRunning())
+		    		{ GuiMainClient.callingSound.stop();
+		    		  GuiMainClient.callingSound.flush();}
+				
+				GuiMainClient.callinprogWindow.dispose();
+			
+		    }
+		  });
+	
 	}
 	
 	//call ended
 	private void endcallResponse(Response response) {
 		
+	
 		System.out.println("End call request received from partner!");
 		
 		SwingUtilities.invokeLater(new Runnable() {
 		    public void run() {
+		    	
 		    	GuiMainClient.endCall();
 		    	GuiMainClient.callinprogWindow.dispose();
-                GuiMainClient.callinqWindow.dispose();
+		    	GuiMainClient.callinqWindow.dispose();
+		    	
+		    	
+		    	
+		    	 if (GuiMainClient.beingCalledSound.isRunning()){
+		     		GuiMainClient.beingCalledSound.stop();
+		     		GuiMainClient.beingCalledSound.flush();}
+		    	
+		    	
 		    }
+		    	 
+		    	 
 		  });
 			
 	//friend list 
