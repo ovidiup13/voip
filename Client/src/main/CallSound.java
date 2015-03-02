@@ -18,7 +18,6 @@ public class CallSound {
     }
     
     public void start() {
-        play.loop(3);
         play.start();
         // Loop until the Clip is not longer running.
         // We loop this way to allow the line to fill, otherwise isRunning will
@@ -35,13 +34,14 @@ public class CallSound {
             play.open(audioInputStream);
             FloatControl volume = (FloatControl) play.getControl(FloatControl.Type.MASTER_GAIN);
             volume.setValue(1.0f); // Reduce volume by 10 decibels.
+            play.loop(1000);
         } catch (UnsupportedAudioFileException | IOException | LineUnavailableException ex) {
             ex.printStackTrace();
         }
     }
     
     public void close(){
-        play.close();
+        play.stop();
     }
     
     public void stop(){
@@ -49,27 +49,11 @@ public class CallSound {
     }
     
     public void flush(){
-    	
-    	play.flush();
+        play.flush();
     }
     
     public boolean isRunning() {
         return play.isRunning();
-    }
-    
-    public static void main(String[] args){
-        CallSound sound = new CallSound("Client\\src\\main\\skype.wav");
-        
-        sound.start();
-        
-        try{
-            Thread.sleep(5000);
-        } catch (InterruptedException e) {
-            e.printStackTrace();
-        }
-        
-        sound.close();
-
     }
 
 }

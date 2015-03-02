@@ -102,7 +102,10 @@ public class ClientThread extends Thread {
 		//close connection
 		if(response.getReqResult().getOk()){
 			System.out.println("Connection closed.");
-			System.exit(0);}
+            GuiMainClient.beingCalledSound.close();
+            GuiMainClient.callingSound.close();
+			System.exit(0);
+        }
 		else
 			System.err.println("Client: Connection error, could not close connection");
 
@@ -120,6 +123,7 @@ public class ClientThread extends Thread {
 			    	GuiMainClient.callerUserLabel.setText(recUser);
 			    	GuiMainClient.usercallingLabel.setText(recUser);
 			    	GuiMainClient.BuildCallInqWindow();
+                    GuiMainClient.beingCalledSound.flush();
 			    	GuiMainClient.beingCalledSound.start();
 			    }
 			  });
@@ -153,19 +157,19 @@ public class ClientThread extends Thread {
 	
 	//sent call request rejected
 	private void nocallResponse (Response response){
-		
-		
+
 		SwingUtilities.invokeLater(new Runnable() {
-		    public void run() {
-		    	
-				if (GuiMainClient.callingSound.isRunning())
-		    		{ GuiMainClient.callingSound.stop();
-		    		  GuiMainClient.callingSound.flush();}
-				
-				GuiMainClient.callinprogWindow.dispose();
-			
-		    }
-		  });
+            public void run() {
+
+                if (GuiMainClient.callingSound.isRunning()) {
+                    GuiMainClient.callingSound.stop();
+                    GuiMainClient.callingSound.flush();
+                }
+
+                GuiMainClient.callinprogWindow.dispose();
+
+            }
+        });
 	
 	}
 	

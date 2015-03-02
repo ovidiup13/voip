@@ -4,7 +4,6 @@ import p2p.SimpleVoIPCall;
 import tcp.sockethandler.SocketHandler;
 
 import javax.swing.*;
-
 import java.awt.*;
 import java.awt.event.*;
 import java.io.IOException;
@@ -71,7 +70,7 @@ public class GuiMainClient {
     public static JButton callButton = new JButton();
     public static JButton logoutButton = new JButton();
 
-    
+
     private static BgPanel usernameBar = new BgPanel();
     private static JPanel namePanel = new JPanel();
     private static JLabel onlineText = new JLabel();
@@ -114,13 +113,12 @@ public class GuiMainClient {
 
     public static SimpleVoIPCall play;
     public static String deleteTarget;
-    
+
     //call sounds
     public static String callSoundPath = "Client\\src\\main\\phone-calling-1.wav";
     public static String calledSoundPath = "Client\\src\\main\\skype.wav";
     public static CallSound callingSound = new CallSound(callSoundPath);
     public static CallSound beingCalledSound = new CallSound(calledSoundPath);
-    
 
 
     public static void main(String args[]) {
@@ -185,7 +183,7 @@ public class GuiMainClient {
                         isConnected = false;
                         return;
                     }
-                    
+
                     connectionResultLabel.setText("Connection successful!");
                     connectionResultLabel.setForeground(Color.GREEN);
                     isConnected = true;
@@ -218,7 +216,7 @@ public class GuiMainClient {
         registerButton.setBounds(10, 405, 90, 20);
         registerButton.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent event) {
-                if(!isConnected)
+                if (!isConnected)
                     JOptionPane.showMessageDialog(null, "You are not connected to a server. Please connect and try again.");
                 else
                     RegisterRequest();
@@ -230,7 +228,7 @@ public class GuiMainClient {
         loginButton.setBounds(190, 405, 90, 20);
         loginButton.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent event) {
-                if(!isConnected)
+                if (!isConnected)
                     JOptionPane.showMessageDialog(null, "You are not connected to a server. Please connect and try again.");
                 else
                     LoginRequest();
@@ -247,13 +245,13 @@ public class GuiMainClient {
 
     public static void BuildMainWindow(String username) {
 
-    	BorderLayout mainLayout = new BorderLayout();
+        BorderLayout mainLayout = new BorderLayout();
         mainWindow.setLayout(mainLayout);
-        
+
         //menu building
 
         menuBar.add(optMenu);
-        
+
         optMenu.add(addfAction);
         optMenu.add(helpAction);
         optMenu.add(logoutAction);
@@ -264,7 +262,7 @@ public class GuiMainClient {
 
 
             }
-        });	
+        });
 
         helpAction.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent event) {
@@ -296,7 +294,7 @@ public class GuiMainClient {
         mainWindow.setTitle("Hype");
         mainWindow.setLocationRelativeTo(null);
         mainWindow.setMinimumSize(new Dimension(250, 250));
-        
+
         // Online users list
 
         onlineScroller
@@ -308,35 +306,35 @@ public class GuiMainClient {
         onlineScroller.setMinimumSize(new Dimension(10, 10));
 
         onlineUsers.setCellRenderer(new FriendsCellRenderer());
-        
+
         //init top bar
-       
+
         usernameBar.setBackground(createImageIcon("topbg.png", "top bar bg").getImage());
         usernameBar.setMinimumSize(new Dimension(50, 100));
         mainWindow.add(usernameBar, BorderLayout.NORTH);
         BorderLayout bgPanLayout = new BorderLayout();
         usernameBar.setLayout(bgPanLayout);
-        
+
         usernameBar.add(userAvatar, BorderLayout.WEST);
         userAvatar.setIcon(createImageIcon("hype.png", "user icon"));
         userAvatar.setSize(48, 48);
-        userAvatar.setBorder(BorderFactory.createEmptyBorder(5,5,5,5));
-        
+        userAvatar.setBorder(BorderFactory.createEmptyBorder(5, 5, 5, 5));
+
         namePanel.setOpaque(false);
-        namePanel.setBorder(BorderFactory.createEmptyBorder(5,5,5,5));
+        namePanel.setBorder(BorderFactory.createEmptyBorder(5, 5, 5, 5));
         BoxLayout nameLayout = new BoxLayout(namePanel, BoxLayout.Y_AXIS);
         namePanel.setLayout(nameLayout);
         usernameBar.add(namePanel, BorderLayout.CENTER);
-        
+
         usernameLabel.setText(username);
         usernameLabel.setFont(new Font("Verdana", Font.BOLD, 14));
         namePanel.add(usernameLabel);
-        
-        
+
+
         onlineText.setText("online");
         onlineText.setForeground(Color.GRAY);
         namePanel.add(onlineText);
-        
+
         //end init top bar
 
         popupMenu = new JPopupMenu();
@@ -463,7 +461,7 @@ public class GuiMainClient {
             acceptCallButton.addActionListener(new java.awt.event.ActionListener() {
                 public void actionPerformed(java.awt.event.ActionEvent event) {
                     AcceptCallResponse();
-                
+
                 }
             });
         }
@@ -476,11 +474,11 @@ public class GuiMainClient {
             declineCallButton.addActionListener(new java.awt.event.ActionListener() {
                 public void actionPerformed(java.awt.event.ActionEvent event) {
                     RejectCallResponse();
-                 
+
                 }
             });
         }
-        
+
         callinqWindow.setVisible(true);
 
     }
@@ -522,7 +520,6 @@ public class GuiMainClient {
         imageLabel.setBounds(70, 190, 170, 10);
         imageLabel.setVisible(false);
 
-		
 
         stopCallButton.setText("End call");
         stopCallButton.setHorizontalAlignment(SwingConstants.CENTER);
@@ -535,7 +532,7 @@ public class GuiMainClient {
                 }
             });
         }
-        
+
         callinprogWindow.setVisible(false);
 
     }
@@ -550,18 +547,18 @@ public class GuiMainClient {
             clientThread = new ClientThread(client);
             clientThread.start();
         }
-        
+
         isConnected = true;
     }
-    
-    public static void disconnect(){
-        
+
+    public static void disconnect() {
+
         isConnected = false;
         clientThread.interrupt();
-        
-        if(inCall) play.stop();
+
+        if (inCall) play.stop();
         inCall = false;
-        
+
         JOptionPane.showMessageDialog(null, "Ooops! You seem to have disconnected from the server. The application will exit.");
         System.exit(0);
     }
@@ -618,9 +615,10 @@ public class GuiMainClient {
             System.out.println("Message for CALL: ");
             System.out.println("Call request sent");
             callerUserLabel.setText(usercalled);
-           
+
             BuildCallInProgWindow();
             callinprogWindow.setVisible(true);
+            callingSound.flush();
             callingSound.start();
 
 
@@ -633,12 +631,13 @@ public class GuiMainClient {
     public static void EndCallRequest() {
 
         client.sendEndCallRequest();
-        
-        if (callingSound.isRunning()){
-        callingSound.stop();
-        callingSound.flush();}
-        
-        
+
+        if (callingSound.isRunning()) {
+            callingSound.stop();
+            callingSound.flush();
+        }
+
+
         callinprogWindow.dispose();
         System.out.println("HERE");
         callstateLabel.setText("Disconnected!");
@@ -653,24 +652,24 @@ public class GuiMainClient {
         client.sendCallResponse(true);
         System.out.println("Call was accepted");
         callinqWindow.dispose();
-        
-        if (beingCalledSound.isRunning()){
-    		beingCalledSound.stop();
-    		beingCalledSound.flush();
-    	}
+
+        if (beingCalledSound.isRunning()) {
+            beingCalledSound.stop();
+            beingCalledSound.flush();
+        }
         BuildCallInProgWindow();
         callinprogWindow.setVisible(true);
 
     }
 
     public static void RejectCallResponse() {
-    	
+
         client.sendCallResponse(false);
         System.out.println("Call was rejected");
-        if (beingCalledSound.isRunning()){
-    		beingCalledSound.stop();
-    		beingCalledSound.flush();
-    	}
+        if (beingCalledSound.isRunning()) {
+            beingCalledSound.stop();
+            beingCalledSound.flush();
+        }
         callinqWindow.dispose();
     }
 
@@ -685,7 +684,7 @@ public class GuiMainClient {
 
 
     public static void endCall() {
-    
+
 
         if (play != null) play.stop();
         inCall = false;
@@ -714,8 +713,8 @@ public class GuiMainClient {
     public static void DeleteFriendRequest(String username) {
         client.sendDeleteFriendRequest(username);
     }
-    
-    
+
+
     protected static ImageIcon createImageIcon(String path, String description) {
         java.net.URL imgURL = GuiMainClient.class.getResource(path);
         if (imgURL != null) {

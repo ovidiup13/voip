@@ -212,7 +212,7 @@ public class ClientHandler implements Runnable, ResponseSender {
             }
 
         } else {
-            sendUnsuccessfulCall(false, "Call unsuccessful");
+            sendUnsuccessfulCall(false, "Call unsuccessful", client);
         }
     }
 
@@ -309,15 +309,16 @@ public class ClientHandler implements Runnable, ResponseSender {
                 target.setStatus(ClientStatus.IN_CALL);
                 client.setStatus(ClientStatus.IN_CALL);
 
-                //notify all user friends for status change
-                sendFriendListStatusChange(client);
-                sendFriendListStatusChange(target);
-
             } else {
-               
-                sendUnsuccessfulCall(true, "Call refused by " + target.getUsername());
+                client.setStatus(ClientStatus.IDLE);
+                target.setStatus(ClientStatus.IDLE);
+                sendUnsuccessfulCall(true, "Call refused by " + client.getUsername(), target);
                 //failsafe, it is instantly declined for the caller.
             }
+
+            //notify all user friends for status change
+            sendFriendListStatusChange(client);
+            sendFriendListStatusChange(target);
         }
     }
 
@@ -398,10 +399,10 @@ public class ClientHandler implements Runnable, ResponseSender {
     }
 
     @Override
-    public void sendUnsuccessfulCall(boolean ok, String message) {
+    public void sendUnsuccessfulCall(boolean ok, String message, Client client) {
         Response response = responseWriter.createCallUnSuccessResponse(ok, message);
         try {
-            response.writeDelimitedTo(output);
+            response.writeDelimitedTo(client.getSocket().getOutputStream());
         } catch (IOException e) {
             System.err.println("Server: could not send call unsuccessful response");
         }

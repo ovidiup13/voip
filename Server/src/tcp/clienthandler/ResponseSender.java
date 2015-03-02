@@ -12,8 +12,8 @@ public interface ResponseSender {
 
     public void sendCallResponse(Client target, Client other, int callID);
 
-    public void sendUnsuccessfulCall(boolean ok, String message);
-    
+    public void sendUnsuccessfulCall(boolean ok, String message, Client client);
+
     public void sendCallInquiry(Client target);
 
     public void sendEndCallResponse();
