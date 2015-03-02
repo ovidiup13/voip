@@ -427,6 +427,7 @@ public class ClientHandler implements Runnable, ResponseSender {
                 return; //other client must be in call
             if (clientCalled.getClientCalled() != client) return; //other client must be in a call with this client.
             //set the status of current client to idle
+            
             client.setStatus(ClientStatus.IDLE);
             client.setClientCalled(null);
 

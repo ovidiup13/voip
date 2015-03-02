@@ -115,9 +115,24 @@ public class GuiMainClient {
     public static String deleteTarget;
     
     //call sounds
-    public static CallSound callingSound = new CallSound("Client/src/main/phone-calling-1.wav");
-    public static CallSound beingCalledSound = new CallSound("Client/src/main/skype.wav");
-
+    public static String callSoundPath = "Client\\src\\main\\phone-calling-1.wav";
+    public static String calledSoundPath = "Client\\src\\main\\skype.wav";
+    public static CallSound callingSound = new CallSound(callSoundPath);
+    public static CallSound beingCalledSound = new CallSound(calledSoundPath);
+    
+    /* have to create a new object everytime you start a sound
+     */
+    public static void startSound(CallSound sound, String path){
+        sound = new CallSound(path);
+        sound.start();
+    }
+    
+    //stop the sound
+    public static void stopSound(CallSound sound){
+        if(sound.isRunning())
+            sound.close();
+    }
+    
     /*
     public GuiMainClient(){
         main();
@@ -210,7 +225,7 @@ public class GuiMainClient {
         loginWindow.getContentPane().add(enterPasswordLabel);
         enterPasswordLabel.setBounds(10, 375, 100, 20);
 
-        passwordField.setText("default");
+        passwordField.setText("password");
         loginWindow.getContentPane().add(passwordField);
         passwordField.setBounds(100, 375, 180, 20);
 
@@ -464,7 +479,7 @@ public class GuiMainClient {
             acceptCallButton.addActionListener(new java.awt.event.ActionListener() {
                 public void actionPerformed(java.awt.event.ActionEvent event) {
                     AcceptCallResponse();
-
+                    stopSound(beingCalledSound);
                 }
             });
         }
@@ -477,13 +492,12 @@ public class GuiMainClient {
             declineCallButton.addActionListener(new java.awt.event.ActionListener() {
                 public void actionPerformed(java.awt.event.ActionEvent event) {
                     RejectCallResponse();
+                    stopSound(beingCalledSound);
                 }
             });
         }
         
         callinqWindow.setVisible(true);
-        callingSound.start();
-
 
     }
 
@@ -549,9 +563,8 @@ public class GuiMainClient {
                 }
             });
         }
-
+        
         callinprogWindow.setVisible(false);
-        beingCalledSound.start();
 
     }
 
@@ -616,7 +629,6 @@ public class GuiMainClient {
             JOptionPane.showMessageDialog(null, "Enter an username and a password!");
         }
 
-
     }
 
     public static void LogoutRequest() {
@@ -634,7 +646,7 @@ public class GuiMainClient {
             System.out.println("Message for CALL: ");
             System.out.println("Call request sent");
             callerUserLabel.setText(usercalled);
-            callingSound.close();
+            startSound(callingSound, callSoundPath);
             BuildCallInProgWindow();
             callinprogWindow.setVisible(true);
 
@@ -650,6 +662,8 @@ public class GuiMainClient {
 
         client.sendEndCallRequest();
         callinprogWindow.dispose();
+        System.out.println("HERE");
+        //stopSound();
         callstateLabel.setText("Disconnected!");
         endCall();
         inCall = false;
@@ -662,35 +676,35 @@ public class GuiMainClient {
         client.sendCallResponse(true);
         System.out.println("Call was accepted");
         callinqWindow.dispose();
-        beingCalledSound.close();
+        
+        //stop sound
+        stopSound(beingCalledSound);
         BuildCallInProgWindow();
         callinprogWindow.setVisible(true);
-
 
     }
 
     public static void RejectCallResponse() {
-
         client.sendCallResponse(false);
+        
+        //stop sound
+        stopSound(beingCalledSound);
         System.out.println("Call was rejected");
         callinqWindow.dispose();
-
-
     }
 
 
     public static void startCall(String ip, int port, int callid) {
-
         System.out.println("Call started!");
         System.out.println(callid);
         play = new SimpleVoIPCall();
         play.start(ip, port, callid);
         inCall = true;
-
     }
 
 
     public static void endCall() {
+        stopSound(callingSound);
         System.out.println("Call fucking ended!");
         if (play != null) play.stop();
         inCall = false;
@@ -698,8 +712,6 @@ public class GuiMainClient {
 
 
     public static void FriendListRequest() {
-
-
         client.sendFriendListRequest();
     }
 
@@ -720,12 +732,9 @@ public class GuiMainClient {
 
     public static void DeleteFriendRequest(String username) {
         client.sendDeleteFriendRequest(username);
-
     }
-
-
-
-
+    
+    
     protected static ImageIcon createImageIcon(String path, String description) {
         java.net.URL imgURL = GuiMainClient.class.getResource(path);
         if (imgURL != null) {
@@ -735,6 +744,4 @@ public class GuiMainClient {
             return null;
         }
     }
-
-
 }

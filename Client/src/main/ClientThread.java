@@ -113,17 +113,14 @@ public class ClientThread extends Thread {
 	//call request received
 	
 	
-	private void callinqResponse(Response response){   
-
-		
+	private void callinqResponse(Response response){
         	recUser = response.getUsername();
         	SwingUtilities.invokeLater(new Runnable() {
 			    public void run() {
 			    	GuiMainClient.callerUserLabel.setText(recUser);
 			    	GuiMainClient.usercallingLabel.setText(recUser);
 			    	GuiMainClient.BuildCallInqWindow();
-			    	
-			    	
+			    	GuiMainClient.startSound(GuiMainClient.beingCalledSound, GuiMainClient.calledSoundPath);
 			    }
 			  });
         }
@@ -140,6 +137,7 @@ public class ClientThread extends Thread {
 		    	
 		    	GuiMainClient.callstateLabel.setText("Connected");
 		    	GuiMainClient.imageLabel.setVisible(true);
+                GuiMainClient.stopSound(GuiMainClient.callingSound);
 		    	GuiMainClient.startCall(response.getCallResponse().getIpAddress(), 12345, response.getCallResponse().getCallID());
 		    	
 		    }
@@ -172,6 +170,7 @@ public class ClientThread extends Thread {
 		    public void run() {
 		    	GuiMainClient.endCall();
 		    	GuiMainClient.callinprogWindow.dispose();
+                GuiMainClient.callinqWindow.dispose();
 		    }
 		  });
 			
