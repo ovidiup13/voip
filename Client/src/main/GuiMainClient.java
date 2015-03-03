@@ -4,8 +4,10 @@ import p2p.SimpleVoIPCall;
 import tcp.sockethandler.SocketHandler;
 
 import javax.swing.*;
+
 import java.awt.*;
 import java.awt.event.*;
+import java.io.File;
 import java.io.IOException;
 
 /**
@@ -115,8 +117,9 @@ public class GuiMainClient {
     public static String deleteTarget;
 
     //call sounds
-    public static String callSoundPath = "Client\\src\\main\\phone-calling-1.wav";
-    public static String calledSoundPath = "Client\\src\\main\\skype.wav";
+    public static String slash = File.separator;
+    public static String callSoundPath = "Client/src/main/phone-calling-1.wav";
+    public static String calledSoundPath = "Client/src/main/skype.wav";
     public static CallSound callingSound = new CallSound(callSoundPath);
     public static CallSound beingCalledSound = new CallSound(calledSoundPath);
 
