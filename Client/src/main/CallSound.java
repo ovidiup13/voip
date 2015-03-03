@@ -18,24 +18,32 @@ public class CallSound {
     }
     
     public void start() {
-    	
-    	play.start();
-        play.loop(Clip.LOOP_CONTINUOUSLY);
-      
-        // Loop until the Clip is not longer running.
-        // We loop this way to allow the line to fill, otherwise isRunning will
-        // return false
-        play.drain();
+    	new Thread(
+                new Runnable() {
+                    public void run() {
+                        try {
+                        	play.start();
+                            play.loop(Clip.LOOP_CONTINUOUSLY);
+                            play.drain();
+                        } catch (Exception e) {
+                            e.printStackTrace();
+                        }
+                    }
+                }).start();
     }
 
     public void initPlay() {
         play = null;
         try {
             File in = new File(filename);
-            AudioInputStream audioInputStream = AudioSystem.getAudioInputStream(in);
-            play = AudioSystem.getClip();
-            play.open(audioInputStream);
-            FloatControl volume = (FloatControl) play.getControl(FloatControl.Type.MASTER_GAIN);
+            AudioInputStream soundIn = AudioSystem.getAudioInputStream(in);
+            AudioFormat format = soundIn.getFormat();
+            DataLine.Info info = new DataLine.Info(Clip.class, format);
+            play = (Clip)AudioSystem.getLine(info);
+            play.open(soundIn);
+            play.start();
+ 
+            FloatControl volume = (FloatControl) play.getControl(FloatControl.Type.VOLUME);
             volume.setValue(1.0f); // Reduce volume by 10 decibels.
         } catch (UnsupportedAudioFileException | IOException | LineUnavailableException ex) {
             ex.printStackTrace();
