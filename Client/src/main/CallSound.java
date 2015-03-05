@@ -41,9 +41,8 @@ public class CallSound {
             DataLine.Info info = new DataLine.Info(Clip.class, format);
             play = (Clip)AudioSystem.getLine(info);
             play.open(soundIn);
-            play.start();
  
-            FloatControl volume = (FloatControl) play.getControl(FloatControl.Type.VOLUME);
+            FloatControl volume = (FloatControl) play.getControl(FloatControl.Type.MASTER_GAIN);
             volume.setValue(1.0f); // Reduce volume by 10 decibels.
         } catch (UnsupportedAudioFileException | IOException | LineUnavailableException ex) {
             ex.printStackTrace();
