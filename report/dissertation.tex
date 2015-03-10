@@ -1,0 +1,216 @@
+%This is our Team H dissertation file.
+% It only contains a temporary structure of the final report.
+
+\documentclass{l3proj}
+\begin{document}
+\title{Voice over IP}
+\author{Alexandru Danila \\
+        Viktor Bakayov \\
+        Rhys Simpson \\
+        Megan Keane \\
+        Ovidiu Popoviciu}
+\date{3rd March 2015}
+\maketitle
+\begin{abstract}
+
+Our abstract which wll be written after finishing the other sections.
+
+What the problem is?\\*
+Who cares?\\*
+How was it solved?\\*
+What follows?\\*
+
+
+\end{abstract}
+\educationalconsent
+\tableofcontents
+%==============================================================================
+\chapter{Introduction}
+\label{intro}
+
+This is our introduction. In short, it will contain: (we don't need section headings in here)
+
+Overview\\*
+
+Project description\\*
+
+Motivation\\*
+
+Challenges and work outline\\*
+
+
+From the structure of our disseration, we followed a waterfall design process.
+
+
+%==============================================================================
+\chapter{Project Requirements}
+\label{requirements}
+
+This chapter will contain the requirements for the complete system. We can split them up in 
+
+\section{Requirements gathering}
+
+% - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
+
+\subsection{Client}
+
+% - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
+
+\subsection{Server}
+
+% - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
+
+\subsection{Protocols?}
+
+%------------------------------------------------------------------------------
+
+
+%==============================================================================
+\chapter{Design overview}
+\label{design-overview}
+
+This chapter will contain an overview of how everything fits together.
+
+e.g. the control protocol facilitates the connection between the client and the server
+
+the p2p protocol makes voice transmission possible 
+
+and so on
+
+
+%==============================================================================
+\chapter{Client}
+\label{client}
+
+
+\section{Design}
+
+Talk about the different iterations we had, pros and cons of each of the designs. Justify all our design decisions. 
+
+% - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
+
+\subsection{Functionality}
+
+% - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
+
+\subsection{User Interface}
+
+%------------------------------------------------------------------------------
+
+\section{Implementation and testing}
+
+%------------------------------------------------------------------------------
+
+\section{Evaluation}
+
+Could we have had a better design? Could it have been more user friendly. Pros and cons of our final product.
+
+%==============================================================================
+\chapter{Voice (Peer-to-Peer) Protocol}
+\label{p2p}
+
+
+\section{Design}
+
+%------------------------------------------------------------------------------
+
+\section{Implementation and testing}
+
+%------------------------------------------------------------------------------
+
+\section{Evaluation}
+
+
+%==============================================================================
+\chapter{Control (client-server) Protocol}
+\label{tcp}
+
+
+\section{Design}
+
+%------------------------------------------------------------------------------
+
+\section{Implementation and testing}
+
+%------------------------------------------------------------------------------
+
+\section{Evaluation}
+
+
+%==============================================================================
+\chapter{Server}
+\label{server}
+
+
+\section{Design}
+
+% - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
+
+\subsection{Functionality}
+
+% - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
+
+\subsection{Database model}
+\label{db}
+
+
+%------------------------------------------------------------------------------
+
+\section{Implementation and testing}
+
+%------------------------------------------------------------------------------
+
+\section{Evaluation}
+
+
+%==============================================================================
+\chapter{Overall evaluation and future work}
+
+We need both this chapter and different sections for every other component.
+
+
+
+An overall review of the project. \\*
+Is it functional? \\*
+Does our product fulfill our client’s needs and our requirements specification?\\*
+If any requirements aren’t met then why? \\*
+Was this the best way to design and implement the project?\\*
+What would we do differently? \\*
+Future plans: if we had more time to work on it what would we do? What improvements would me make?\\*
+
+++++++
+
+Reflection on the overall process \\*
+
+We need to reflect on every component in isolation as well.
+
+
+%==============================================================================
+\chapter{Conclusion}
+
+Success and failures of the process and work as a team.
+
+%==============================================================================
+\section{Contributions}
+
+Here we explain what each member of the team contributed to.
+
+For example, Rhys was great at designing the peer-to-peer protocol described in chapter \ref{p2p} and finished quite early.
+
+Alex and Megan worked together on the Client side described in chapter \ref{client} and did a very good job.
+
+Viktor designed and implemented the database described in chapter \ref{server} section \ref{db}.
+
+The TCP protocol described in chapter \ref{tcp} was implemented by Ovidiu.
+
+In the end, through constant communication and coordination, every member of the team participated in 
+design of the application and plugging every component into a single whole.
+
+//other contributions bla bla
+
+???
+
+%==============================================================================
+\bibliographystyle{plain}
+\bibliography{team-h-bib}
+\end{document}

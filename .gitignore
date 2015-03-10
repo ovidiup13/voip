@@ -5,3 +5,12 @@
 *.properties
 .classpath
 /bin1/
+out/
+report/dissertation.aux
+report/dissertation.bbl
+report/dissertation.blg
+report/dissertation.log
+report/dissertation.out
+report/dissertation.pdf
+report/dissertation.toc
+.idea
