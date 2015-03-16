@@ -9,9 +9,10 @@ import org.sqlite.SQLiteConfig;
 
 public class ConnectToDb {
 	private Connection connection = null;
-	private Statement statement = null;
-	private PreparedStatement preparedStatement = null;	
+	private PreparedStatement registerStm,isRegisteredStm, logInStm,getLastLoginStm,addFriendStm,removeFriendStm;	
+	private PreparedStatement checkFriendRequestExistsStm, getRelationshipsStm,findFriendshipsStm,updateLastLoginStm;
 	private ResultSet resultSet = null;
+	private PreparedStatement updateFriendsStm;
 
 	private static final String DB_URL = "jdbc:sqlite:Server/src/database/TP3Hdb.db";  
 	private static final String DRIVER = "org.sqlite.JDBC";  
@@ -34,10 +35,93 @@ public class ConnectToDb {
 			SQLiteConfig config = new SQLiteConfig();  
 			config.enforceForeignKeys(true);  
 			connection = DriverManager.getConnection(DB_URL);  
+			
+			initPrepareStatements();
+			
 		}catch(ClassNotFoundException error){
 			System.out.println("Error: "+ error.getMessage());
 		}catch(SQLException error){
 			System.out.println("Error in connecting to db: " + error.getMessage());
+		}
+	}
+	
+	
+	private void initPrepareStatements(){
+		try {
+			registerStm= connection.prepareStatement("INSERT INTO Users(username,password) VALUES (?,?)");
+		} catch (SQLException e) {
+			System.out.println("Register statement failed to compile:");
+			e.printStackTrace();
+		}
+		
+		try {
+			isRegisteredStm = connection.prepareStatement("SELECT count(*) FROM Users WHERE username= ?");
+		} catch (SQLException e) {
+			System.out.println("isRegistered statement failed to compile:");
+			e.printStackTrace();
+		}
+		
+		try {
+			logInStm = connection.prepareStatement("SELECT count(*) FROM Users WHERE username= ? AND password= ?");
+		} catch (SQLException e) {
+			System.out.println("LogIn statement failed to compile:");
+			e.printStackTrace();
+		}
+		
+		try {
+			getLastLoginStm = connection.prepareStatement("SELECT lastLogin FROM Users WHERE username= ?");
+		} catch (SQLException e) {
+			System.out.println("getLastLogin statement failed to compile:");
+			e.printStackTrace();
+		}
+		
+		try {
+			String query_addFriend= "INSERT INTO RelationshipType (username,username2,relationship) VALUES (?,?,?)";
+			addFriendStm = connection.prepareStatement(query_addFriend);
+		} catch (SQLException e) {
+			System.out.println("addFriend statement failed to compile:");
+			e.printStackTrace();
+		}
+		String query_removeFriend= "DELETE FROM RelationshipType WHERE username= ? AND username2 = ?";
+		try {
+			removeFriendStm = connection.prepareStatement(query_removeFriend);
+		} catch (SQLException e) {
+			System.out.println("removeFriend statement failed to compile:");
+			e.printStackTrace();
+		}
+		try {
+			checkFriendRequestExistsStm = connection.prepareStatement("SELECT count(*) FROM RelationshipType WHERE username= ? AND username2 = ?");
+		} catch (SQLException e) {
+			System.out.println("checkFriendRequestExists statement failed to compile:");
+			e.printStackTrace();
+		}
+		try {
+			String query_getFriendsFor = "SELECT username, relationship FROM RelationshipType WHERE (username2 = ?  AND ( relationship= ? OR relationship = ?))";
+			getRelationshipsStm = connection.prepareStatement(query_getFriendsFor);
+		} catch (SQLException e) {
+			System.out.println("getRelationships statement failed to compile:");
+			e.printStackTrace();
+		}
+		
+		try {
+			String query_findFriendships = "SELECT  f1.* from RelationshipType f1 inner join RelationshipType f2 on f1.username = f2.username2 and f1.username2 = f2.username;";
+			findFriendshipsStm = connection.prepareStatement(query_findFriendships);
+		} catch (SQLException e) {
+			System.out.println("findFriendships statement failed to compile:");
+			e.printStackTrace();
+		}
+		try {
+			String query_updateFriends = "UPDATE RelationshipType SET relationship = ? WHERE (username= ? AND username2= ?)";
+			updateFriendsStm = connection.prepareStatement(query_updateFriends);
+		} catch (SQLException e) {
+			System.out.println("updateFriends statement failed to compile:");
+			e.printStackTrace();
+		}
+		try {
+			updateLastLoginStm = connection.prepareStatement("UPDATE Users SET lastLogin = ? WHERE username= ?");
+		} catch (SQLException e) {
+			System.out.println("updateLastLogin statement failed to compile:");
+			e.printStackTrace();
 		}
 	}
 	/**
@@ -49,17 +133,14 @@ public class ConnectToDb {
 	public boolean register( String name,String password)  {
 		try {
 			if(!isRegistered(name)){
-				preparedStatement= connection.prepareStatement("INSERT INTO Users(username,password) VALUES (?,?)");
-				preparedStatement.setString(1,name);
-				preparedStatement.setString(2, sha256(password));
-				preparedStatement.execute();
+				registerStm.setString(1,name);
+				registerStm.setString(2, sha256(password));
+				registerStm.execute();
 				return true;
 			}
 		} catch (SQLException error) {
 			System.out.println("Error in registation: " + error.getMessage());
 			error.printStackTrace();
-		}finally{
-			closeStatement(preparedStatement);
 		}
 		System.out.println("The user already Exists !");
 		return false;
@@ -68,9 +149,8 @@ public class ConnectToDb {
 
 	private boolean isRegistered( String username) throws SQLException{
 		//3.Execute SQL query
-		preparedStatement = connection.prepareStatement("SELECT count(*) FROM Users WHERE username= ?");
-		preparedStatement.setString(1, username);
-		resultSet =  preparedStatement.executeQuery();
+		isRegisteredStm.setString(1, username);
+		resultSet =  isRegisteredStm.executeQuery();
 		if(resultSet.next()) {
 			int count = resultSet.getInt(1);
 			if(count == 0) return false;
@@ -87,11 +167,9 @@ public class ConnectToDb {
 	 * **/
 	public boolean logIn(String username, String password) {
 		try {
-			preparedStatement = connection.prepareStatement("SELECT count(*) FROM Users WHERE username= ? AND password= ?");
-
-			preparedStatement.setString(1, username);
-			preparedStatement.setString(2,  sha256(password));
-			resultSet = preparedStatement.executeQuery();
+			logInStm.setString(1, username);
+			logInStm.setString(2,  sha256(password));
+			resultSet = logInStm.executeQuery();
 			if(resultSet.next()) { // rs.next() is false if nothing is found
 				int count = resultSet.getInt(1);
 				if(count == 1){
@@ -99,11 +177,9 @@ public class ConnectToDb {
 					//set the lastLogin field to the current time 
 					java.util.Date date= new java.util.Date();
 					Timestamp time = new Timestamp(date.getTime());
-					preparedStatement = connection.prepareStatement("UPDATE Users SET lastLogin = ? WHERE username= ?");
-					preparedStatement.setString(1, time.toString());
-					preparedStatement.setString(2, username);
-					preparedStatement.execute();
-					preparedStatement.close();
+					updateLastLoginStm.setString(1, time.toString());
+					updateLastLoginStm.setString(2, username);
+					updateLastLoginStm.execute();
 					System.out.println("log in for user :"+username+"succesfull");
 					return true;
 				}
@@ -112,9 +188,6 @@ public class ConnectToDb {
 		catch (SQLException e) {
 			System.out.println("Error in db while registration: " + e.getMessage());
 			e.printStackTrace();
-		}finally{
-
-			closeStatement(preparedStatement);
 		}
 		return false;
 	}
@@ -132,9 +205,8 @@ public class ConnectToDb {
 	 * **/
 	private String getLastLogin(String username) {
 		try{
-			preparedStatement = connection.prepareStatement("SELECT lastLogin FROM Users WHERE username= ?");
-			preparedStatement.setString(1, username);
-			resultSet = preparedStatement.executeQuery();
+			getLastLoginStm.setString(1, username);
+			resultSet = getLastLoginStm.executeQuery();
 			if(resultSet.next()) {
 				Timestamp date;
 				date = resultSet.getTimestamp("lastLogin");
@@ -144,8 +216,6 @@ public class ConnectToDb {
 		}catch (SQLException e) {
 			System.out.println("Error: "+ e.getMessage());
 			e.printStackTrace();
-		}finally{
-			closeStatement(preparedStatement);
 		}
 		return null;
 	}
@@ -153,40 +223,34 @@ public class ConnectToDb {
 	/**
 	 * Method for adding friends to the db
 	 * @param fromUser, ToUser
-	 * @must the username you want to add as a friend must exist in users tabme  and check for consistency if the
+	 * @must the username you want to add as a friend must exist in users table  and check for consistency if the
 	 * pending request is not already send as well if you are not trying to add yourself as a friend 
 	 * 1.first when user1 request friendship to user2
 	 * 2.second when user2 request friendship to user1
 	 * if both rows exist the two users become friends
 	 * @Glosary sets relation status to : 1 ( Pending Friend Request)
 	 * 			calls updateFrinds(if both rows exist set status to 2 (Confirm Friend Request)
+	 * @return ResultPair(boolean,enum) (successful: true or false; type: RESPONSE_FR,REQUEST_FR)
 	 * **/
 	public ResultPair addFriend(String fromUser, String ToUser){
-	//	String  type = "request";
-	
 		try{
 			if(!checkFriendRequestExists(fromUser, ToUser) &&  isRegistered(ToUser) && !fromUser.equals(ToUser)){
-				String query_addFriend= "INSERT INTO RelationshipType (username,username2,relationship) VALUES (?,?,?)";
-				preparedStatement = connection.prepareStatement(query_addFriend);
-				preparedStatement.setString(1, fromUser);
-				preparedStatement.setString(2, ToUser);
-				preparedStatement.setInt(3,1);
-				preparedStatement.execute();	
+				addFriendStm.setString(1, fromUser);
+				addFriendStm.setString(2, ToUser);
+				addFriendStm.setInt(3,1);
+				addFriendStm.execute();	
 				if(checkFriendRequestExists(ToUser, fromUser)){
-					if (updateFriends()){
-					//	type = "response";
-						return new ResultPair(true,TypeAction.RESPONSE_FR);	
-						}	
+					if (updateFriends())
+						return new ResultPair(true,TypeAction.RESPONSE_FR);				
 				}
+				
 				return new ResultPair(true,TypeAction.REQUEST_FR);	
 
 			}
 		}catch (SQLException e) {
 			System.out.println("Error in addFriends: "+ e.getMessage());
 			e.printStackTrace();}
-		finally{
-			closeStatement(preparedStatement);
-		}
+		
 		return new ResultPair(false,TypeAction.REQUEST_FR);	//Type is not important here, choose random
 
 
@@ -200,35 +264,29 @@ public class ConnectToDb {
 	 * the deletion will occur in both ways and in neither friend's list the opposite user name will appear 
 	 * That means the user you want to delete will not have to  give his/her confirmation. 
 	 * 
-	 * @return true if successful ,false if not.
-	 * relation must exist (USERS MUST BE FRIENDS ), user name must be real
+	 * @return ResultPair(boolean,enum) ( successful:true or false, Type:PENDING_DEL,FRIENDSHIP_DEL)
+	 * 	relation must exist , user name must be real
 	 * **/
 	public ResultPair deleteFriendship(String username, String username2){
+		
 		boolean areFriends = checkFriendRequestExists(username2,username);
 		
 		try{
 			if(checkFriendRequestExists(username, username2) ){
-				String query_removeFriend= "DELETE FROM RelationshipType WHERE username= ? AND username2 = ?";
-				preparedStatement = connection.prepareStatement(query_removeFriend);
-				preparedStatement.setString(1, username);
-				preparedStatement.setString(2, username2);
-				preparedStatement.execute();
-				closeStatement(preparedStatement);
+				removeFriendStm.setString(1, username);
+				removeFriendStm.setString(2, username2);
+				removeFriendStm.execute();
 			}
 			if( areFriends){
-				String query2_removeFriend= "DELETE FROM RelationshipType WHERE username= ? AND username2 = ?";
-				preparedStatement = connection.prepareStatement(query2_removeFriend);
-				preparedStatement.setString(1, username2);
-				preparedStatement.setString(2, username);
-				preparedStatement.execute();
-				closeStatement(preparedStatement);
+				removeFriendStm.setString(1, username2);
+				removeFriendStm.setString(2, username);
+				removeFriendStm.execute();
 				return new ResultPair(true,TypeAction.FRIENDSHIP_DEL);
 			}
 			return new ResultPair(true,TypeAction.PENDING_DEL);
 		
 		}catch (SQLException e) {
-			closeStatement(preparedStatement);
-			System.out.println("Error in addFriends: "+ e.getMessage());
+			System.out.println("Error in deleteFriendship: "+ e.getMessage());
 			e.printStackTrace();
 			}
 		
@@ -244,11 +302,9 @@ public class ConnectToDb {
 	 * **/
 	private boolean checkFriendRequestExists(String username, String username2){
 		try{
-			//3.Execute SQL query
-			preparedStatement = connection.prepareStatement("SELECT count(*) FROM RelationshipType WHERE username= ? AND username2 = ?");
-			preparedStatement.setString(1, username);
-			preparedStatement.setString(2, username2);
-			resultSet =  preparedStatement.executeQuery();
+			checkFriendRequestExistsStm.setString(1, username);
+			checkFriendRequestExistsStm.setString(2, username2);
+			resultSet =  checkFriendRequestExistsStm.executeQuery();
 			if(resultSet.next()) {
 				int count = resultSet.getInt(1);
 				if(count == 0) return false;
@@ -256,9 +312,6 @@ public class ConnectToDb {
 		}catch (SQLException e) {
 			System.out.println("Error in checkifExistsFriends: "+ e.getMessage());
 			e.printStackTrace();
-		}
-		finally{
-			closeStatement(preparedStatement);
 		}
 		return true;
 	}
@@ -278,26 +331,19 @@ public class ConnectToDb {
 	 **/
 	private boolean updateFriends(){
 		try{
-			String query_findFriendships = "SELECT  f1.* from RelationshipType f1 inner join RelationshipType f2 on f1.username = f2.username2 and f1.username2 = f2.username;";
-			preparedStatement = connection.prepareStatement(query_findFriendships);
-			resultSet =  preparedStatement.executeQuery();
+			resultSet =  findFriendshipsStm.executeQuery();
 	
 			while(resultSet.next()) {
-				String query_updateFriends = "UPDATE RelationshipType SET relationship = ? WHERE (username= ? AND username2= ?)";
-				preparedStatement = connection.prepareStatement(query_updateFriends);
-				preparedStatement.setInt(1,2);
-				preparedStatement.setString(2, resultSet.getString("username"));	
-				preparedStatement.setString(3, resultSet.getString("username2"));
-				preparedStatement.execute();	
-				closeStatement(preparedStatement);
+				updateFriendsStm.setInt(1,2);
+				updateFriendsStm.setString(2, resultSet.getString("username"));	
+				updateFriendsStm.setString(3, resultSet.getString("username2"));
+				updateFriendsStm.execute();	
 			}
 			return true;
 
 		}catch(SQLException e){
 			System.out.println("Error in updateFriends: "+ e.getMessage());
 			e.printStackTrace();
-		}finally{
-			closeStatement(preparedStatement);
 		}
 		return false;
 	}
@@ -310,26 +356,15 @@ public class ConnectToDb {
 	 * 
 	 * status: 1 for pending (send , but not accepted)
 	 * 			2 for accepted (friendships)
-	 * USE: 
-	 * 	for(int i = 0 ; i<list.size(); i++){
-				if ((i%3)==0)
-					System.out.println("USER: "+ list.get(i));
-				if ((i%3)==1)
-					System.out.println("Status: "+ list.get(i));
-				if ((i%3)==2)
-					System.out.println("LastLogin: "+ list.get(i));
-			}
 	 * 
 	 **/
 	public ArrayList<String> getRelationshipsFor(String user1){
 		ArrayList<String> array = new ArrayList<String>();
 		try{
-			String query_getFriendsFor = "SELECT username, relationship FROM RelationshipType WHERE (username2 = ?  AND ( relationship= ? OR relationship = ?))";
-			preparedStatement = connection.prepareStatement(query_getFriendsFor);
-			preparedStatement.setString(1, user1);
-			preparedStatement.setInt(2, 1);
-			preparedStatement.setInt(3, 2);
-			ResultSet result = preparedStatement.executeQuery();
+			getRelationshipsStm.setString(1, user1);
+			getRelationshipsStm.setInt(2, 1);
+			getRelationshipsStm.setInt(3, 2);
+			ResultSet result = getRelationshipsStm.executeQuery();
 
 			while(result.next()){
 				array.add(result.getString("username"));
@@ -340,8 +375,6 @@ public class ConnectToDb {
 		}catch(SQLException e){
 			System.out.println("Error in getFriends: "+ e.getMessage());
 			e.printStackTrace();
-		}finally{
-			closeStatement(preparedStatement);
 		}
 		return array;
 	}
@@ -350,36 +383,19 @@ public class ConnectToDb {
 	public boolean deletePendingRequest(String fromUser, String toUser){
 		try{
 			if(checkFriendRequestExists(fromUser, toUser)){
-				String query_removeFriend= "DELETE FROM RelationshipType WHERE username= ? AND username2 = ?";
-				preparedStatement = connection.prepareStatement(query_removeFriend);
-				preparedStatement.setString(1, fromUser);
-				preparedStatement.setString(2, toUser);
-				preparedStatement.execute();
-				closeStatement(preparedStatement);
+				removeFriendStm.setString(1, fromUser);
+				removeFriendStm.setString(2, toUser);
+				removeFriendStm.execute();
 				return true;
-
-
 			}
 		}catch (SQLException e) {
 			System.out.println("Error in deletePendingRequest: (db) "+ e.getMessage());
 			e.printStackTrace();}
-		finally{
-			closeStatement(preparedStatement);
-		}
 		return false;
 	}
 
 
-	protected void closeStatement( Statement resource ) {
-		try {
-			if (resource != null) {
-				resource.close();
-			}
-		} catch( Exception error ) {
-			System.out.println("Error in updateFriends: "+ error.getMessage());
-			error.printStackTrace();
-		}
-	}
+	
 	/**
 	 * basically convert the string into bytes 
 	 * (e.g. using text.getBytes("UTF-8")) and then hash the bytes. 
@@ -407,17 +423,11 @@ public class ConnectToDb {
 		}
 	}
 
-	// you need to close all three to make sure
+	//except statements 
 	public void closeEverything() {
 		if (resultSet != null) {
 			try {
 				resultSet.close();
-			} catch (SQLException e) {
-			}
-		}
-		if (statement != null) {
-			try {
-				statement.close();
 			} catch (SQLException e) {
 			}
 		}
