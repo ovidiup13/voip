@@ -104,7 +104,7 @@ public class ConnectToDb {
 		}
 		
 		try {
-			String query_findFriendships = "SELECT  f1.* from RelationshipType f1 inner join RelationshipType f2 on f1.username = f2.username2 and f1.username2 = f2.username;";
+			String query_findFriendships = "SELECT  f1.* from RelationshipType f1 inner join RelationshipType f2 on f1.username = f2.username2 and f1.username2 = f2.username WHERE ( f1.username= ? OR f1.username= ?) AND ( f2.username= ? OR f2.username= ?);";
 			findFriendshipsStm = connection.prepareStatement(query_findFriendships);
 		} catch (SQLException e) {
 			System.out.println("findFriendships statement failed to compile:");
@@ -147,7 +147,7 @@ public class ConnectToDb {
 	}
 
 
-	private boolean isRegistered( String username) throws SQLException{
+	public boolean isRegistered( String username) throws SQLException{
 		//3.Execute SQL query
 		isRegisteredStm.setString(1, username);
 		resultSet =  isRegisteredStm.executeQuery();
@@ -155,6 +155,7 @@ public class ConnectToDb {
 			int count = resultSet.getInt(1);
 			if(count == 0) return false;
 		}
+		closeResultSet(resultSet);
 		return true;
 	}
 	/**
@@ -188,7 +189,10 @@ public class ConnectToDb {
 		catch (SQLException e) {
 			System.out.println("Error in db while registration: " + e.getMessage());
 			e.printStackTrace();
+		}finally{
+			closeResultSet(resultSet);
 		}
+		
 		return false;
 	}
 
@@ -216,6 +220,8 @@ public class ConnectToDb {
 		}catch (SQLException e) {
 			System.out.println("Error: "+ e.getMessage());
 			e.printStackTrace();
+		}finally{
+			closeResultSet(resultSet);
 		}
 		return null;
 	}
@@ -240,7 +246,7 @@ public class ConnectToDb {
 				addFriendStm.setInt(3,1);
 				addFriendStm.execute();	
 				if(checkFriendRequestExists(ToUser, fromUser)){
-					if (updateFriends())
+					if (updateFriends(fromUser,ToUser))
 						return new ResultPair(true,TypeAction.RESPONSE_FR);				
 				}
 				
@@ -312,6 +318,8 @@ public class ConnectToDb {
 		}catch (SQLException e) {
 			System.out.println("Error in checkifExistsFriends: "+ e.getMessage());
 			e.printStackTrace();
+		}finally{
+			closeResultSet(resultSet);
 		}
 		return true;
 	}
@@ -327,13 +335,20 @@ public class ConnectToDb {
 	 * 
 	 * FUTURE WORK: Optimize this method: right now it is selecting all pairs and it is updating
 	 * all existing pairs 
+	 * @param toUser 
+	 * @param fromUser 
 	 * 
 	 **/
-	private boolean updateFriends(){
+	private boolean updateFriends(String fromUser, String toUser){
 		try{
+			findFriendshipsStm.setString(1, fromUser);	
+			findFriendshipsStm.setString(2, toUser);
+			findFriendshipsStm.setString(3, fromUser);	
+			findFriendshipsStm.setString(4, toUser);
 			resultSet =  findFriendshipsStm.executeQuery();
 	
 			while(resultSet.next()) {
+				System.out.println("HEREEEE");
 				updateFriendsStm.setInt(1,2);
 				updateFriendsStm.setString(2, resultSet.getString("username"));	
 				updateFriendsStm.setString(3, resultSet.getString("username2"));
@@ -344,6 +359,8 @@ public class ConnectToDb {
 		}catch(SQLException e){
 			System.out.println("Error in updateFriends: "+ e.getMessage());
 			e.printStackTrace();
+		}finally{
+			closeResultSet(resultSet);
 		}
 		return false;
 	}
@@ -423,6 +440,16 @@ public class ConnectToDb {
 		}
 	}
 
+	protected void closeResultSet( ResultSet resource ) {
+		 try {
+
+		 resource.close();
+		
+		} catch( Exception error ) {
+		 System.out.println("Error in closingResultSet: "+ error.getMessage());
+		 error.printStackTrace();
+		 }
+		 }
 	//except statements 
 	public void closeEverything() {
 		if (resultSet != null) {
