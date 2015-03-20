@@ -1,17 +1,32 @@
 package voip;
 
 import static org.junit.Assert.*;
+
+import java.sql.Connection;
+import java.sql.DriverManager;
 import java.sql.SQLException;
 import java.util.ArrayList;
+
 import org.junit.*;
+import org.sqlite.SQLiteConfig;
+
 import database.ConnectToDb;
+import database.ResultPair;
 
 
+/**
+ * Due to the fact that the database have concurrency mechanism only on one 
+ * connection , the result of the performed methods is observed visually on a GUI 
+ * helper program - SQLite Manager (Mozila Firegox extension).
+ *
+ */
 public class DatabaseTests {
 		private ConnectToDb db;
+		private ResultPair pair;
+		private ResultPair pair2;
 		@Before
 	    public void setUp() throws Exception{
-	        db = new ConnectToDb();
+	        db = new ConnectToDb(); 
 	        db.makeConnection();
 	        insertTestData();
 	    }
@@ -20,6 +35,16 @@ public class DatabaseTests {
 		@Test //the user Already exists
 	    public void testRegister() throws SQLException {
 				  assertFalse(db.register("username15", "password"));
+			}
+		
+		/**
+		 * result: successful By observing the database visually
+		 * the user is correctly added to the database, and the method returs as 
+		 * expected
+		 */
+		//@Test //run this separately 
+	    public void testRegister2() throws SQLException {
+				  assertTrue(db.register("username99", "password"));
 			}
 		
 		
@@ -40,7 +65,7 @@ public class DatabaseTests {
 		}
 		@Test
 	    public void testDeletePendingRequest() {
-			//prepare and clean for the test 
+ 
 			
 			 boolean pass = true;
 			
@@ -93,12 +118,7 @@ public class DatabaseTests {
 		@Test
 	    public void tesAddFriend() {
 
-			//actual test
-			//ResultPair pair = db.addFriend("user61", "user71");
-		//	ResultPair pair2 = db.addFriend("user71", "user61");
-
-			assertTrue(true);
-			//assertTrue(pair.getSuccessful() && pair2.getSuccessful());
+			assertTrue(pair.getSuccessful() && pair2.getSuccessful());
 			
 			
 
@@ -159,7 +179,7 @@ public class DatabaseTests {
 			System.out.println("Time in sec to register 100 users: " +estimatedTime / 1000);
 		}
 		
-		//@Test // 200 :23 sec ;  300 :34 sec  500:59 700:85 1000: 121
+		//@Test // 200 Users :23 seconds ;  300 :34 ; 500:59 ;700:85; 1000: 121
 		public void howFast200UsersCanRegister(){
 			long startTime = System.currentTimeMillis();
 				for(int i =100 ; i< 500 ; i++){
@@ -189,8 +209,8 @@ public class DatabaseTests {
 			db.register("user70", "password");	
 			db.register("user64", "password");
 			db.register("user75", "password");	
-			db.addFriend("user60", "user70");
-			db.addFriend("user60", "user64");
+			pair =db.addFriend("user60", "user70");
+			pair2 =db.addFriend("user60", "user64");
 			db.addFriend("user60", "username");
 			db.addFriend("user60", "user75");
 			db.addFriend("user70", "user60");
