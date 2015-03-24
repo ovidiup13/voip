@@ -2,8 +2,10 @@ package tcp.clienthandler;
 
 import buffers.ClientRequest.Request;
 import buffers.ServerResponse.Response;
-import database.*;
+import database.ConnectToDb;
 import database.ConnectToDb.TypeAction;
+import database.IPAddressMap;
+import database.ResultPair;
 import writers.ResponseWriter;
 
 import java.io.IOException;
@@ -17,7 +19,7 @@ public class ClientHandler implements Runnable, ResponseSender {
 
     private static int callID = 0;
 
-    private Client client;
+    private final Client client;
     private Socket clientSocket;
     private ResponseWriter responseWriter;
     private InputStream input;
@@ -41,7 +43,7 @@ public class ClientHandler implements Runnable, ResponseSender {
             System.err.println("Connection with client timed out. Client will be logged out.");
         }
 
-        //create request writer
+        //create response writer
         responseWriter = new ResponseWriter();
 
         //get input and output stream of socket
@@ -56,13 +58,15 @@ public class ClientHandler implements Runnable, ResponseSender {
 
     @Override
     public void run() {
-        readRequest(); //loops until client wants to close the socket or a fatal error occurs
-        synchronized (client) { //require exclusive access to our own object so that other threads don't modify the state or attempt to access a half removed client.
+        readRequest();
+        synchronized (client) {
+            //require exclusive access to our own object so that other threads don't modify the state or attempt to access a half removed client.
             //remove client first to avoid issues with half-ended clients.
             if (client.getStatus() != ClientStatus.NOT_LOGGED_IN)
-                addressMap.removeClient(client); //if they're logged in, remove their client from the hashtable as it is now invalid
-            client.setStatus(ClientStatus.NOT_LOGGED_IN); //no other clients should see this, as they need to access clients from the addressMap, but it's here just in case
-
+                //if they're logged in, remove their client from the hashtable as it is now invalid
+                addressMap.removeClient(client);
+            //no other clients should see this, as they need to access clients from the addressMap, but it's here just in case
+            client.setStatus(ClientStatus.NOT_LOGGED_IN);
             sendEndCallResponse(); //if we are in a call with another user, end it
         }
         try {
@@ -77,7 +81,9 @@ public class ClientHandler implements Runnable, ResponseSender {
     public void readRequest() {
         Request request;
 
+        //loops until client wants to close the socket or a fatal error occurs
         while (true) {
+
             try {
                 request = Request.parseDelimitedFrom(input);
             } catch (IOException e) {
@@ -85,6 +91,7 @@ public class ClientHandler implements Runnable, ResponseSender {
                 return;
             }
 
+            //if the request received from client is null, then stop listening
             if (request == null) break;
             Request.ReqType type = request.getRqType();
 
@@ -106,10 +113,6 @@ public class ClientHandler implements Runnable, ResponseSender {
                         }
                         case CALL: {
                             readCallRequest(request);
-                            break;
-                        }
-                        case STS: {
-                            readStatusRequest(request);
                             break;
                         }
                         case CALLRES: {
@@ -139,15 +142,12 @@ public class ClientHandler implements Runnable, ResponseSender {
     }
 
     private void readRegisterRequest(Request request) {
-        System.out.println("Server: Request is of type REG, processing...");
         System.out.println("Server: Adding user to database...");
         if (db.register(request.getReg().getUsername(), request.getReg().getPassword())) {
             //if ok, send confirmation response
             sendRegisterResponse(true, "registration successful - you can log in now");
-            System.out.println("Server: Sent successful response.");
         } else {
             sendRegisterResponse(false, "registration unsuccessful - the user already exists");
-            System.out.println("Server: Sent unsuccessful response.");
         }
     }
 
@@ -176,8 +176,6 @@ public class ClientHandler implements Runnable, ResponseSender {
             //notify all user friends for status change
             sendFriendListStatusChange(client);
 
-            System.out.println("ClientIP" + addressMap.getClient(username).getHostName());
-
             //if ok, send confirmation response
             sendLogInResponse(true, "Login successful");
         } else {
@@ -187,7 +185,6 @@ public class ClientHandler implements Runnable, ResponseSender {
 
     private void readCallRequest(Request request) {
         String callee = request.getUsername();
-        System.out.println(callee);
 
         if (addressMap.isOnline(callee)) {
             Client calleeClient = addressMap.getClient(callee);
@@ -206,8 +203,6 @@ public class ClientHandler implements Runnable, ResponseSender {
 
 
                     sendCallInquiry(calleeClient); //both clients now waiting until a call response is recieved or a timeout is hit
-                    //TODO: the actual timeout
-                    //yeah
                 }
             }
 
@@ -216,25 +211,11 @@ public class ClientHandler implements Runnable, ResponseSender {
         }
     }
 
-    //read status request
-    private void readStatusRequest(Request request) {
-
-        Response response = Response.newBuilder().setResType(Response.ResType.STS).build();
-
-        //send response to client
-        try {
-            response.writeDelimitedTo(output);
-        } catch (IOException e) {
-            System.err.println("cannot send status response");
-        }
-    }
-
     //read friend request
     private void readAddFriendRequest(Request request) {
         ResultPair result = db.addFriend(client.getUsername(), request.getUsername());
         if (result.getSuccessful()) {
             sendAddFriendResponse(true, "Adding friend successful");
-            System.out.println("The type of the add friend is " + result.getType());
             //send friend list back
             readFriendListRequest(client);
 
@@ -245,9 +226,8 @@ public class ClientHandler implements Runnable, ResponseSender {
                 }
             }
 
-            System.out.println("Server: Sent successful response.");
         } else {
-            sendAddFriendResponse(false, "Adding friend unsuccessful- Contact staff for support");
+            sendAddFriendResponse(false, "Adding friend unsuccessful - Contact staff for support");
         }
     }
 
@@ -264,8 +244,6 @@ public class ClientHandler implements Runnable, ResponseSender {
             if (addressMap.isOnline(friend))
                 status = addressMap.getClient(relationships.get(i)).getStatus().getNumVal();
             else status = -1;
-
-            System.out.println(relationships.get(i) + " " + status);
 
             relationships.add(i + 3, Integer.toString(status));
             i++;
@@ -285,10 +263,8 @@ public class ClientHandler implements Runnable, ResponseSender {
 
         ArrayList<String> relationships = db.getRelationshipsFor(client.getUsername());
 
-
         //look through the array
         for (int i = 0; i < relationships.size() - 2; i += 3) {
-            System.out.println(relationships.get(i));
             String username = relationships.get(i);
             if (addressMap.getClient(username) != null)
                 readFriendListRequest(addressMap.getClient(username));
@@ -331,19 +307,13 @@ public class ClientHandler implements Runnable, ResponseSender {
 
             readFriendListRequest(client); //send friends list back as well
             if (addressMap.isOnline(request.getUsername())) {
-                System.out.println("RESULT IS " + result.getType());
                 readFriendListRequest(addressMap.getClient(request.getUsername()));
-                if (result.getType() == TypeAction.PENDING_DEL) {
-                    System.out.println("WE AREEEE HEREEE");
+                if (result.getType() == TypeAction.PENDING_DEL)
                     sendFriendRequestResponse(addressMap.getClient(request.getUsername()), client.getUsername(), false);
-                }
             }
 
-            System.out.println("Server: Sent successful response.");
-        } else {
+        } else
             sendDelFriendResponse(false, "Deleting friend  unsuccessful - Contact staff for support");
-            System.out.println("Server: Sent unsuccessful response.");
-        }
     }
 
 
@@ -375,8 +345,8 @@ public class ClientHandler implements Runnable, ResponseSender {
             client.setStatus(ClientStatus.NOT_LOGGED_IN);
             //notify all user friends for status change
             sendFriendListStatusChange(client);
-            
-            if(addressMap.isOnline(client.getUsername())) 
+
+            if (addressMap.isOnline(client.getUsername()))
                 addressMap.removeClient(client);
             else
                 return;
@@ -423,13 +393,13 @@ public class ClientHandler implements Runnable, ResponseSender {
         if (client.getStatus().getNumVal() < ClientStatus.IN_CALL.getNumVal())
             return; //not in a call or waiting on one, ignore
         Client clientCalled = client.getClientCalled();
+        if (clientCalled == null) return; //client called must not be null
         synchronized (clientCalled) { //need to deal with other client objects atomically
-            if (clientCalled == null) return; //client called must not be null
             if (clientCalled.getStatus().getNumVal() < ClientStatus.IN_CALL.getNumVal())
                 return; //other client must be in call
             if (clientCalled.getClientCalled() != client) return; //other client must be in a call with this client.
             //set the status of current client to idle
-            
+
             client.setStatus(ClientStatus.IDLE);
             client.setClientCalled(null);
 

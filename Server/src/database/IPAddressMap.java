@@ -1,8 +1,12 @@
 package database;
 
-import java.net.Socket;
+import tcp.clienthandler.Client;
+
 import java.util.Hashtable;
 
+/*
+    IP address table used for current online users. Reduces load on our database.
+* */
 public class IPAddressMap {
     //Hashtable is syncronized (if we have concurrent access here which I doubt)
     //store usernames as keys nad IPaddresses as values
@@ -10,29 +14,16 @@ public class IPAddressMap {
     private Hashtable<String, Client> IPTable;
 
     public IPAddressMap() {
-        IPTable = new Hashtable<String, Client>();
+        IPTable = new Hashtable<>();
     }
 
     public boolean isOnline(String username) {
         return IPTable.containsKey(username);
     }
-    
-    public Client getClient(String username) {
-    	return IPTable.get(username);
-    }
-    
-    /*
-    public ClientStatus getStatus(String username){
-        return IPTable.get(username).getStatus();
-    }
-    
-    public Socket getSocket(String username){
-        return IPTable.get(username).getSocket();
-    }
 
-    public String getIP(String username) {
-        return IPTable.get(username).getSocket().getLocalAddress().toString();
-    } */
+    public Client getClient(String username) {
+        return IPTable.get(username);
+    }
 
     public void addClient(Client client) {
         IPTable.put(client.getUsername(), client);
