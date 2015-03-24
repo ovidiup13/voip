@@ -18,8 +18,6 @@ public interface RequestSender {
     public boolean sendDeleteFriendRequest(String username);
     
     public boolean sendFriendListRequest();
-    
-    public boolean sendStatusRequest(String username);
 
     public boolean sendEndCallRequest();
 }

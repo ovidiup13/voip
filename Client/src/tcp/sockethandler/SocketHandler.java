@@ -131,19 +131,6 @@ public class SocketHandler implements RequestSender {
         return true;
     }
 
-    //get status request sender and receiver
-    @Override
-	public boolean sendStatusRequest(String username) {
-		Request request = requestWriter.createStatusReq(username);
-        try {
-            request.writeDelimitedTo(socketClient.getOutputStream());
-        } catch (IOException e) {
-            System.err.println("cannot send status request");
-            return false;
-        }
-        return true;
-    }
-
     //send end call request
     @Override
     public boolean sendEndCallRequest() {

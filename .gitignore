@@ -14,3 +14,5 @@ report/dissertation.out
 report/dissertation.pdf
 report/dissertation.toc
 .idea
+.project
+build.properties
