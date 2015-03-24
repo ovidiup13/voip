@@ -83,7 +83,7 @@ public final class ClientRequest {
      * <code>optional string username = 5;</code>
      *
      * <pre>
-     *username field will be filled in for types CALL, STS, ADDF, DELF
+     *username field will be filled in for types CALL, ADDF, DELF
      * </pre>
      */
     boolean hasUsername();
@@ -91,7 +91,7 @@ public final class ClientRequest {
      * <code>optional string username = 5;</code>
      *
      * <pre>
-     *username field will be filled in for types CALL, STS, ADDF, DELF
+     *username field will be filled in for types CALL, ADDF, DELF
      * </pre>
      */
     java.lang.String getUsername();
@@ -99,7 +99,7 @@ public final class ClientRequest {
      * <code>optional string username = 5;</code>
      *
      * <pre>
-     *username field will be filled in for types CALL, STS, ADDF, DELF
+     *username field will be filled in for types CALL, ADDF, DELF
      * </pre>
      */
     com.google.protobuf.ByteString
@@ -310,10 +310,6 @@ public final class ClientRequest {
        * <code>DELF = 9;</code>
        */
       DELF(8, 9),
-      /**
-       * <code>STS = 10;</code>
-       */
-      STS(9, 10),
       ;
 
       /**
@@ -352,10 +348,6 @@ public final class ClientRequest {
        * <code>DELF = 9;</code>
        */
       public static final int DELF_VALUE = 9;
-      /**
-       * <code>STS = 10;</code>
-       */
-      public static final int STS_VALUE = 10;
 
 
       public final int getNumber() { return value; }
@@ -371,7 +363,6 @@ public final class ClientRequest {
           case 7: return FLIST;
           case 8: return ADDF;
           case 9: return DELF;
-          case 10: return STS;
           default: return null;
         }
       }
@@ -2086,7 +2077,7 @@ public final class ClientRequest {
      * <code>optional string username = 5;</code>
      *
      * <pre>
-     *username field will be filled in for types CALL, STS, ADDF, DELF
+     *username field will be filled in for types CALL, ADDF, DELF
      * </pre>
      */
     public boolean hasUsername() {
@@ -2096,7 +2087,7 @@ public final class ClientRequest {
      * <code>optional string username = 5;</code>
      *
      * <pre>
-     *username field will be filled in for types CALL, STS, ADDF, DELF
+     *username field will be filled in for types CALL, ADDF, DELF
      * </pre>
      */
     public java.lang.String getUsername() {
@@ -2117,7 +2108,7 @@ public final class ClientRequest {
      * <code>optional string username = 5;</code>
      *
      * <pre>
-     *username field will be filled in for types CALL, STS, ADDF, DELF
+     *username field will be filled in for types CALL, ADDF, DELF
      * </pre>
      */
     public com.google.protobuf.ByteString
@@ -2870,7 +2861,7 @@ public final class ClientRequest {
        * <code>optional string username = 5;</code>
        *
        * <pre>
-       *username field will be filled in for types CALL, STS, ADDF, DELF
+       *username field will be filled in for types CALL, ADDF, DELF
        * </pre>
        */
       public boolean hasUsername() {
@@ -2880,7 +2871,7 @@ public final class ClientRequest {
        * <code>optional string username = 5;</code>
        *
        * <pre>
-       *username field will be filled in for types CALL, STS, ADDF, DELF
+       *username field will be filled in for types CALL, ADDF, DELF
        * </pre>
        */
       public java.lang.String getUsername() {
@@ -2901,7 +2892,7 @@ public final class ClientRequest {
        * <code>optional string username = 5;</code>
        *
        * <pre>
-       *username field will be filled in for types CALL, STS, ADDF, DELF
+       *username field will be filled in for types CALL, ADDF, DELF
        * </pre>
        */
       public com.google.protobuf.ByteString
@@ -2921,7 +2912,7 @@ public final class ClientRequest {
        * <code>optional string username = 5;</code>
        *
        * <pre>
-       *username field will be filled in for types CALL, STS, ADDF, DELF
+       *username field will be filled in for types CALL, ADDF, DELF
        * </pre>
        */
       public Builder setUsername(
@@ -2938,7 +2929,7 @@ public final class ClientRequest {
        * <code>optional string username = 5;</code>
        *
        * <pre>
-       *username field will be filled in for types CALL, STS, ADDF, DELF
+       *username field will be filled in for types CALL, ADDF, DELF
        * </pre>
        */
       public Builder clearUsername() {
@@ -2951,7 +2942,7 @@ public final class ClientRequest {
        * <code>optional string username = 5;</code>
        *
        * <pre>
-       *username field will be filled in for types CALL, STS, ADDF, DELF
+       *username field will be filled in for types CALL, ADDF, DELF
        * </pre>
        */
       public Builder setUsernameBytes(
@@ -3048,17 +3039,17 @@ public final class ClientRequest {
       descriptor;
   static {
     java.lang.String[] descriptorData = {
-      "\n\024client_request.proto\"\365\002\n\007Request\022!\n\007rq" +
+      "\n\024client_request.proto\"\354\002\n\007Request\022!\n\007rq" +
       "_type\030\001 \002(\0162\020.Request.ReqType\022\"\n\003reg\030\003 \001" +
       "(\0132\025.Request.Registration\022\033\n\003lin\030\004 \001(\0132\016" +
       ".Request.LogIn\022\020\n\010username\030\005 \001(\t\022\024\n\014conf" +
       "irmation\030\006 \001(\010\032@\n\014Registration\022\020\n\010userna" +
       "me\030\001 \002(\t\022\020\n\010password\030\002 \002(\t\022\014\n\004hint\030\003 \001(\t" +
       "\032+\n\005LogIn\022\020\n\010username\030\001 \002(\t\022\020\n\010password\030" +
-      "\002 \002(\t\"o\n\007ReqType\022\007\n\003REG\020\001\022\007\n\003LIN\020\002\022\010\n\004LO" +
+      "\002 \002(\t\"f\n\007ReqType\022\007\n\003REG\020\001\022\007\n\003LIN\020\002\022\010\n\004LO" +
       "UT\020\003\022\010\n\004CALL\020\004\022\013\n\007CALLRES\020\005\022\t\n\005ECALL\020\006\022\t" +
-      "\n\005FLIST\020\007\022\010\n\004ADDF\020\010\022\010\n\004DELF\020\t\022\007\n\003STS\020\nB\013",
-      "\n\007buffersH\001"
+      "\n\005FLIST\020\007\022\010\n\004ADDF\020\010\022\010\n\004DELF\020\tB\013\n\007buffers",
+      "H\001"
     };
     com.google.protobuf.Descriptors.FileDescriptor.InternalDescriptorAssigner assigner =
         new com.google.protobuf.Descriptors.FileDescriptor.    InternalDescriptorAssigner() {

@@ -7,7 +7,7 @@ option optimize_for = SPEED;
 message Response {
 
 	//define the types of responses 
-	enum ResType { REG = 1; LIN = 2; CALLREC = 3; ECALL = 4; FLIST = 5; CALLINQ = 6; STS = 7; ADDF = 8; DELF = 9; LOUT = 10; NOCALL = 11; FRES = 12;}
+	enum ResType { REG = 1; LIN = 2; CALLREC = 3; ECALL = 4; FLIST = 5; CALLINQ = 6; ADDF = 7; DELF = 8; LOUT = 9; NOCALL = 10; FRES = 11;}
 
 	//type of response
 	required ResType res_type = 1;
@@ -26,8 +26,8 @@ message Response {
     
     //username field for CALLINQ
     optional string username = 7;
-    
-    //status of a user - available/unavailable
+
+    //used to signal whether the friend request was acceapted or not
     optional bool status = 8;
 
 	//request result message structure

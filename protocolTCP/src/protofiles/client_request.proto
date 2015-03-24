@@ -7,7 +7,7 @@ option optimize_for = SPEED;
 message Request {
 	
 	//specify the type of request
-	enum ReqType { REG = 1; LIN = 2; LOUT = 3; CALL = 4; CALLRES = 5; ECALL = 6; FLIST = 7; ADDF = 8; DELF = 9; STS = 10;}
+	enum ReqType { REG = 1; LIN = 2; LOUT = 3; CALL = 4; CALLRES = 5; ECALL = 6; FLIST = 7; ADDF = 8; DELF = 9;}
 
 	//request type is required
 	required ReqType rq_type = 1;
@@ -20,7 +20,7 @@ message Request {
 	//login message will be filled in for type LIN
 	optional LogIn lin = 4;
 
-	//username field will be filled in for types CALL, STS, ADDF, DELF
+	//username field will be filled in for types CALL, ADDF, DELF
 	optional string username = 5;
 	
 	//confirmation field will be filled in for types LOUT, ECALL, FLIST, CALLRES
