@@ -22,7 +22,6 @@ public class ClientThread extends Thread {
 	
 	public ClientThread(SocketHandler sockethandler ){
 		recSocket = sockethandler.getSocket();
-		System.out.println("Thread Started!");
 	}
 	
 	
@@ -30,9 +29,7 @@ public class ClientThread extends Thread {
 		while(true) {
 			try {
 				response = Response.parseDelimitedFrom(recSocket.getInputStream());
-
                 Response.ResType type = response.getResType();
-
 
                 switch(type){
 
@@ -77,9 +74,6 @@ public class ClientThread extends Thread {
 	private void loginResponse(Response response){
 		
 		if( response.getReqResult().getOk()){
-			
-			System.out.println("Login successul!");
-			
 			SwingUtilities.invokeLater(new Runnable() {
 			    public void run() {
 			    	GuiMainClient.loginWindow.setVisible(false);
@@ -101,7 +95,6 @@ public class ClientThread extends Thread {
 		
 		//close connection
 		if(response.getReqResult().getOk()){
-			System.out.println("Connection closed.");
             GuiMainClient.beingCalledSound.close();
             GuiMainClient.callingSound.close();
 			System.exit(0);
@@ -114,8 +107,6 @@ public class ClientThread extends Thread {
 
 	
 	//call request received
-	
-	
 	private void callinqResponse(Response response){
         	recUser = response.getUsername();
         	SwingUtilities.invokeLater(new Runnable() {
@@ -133,9 +124,6 @@ public class ClientThread extends Thread {
 	
 	//sent call request accepted
 	private void callrecResponse (final Response response){
-		
-		System.out.println("Call was accepted. Connection can begin for "+ recUser );
-		
 		SwingUtilities.invokeLater(new Runnable() {
 		    public void run() {
 		    	
@@ -175,10 +163,6 @@ public class ClientThread extends Thread {
 	
 	//call ended
 	private void endcallResponse(Response response) {
-		
-	
-		System.out.println("End call request received from partner!");
-		
 		SwingUtilities.invokeLater(new Runnable() {
 		    public void run() {
 		    	
@@ -192,16 +176,12 @@ public class ClientThread extends Thread {
 		     		GuiMainClient.beingCalledSound.stop();
 		     		GuiMainClient.beingCalledSound.flush();}
 		    	
-		    	
-		    }
-		    	 
-		    	 
+		    }   	 
 		  });
-			
-	//friend list 
+	
 	}
 	
-
+	//friend list 
 	private void displayflistResponse(final Response response){
 		
 		SwingUtilities.invokeLater(new Runnable() {
@@ -246,8 +226,6 @@ public class ClientThread extends Thread {
 	
 	//add friend response
 	private void addfriendResponse (Response response){
-
-			System.out.println("This is response back to the client");
 			if (response.getReqResult().getOk())
 				System.out.println("You action  to user "+response.getReqResult().getCause()+" was successul ");
 			else{
@@ -257,14 +235,8 @@ public class ClientThread extends Thread {
 	
 	
 	private void AcceptedDeclineFrindRequestResponse(Response response2) {
-		System.out.println("This is response back to the client");
-//		System.out.println("we are in Client :"+ GuiMainClient.getUsername());
-//		System.out.println("add/decline"+response.getStatus());
-//		System.out.println("by who" + response.getUsername());
- 		//new FriendRequestResponseNotificaion(response.getUsername(), false);
 		new FriendRequestResponseNotificaion(response.getUsername(), response.getStatus());
 	
-			
 		
 	}
 	
